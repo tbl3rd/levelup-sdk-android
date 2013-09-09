@@ -1,0 +1,12 @@
+com.scvngr.levelup.core
+com.scvngr.levelup.core.annotation
+com.scvngr.levelup.core.model
+com.scvngr.levelup.core.model.factory.json
+com.scvngr.levelup.core.model.qr
+com.scvngr.levelup.core.model.util
+com.scvngr.levelup.core.net
+com.scvngr.levelup.core.net.request
+com.scvngr.levelup.core.net.request.factory
+com.scvngr.levelup.core.service
+com.scvngr.levelup.core.util
+com.scvngr.levelup.core.util.bundle

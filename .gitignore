@@ -1,0 +1,14 @@
+*.class
+*.swp
+.DS_Store
+local.properties
+.crashlytics_data/
+com_crashlytics_export_strings.xml
+proguard/
+.metadata
+bin
+bin/*
+doc
+gen
+gen/*
+/actionbarsherlock-lib/libs/android-support-v4.jar.properties
