@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="levelup_content_provider_authority" translatable="false" formatted="false">com.scvngr.levelup.core.build.storage.provider.levelupprovider</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--
+        APIkey for accessing the LevelUp web service.  Each client app has its own unique
+        ID. Apps using this library project must override this string.
+    -->
+    <string name="levelup_api_key" formatted="false" translatable="false"></string>
+
+    <!--
+        Public key for the Braintree clientside encryption library, used to encrypt credit card
+        data.
+    -->
+    <string name="levelup_braintree_clientside_encryption_key" formatted="false" translatable="false">MIIBCgKCAQEAsWqrT3RkCyH6yF7ir/lphFcc/lKk792OG5sCGW2dZW3A0NDVoNOpoP0Qj6S0uqgT5higISchdJKSaqurE0fBzqpys0n+o3jTShOxsAS+k1urH7kPtW3DSw9HPVZuKkY+C8a3JcfkFb7OLQsolDGmJdI7BLlt/KB52Z7rP2EqsjqrI+HMLgjN8zWnAl6RbAFNyAsHniww8z/z1BcXhen9UTr9LXcbhZjVjsOrGNR7Ylc2uaLbg/NRuEImXhGc53Dd0DSeKocEG4jdrwZSQFVZjf2D+Hoj11bivkhrd1dwa43rik4cr4qEOlRIdq/DbIroq2tTn46nwOmPd8cFSbu81wIDAQAB</string>
+
+</resources>

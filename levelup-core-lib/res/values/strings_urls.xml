@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Authority for the LevelUp web service. -->
+    <string name="levelup_api_authority" formatted="false" translatable="false">api.thelevelup.com</string>
+
+    <!-- Scheme for the LevelUp web service. -->
+    <string name="levelup_api_scheme" formatted="false" translatable="false">https</string>
+
+</resources>

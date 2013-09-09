@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="dock_arctic_teal">#ff46e6fd</color>
+    <color name="dock_atomic_lime">#ffffd000</color>
+    <color name="dock_default_scan_color">@color/dock_soothing_green</color>
+    <color name="dock_galactic_blue">#ff0022ff</color>
+    <color name="dock_mint_julep">#ff71ff1b</color>
+    <color name="dock_ninja_orange">#ffff0a00</color>
+    <color name="dock_purple_haze">#ff8a00da</color>
+    <color name="dock_sick_flamingo">#ffff0311</color>
+    <color name="dock_soothing_green">#ff00ff00</color>
+    <color name="dock_tango_red">#ffff0000</color>
+    <color name="dock_yellow_submarine">#ffff4900</color>
+    <color name="levelup_logo_blue">#ff1ebaf3</color>
+    <color name="levelup_logo_green">#ff70cb3a</color>
+    <color name="levelup_logo_orange">#ffff8d01</color>
+
+</resources>

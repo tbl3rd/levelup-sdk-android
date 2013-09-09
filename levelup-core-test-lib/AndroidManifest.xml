@@ -1,0 +1,23 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.scvngr.levelup.test"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="10"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:allowBackup="false"
+        android:label="@string/app_name" >
+
+        <!-- Empty Activity for hosting Fragments under test. -->
+        <activity
+            android:name="com.scvngr.levelup.ui.activity.FragmentTestActivity"
+            android:exported="false"
+            android:icon="@drawable/levelup_ic_launcher"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Sherlock" />
+    </application>
+
+</manifest>

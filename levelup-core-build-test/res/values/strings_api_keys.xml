@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="levelup_api_key">test_api_key</string>
+    <string name="levelup_braintree_clientside_encryption_key" formatted="false" translatable="false">test_braintree_key</string>
+
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="levelup-core-lib-custom" default="help">
+    <include file="git_rules.xml" />
+
+    <!-- The path to store files when preparing a distribution. -->
+    <property name="dist_package_name" value="LevelUp-Android-SDK" />
+
+    <!-- fix renderscript complaint. This is normally set elsewhere and isn't used by delombok. -->
+    <property name="renderscript.opt.level" value="O3" />
+
+    <!-- De-Lombok for the core models. This transforms the Lombok-annotated source into regular Java. -->
+    <target name="delombok" depends="-pre-build, -build-setup, -code-gen, -pre-compile">
+        <taskdef classname="lombok.delombok.ant.DelombokTask" name="delombok" classpath="../tools/lombok.jar" />
+
+        <delombok verbose="true" encoding="UTF-8" to="src" from="src-lombok">
+            <classpath>
+                <path location="src" />
+                <path location="gen" />
+                <path refid="project.all.jars.path" />
+                <path path="${java.compiler.classpath}" />
+                <path path="${project.target.android.jar}" />
+            </classpath>
+        </delombok>
+    </target>
+
+    <include file="levelup_dist.xml" />
+
+    <target name="-pre-dist-source" depends="git.revision">
+        <property name="dist_package_version" value="${repository.version}" />
+        <property name="dist_package" value="${dist_package_name}-${dist_package_version}" />
+    </target>
+
+    <target name="dist-source" description="Generates a zip file of the source tree"
+        depends="-pre-dist-source, clean, levelup-dist.dist-source" />
+</project>

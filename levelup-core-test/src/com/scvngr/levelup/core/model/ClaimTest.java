@@ -1,0 +1,40 @@
+package com.scvngr.levelup.core.model;
+
+import android.test.AndroidTestCase;
+import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.model.factory.json.ClaimJsonFactory;
+import com.scvngr.levelup.core.test.JsonTestUtil;
+import com.scvngr.levelup.core.test.ParcelTestUtils;
+
+import org.json.JSONException;
+
+/**
+ * Tests {@link Claim}.
+ */
+public final class ClaimTest extends AndroidTestCase {
+
+    @SmallTest
+    public void testParcel_full_object() throws JSONException {
+        final Claim claim = ClaimFixture.getFullModel(1);
+        final Claim parceled = ParcelTestUtils.feedThroughParceling(claim);
+
+        assertEquals(claim, parceled);
+    }
+
+    @SmallTest
+    public void testParcel_minimal_object() throws JSONException {
+        final Claim claim = ClaimFixture.getMinimalModel(1);
+
+        final Claim parceled = ParcelTestUtils.feedThroughParceling(claim);
+        assertEquals(claim, parceled);
+    }
+
+    @SmallTest
+    public void testEqualsAndHashCode() throws JSONException {
+        // Test differences across variations based on all JSON keys
+        JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(ClaimJsonFactory.JsonKeys.class,
+                new ClaimJsonFactory(), ClaimFixture.getFullJsonObject(),
+                new String[] { "MODEL_ROOT", }); //$NON-NLS-1$
+    }
+}

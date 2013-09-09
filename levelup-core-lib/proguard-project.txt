@@ -1,0 +1,21 @@
+# Strip out all log messages
+-assumenosideeffects public class android.util.Log {
+    public static *** v(...);
+    public static *** d(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+    public static *** wtf(...);
+}
+-assumenosideeffects public class com.scvngr.levelup.core.util.LogManager
+{
+    public static *** v(...);
+    public static *** d(...);
+    public static *** i(...);
+    public static *** w(...);
+    public static *** e(...);
+}
+
+# Don't generate warnings for null annotations (not used at runtime)
+-dontwarn com.scvngr.levelup.core.annotation.NonNull
+-dontwarn com.scvngr.levelup.core.annotation.Nullable

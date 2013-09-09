@@ -1,0 +1,6 @@
+<resources>
+
+    <string name="levelup_monetary_value_format" formatable="true">%1$s%2$.2f</string>
+    <string name="levelup_monetary_value_no_decimal_format" formatable="true">%1$s%2$d</string>
+
+</resources>
