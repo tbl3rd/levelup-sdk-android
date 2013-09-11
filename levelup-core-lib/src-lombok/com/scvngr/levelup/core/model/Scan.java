@@ -30,7 +30,7 @@ public final class Scan implements Parcelable {
     public static final Creator<Scan> CREATOR = new ScanCreator();
 
     /**
-     * The data that were scanned.
+     * The data from the scan.
      */
     @NonNull
     private final String data;

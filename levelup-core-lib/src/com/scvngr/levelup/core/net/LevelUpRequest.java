@@ -83,7 +83,7 @@ public class LevelUpRequest extends BufferedRequest {
     private final AccessTokenRetriever mAccessTokenRetriever;
 
     /**
-     * Creates a new {@link LevelUpV13Request}. This request will not try to append the
+     * Creates a new {@link LevelUpRequest}. This request will not try to append the
      * user's access token to the request.
      *
      * @param context Application context.
@@ -101,7 +101,7 @@ public class LevelUpRequest extends BufferedRequest {
     }
 
     /**
-     * Creates a new {@link LevelUpV13Request}. This request will attempt to append the
+     * Creates a new {@link LevelUpRequest}. This request will attempt to append the
      * user's access_token to the request if the {@link AccessTokenRetriever} is not null and
      * returns a non-null AccessToken.
      *
@@ -146,7 +146,7 @@ public class LevelUpRequest extends BufferedRequest {
     }
 
     /**
-     * Creates a new {@link LevelUpV13Request}. This request will not try to append the
+     * Creates a new {@link LevelUpRequest}. This request will not try to append the
      * user's access token to the request.
      *
      * @param context Application context.
@@ -164,7 +164,7 @@ public class LevelUpRequest extends BufferedRequest {
     }
 
     /**
-     * Creates a new {@link LevelUpV13Request}. This request will attempt to append the
+     * Creates a new {@link LevelUpRequest}. This request will attempt to append the
      * user's access_token to the request the {@link AccessTokenRetriever} is not null and returns a
      * non-null OAuthAccessToken.
      *
@@ -252,7 +252,7 @@ public class LevelUpRequest extends BufferedRequest {
     @Override
     public String toString() {
         return String.format(Locale.US,
-                "LevelUpV13Request [mAccessTokenRetriever=%s, super=%s]", //$NON-NLS-1$
+                "LevelUpRequest [mAccessTokenRetriever=%s, super=%s]", //$NON-NLS-1$
                 mAccessTokenRetriever, super.toString());
     }
 

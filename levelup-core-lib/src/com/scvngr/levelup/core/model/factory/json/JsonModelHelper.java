@@ -120,6 +120,14 @@ public final class JsonModelHelper {
     }
 
     /**
+     * @param name the name of the object to check for.
+     * @return if the {@link JSONObject} has a value for the name passed.
+     */
+    public boolean has(final String name) {
+        return mJsonObject.has(name);
+    }
+
+    /**
      * @param name the key name.
      * @return the value at the given key name or {@code null} if it is missing.
      * @see JSONObject#opt(String)
