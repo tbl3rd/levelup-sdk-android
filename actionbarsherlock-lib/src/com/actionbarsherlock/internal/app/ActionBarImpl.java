@@ -326,7 +326,7 @@ public class ActionBarImpl extends ActionBar {
             break;
         default:
             throw new IllegalStateException(
-                    "setSelectedNavigationIndex not valid for current navigation mode");
+                    "setSelectedNavigationItem not valid for current navigation mode");
         }
     }
 
@@ -1027,5 +1027,25 @@ public class ActionBarImpl extends ActionBar {
     @Override
     public void setLogo(Drawable logo) {
         mActionView.setLogo(logo);
+    }
+
+    @Override
+    public void setHomeAsUpIndicator(Drawable indicator) {
+        mActionView.setHomeAsUpIndicator(indicator);
+    }
+
+    @Override
+    public void setHomeAsUpIndicator(int resId) {
+        mActionView.setHomeAsUpIndicator(resId);
+    }
+
+    @Override
+    public void setHomeActionContentDescription(CharSequence description) {
+        // Not supported.
+    }
+
+    @Override
+    public void setHomeActionContentDescription(int resId) {
+        // Not supported.
     }
 }
