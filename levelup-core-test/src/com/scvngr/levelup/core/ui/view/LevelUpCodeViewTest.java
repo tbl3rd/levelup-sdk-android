@@ -9,6 +9,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
@@ -223,6 +224,107 @@ public final class LevelUpCodeViewTest extends
                 MockQrCodeGenerator.TARGET_TOP, MockQrCodeGenerator.TEST_IMAGE_SIZE, orange);
         assertScaledPixelIsColor(drawingCache, MockQrCodeGenerator.TARGET_LEFT,
                 MockQrCodeGenerator.TARGET_BOTTOM, MockQrCodeGenerator.TEST_IMAGE_SIZE, green);
+    }
+
+    /**
+     * Tests that {@link LevelUpCodeView}'s colorizing of the QR code is disabled when
+     * {@link LevelUpCodeView#setColorize(boolean)} is false.
+     */
+    @MediumTest
+    public void testShowCode_notColorizing() {
+        final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
+
+        mCache.putCode(key1, mQrCodeGenerator.mTestImage1);
+
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                mLevelUpCodeView.setDrawingCacheEnabled(true);
+                // Disable colorization
+                mLevelUpCodeView.setColorize(false);
+                mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
+            }
+        });
+
+        final Bitmap drawingCache = mLevelUpCodeView.getDrawingCache();
+
+        final Resources resources = getActivity().getResources();
+        final int black = resources.getColor(android.R.color.black);
+
+        assertScaledPixelIsColor(drawingCache, MockQrCodeGenerator.TARGET_RIGHT,
+                MockQrCodeGenerator.TARGET_BOTTOM, MockQrCodeGenerator.TEST_IMAGE_SIZE, black);
+        assertScaledPixelIsColor(drawingCache, MockQrCodeGenerator.TARGET_RIGHT,
+                MockQrCodeGenerator.TARGET_TOP, MockQrCodeGenerator.TEST_IMAGE_SIZE, black);
+        assertScaledPixelIsColor(drawingCache, MockQrCodeGenerator.TARGET_LEFT,
+                MockQrCodeGenerator.TARGET_BOTTOM, MockQrCodeGenerator.TEST_IMAGE_SIZE, black);
+    }
+
+    /**
+     * Tests that {@link LevelUpCodeView}'s color fading is producing an animation.
+     */
+    @MediumTest
+    public void testShowCode_fading() {
+        final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
+
+        mCache.putCode(key1, mQrCodeGenerator.mTestImage1);
+
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
+            }
+        });
+
+        final Animation animation = mLevelUpCodeView.getAnimation();
+        assertNotNull(animation);
+        assertEquals(LevelUpCodeView.FadeColorsAnimation.class, animation.getClass());
+        // It's delayed.
+        assertFalse(animation.hasStarted());
+    }
+
+    /**
+     * Tests that {@link LevelUpCodeView}'s color fading is disabled when calling
+     * {@link LevelUpCodeView#setFadeColors(boolean)}.
+     */
+    @MediumTest
+    public void testShowCode_notFading() {
+        final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
+
+        mCache.putCode(key1, mQrCodeGenerator.mTestImage1);
+
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                mLevelUpCodeView.setFadeColors(false);
+                mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
+            }
+        });
+
+        final Animation animation = mLevelUpCodeView.getAnimation();
+        assertNull(animation);
+    }
+
+    /**
+     * Tests that {@link LevelUpCodeView} isn't doing a fade animation when the colorization is
+     * disabled.
+     */
+    @MediumTest
+    public void testShowCode_notFadingBecauseNotColorized() {
+        final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
+
+        mCache.putCode(key1, mQrCodeGenerator.mTestImage1);
+
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                // Disable colorization
+                mLevelUpCodeView.setColorize(false);
+                mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
+            }
+        });
+
+        final Animation animation = mLevelUpCodeView.getAnimation();
+        assertNull(animation);
     }
 
     /**

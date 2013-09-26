@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- The style for LevelUpCodeView. -->
+    <declare-styleable name="LevelUpCodeView">
+        <!-- If true, colorizes the target corners using the LevelUp logo colors. -->
+        <attr name="colorize" format="boolean" />
+        <!-- If true, fades the colors to black to aid scanning. -->
+        <attr name="fade_colors" format="boolean" />
+    </declare-styleable>
+
+</resources>

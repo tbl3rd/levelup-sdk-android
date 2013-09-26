@@ -2,6 +2,7 @@ package com.scvngr.levelup.core.ui.view;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
@@ -9,7 +10,9 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Xfermode;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -36,11 +39,19 @@ import com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded;
  * {@link #setLevelUpCode(String, LevelUpCodeLoader)}.
  * </p>
  * <p>
- * LevelUp codes are rotated 180° from standard QR codes and colorized using the LevelUp logo
- * colors. The colors used are {@link com.scvngr.levelup.core.R.color#levelup_logo_blue},
+ * LevelUp codes are rotated 180° from standard QR codes and are optionally colorized using the
+ * LevelUp logo colors. The colors used are
+ * {@link com.scvngr.levelup.core.R.color#levelup_logo_blue},
  * {@link com.scvngr.levelup.core.R.color#levelup_logo_green}, and
- * {@link com.scvngr.levelup.core.R.color#levelup_logo_orange}. To aid scanning, the colors fade
- * from bright to dim after a short duration.
+ * {@link com.scvngr.levelup.core.R.color#levelup_logo_orange}. To aid scanning, the colors can be
+ * set to automatically fade from bright to dim after a short duration.
+ * </p>
+ * <p>
+ * Colorizing can be disabled by setting the XML property
+ * {@link com.scvngr.levelup.core.R.attr#colorize} to false. The automatic fading of the colors can
+ * be disabled by setting {@link com.scvngr.levelup.core.R.attr#fade_colors}. The colors can still
+ * be manually faded by calling {@link #animateFadeColorsDelayed()} or
+ * {@link #animateFadeColorsImmediately()}.
  * </p>
  */
 public final class LevelUpCodeView extends View {
@@ -56,14 +67,24 @@ public final class LevelUpCodeView extends View {
     public static final int ANIM_FADE_START_DELAY_MILLIS = 1500;
 
     /**
+     * The end value of the alpha channel for the color fade animation.
+     */
+    private static final int ANIM_FADE_COLOR_ALPHA_END = 150;
+
+    /**
      * The start value of the alpha channel for the color fade animation.
      */
     private static final int ANIM_FADE_COLOR_ALPHA_START = 255;
 
     /**
-     * The end value of the alpha channel for the color fade animation.
+     * The default value for {@link #mIsColorizeSet}.
      */
-    private static final int ANIM_FADE_COLOR_ALPHA_END = 150;
+    private static final boolean COLORIZE_DEFAULT = true;
+
+    /**
+     * The default of whether or not the colors should fade.
+     */
+    private static final boolean FADE_COLORS_DEFAULT = true;
 
     /**
      * The currently-displayed QR code.
@@ -87,6 +108,33 @@ public final class LevelUpCodeView extends View {
      */
     @Nullable
     private String mCurrentData;
+
+    private GestureDetectorCompat mGestureDetector;
+
+    /**
+     * A little easter-egg that lets you restart the fade animation by double-tapping on the code.
+     * Only enabled when the code is colorized and automatic fading is turned on. This shouldn't
+     * interfere with touch events, as it doesn't claim to handle any events.
+     */
+    private final GestureDetector.SimpleOnGestureListener mGestureDetectorCallbacks =
+            new GestureDetector.SimpleOnGestureListener() {
+
+                @Override
+                public boolean onDoubleTap(final MotionEvent e) {
+                    animateFadeColorsImmediately();
+                    return false;
+                }
+            };
+
+    /**
+     * If true, the QR code will be colorized.
+     */
+    private boolean mIsColorizeSet = COLORIZE_DEFAULT;
+
+    /**
+     * Whether or not to fade the colors.
+     */
+    private boolean mIsFadeColorsSet = FADE_COLORS_DEFAULT;
 
     /**
      * The listener that this view will call when a code is loaded. See
@@ -158,6 +206,7 @@ public final class LevelUpCodeView extends View {
     public LevelUpCodeView(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         super(context, attrs);
         init(context);
+        loadAttributes(context, attrs, 0);
     }
 
     /**
@@ -169,41 +218,23 @@ public final class LevelUpCodeView extends View {
             final int defStyle) {
         super(context, attrs, defStyle);
         init(context);
+        loadAttributes(context, attrs, defStyle);
     }
 
     /**
-     * Initialize the view.
+     * Animate the fading of the colors after a delay. The delay is
+     * {@link #ANIM_FADE_START_DELAY_MILLIS}.
      *
-     * @param context view context.
-     */
-    private void init(@NonNull final Context context) {
-        setWillNotDraw(false);
-        setClickable(true);
-
-        final Resources res = context.getResources();
-        final Xfermode xferMode = new PorterDuffXfermode(Mode.SCREEN);
-
-        mTargetBottomLeftPaint.setColor(res.getColor(R.color.levelup_logo_green));
-        mTargetBottomLeftPaint.setXfermode(xferMode);
-
-        mTargetBottomRightPaint.setColor(res.getColor(R.color.levelup_logo_blue));
-        mTargetBottomRightPaint.setXfermode(xferMode);
-
-        mTargetTopRightPaint.setColor(res.getColor(R.color.levelup_logo_orange));
-        mTargetTopRightPaint.setXfermode(xferMode);
-    }
-
-    /**
-     * Animate the fading of the colors after a delay. The duration of the animation, once the delay
-     * has elapsed, is {@link #ANIM_FADE_DURATION_MILLIS}.
-     *
-     * @see #ANIM_FADE_START_DELAY_MILLIS
+     * @see #animateFadeColorsImmediately()
      */
     public void animateFadeColorsDelayed() {
-        final FadeColorsAnimation animation = new FadeColorsAnimation(ANIM_FADE_DURATION_MILLIS);
-        animation.setStartOffset(ANIM_FADE_START_DELAY_MILLIS);
-        animation.setFillBefore(true);
-        startAnimation(animation);
+        if (mIsColorizeSet) {
+            final FadeColorsAnimation animation =
+                    new FadeColorsAnimation(ANIM_FADE_DURATION_MILLIS);
+            animation.setStartOffset(ANIM_FADE_START_DELAY_MILLIS);
+            animation.setFillBefore(true);
+            startAnimation(animation);
+        }
     }
 
     /**
@@ -211,19 +242,61 @@ public final class LevelUpCodeView extends View {
      * {@link #ANIM_FADE_DURATION_MILLIS}.
      */
     public void animateFadeColorsImmediately() {
-        final FadeColorsAnimation animation = new FadeColorsAnimation(ANIM_FADE_DURATION_MILLIS);
-        startAnimation(animation);
+        if (mIsColorizeSet) {
+            final FadeColorsAnimation animation =
+                    new FadeColorsAnimation(ANIM_FADE_DURATION_MILLIS);
+            startAnimation(animation);
+        }
+    }
+
+    /**
+     * @return if the LevelUp code has colorized target markers.
+     */
+    public boolean isColorizeSet() {
+        return mIsColorizeSet;
+    }
+
+    /**
+     * @return true if the color fading flag is set.
+     */
+    public boolean isFadeColorsSet() {
+        return mIsFadeColorsSet;
     }
 
     @Override
     public boolean onTouchEvent(final MotionEvent event) {
         final boolean handled = super.onTouchEvent(event);
 
-        if (MotionEvent.ACTION_UP == event.getAction() && null != mCurrentCode) {
-            animateFadeColorsImmediately();
+        if (mIsColorizeSet && mIsFadeColorsSet) {
+            mGestureDetector.onTouchEvent(event);
         }
 
         return handled;
+    }
+
+    /**
+     * <p>
+     * Enables/disables the colorization of the LevelUp code.
+     * </p>
+     * <p>
+     * This must be called from the UI thread.
+     * </p>
+     *
+     * @param isColorized if true, the LevelUp code's target markers will be colorized.
+     */
+    public void setColorize(final boolean isColorized) {
+        if (mIsColorizeSet != isColorized) {
+            mIsColorizeSet = isColorized;
+            invalidate();
+        }
+    }
+
+    /**
+     * @param fadeColors if true, the colors will automatically fade after a period of time the
+     *        first time the code is set with {@link #setLevelUpCode(String, LevelUpCodeLoader)}.
+     */
+    public void setFadeColors(final boolean fadeColors) {
+        mIsFadeColorsSet = fadeColors;
     }
 
     /**
@@ -239,7 +312,7 @@ public final class LevelUpCodeView extends View {
      */
     public void setLevelUpCode(@NonNull final String codeData,
             @NonNull final LevelUpCodeLoader codeLoader) {
-        if (null == mCurrentData) {
+        if (null == mCurrentData && mIsFadeColorsSet) {
             animateFadeColorsDelayed();
         }
 
@@ -275,7 +348,7 @@ public final class LevelUpCodeView extends View {
     /**
      * @param onCodeLoadListener the code load listener.
      */
-    public void setOnCodeLoadListener(final OnCodeLoadListener onCodeLoadListener) {
+    public void setOnCodeLoadListener(@Nullable final OnCodeLoadListener onCodeLoadListener) {
         this.mOnCodeLoadListener = onCodeLoadListener;
     }
 
@@ -355,8 +428,8 @@ public final class LevelUpCodeView extends View {
     }
 
     /**
-     * Draws the QR code to the canvas, scaling it up to fit the measured size of the view. This
-     * also draws the colored target areas per
+     * Draws the QR code to the canvas, scaling it up to fit the measured size of the view. If
+     * enabled, this also draws the colored target areas per
      * {@link #drawColoredTargetAreas(Canvas, LevelUpQrCodeImage)}.
      *
      * @param canvas the drawing canvas.
@@ -378,9 +451,60 @@ public final class LevelUpCodeView extends View {
 
         canvas.concat(mCodeScalingMatrix);
         canvas.drawBitmap(codeBitmap, 0, 0, mQrCodePaint);
-        drawColoredTargetAreas(canvas, levelUpQrCodeImage);
+
+        if (mIsColorizeSet) {
+            drawColoredTargetAreas(canvas, levelUpQrCodeImage);
+        }
 
         canvas.restore();
+    }
+
+    /**
+     * Initialize the view.
+     *
+     * @param context view context.
+     */
+    private void init(@NonNull final Context context) {
+        setWillNotDraw(false);
+        setClickable(true);
+
+        final Resources res = context.getResources();
+        final Xfermode xferMode = new PorterDuffXfermode(Mode.SCREEN);
+
+        mTargetBottomLeftPaint.setColor(res.getColor(R.color.levelup_logo_green));
+        mTargetBottomLeftPaint.setXfermode(xferMode);
+
+        mTargetBottomRightPaint.setColor(res.getColor(R.color.levelup_logo_blue));
+        mTargetBottomRightPaint.setXfermode(xferMode);
+
+        mTargetTopRightPaint.setColor(res.getColor(R.color.levelup_logo_orange));
+        mTargetTopRightPaint.setXfermode(xferMode);
+        mGestureDetector = new GestureDetectorCompat(context, mGestureDetectorCallbacks);
+    }
+
+    /**
+     * Loads the XML attributes, passed in from the constructor.
+     *
+     * @param context view context.
+     * @param attrs optional attribute set.
+     * @param defaultStyle optional default style.
+     * @see com.scvngr.levelup.core.R.styleable#LevelUpCodeView
+     */
+    private void loadAttributes(@NonNull final Context context, @Nullable final AttributeSet attrs,
+            final int defaultStyle) {
+
+        final TypedArray attributes =
+                context.obtainStyledAttributes(attrs, R.styleable.LevelUpCodeView, defaultStyle, 0);
+        try {
+            mIsColorizeSet =
+                    attributes.getBoolean(R.styleable.LevelUpCodeView_colorize, COLORIZE_DEFAULT);
+            mIsFadeColorsSet =
+                    attributes.getBoolean(R.styleable.LevelUpCodeView_fade_colors,
+                            FADE_COLORS_DEFAULT);
+
+        } finally {
+            attributes.recycle();
+        }
     }
 
     /**
@@ -395,7 +519,7 @@ public final class LevelUpCodeView extends View {
          * @param isCodeLoading {@code true} if the displayed code is currently loading.
          *        {@code false} when the code has loaded.
          */
-        public void onCodeLoad(boolean isCodeLoading);
+        public void onCodeLoad(final boolean isCodeLoading);
     }
 
     /**
@@ -403,7 +527,8 @@ public final class LevelUpCodeView extends View {
      * limitations of Android's old animation framework by setting {@code mColorAlpha} and
      * {@code postInvalidate()} on the host view.
      */
-    private class FadeColorsAnimation extends Animation {
+    @VisibleForTesting(visibility = Visibility.PRIVATE)
+    /* package */class FadeColorsAnimation extends Animation {
 
         /**
          * @param durationMillis the duration of the animation, in milliseconds.
