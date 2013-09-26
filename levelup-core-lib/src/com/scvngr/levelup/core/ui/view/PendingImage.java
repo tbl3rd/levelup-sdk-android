@@ -21,6 +21,11 @@ public final class PendingImage<T> {
     private T mImage;
 
     /**
+     * Lock object for mImage access.
+     */
+    private final Object[] mImageLock = new Object[0];
+
+    /**
      * The class which is able to cancel the load of this image.
      */
     @NonNull
@@ -53,8 +58,10 @@ public final class PendingImage<T> {
      * @return the image or null if it has not been loaded yet.
      */
     @Nullable
-    public synchronized T getImage() {
-        return mImage;
+    public T getImage() {
+        synchronized (mImageLock) {
+            return mImage;
+        }
     }
 
     /**
@@ -68,15 +75,19 @@ public final class PendingImage<T> {
     /**
      * @return true if the image has been loaded.
      */
-    public synchronized boolean isLoaded() {
-        return null != mImage;
+    public boolean isLoaded() {
+        synchronized (mImageLock) {
+            return null != mImage;
+        }
     }
 
     /**
      * @param image sets the image.
      */
-    public synchronized void setImage(@NonNull final T image) {
-        mImage = image;
+    public void setImage(@NonNull final T image) {
+        synchronized (mImageLock) {
+            mImage = image;
+        }
     }
 
     /**
@@ -88,7 +99,7 @@ public final class PendingImage<T> {
          *
          * @param loadKey the key.
          */
-        public void cancelLoad(@NonNull String loadKey);
+        public void cancelLoad(@NonNull final String loadKey);
     }
 
     /**
@@ -103,6 +114,6 @@ public final class PendingImage<T> {
          * @param loadKey the key by which the image was loaded.
          * @param image the loaded image.
          */
-        public void onImageLoaded(@NonNull String loadKey, @NonNull final T2 image);
+        public void onImageLoaded(@NonNull final String loadKey, @NonNull final T2 image);
     }
 }
