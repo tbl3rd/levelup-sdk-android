@@ -29,6 +29,7 @@ public final class InterstitialFixture {
     @NonNull
     public static JSONObject getMinimalJsonObject() throws JSONException {
         final JSONObject object = new JSONObject();
+        object.put(InterstitialJsonFactory.JsonKeys.CALLOUT_TEXT, "callout_text"); //$NON-NLS-1$
         object.put(InterstitialJsonFactory.JsonKeys.DESCRIPTION_HTML, "description_html"); //$NON-NLS-1$
         object.put(InterstitialJsonFactory.JsonKeys.IMAGE_URL, TEST_IMAGE_URL);
         object.put(InterstitialJsonFactory.JsonKeys.TITLE, "title"); //$NON-NLS-1$

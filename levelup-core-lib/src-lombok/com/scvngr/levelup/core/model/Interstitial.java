@@ -62,6 +62,12 @@ public final class Interstitial implements Parcelable {
     final InterstitialAction action;
 
     /**
+     * The text to prompt the user to view this interstitial.
+     */
+    @NonNull
+    private final String calloutText;
+
+    /**
      * The description (encoded in HTML) of the interstitial.
      */
     @NonNull
@@ -116,12 +122,13 @@ public final class Interstitial implements Parcelable {
         public Interstitial createFromParcel(final Parcel source) {
             final InterstitialAction action =
                     source.readParcelable(InterstitialAction.class.getClassLoader());
+            final String calloutText = source.readString();
             final String descriptionHtml = source.readString();
             final String imageUrl = source.readString();
             final String title = source.readString();
             final String type = source.readString();
 
-            return new Interstitial(action, descriptionHtml, imageUrl, title, type);
+            return new Interstitial(action, calloutText, descriptionHtml, imageUrl, title, type);
         }
 
         @Override
@@ -132,6 +139,7 @@ public final class Interstitial implements Parcelable {
         private void writeToParcel(@NonNull final Parcel dest, final int flags,
                 @NonNull final Interstitial interstitial) {
             dest.writeParcelable(interstitial.getAction(), flags);
+            dest.writeString(interstitial.getCalloutText());
             dest.writeString(interstitial.getDescriptionHtml());
             dest.writeString(interstitial.getImageUrl());
             dest.writeString(interstitial.getTitle());

@@ -37,13 +37,14 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
     @Override
     protected Interstitial createFrom(@NonNull final JSONObject json) throws JSONException {
         final JsonModelHelper mh = new JsonModelHelper(json);
+        final String calloutText = mh.getString(JsonKeys.CALLOUT_TEXT);
         final String descriptionHtml = mh.getString(JsonKeys.DESCRIPTION_HTML);
         final String imageUrl = mh.getString(JsonKeys.IMAGE_URL);
         final String title = mh.getString(JsonKeys.TITLE);
         final String type = mh.getString(JsonKeys.TYPE);
         final InterstitialAction action = parseAction(mh, type);
 
-        return new Interstitial(action, descriptionHtml, imageUrl, title, type);
+        return new Interstitial(action, calloutText, descriptionHtml, imageUrl, title, type);
     }
 
     /**
@@ -101,6 +102,9 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
 
         @JsonValueType(JsonType.JSON_OBJECT)
         public static final String ACTION = "action"; //$NON-NLS-1$
+
+        @JsonValueType(JsonType.STRING)
+        public static final String  CALLOUT_TEXT = "callout_text"; //$NON-NLS-1$
 
         @JsonValueType(JsonType.STRING)
         public static final String DESCRIPTION_HTML = "description_html"; //$NON-NLS-1$
