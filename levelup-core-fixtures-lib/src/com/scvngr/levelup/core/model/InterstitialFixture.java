@@ -21,6 +21,12 @@ public final class InterstitialFixture {
     public static final String TEST_IMAGE_URL = "http://www.example.com/v12/images"; //$NON-NLS-1$
 
     /**
+     * Test value for the url of {@link com.scvngr.levelup.core.model.Interstitial.UrlAction} type
+     * interstitials created with this class.
+     */
+    public static final String TEST_WEB_URL = "http://www.example.com"; //$NON-NLS-1$
+
+    /**
      * Gets a valid base JSON object.
      *
      * @return a {@link JSONObject} with all the Interstitial required fields.
@@ -161,7 +167,7 @@ public final class InterstitialFixture {
         final JSONObject object = getMinimalJsonObject();
         object.put(InterstitialJsonFactory.JsonKeys.TYPE, Interstitial.TYPE_URL);
         final JSONObject action = new JSONObject();
-        action.put(InterstitialJsonFactory.UrlActionJsonKeys.URL, "url"); //$NON-NLS-1$
+        action.put(InterstitialJsonFactory.UrlActionJsonKeys.URL, TEST_WEB_URL);
         object.put(JsonKeys.ACTION, action);
         return object;
     }

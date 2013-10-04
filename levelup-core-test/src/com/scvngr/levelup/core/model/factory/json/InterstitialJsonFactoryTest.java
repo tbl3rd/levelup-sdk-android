@@ -98,6 +98,6 @@ public final class InterstitialJsonFactoryTest extends AndroidTestCase {
         final UrlAction action =
                 (UrlAction) InterstitialJsonFactory.parseAction(mh, Interstitial.TYPE_URL);
         assertNotNull(action);
-        assertEquals("url", action.getUrl()); //$NON-NLS-1$
+        assertEquals(InterstitialFixture.TEST_WEB_URL, action.getUrl());
     }
 }
