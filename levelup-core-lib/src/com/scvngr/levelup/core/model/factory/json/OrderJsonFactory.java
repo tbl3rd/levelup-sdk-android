@@ -172,7 +172,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getLocationWebServiceId()
          */
         @JsonValueType(JsonType.LONG)
-        public static final String LOCATION_WEB_SERVICE_ID = "location_web_service_id"; //$NON-NLS-1$
+        public static final String LOCATION_WEB_SERVICE_ID = "location_id"; //$NON-NLS-1$
 
         /**
          * Required String field containing the location postal code.
