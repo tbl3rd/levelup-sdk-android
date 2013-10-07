@@ -2,10 +2,14 @@ package com.scvngr.levelup.core.ui.view;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.test.AndroidTestCase;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.SlowOperation;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
     /**
@@ -31,6 +35,8 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
     public final LevelUpQrCodeImage mTestImage1;
     public final LevelUpQrCodeImage mTestImage2;
     public final LevelUpQrCodeImage mTestImage3;
+
+    public CountDownLatch mGenerateDelayLatch;
 
     public MockQrCodeGenerator() {
         mTestImage1 = generateTestImage(TEST_CONTENT1_COLOR);
@@ -68,7 +74,8 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
     }
 
     private LevelUpQrCodeImage generateTestImage(final int color) {
-        final Bitmap bitmap = Bitmap.createBitmap(TEST_IMAGE_SIZE, TEST_IMAGE_SIZE, Bitmap.Config.RGB_565);
+        final Bitmap bitmap =
+                Bitmap.createBitmap(TEST_IMAGE_SIZE, TEST_IMAGE_SIZE, Bitmap.Config.RGB_565);
 
         bitmap.setPixel(TEST_COLOR_PIXEL, TEST_COLOR_PIXEL, color);
         // These are the target markers.
@@ -92,6 +99,7 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
     @SlowOperation
     public LevelUpQrCodeImage generateLevelUpQrCode(@NonNull final String qrCodeData) {
         LevelUpQrCodeImage result;
+
         if (TEST_CONTENT1.equals(qrCodeData)) {
             result = mTestImage1;
         } else if (TEST_CONTENT2.equals(qrCodeData)) {
@@ -103,6 +111,33 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
             result = null;
         }
 
+        if (null != mGenerateDelayLatch) {
+            try {
+                mGenerateDelayLatch.await();
+                if (!mGenerateDelayLatch.await(4, TimeUnit.SECONDS)) {
+                    AndroidTestCase.fail("latch timeout exceeded"); //$NON-NLS-1$
+                }
+            } catch (final InterruptedException e) {
+                AndroidTestCase.fail("latch was interrupted"); //$NON-NLS-1$
+            }
+
+            // As the latch has expired, remove it.
+            mGenerateDelayLatch = null;
+        }
+
         return result;
+    }
+
+    /**
+     * Adds a {@link CountDownLatch} starting at 1 to the {@link #generateLevelUpQrCode(String)}
+     * method to allow testing classes to forcibly delay the background task. Make sure to call this
+     * method before calling {@link #generateLevelUpQrCode(String)} or anything that may call it.
+     *
+     * @return the latch
+     */
+    public CountDownLatch addCountdownLatch() {
+        mGenerateDelayLatch = new CountDownLatch(1);
+
+        return mGenerateDelayLatch;
     }
 }

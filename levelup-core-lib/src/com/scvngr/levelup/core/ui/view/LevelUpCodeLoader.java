@@ -26,6 +26,9 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
     /* protected */final HashMap<String, OnImageLoaded<LevelUpQrCodeImage>> mLoaderCallbacks =
             new HashMap<String, PendingImage.OnImageLoaded<LevelUpQrCodeImage>>();
 
+    /* protected */final HashMap<String, PendingImage<LevelUpQrCodeImage>> mPendingImages =
+            new HashMap<String, PendingImage<LevelUpQrCodeImage>>();
+
     /**
      * The cache that will store the code once it's been generated. This has a one-to-one mapping
      * with the cached data (it fully represents it) so it will never need to be invalidated.
@@ -95,6 +98,8 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
                 onImageLoaded.onImageLoaded(key, code);
             }
         } else {
+            mPendingImages.put(key, pendingImage);
+
             startLoadInBackground(qrCodeContents, key, onImageLoaded);
 
             if (null != onImageLoaded) {
@@ -128,6 +133,16 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
     protected final boolean dispatchOnImageLoaded(@NonNull final String key,
             @NonNull final LevelUpQrCodeImage image) {
         final OnImageLoaded<LevelUpQrCodeImage> imageLoaded = mLoaderCallbacks.get(key);
+
+        final PendingImage<LevelUpQrCodeImage> pendingImage = mPendingImages.get(key);
+
+        if (null != pendingImage) {
+            if (!pendingImage.isLoaded()) {
+                pendingImage.setImage(image);
+            }
+
+            mPendingImages.remove(key);
+        }
 
         boolean callbackCalled = false;
 

@@ -10,6 +10,8 @@ import java.util.concurrent.Executors;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.annotation.VisibleForTesting;
+import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
 import com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded;
 import com.scvngr.levelup.core.util.EnvironmentUtil;
@@ -23,7 +25,8 @@ public final class AsyncTaskCodeLoader extends LevelUpCodeLoader {
      * A map of the load keys to the corresponding load from the AsyncTask. This is used to allow
      * for canceling pending tasks. This must only be modified on the UI thread.
      */
-    private final HashMap<String, AsyncTask<Void, Void, LevelUpQrCodeImage>> mAsyncTasks =
+    @VisibleForTesting(visibility = Visibility.PRIVATE)
+    /* package */final HashMap<String, AsyncTask<Void, Void, LevelUpQrCodeImage>> mAsyncTasks =
             new HashMap<String, AsyncTask<Void, Void, LevelUpQrCodeImage>>();
 
     @Nullable
@@ -61,7 +64,8 @@ public final class AsyncTaskCodeLoader extends LevelUpCodeLoader {
     }
 
     @Override
-    protected void onStartLoadInBackground(@NonNull final String qrCodeContents, @NonNull final String key,
+    protected void onStartLoadInBackground(@NonNull final String qrCodeContents,
+            @NonNull final String key,
             @Nullable final OnImageLoaded<LevelUpQrCodeImage> onImageLoaded) {
         final AsyncTask<Void, Void, LevelUpQrCodeImage> existingLoad = mAsyncTasks.get(key);
 

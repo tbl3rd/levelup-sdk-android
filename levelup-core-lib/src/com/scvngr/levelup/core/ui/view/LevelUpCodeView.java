@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Xfermode;
+import android.os.Looper;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
@@ -312,6 +313,11 @@ public final class LevelUpCodeView extends View {
      */
     public void setLevelUpCode(@NonNull final String codeData,
             @NonNull final LevelUpCodeLoader codeLoader) {
+
+        if (! Looper.getMainLooper().equals(Looper.myLooper())){
+            throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
+        }
+
         if (null == mCurrentData && mIsFadeColorsSet) {
             animateFadeColorsDelayed();
         }

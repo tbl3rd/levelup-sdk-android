@@ -1,5 +1,6 @@
 package com.scvngr.levelup.core.ui.view;
 
+import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -18,6 +19,7 @@ public final class PendingImage<T> {
      * The image.
      */
     @Nullable
+    @GuardedBy("mImageLock")
     private T mImage;
 
     /**

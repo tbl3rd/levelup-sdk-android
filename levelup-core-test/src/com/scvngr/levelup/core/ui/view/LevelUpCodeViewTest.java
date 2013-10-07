@@ -328,6 +328,19 @@ public final class LevelUpCodeViewTest extends
     }
 
     /**
+     * Tests that setLevelUpCode enforces being called from the correct thread.
+     */
+    @MediumTest
+    public void testShowCode_wrongThread() {
+        try {
+            mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
+            fail("Expected exception not thrown."); //$NON-NLS-1$
+        } catch (final AssertionError e) {
+            // Expected exception.
+        }
+    }
+
+    /**
      * Tests that the {@link LevelUpCodeView} is square and not 0px wide.
      */
     @SmallTest

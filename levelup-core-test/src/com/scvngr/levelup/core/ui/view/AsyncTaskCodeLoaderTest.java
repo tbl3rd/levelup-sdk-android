@@ -3,27 +3,32 @@ package com.scvngr.levelup.core.ui.view;
 import android.test.AndroidTestCase;
 
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
+import com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded;
 
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Tests {@link LevelUpCodeLoader}.
+ * Tests {@link AsyncTaskCodeLoader} using a {@link MockQrCodeGenerator}, {@link HashMapCache}, and
+ * {@link LatchedOnImageLoaded}.
  */
-@SuppressWarnings("javadoc")
-public final class LevelUpCodeLoaderTest extends AndroidTestCase {
-    private HashMapCache mCache;
-    private LevelUpCodeLoaderUnderTest mLoader;
-    private LatchedOnImageLoaded mOnImageLoaded;
+public final class AsyncTaskCodeLoaderTest extends AndroidTestCase {
+
     private MockQrCodeGenerator mQrCodeGenerator;
+    private HashMapCache mCache;
+    private AsyncTaskCodeLoader mLoader;
     private String mTestKey1;
+    private LatchedOnImageLoaded mOnImageLoaded;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
         mQrCodeGenerator = new MockQrCodeGenerator();
         mCache = new HashMapCache();
+        // The cache uses a static map
         mCache.clear();
-        mLoader = new LevelUpCodeLoaderUnderTest(mQrCodeGenerator, mCache);
+        mLoader = new AsyncTaskCodeLoader(mQrCodeGenerator, mCache);
         mTestKey1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
         mOnImageLoaded = new LatchedOnImageLoaded(mTestKey1);
     }
@@ -31,7 +36,7 @@ public final class LevelUpCodeLoaderTest extends AndroidTestCase {
     /**
      * Tests {@link LevelUpCodeLoader#dispatchOnImageLoaded(String, LevelUpQrCodeImage)}.
      *
-     * @throws InterruptedException
+     * @throws InterruptedException upon interruption
      */
     public void testDispatchOnImageLoaded() throws InterruptedException {
         mLoader.registerOnImageLoadedCallback(mTestKey1, mOnImageLoaded);
@@ -39,8 +44,8 @@ public final class LevelUpCodeLoaderTest extends AndroidTestCase {
         // image provided.
         mLoader.dispatchOnImageLoaded(mTestKey1, mQrCodeGenerator.mTestImage1);
 
-        assertTrue(
-                "countdown did not reach expected amount", mOnImageLoaded.mLatch.await(2, TimeUnit.SECONDS)); //$NON-NLS-1$
+        assertTrue("countdown did not reach expected amount", //$NON-NLS-1$
+                mOnImageLoaded.mLatch.await(2, TimeUnit.SECONDS));
 
         assertTrue(mQrCodeGenerator.isBitmapForCode(mOnImageLoaded.mLoadedImage,
                 MockQrCodeGenerator.TEST_CONTENT1));
@@ -69,11 +74,10 @@ public final class LevelUpCodeLoaderTest extends AndroidTestCase {
     }
 
     /**
-     * Tests
-     * {@link LevelUpCodeLoader#getLevelUpCode(String, com.scvngr.levelup.core.ui.view.PendingImage.nImageLoaded)}
-     * with a cache hit.
+     * Tests {@link LevelUpCodeLoader#getLevelUpCode(String, OnImageLoaded)} with a cache hit.
      */
     public void testGetLevelUpCode_cacheHit() {
+        final CountDownLatch latch = mQrCodeGenerator.addCountdownLatch();
         mCache.putCode(mTestKey1, mQrCodeGenerator.mTestImage1);
 
         final PendingImage<LevelUpQrCodeImage> levelUpCode =
@@ -85,7 +89,8 @@ public final class LevelUpCodeLoaderTest extends AndroidTestCase {
                 MockQrCodeGenerator.TEST_CONTENT1));
 
         // Check the loader state.
-        assertEquals(0, mLoader.mScheduleLoadKeys.size());
+        assertEquals(0, mLoader.mAsyncTasks.size());
+        latch.countDown();
     }
 
     /**
@@ -94,17 +99,58 @@ public final class LevelUpCodeLoaderTest extends AndroidTestCase {
      * with a cache miss.
      */
     public void testGetLevelUpCode_cacheMiss() {
+        final CountDownLatch latch = mQrCodeGenerator.addCountdownLatch();
         final PendingImage<LevelUpQrCodeImage> levelUpCode =
                 mLoader.getLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mOnImageLoaded);
 
         // Check the PendingImage
         assertEquals(mTestKey1, levelUpCode.getLoadKey());
-        assertNull(levelUpCode.getImage());
         assertFalse(levelUpCode.isLoaded());
+        assertNull(levelUpCode.getImage());
 
         // Check the loader state.
-        assertEquals(1, mLoader.mScheduleLoadKeys.size());
-        assertEquals(mTestKey1, mLoader.mScheduleLoadKeys.get(0));
+        assertEquals(1, mLoader.mAsyncTasks.size());
+        assertTrue(mLoader.mAsyncTasks.containsKey(mTestKey1));
+
+        latch.countDown();
+    }
+
+    /**
+     * Tests loading a code in the background.
+     *
+     * @throws InterruptedException upon interruption
+     */
+    public void testGetLevelUpCode_background() throws InterruptedException {
+        final CountDownLatch latch = mQrCodeGenerator.addCountdownLatch();
+        final PendingImage<LevelUpQrCodeImage> levelUpCode =
+                mLoader.getLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mOnImageLoaded);
+
+        // Check the PendingImage
+        assertEquals(mTestKey1, levelUpCode.getLoadKey());
+        assertFalse(levelUpCode.isLoaded());
+        assertNull(levelUpCode.getImage());
+
+        // Check the loader state.
+        assertEquals(1, mLoader.mAsyncTasks.size());
+        assertTrue(mLoader.mAsyncTasks.containsKey(mTestKey1));
+
+        latch.countDown();
+
+        if (!mOnImageLoaded.mLatch.await(4, TimeUnit.SECONDS)) {
+            fail("latch timeout exceeded"); //$NON-NLS-1$
+        }
+
+        // Check the PendingImage
+        assertEquals(mTestKey1, levelUpCode.getLoadKey());
+        assertNotNull(levelUpCode.getImage());
+        assertTrue(mQrCodeGenerator.isBitmapForCode(levelUpCode.getImage(),
+                MockQrCodeGenerator.TEST_CONTENT1));
+
+        assertEquals(levelUpCode.getImage(), mOnImageLoaded.mLoadedImage);
+
+        // Check the loader state.
+        assertEquals(0, mLoader.mAsyncTasks.size());
+        assertFalse(mLoader.mAsyncTasks.containsKey(mTestKey1));
     }
 
     /**
@@ -112,7 +158,7 @@ public final class LevelUpCodeLoaderTest extends AndroidTestCase {
      * {@link LevelUpCodeLoader#registerOnImageLoadedCallback(String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
      * .
      *
-     * @throws InterruptedException
+     * @throws InterruptedException upon interruption
      */
     public void testRegisterOnImageLoad() throws InterruptedException {
         mLoader.registerOnImageLoadedCallback(mTestKey1, mOnImageLoaded);
@@ -123,23 +169,24 @@ public final class LevelUpCodeLoaderTest extends AndroidTestCase {
 
     /**
      * Tests that
-     * {@link LevelUpCodeLoaderUnderTest#scheduleLoad(String, String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
+     * {@link AsyncTaskCodeLoader#startLoadInBackground(String, String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
      * works as expected.
      */
     public void testScheduleLoad() {
         final LatchedOnImageLoaded onImageLoaded = new LatchedOnImageLoaded(mTestKey1);
 
+        final CountDownLatch latch = mQrCodeGenerator.addCountdownLatch();
         mLoader.startLoadInBackground(MockQrCodeGenerator.TEST_CONTENT1, mTestKey1, onImageLoaded);
-        assertTrue(mLoader.mScheduleLoadKeys.contains(mTestKey1));
+        assertTrue(mLoader.mAsyncTasks.containsKey(mTestKey1));
+        latch.countDown();
     }
 
     /**
      * Tests {@link LevelUpCodeLoader#unregisterOnImageLoadedCallback(String)}.
      *
-     * @throws InterruptedException
+     * @throws InterruptedException upon interruption.
      */
     public void testUnregisterOnImageLoad() throws InterruptedException {
-
         mLoader.registerOnImageLoadedCallback(mTestKey1, mOnImageLoaded);
         mLoader.unregisterOnImageLoadedCallback(mTestKey1);
 

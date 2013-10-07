@@ -66,18 +66,16 @@ public interface LevelUpQrCodeGenerator {
         private final int mHeight;
 
         /**
-         * Location of the target area: {@code [left, top, right, bottom]}. This is lazily-loaded
-         * from the getter.
+         * Location of the target area: {@code [left, top, right, bottom]}.
          */
-        @Nullable
-        private int[] mTargetBottomLeft;
+        @NonNull
+        private final int[] mTargetBottomLeft;
 
         /**
-         * Location of the target area: {@code [left, top, right, bottom]}. This is lazily-loaded
-         * from the getter.
+         * Location of the target area: {@code [left, top, right, bottom]}.
          */
-        @Nullable
-        private int[] mTargetBottomRight;
+        @NonNull
+        private final int[] mTargetBottomRight;
 
         /**
          * The width/height, in pixels, of a target in the bitmap.
@@ -85,11 +83,10 @@ public interface LevelUpQrCodeGenerator {
         private final int mTargetSize;
 
         /**
-         * Location of the target area: {@code [left, top, right, bottom]}. This is lazily-loaded
-         * from the getter.
+         * Location of the target area: {@code [left, top, right, bottom]}.
          */
-        @Nullable
-        private int[] mTargetTopRight;
+        @NonNull
+        private final int[] mTargetTopRight;
 
         /**
          * The full width of the bitmap.
@@ -113,6 +110,19 @@ public interface LevelUpQrCodeGenerator {
             mHeight = mBitmap.getHeight();
             mTargetSize = targetSize;
             mCodeMargin = codeMargin;
+
+            mTargetBottomLeft =
+                    new int[] { mCodeMargin, mHeight - mCodeMargin - mTargetSize,
+                            mCodeMargin + mTargetSize, mHeight - mCodeMargin };
+
+            mTargetBottomRight =
+                    new int[] { mWidth - mCodeMargin - mTargetSize,
+                            mHeight - mCodeMargin - mTargetSize, mWidth - mCodeMargin,
+                            mHeight - mCodeMargin };
+
+            mTargetTopRight =
+                    new int[] { mWidth - mCodeMargin - mTargetSize, mCodeMargin,
+                            mWidth - mCodeMargin, mCodeMargin + mTargetSize };
         }
 
         /**
@@ -138,12 +148,6 @@ public interface LevelUpQrCodeGenerator {
          */
         @NonNull
         public int[] getTargetBottomLeft() {
-            if (null == mTargetBottomLeft) {
-                mTargetBottomLeft =
-                        new int[] { mCodeMargin, mHeight - mCodeMargin - mTargetSize,
-                                mCodeMargin + mTargetSize, mHeight - mCodeMargin };
-            }
-
             return mTargetBottomLeft;
         }
 
@@ -155,13 +159,6 @@ public interface LevelUpQrCodeGenerator {
          */
         @NonNull
         public int[] getTargetBottomRight() {
-            if (null == mTargetBottomRight) {
-                mTargetBottomRight =
-                        new int[] { mWidth - mCodeMargin - mTargetSize,
-                                mHeight - mCodeMargin - mTargetSize, mWidth - mCodeMargin,
-                                mHeight - mCodeMargin };
-            }
-
             return mTargetBottomRight;
         }
 
@@ -180,12 +177,6 @@ public interface LevelUpQrCodeGenerator {
          */
         @NonNull
         public int[] getTargetTopRight() {
-            if (null == mTargetTopRight) {
-                mTargetTopRight =
-                        new int[] { mWidth - mCodeMargin - mTargetSize, mCodeMargin,
-                                mWidth - mCodeMargin, mCodeMargin + mTargetSize };
-            }
-
             return mTargetTopRight;
         }
     }
