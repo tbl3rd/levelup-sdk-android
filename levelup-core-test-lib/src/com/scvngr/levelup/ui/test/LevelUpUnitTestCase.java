@@ -54,8 +54,18 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      * @param tag the tag to check for.
      */
     protected final void validateFragmentAdded(@NonNull final String tag) {
+        validateFragmentAdded(tag, TestThreadingUtils.PARENT_ID_UNDEFINED);
+    }
+
+    /**
+     * Validates that a fragment was added to our test activity successfully. Will fail if the
+     * activity isn't a FragmentActivity, but that's the right behavior in that case.
+     *
+     * @param tag the tag to check for.
+     */
+    protected final void validateFragmentAdded(@NonNull final String tag, final int parentId) {
         TestThreadingUtils.validateFragmentAdded(getInstrumentation(), getActivity(), getActivity()
-                .getSupportFragmentManager(), tag);
+                .getSupportFragmentManager(), tag, parentId);
     }
 
     /**

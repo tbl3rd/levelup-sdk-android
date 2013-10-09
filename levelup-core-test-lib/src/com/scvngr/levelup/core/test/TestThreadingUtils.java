@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.test.AndroidTestCase;
 import android.text.format.DateUtils;
+import android.view.View;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
@@ -20,6 +21,13 @@ import java.util.concurrent.CountDownLatch;
  * Methods to help with some of the intricacies of threading in the test cases.
  */
 public final class TestThreadingUtils {
+
+    /**
+     * Sentinel value to pass to
+     * {@link #validateFragmentAdded(Instrumentation, Activity, FragmentManager, String, int)} if no
+     * parent id should be validated.
+     */
+    public static final int PARENT_ID_UNDEFINED = -1;
 
     /**
      * Adds a fragment in a transaction synchronized in the main thread (tagged with the fragment's
@@ -37,11 +45,12 @@ public final class TestThreadingUtils {
             @Override
             public void run() {
                 if (!inView) {
-                    activity.getSupportFragmentManager().beginTransaction().add(fragment,
-                            fragment.getClass().getName()).commit();
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .add(fragment, fragment.getClass().getName()).commit();
                 } else {
-                    activity.getSupportFragmentManager().beginTransaction().add(
-                            android.R.id.content, fragment, fragment.getClass().getName()).commit();
+                    activity.getSupportFragmentManager().beginTransaction()
+                            .add(android.R.id.content, fragment, fragment.getClass().getName())
+                            .commit();
                 }
 
                 activity.getSupportFragmentManager().executePendingTransactions();
@@ -70,7 +79,8 @@ public final class TestThreadingUtils {
     }
 
     /**
-     * Validates that a fragment was added successfully.
+     * Validates that a fragment was added successfully. Does not validate the container it was
+     * added to.
      *
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the activity for the test being run.
@@ -80,13 +90,37 @@ public final class TestThreadingUtils {
     public static void validateFragmentAdded(@NonNull final Instrumentation instrumentation,
             @NonNull final Activity activity, @NonNull final FragmentManager fragmentManager,
             @NonNull final String tag) {
+        validateFragmentAdded(instrumentation, activity, fragmentManager, tag, PARENT_ID_UNDEFINED);
+    }
+
+    /**
+     * Validates that a fragment was added successfully and validates the ID of the container it was
+     * added to.
+     *
+     * @param instrumentation the test {@link Instrumentation}.
+     * @param activity the activity for the test being run.
+     * @param fragmentManager the fragment manager the fragment was added to.
+     * @param tag the tag to check for.
+     * @param parentId the id of the parent container the fragment is expected to be in or pass
+     *        {@link #PARENT_ID_UNDEFINED} if no parent id should be validated.
+     */
+    public static void validateFragmentAdded(@NonNull final Instrumentation instrumentation,
+            @NonNull final Activity activity, @NonNull final FragmentManager fragmentManager,
+            @NonNull final String tag, final int parentId) {
         final CountDownLatch latch = new CountDownLatch(1);
         AndroidTestCase.assertTrue(String.format(Locale.US, "%s added", tag), //$NON-NLS-1$
                 waitForAction(instrumentation, activity, new Runnable() {
                     @Override
                     public void run() {
                         final Fragment fragment = fragmentManager.findFragmentByTag(tag);
+
                         if (null != fragment) {
+                            if (PARENT_ID_UNDEFINED != parentId) {
+                                final View parent = (View) fragment.getView().getParent();
+                                AndroidTestCase.assertEquals("In the proper container", parentId, //$NON-NLS-1$
+                                        parent.getId());
+                            }
+
                             latch.countDown();
                         }
                     }
