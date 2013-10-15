@@ -27,9 +27,9 @@ public final class LevelUpConnectionHelper {
     public static final long DEFAULT_WAIT_MILLIS = 4 * DateUtils.SECOND_IN_MILLIS;
 
     /**
-     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus}
-     * passed and sets it as the next response that
-     * {@link LevelUpConnection#send(AbstractRequest)} will return.
+     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus} passed and
+     * sets it as the next response that {@link LevelUpConnection#send(AbstractRequest)} will
+     * return.
      *
      * @param context Application context.
      * @param data the data that the request should return.
@@ -46,9 +46,9 @@ public final class LevelUpConnectionHelper {
     }
 
     /**
-     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus}
-     * passed and sets it as the next response that
-     * {@link LevelUpConnection#send(AbstractRequest)} will return.
+     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus} passed and
+     * sets it as the next response that {@link LevelUpConnection#send(AbstractRequest)} will
+     * return.
      *
      * @param context Application context.
      * @param data the data that the request should return.
@@ -61,16 +61,37 @@ public final class LevelUpConnectionHelper {
             @NonNull final String data, @NonNull final LevelUpStatus status,
             @Nullable final Map<String, List<String>> headers) {
         final LevelUpConnection connection = getTestLevelUpConnection(context);
-        connection
-                .setNextResponse(null, new LevelUpResponse(data, status, headers, null));
+        connection.setNextResponse(null, new LevelUpResponse(data, status, headers, null));
 
         return connection;
     }
 
     /**
-     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus}
-     * passed and sets it as the next response that
-     * {@link LevelUpConnection#send(AbstractRequest)} will return.
+     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus} passed and
+     * sets it as the next response that {@link LevelUpConnection#send(AbstractRequest)} will
+     * return.
+     *
+     * @param context Application context.
+     * @param requestUrl the URL that the response should be for.
+     * @param data the data that the request should return.
+     * @param status the {@link LevelUpStatus} to return in the response.
+     * @param headers optional HTTP headers.
+     * @return the {@link LevelUpConnection} that has the response set on it.
+     */
+    @NonNull
+    public static LevelUpConnection setNextResponse(@NonNull final Context context,
+            @NonNull final String requestUrl, @NonNull final String data,
+            @NonNull final LevelUpStatus status, @Nullable final Map<String, List<String>> headers) {
+        final LevelUpConnection connection = getTestLevelUpConnection(context);
+        connection.setNextResponse(requestUrl, new LevelUpResponse(data, status, headers, null));
+
+        return connection;
+    }
+
+    /**
+     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus} passed and
+     * sets it as the next response that {@link LevelUpConnection#send(AbstractRequest)} will
+     * return.
      *
      * @param context Application context.
      * @param data the data that the request should return.
@@ -83,17 +104,16 @@ public final class LevelUpConnectionHelper {
             @NonNull final String data, final int statusCode,
             @Nullable final Map<String, List<String>> headers) {
         final LevelUpConnection connection = getTestLevelUpConnection(context);
-        connection.setNextResponse(null, new LevelUpResponse(data, statusCode, headers,
-                null));
+        connection.setNextResponse(null, new LevelUpResponse(data, statusCode, headers, null));
 
         return connection;
     }
 
     /**
-     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus}
-     * passed and sets it as the next response that
-     * {@link LevelUpConnection#send(AbstractRequest)} will return for the URL passed. If
-     * URL is null, the response will be returned regardless of the requested URL.
+     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus} passed and
+     * sets it as the next response that {@link LevelUpConnection#send(AbstractRequest)} will return
+     * for the URL passed. If URL is null, the response will be returned regardless of the requested
+     * URL.
      *
      * @param context Application context.
      * @param url the URL that this response should be returned for (null sets the response for any
@@ -103,9 +123,9 @@ public final class LevelUpConnectionHelper {
      * @return the {@link LevelUpConnection} that has the response set on it.
      */
     @NonNull
-    public static LevelUpConnection
-            setNextResponse(@NonNull final Context context, @Nullable final String url,
-                    @NonNull final String data, @NonNull final LevelUpStatus status) {
+    public static LevelUpConnection setNextResponse(@NonNull final Context context,
+            @Nullable final String url, @NonNull final String data,
+            @NonNull final LevelUpStatus status) {
         final LevelUpConnection connection = getTestLevelUpConnection(context);
         connection.setNextResponse(url, new LevelUpResponse(data, status));
 
@@ -113,9 +133,9 @@ public final class LevelUpConnectionHelper {
     }
 
     /**
-     * Adds a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus}
-     * passed and sets it as the next response that
-     * {@link LevelUpConnection#send(AbstractRequest)} will for the URL string passed.
+     * Adds a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus} passed and
+     * sets it as the next response that {@link LevelUpConnection#send(AbstractRequest)} will for
+     * the URL string passed.
      *
      * @param connection the {@link LevelUpConnection} to add the response to.
      * @param url the full URL to use.
@@ -124,9 +144,9 @@ public final class LevelUpConnectionHelper {
      * @return the {@link LevelUpConnection} that has the response set on it.
      */
     @NonNull
-    public static LevelUpConnection addResponse(
-            @NonNull final LevelUpConnection connection, @Nullable final String url,
-            @NonNull final String data, @NonNull final LevelUpStatus status) {
+    public static LevelUpConnection addResponse(@NonNull final LevelUpConnection connection,
+            @Nullable final String url, @NonNull final String data,
+            @NonNull final LevelUpStatus status) {
         connection.setNextResponse(url, new LevelUpResponse(data, status));
         return connection;
     }
@@ -149,8 +169,7 @@ public final class LevelUpConnectionHelper {
      * @return the last request made for the connection passed.
      */
     @Nullable
-    public static AbstractRequest getLastRequest(
-            @NonNull final LevelUpConnection connection) {
+    public static AbstractRequest getLastRequest(@NonNull final LevelUpConnection connection) {
         return connection.getLastRequest(null);
     }
 
@@ -167,22 +186,21 @@ public final class LevelUpConnectionHelper {
     }
 
     /**
-     * Set the next {@link LevelUpConnection} instance that will be used by clients and
-     * return it so it can be modified.
+     * Set the next {@link LevelUpConnection} instance that will be used by clients and return it so
+     * it can be modified.
      *
      * @param context Application context
      * @return the instance of {@link LevelUpConnection} that was set as the next instance
      */
-    private static LevelUpConnection getTestLevelUpConnection(
-            @NonNull final Context context) {
+    @NonNull
+    private static LevelUpConnection getTestLevelUpConnection(@NonNull final Context context) {
         final LevelUpConnection connection = new LevelUpConnection(context);
         LevelUpConnection.setNextInstance(connection);
         return connection;
     }
 
     /**
-     * Sets if network connections are enabled for the {@link LevelUpConnection} instance
-     * passed.
+     * Sets if network connections are enabled for the {@link LevelUpConnection} instance passed.
      *
      * @param enabled if true, network is enabled. If false, network connections that do not have
      *        pre-created responses will throw a {@link RuntimeException}.
