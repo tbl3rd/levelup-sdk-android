@@ -207,7 +207,7 @@ public final class LevelUpCodeView extends View {
     public LevelUpCodeView(@NonNull final Context context, @Nullable final AttributeSet attrs) {
         super(context, attrs);
         init(context);
-        loadAttributes(context, attrs, 0);
+        loadAttributes(context, attrs, R.attr.levelup_code_view_style);
     }
 
     /**
