@@ -346,6 +346,7 @@ public final class UserRequestFactoryTest extends AndroidTestCase {
         final JSONObject userObject = new JSONObject();
 
         try {
+            AccessTokenRequestFactory.addApiKeyToRequest(getContext(), object);
             userObject.put(UserRequestFactory.PARAM_FIRST_NAME, "first_name"); //$NON-NLS-1$
             userObject.put(UserRequestFactory.PARAM_LAST_NAME, "last_name"); //$NON-NLS-1$
             userObject.put(UserRequestFactory.PARAM_EMAIL, "email@email.com"); //$NON-NLS-1$

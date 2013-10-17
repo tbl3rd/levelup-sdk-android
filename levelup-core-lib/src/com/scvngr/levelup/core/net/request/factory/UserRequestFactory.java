@@ -215,6 +215,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         final JSONObject userObject = new JSONObject();
 
         try {
+            AccessTokenRequestFactory.addApiKeyToRequest(getContext(), object);
             userObject.put(PARAM_FIRST_NAME, firstName);
             userObject.put(PARAM_LAST_NAME, lastName);
             userObject.put(PARAM_EMAIL, email);
@@ -248,6 +249,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         final JSONObject userObject = new JSONObject();
 
         try {
+            AccessTokenRequestFactory.addApiKeyToRequest(getContext(), object);
             userObject.put(PARAM_FACEBOOK_ACCESS_TOKEN, facebookAccessToken);
 
             object.put(OUTER_PARAM_USER, userObject);

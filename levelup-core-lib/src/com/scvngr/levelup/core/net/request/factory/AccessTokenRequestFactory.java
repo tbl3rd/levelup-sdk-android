@@ -116,8 +116,20 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
      */
     private static final void addApiKeyAndDeviceId(@NonNull final Context context,
             @NonNull final JSONObject token) throws JSONException {
-        token.put(PARAM_CLIENT_ID, getApiKey(context));
+        addApiKeyToRequest(context, token);
         UserRequestFactory.addDeviceIdToRequest(context, token);
+    }
+
+    /**
+     * Helper method to add the Api Key to the request body.
+     *
+     * @param context the Application context.
+     * @param object the {@link JSONObject} to add the Api Key to.
+     * @throws JSONException if adding to the {@link JSONObject} fails.
+     */
+    public static void addApiKeyToRequest(@NonNull final Context context,
+            @NonNull final JSONObject object) throws JSONException {
+        object.put(PARAM_CLIENT_ID, getApiKey(context));
     }
 
     /**

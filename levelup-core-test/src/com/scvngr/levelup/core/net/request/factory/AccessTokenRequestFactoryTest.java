@@ -3,6 +3,7 @@ package com.scvngr.levelup.core.net.request.factory;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
@@ -59,9 +60,8 @@ public final class AccessTokenRequestFactoryTest extends AndroidTestCase {
         assertEquals("password", token.getString(AccessTokenRequestFactory.PARAM_PASSWORD)); //$NON-NLS-1$
         assertEquals(CryptographicHashUtil.getHexHash(DeviceIdentifier.getDeviceId(getContext()),
                 Algorithms.SHA256), token.getString(UserRequestFactory.PARAM_DEVICE_IDENTIFIER));
-        assertEquals(getContext().getString(
-                com.scvngr.levelup.core.R.string.levelup_api_key), token
-                .getString(AccessTokenRequestFactory.PARAM_CLIENT_ID));
+        assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
+                token.getString(AccessTokenRequestFactory.PARAM_CLIENT_ID));
     }
 
     @SmallTest
@@ -69,8 +69,7 @@ public final class AccessTokenRequestFactoryTest extends AndroidTestCase {
             JSONException {
         final AccessTokenRequestFactory builder = new AccessTokenRequestFactory(getContext());
         final LevelUpRequest request =
-                (LevelUpRequest) builder
-                        .buildFacebookLoginRequest("facebook_access_token"); //$NON-NLS-1$
+                (LevelUpRequest) builder.buildFacebookLoginRequest("facebook_access_token"); //$NON-NLS-1$
         assertEquals(0, request.getQueryParams(getContext()).size());
         assertFalse(request.getRequestHeaders(getContext()).containsKey(
                 LevelUpRequest.HEADER_AUTHORIZATION));
@@ -95,8 +94,18 @@ public final class AccessTokenRequestFactoryTest extends AndroidTestCase {
                 token.getString(AccessTokenRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
         assertEquals(CryptographicHashUtil.getHexHash(DeviceIdentifier.getDeviceId(getContext()),
                 Algorithms.SHA256), token.getString(UserRequestFactory.PARAM_DEVICE_IDENTIFIER));
-        assertEquals(getContext().getString(
-                com.scvngr.levelup.core.R.string.levelup_api_key), token
-                .getString(AccessTokenRequestFactory.PARAM_CLIENT_ID));
+        assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
+                token.getString(AccessTokenRequestFactory.PARAM_CLIENT_ID));
+    }
+
+    @SmallTest
+    public void testAddApiKeyToRequest() throws JSONException {
+        final JSONObject object = new JSONObject();
+        final JSONObject expected = new JSONObject();
+        expected.put(AccessTokenRequestFactory.PARAM_CLIENT_ID,
+                getContext().getString(R.string.levelup_api_key));
+
+        AccessTokenRequestFactory.addApiKeyToRequest(getContext(), object);
+        assertEquals(expected.toString(), object.toString());
     }
 }
