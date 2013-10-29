@@ -1,10 +1,13 @@
 package com.scvngr.levelup.ui.test;
 
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.Fragment.SavedState;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.test.ActivityUnitTestCase;
 
@@ -23,6 +26,7 @@ import java.util.concurrent.atomic.AtomicReference;
  * <p>
  * To test an activity , subclass this class and call {@link #startActivitySync()} to obtain the
  * Activity after it's gone through the simulated lifecycle up to onResume().
+ *
  * @param <T> the Activity to test.
  */
 public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
@@ -102,6 +106,22 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
                 fragment.getView().findViewById(id).performClick();
             }
         });
+    }
+
+    /**
+     * Saves and restores a {@link Fragment} from instance state, using
+     * {@link FragmentManager#saveFragmentInstanceState(Fragment)} and
+     * {@link Fragment#setInitialSavedState(SavedState)}. This saves the state, removes the
+     * fragment, and then calls
+     * {@link #addFragmentInMainSync(Instrumentation, FragmentActivity, Fragment, boolean)}.
+     *
+     * @param fragment Fragment to remove and re-add.
+     * @return the new instance of the input fragment created using the saved/restored state.
+     */
+    @NonNull
+    protected final <F extends Fragment> F saveAndRestoreFragmentStateSync(@NonNull final F fragment) {
+        return TestThreadingUtils.saveAndRestoreFragmentStateSync(getInstrumentation(),
+                getActivity(), fragment);
     }
 
     @NonNull

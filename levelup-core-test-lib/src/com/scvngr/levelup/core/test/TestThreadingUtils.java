@@ -5,6 +5,7 @@ import android.app.Instrumentation;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.Fragment.SavedState;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.test.AndroidTestCase;
@@ -56,6 +57,40 @@ public final class TestThreadingUtils {
                 activity.getSupportFragmentManager().executePendingTransactions();
             }
         });
+    }
+
+    /**
+     * Saves a {@link Fragment} to instance state, removes it from the activity. Then creates a new
+     * one of the same class, restores the instance state, and re-adds it to the activity.
+     *
+     * @param instrumentation the test {@link Instrumentation}.
+     * @param activity the {@link FragmentActivity} to add it to.
+     * @param fragment Fragment to remove and re-add.
+     * @return the new instance of the input fragment created using the saved/restored state.
+     */
+    @NonNull
+    public static final <T extends Fragment> T saveAndRestoreFragmentStateSync(
+            @NonNull final Instrumentation instrumentation,
+            @NonNull final FragmentActivity activity, @NonNull final T fragment) {
+        final boolean inView = fragment.isInLayout();
+
+        final FragmentManager fm = activity.getSupportFragmentManager();
+        final SavedState savedState = fm.saveFragmentInstanceState(fragment);
+
+        @SuppressWarnings("unchecked")
+        final T newInstance = (T) Fragment.instantiate(activity, fragment.getClass().getName());
+        newInstance.setInitialSavedState(savedState);
+
+        runOnMainSync(instrumentation, activity, new Runnable() {
+            @Override
+            public void run() {
+                fm.beginTransaction().remove(fragment).commit();
+            }
+        });
+
+        addFragmentInMainSync(instrumentation, activity, newInstance, inView);
+
+        return newInstance;
     }
 
     /**
