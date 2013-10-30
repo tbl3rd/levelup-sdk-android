@@ -30,19 +30,18 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
     /**
      * Creator for parceling.
      */
-    public static final Creator<LevelUpResponse> CREATOR =
-            new Creator<LevelUpResponse>() {
+    public static final Creator<LevelUpResponse> CREATOR = new Creator<LevelUpResponse>() {
 
-                @Override
-                public LevelUpResponse[] newArray(final int size) {
-                    return new LevelUpResponse[size];
-                }
+        @Override
+        public LevelUpResponse[] newArray(final int size) {
+            return new LevelUpResponse[size];
+        }
 
-                @Override
-                public LevelUpResponse createFromParcel(final Parcel in) {
-                    return new LevelUpResponse(in);
-                }
-            };
+        @Override
+        public LevelUpResponse createFromParcel(final Parcel in) {
+            return new LevelUpResponse(in);
+        }
+    };
 
     /**
      * Status of the response.
@@ -56,16 +55,6 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
      */
     public LevelUpResponse(@NonNull final String data, @NonNull final LevelUpStatus status) {
         super(data);
-        mStatus = status;
-    }
-
-    /**
-     * @param data the string data (typically JSON) from the response from the server.
-     * @param status the status of the response. See {@link LevelUpStatus}.
-     * @param exception the exception that
-     */
-    public LevelUpResponse(@NonNull final String data, @NonNull final LevelUpStatus status, @NonNull final Exception exception) {
-        super(data, AbstractResponse.HTTP_STATUS_CODE_UNUSED, null, exception);
         mStatus = status;
     }
 
@@ -89,9 +78,8 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
      * @param error error from response or null if there was none.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */LevelUpResponse(@NonNull final String data,
-            @NonNull final LevelUpStatus status, @Nullable final Map<String, List<String>> headers,
-            @Nullable final Exception error) {
+    /* package */LevelUpResponse(@NonNull final String data, @NonNull final LevelUpStatus status,
+            @Nullable final Map<String, List<String>> headers, @Nullable final Exception error) {
         super(data, HTTP_STATUS_CODE_UNUSED, headers, error);
         mStatus = status;
     }
@@ -124,8 +112,8 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
     }
 
     /**
-     * Constructor to use to build the LevelUpResponse from a {@link Response}. Reads the
-     * data from the response and calls {@link Response#close()} after.
+     * Constructor to use to build the LevelUpResponse from a {@link Response}. Reads the data from
+     * the response and calls {@link Response#close()} after.
      *
      * @param response the {@link Response} to convert to an LevelUpResponse.
      */
@@ -301,9 +289,8 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
 
     @Override
     public String toString() {
-        return String
-                .format(Locale.US,
-                        "LevelUpResponse [mBufferedResponse=%s, mStatus=%s]", super.toString(), mStatus); //$NON-NLS-1$
+        return String.format(Locale.US, "LevelUpResponse [mBufferedResponse=%s, mStatus=%s]", //$NON-NLS-1$
+                super.toString(), mStatus);
     }
 
     @Override

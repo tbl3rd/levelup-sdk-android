@@ -94,6 +94,29 @@ public final class LevelUpConnectionHelper {
      * return.
      *
      * @param context Application context.
+     * @param requestUrl the URL that the response should be for.
+     * @param data the data that the request should return.
+     * @param statusCode the HTTP status code to return in the response.
+     * @param headers optional HTTP headers.
+     * @return the {@link LevelUpConnection} that has the response set on it.
+     */
+    @NonNull
+    public static LevelUpConnection setNextResponse(@NonNull final Context context,
+            @NonNull final String requestUrl, @NonNull final String data, final int statusCode,
+            @Nullable final Map<String, List<String>> headers) {
+        final LevelUpConnection connection = getTestLevelUpConnection(context);
+        connection
+                .setNextResponse(requestUrl, new LevelUpResponse(data, statusCode, headers, null));
+
+        return connection;
+    }
+
+    /**
+     * Creates a new {@link LevelUpResponse} with the data and the {@link LevelUpStatus} passed and
+     * sets it as the next response that {@link LevelUpConnection#send(AbstractRequest)} will
+     * return.
+     *
+     * @param context Application context.
      * @param data the data that the request should return.
      * @param statusCode the HTTP status code to return in the response.
      * @param headers optional HTTP headers.
