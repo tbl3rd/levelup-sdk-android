@@ -152,8 +152,8 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
             public void run() {
                 final FragmentActivity activity = startActivity(new Intent(), null, null);
 
-                getInstrumentation().callActivityOnPostCreate(activity, null);
                 getInstrumentation().callActivityOnStart(activity);
+                getInstrumentation().callActivityOnPostCreate(activity, null);
                 getInstrumentation().callActivityOnResume(activity);
 
                 reference.set(activity);
