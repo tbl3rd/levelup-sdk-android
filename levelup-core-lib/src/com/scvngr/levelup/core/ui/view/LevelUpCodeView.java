@@ -27,6 +27,7 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
 import com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * <p>
@@ -314,7 +315,7 @@ public final class LevelUpCodeView extends View {
     public void setLevelUpCode(@NonNull final String codeData,
             @NonNull final LevelUpCodeLoader codeLoader) {
 
-        if (! Looper.getMainLooper().equals(Looper.myLooper())){
+        if (!Looper.getMainLooper().equals(Looper.myLooper())) {
             throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
         }
 
@@ -323,9 +324,11 @@ public final class LevelUpCodeView extends View {
         }
 
         if (codeData.equals(mCurrentData)) {
-            if (null != mOnCodeLoadListener) {
+            final OnCodeLoadListener codeLoadListener = mOnCodeLoadListener;
+
+            if (null != codeLoadListener) {
                 if (null != mPendingImage && mPendingImage.isLoaded()) {
-                    mOnCodeLoadListener.onCodeLoad(false);
+                    codeLoadListener.onCodeLoad(false);
                 }
             }
             return;
@@ -345,10 +348,12 @@ public final class LevelUpCodeView extends View {
 
         // Fake the loading flag so that cached results get a single isLoading(false) call.
         mPreviousIsCodeLoading = true;
-        mPendingImage = codeLoader.getLevelUpCode(codeData, mOnImageLoaded);
+        final PendingImage<LevelUpQrCodeImage> pendingImage =
+                codeLoader.getLevelUpCode(codeData, mOnImageLoaded);
+        mPendingImage = pendingImage;
         mPreviousIsCodeLoading = false;
 
-        if (!mPendingImage.isLoaded()) {
+        if (!pendingImage.isLoaded()) {
             callOnCodeLoadListener(true);
 
             // If the image is cached, invalidate() will be called from there.
@@ -378,8 +383,10 @@ public final class LevelUpCodeView extends View {
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
 
-        if (null != mCurrentCode) {
-            drawQrCode(canvas, mCurrentCode);
+        final LevelUpQrCodeImage currentCode = mCurrentCode;
+
+        if (null != currentCode) {
+            drawQrCode(NullUtils.nonNullContract(canvas), currentCode);
         }
     }
 
@@ -523,9 +530,9 @@ public final class LevelUpCodeView extends View {
      */
     public interface OnCodeLoadListener {
         /**
-         * This will be called when a code begins or ends loading.  It is only called when a change
-         * in loading/non-loading state occurs.  It will not be called more than once per load
-         * operation except when an identical code is given to {@link #setLevelUpCode}.  In that
+         * This will be called when a code begins or ends loading. It is only called when a change
+         * in loading/non-loading state occurs. It will not be called more than once per load
+         * operation except when an identical code is given to {@link #setLevelUpCode}. In that
          * case, this callback will be called again if that code has already completed loading.
          *
          * @param isCodeLoading {@code true} if the displayed code is currently loading.

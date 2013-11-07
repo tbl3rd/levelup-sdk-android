@@ -37,7 +37,6 @@ public final class AccessToken implements Parcelable {
     /**
      * User's ID on the web service.
      */
-    @NonNull
     private final long userId;
 
     @Override

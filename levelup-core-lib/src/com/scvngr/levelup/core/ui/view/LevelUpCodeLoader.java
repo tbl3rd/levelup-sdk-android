@@ -80,7 +80,7 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
      *        called on the UI thread and is called even if this class returns a cached result.
      * @return a minimally-small bitmap representing the given code data.
      */
-    @Nullable
+    @NonNull
     public final PendingImage<LevelUpQrCodeImage> getLevelUpCode(
             @NonNull final String qrCodeContents,
             @Nullable final OnImageLoaded<LevelUpQrCodeImage> onImageLoaded) {
