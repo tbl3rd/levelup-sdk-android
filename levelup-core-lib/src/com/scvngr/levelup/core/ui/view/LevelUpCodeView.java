@@ -323,6 +323,11 @@ public final class LevelUpCodeView extends View {
         }
 
         if (codeData.equals(mCurrentData)) {
+            if (null != mOnCodeLoadListener) {
+                if (null != mPendingImage && mPendingImage.isLoaded()) {
+                    mOnCodeLoadListener.onCodeLoad(false);
+                }
+            }
             return;
         }
 
@@ -518,9 +523,10 @@ public final class LevelUpCodeView extends View {
      */
     public interface OnCodeLoadListener {
         /**
-         * This will be called when a code is loading. It is only called when a change in
-         * loading/non-loading state occurs, so it will not be called for subsequent loads until
-         * loading has completed.
+         * This will be called when a code begins or ends loading.  It is only called when a change
+         * in loading/non-loading state occurs.  It will not be called more than once per load
+         * operation except when an identical code is given to {@link #setLevelUpCode}.  In that
+         * case, this callback will be called again if that code has already completed loading.
          *
          * @param isCodeLoading {@code true} if the displayed code is currently loading.
          *        {@code false} when the code has loaded.

@@ -12,8 +12,9 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
-
 import com.scvngr.levelup.core.R;
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.test.TestThreadingUtils;
 import com.scvngr.levelup.core.ui.view.LevelUpCodeView.OnCodeLoadListener;
 import com.scvngr.levelup.ui.activity.FragmentTestActivity;
 
@@ -92,7 +93,6 @@ public final class LevelUpCodeViewTest extends
         final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
 
         final LatchingOnCodeLoadListener onCodeLoadListener = new LatchingOnCodeLoadListener();
-
         mLevelUpCodeView.setOnCodeLoadListener(onCodeLoadListener);
 
         mCache.putCode(key1, mQrCodeGenerator.mTestImage1);
@@ -108,8 +108,8 @@ public final class LevelUpCodeViewTest extends
          * The callback should only be called once with loading=false, so progress bars and such can
          * be handled properly.
          */
-        assertEquals(1, onCodeLoadListener.isCodeLoadingFalseCount);
-        assertEquals(0, onCodeLoadListener.isCodeLoadingTrueCount);
+        assertOnCodeLoaded(onCodeLoadListener, false, 1);
+        assertOnCodeLoaded(onCodeLoadListener, true, 0);
 
         mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
                 MockQrCodeGenerator.TEST_CONTENT1);
@@ -125,7 +125,6 @@ public final class LevelUpCodeViewTest extends
         final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
 
         final LatchingOnCodeLoadListener onCodeLoadListener = new LatchingOnCodeLoadListener();
-
         mLevelUpCodeView.setOnCodeLoadListener(onCodeLoadListener);
 
         getInstrumentation().runOnMainSync(new Runnable() {
@@ -135,8 +134,8 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
-        assertEquals(0, onCodeLoadListener.isCodeLoadingFalseCount);
-        assertEquals(1, onCodeLoadListener.isCodeLoadingTrueCount);
+        assertOnCodeLoaded(onCodeLoadListener, false, 0);
+        assertOnCodeLoaded(onCodeLoadListener, true, 1);
 
         final boolean[] result = new boolean[1];
         getInstrumentation().runOnMainSync(new Runnable() {
@@ -149,8 +148,8 @@ public final class LevelUpCodeViewTest extends
 
         assertTrue("dispatchOnImageLoaded's callback was not called", result[0]); //$NON-NLS-1$
 
-        assertEquals(1, onCodeLoadListener.isCodeLoadingFalseCount);
-        assertEquals(1, onCodeLoadListener.isCodeLoadingTrueCount);
+        assertOnCodeLoaded(onCodeLoadListener, false, 1);
+        assertOnCodeLoaded(onCodeLoadListener, true, 1);
     }
 
     /**
@@ -163,6 +162,9 @@ public final class LevelUpCodeViewTest extends
     public void testShowCode_changing() {
         final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
         mCache.putCode(key1, mQrCodeGenerator.mTestImage1);
+
+        final LatchingOnCodeLoadListener onCodeLoadListener = new LatchingOnCodeLoadListener();
+        mLevelUpCodeView.setOnCodeLoadListener(onCodeLoadListener);
 
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
@@ -177,6 +179,10 @@ public final class LevelUpCodeViewTest extends
 
         Bitmap drawingCache = mLevelUpCodeView.getDrawingCache();
         assertTestColorPixelEquals(drawingCache, MockQrCodeGenerator.TEST_CONTENT1_COLOR);
+
+        assertOnCodeLoaded(onCodeLoadListener, false, 1);
+        assertOnCodeLoaded(onCodeLoadListener, true, 0);
+
         // Now change the code.
 
         final String key2 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT2);
@@ -191,6 +197,56 @@ public final class LevelUpCodeViewTest extends
 
         drawingCache = mLevelUpCodeView.getDrawingCache();
         assertTestColorPixelEquals(drawingCache, MockQrCodeGenerator.TEST_CONTENT2_COLOR);
+
+        assertOnCodeLoaded(onCodeLoadListener, false, 2);
+        assertOnCodeLoaded(onCodeLoadListener, true, 0);
+    }
+
+    /**
+     * Tests {@link LevelUpCodeView#setLevelUpCode(String, LevelUpCodeLoader)} being called twice,
+     * with the same code.
+     *
+     * @throws InterruptedException
+     */
+    @MediumTest
+    public void testShowCode_unchanged() {
+        final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
+        mCache.putCode(key1, mQrCodeGenerator.mTestImage1);
+
+        final LatchingOnCodeLoadListener onCodeLoadListener = new LatchingOnCodeLoadListener();
+        mLevelUpCodeView.setOnCodeLoadListener(onCodeLoadListener);
+
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                mLevelUpCodeView.setDrawingCacheEnabled(true);
+                mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
+            }
+        });
+
+        mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
+                MockQrCodeGenerator.TEST_CONTENT1);
+
+        Bitmap drawingCache = mLevelUpCodeView.getDrawingCache();
+        assertTestColorPixelEquals(drawingCache, MockQrCodeGenerator.TEST_CONTENT1_COLOR);
+
+        assertOnCodeLoaded(onCodeLoadListener, false, 1);
+        assertOnCodeLoaded(onCodeLoadListener, true, 0);
+
+        // Set the same code again.
+
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
+            }
+        });
+
+        drawingCache = mLevelUpCodeView.getDrawingCache();
+        assertTestColorPixelEquals(drawingCache, MockQrCodeGenerator.TEST_CONTENT1_COLOR);
+
+        assertOnCodeLoaded(onCodeLoadListener, false, 2);
+        assertOnCodeLoaded(onCodeLoadListener, true, 0);
     }
 
     /**
@@ -348,6 +404,42 @@ public final class LevelUpCodeViewTest extends
         assertTrue(0 < mLevelUpCodeView.getWidth());
         // The view should be square.
         assertEquals(mLevelUpCodeView.getWidth(), mLevelUpCodeView.getHeight());
+    }
+
+    /**
+     * Asserts the number of calls to {@link LevelUpCodeView.OnCodeLoadListener#onCodeLoad} that
+     * were performed with the specified loading state.
+     *
+     * @param listener The {@link LatchingOnCodeLoadListener}.
+     * @param expectedIsCodeLoading The expected isCodeLoading state that should have been delivered
+     * the listener.
+     * @param expectedCount The expected number of times the callback has been invoked with
+     * the specified loading state.
+     */
+    private void assertOnCodeLoaded(@NonNull final LatchingOnCodeLoadListener listener,
+            final boolean expectedIsCodeLoading, final int expectedCount) {
+        final int expectedLatchCount = expectedCount == 0 ? 1 : 0;
+        final CountDownLatch latch = new CountDownLatch(1);
+        assertTrue(TestThreadingUtils.waitForAction(getInstrumentation(), getActivity(), new Runnable() {
+            @Override
+            public void run() {
+                if (expectedIsCodeLoading) {
+                    if (expectedLatchCount == listener.isCodeLoadingTrueLatch.getCount()) {
+                        latch.countDown();
+                    }
+                } else {
+                    if (expectedLatchCount == listener.isCodeLoadingFalseLatch.getCount()) {
+                        latch.countDown();
+                    }
+                }
+            }
+        }, latch, false));
+
+        if (expectedIsCodeLoading) {
+            assertEquals(expectedCount, listener.isCodeLoadingTrueCount);
+        } else {
+            assertEquals(expectedCount, listener.isCodeLoadingFalseCount);
+        }
     }
 
     /**
