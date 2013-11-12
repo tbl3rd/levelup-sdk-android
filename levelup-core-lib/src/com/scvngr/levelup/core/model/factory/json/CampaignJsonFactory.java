@@ -103,7 +103,7 @@ public final class CampaignJsonFactory extends AbstractJsonModelFactory<Campaign
         public static final String SHARE_URL_EMAIL = "share_url_email"; //$NON-NLS-1$
 
         @JsonValueType(JsonType.STRING)
-        public static final String SHARE_URL_FACEBOOK = "share_url_subject"; //$NON-NLS-1$
+        public static final String SHARE_URL_FACEBOOK = "share_url_facebook"; //$NON-NLS-1$
 
         @JsonValueType(JsonType.STRING)
         public static final String SHARE_URL_TWITTER = "share_url_twitter"; //$NON-NLS-1$
