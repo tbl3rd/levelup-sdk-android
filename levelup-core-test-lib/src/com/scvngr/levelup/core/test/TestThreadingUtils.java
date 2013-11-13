@@ -14,6 +14,7 @@ import android.view.View;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.test.R;
 
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
@@ -50,7 +51,7 @@ public final class TestThreadingUtils {
                             .add(fragment, fragment.getClass().getName()).commit();
                 } else {
                     activity.getSupportFragmentManager().beginTransaction()
-                            .add(android.R.id.content, fragment, fragment.getClass().getName())
+                            .add(R.id.levelup_activity_content, fragment, fragment.getClass().getName())
                             .commit();
                 }
 
