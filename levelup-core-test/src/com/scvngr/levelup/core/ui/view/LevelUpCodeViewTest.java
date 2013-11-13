@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.test.TestThreadingUtils;
@@ -55,9 +56,8 @@ public final class LevelUpCodeViewTest extends
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                final ViewGroup content = (ViewGroup) activity.findViewById(android.R.id.content);
+                final ViewGroup innerContent = (ViewGroup) activity.findViewById(com.scvngr.levelup.test.R.id.levelup_activity_content);
 
-                final LinearLayout innerContent = (LinearLayout) content.getChildAt(0);
                 mLevelUpCodeView = new LevelUpCodeView(innerContent.getContext());
                 innerContent.addView(mLevelUpCodeView, new LinearLayout.LayoutParams(
                         LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
