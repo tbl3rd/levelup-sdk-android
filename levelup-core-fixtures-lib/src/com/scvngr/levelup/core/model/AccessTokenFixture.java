@@ -6,19 +6,28 @@ import com.scvngr.levelup.core.model.factory.json.AccessTokenJsonFactory;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Random;
-import java.util.UUID;
-
 /**
  * Fixture for {@link AccessToken}.
  */
 public final class AccessTokenFixture {
     /**
+     * An arbitrary access token string.
+     */
+    public static final String ACCESS_TOKEN_FIXTURE_1 = "sx82GslFAv8ZlHOhpftd"; //$NON-NLS-1$
+
+    /**
+     * A random user ID.
+     *
+     * @see <a href="http://xkcd.com/221/">xkcd #221 - Random Number</a>
+     */
+    public static final long USER_ID_FIXTURE_1 = 4;
+
+    /**
      * @return A full {@link AccessToken} model.
      */
     @NonNull
     public static AccessToken getFullModel() {
-        return new AccessToken(getRandomAccessToken(), getRandomUserId());
+        return new AccessToken(ACCESS_TOKEN_FIXTURE_1, USER_ID_FIXTURE_1);
     }
 
     /**
@@ -37,7 +46,7 @@ public final class AccessTokenFixture {
      */
     @NonNull
     public static JSONObject getFullJsonObject() {
-        return getFullJsonObject(getRandomAccessToken(), getRandomUserId());
+        return getFullJsonObject(ACCESS_TOKEN_FIXTURE_1, USER_ID_FIXTURE_1);
     }
 
     /**
@@ -57,20 +66,5 @@ public final class AccessTokenFixture {
         } catch (final JSONException e) {
             throw new AssertionError(e);
         }
-   }
-
-    /**
-     * @return A random web service user ID.
-     */
-    public static long getRandomUserId() {
-        return new Random().nextInt();
-    }
-
-    /**
-     * @return A random access token string.
-     */
-    @NonNull
-    public static String getRandomAccessToken() {
-        return UUID.randomUUID().toString();
     }
 }

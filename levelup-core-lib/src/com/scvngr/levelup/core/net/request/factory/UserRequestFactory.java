@@ -146,8 +146,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         params.put(RequestUtils.getNestedParameterKey(OUTER_PARAM_USER, PARAM_EMAIL), email);
 
         return new LevelUpV13Request(getContext(), HttpMethod.POST,
-                LevelUpV13Request.API_VERSION_CODE_V13,
-                "users/forgot_password", null, params, null); //$NON-NLS-1$
+                LevelUpV13Request.API_VERSION_CODE_V13, "users/forgot_password", null, params, null); //$NON-NLS-1$
     }
 
     /**
@@ -173,8 +172,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, FACEBOOK_CONNECTION_ENDPOINT,
-                null, object, getAccessTokenRetriever());
+                LevelUpRequest.API_VERSION_CODE_V14, FACEBOOK_CONNECTION_ENDPOINT, null, object,
+                getAccessTokenRetriever());
     }
 
     /**
@@ -187,8 +186,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     @AccessTokenRequired
     public AbstractRequest buildFacebookDisconnectRequest() {
         return new LevelUpRequest(getContext(), HttpMethod.DELETE,
-                LevelUpRequest.API_VERSION_CODE_V14, FACEBOOK_CONNECTION_ENDPOINT,
-                null, (JSONObject) null, getAccessTokenRetriever());
+                LevelUpRequest.API_VERSION_CODE_V14, FACEBOOK_CONNECTION_ENDPOINT, null,
+                (JSONObject) null, getAccessTokenRetriever());
     }
 
     /**
@@ -262,13 +261,24 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     }
 
     /**
+     * Build a request to retrieve the {@link User} information.
+     *
+     * @return the request to retrieve the user information.
+     */
+    @NonNull
+    public AbstractRequest buildGetUserInfoRequest() {
+        return new LevelUpRequestWithCurrentUser(getContext(), HttpMethod.GET,
+                LevelUpRequest.API_VERSION_CODE_V14, "users/%d", null, (JSONObject) null, //$NON-NLS-1$
+                getAccessTokenRetriever());
+    }
+
+    /**
      * Builder to create a request that updates the {@link User}'s information.
      */
     public static final class UserInfoRequestBuilder {
 
         /**
-         * The Application context. A context is required to build any
-         * {@link LevelUpV13Request}.
+         * The Application context. A context is required to build any {@link LevelUpV13Request}.
          */
         @NonNull
         private final Context mContext;

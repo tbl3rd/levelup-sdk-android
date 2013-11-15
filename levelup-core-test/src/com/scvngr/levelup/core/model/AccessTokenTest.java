@@ -15,12 +15,12 @@ public final class AccessTokenTest extends TestCase {
 
     @SmallTest
     public void testConstructor_good() {
-        final String accessToken = AccessTokenFixture.getRandomAccessToken();
-        final long userId = AccessTokenFixture.getRandomUserId();
-        final AccessToken model = AccessTokenFixture.getFullModel(accessToken, userId);
+        final AccessToken model =
+                AccessTokenFixture.getFullModel(AccessTokenFixture.ACCESS_TOKEN_FIXTURE_1,
+                        AccessTokenFixture.USER_ID_FIXTURE_1);
 
-        assertEquals(accessToken, model.getAccessToken());
-        assertEquals(userId, model.getUserId());
+        assertEquals(AccessTokenFixture.ACCESS_TOKEN_FIXTURE_1, model.getAccessToken());
+        assertEquals(AccessTokenFixture.USER_ID_FIXTURE_1, model.getUserId());
     }
 
     @SmallTest
@@ -35,8 +35,8 @@ public final class AccessTokenTest extends TestCase {
 
     @SmallTest
     public void testEqualsAndHashcode() {
-        final String accessToken = AccessTokenFixture.getRandomAccessToken();
-        final long userId = AccessTokenFixture.getRandomUserId();
+        final String accessToken = AccessTokenFixture.ACCESS_TOKEN_FIXTURE_1;
+        final long userId = AccessTokenFixture.USER_ID_FIXTURE_1;
 
         {
             // Same object
@@ -46,17 +46,14 @@ public final class AccessTokenTest extends TestCase {
 
         {
             // Different objects, same values
-            final AccessToken model1 =
-                    AccessTokenFixture.getFullModel(accessToken, userId);
-            final AccessToken model2 =
-                    AccessTokenFixture.getFullModel(accessToken, userId);
+            final AccessToken model1 = AccessTokenFixture.getFullModel(accessToken, userId);
+            final AccessToken model2 = AccessTokenFixture.getFullModel(accessToken, userId);
             MoreAsserts.checkEqualsAndHashCodeMethods(model1, model2, true);
         }
 
         {
             // Different objects, different access tokens
-            final AccessToken model1 =
-                    AccessTokenFixture.getFullModel(accessToken, userId);
+            final AccessToken model1 = AccessTokenFixture.getFullModel(accessToken, userId);
             final AccessToken model2 =
                     AccessTokenFixture.getFullModel(accessToken + "test", userId); //$NON-NLS-1$
             MoreAsserts.checkEqualsAndHashCodeMethods(model1, model2, false);
@@ -64,35 +61,30 @@ public final class AccessTokenTest extends TestCase {
 
         {
             // Different objects, different user ids
-            final AccessToken model1 =
-                    AccessTokenFixture.getFullModel(accessToken, userId);
-            final AccessToken model2 =
-                    AccessTokenFixture.getFullModel(accessToken, userId + 1);
+            final AccessToken model1 = AccessTokenFixture.getFullModel(accessToken, userId);
+            final AccessToken model2 = AccessTokenFixture.getFullModel(accessToken, userId + 1);
             MoreAsserts.checkEqualsAndHashCodeMethods(model1, model2, false);
         }
 
         {
             // Different objects, different user ids and access tokens
-            final AccessToken model1 =
-                    AccessTokenFixture.getFullModel(accessToken, userId);
-            final AccessToken model2 =
-                    AccessTokenFixture.getFullModel(accessToken + "test", //$NON-NLS-1$
-                            userId + 1);
+            final AccessToken model1 = AccessTokenFixture.getFullModel(accessToken, userId);
+            final AccessToken model2 = AccessTokenFixture.getFullModel(accessToken + "test", //$NON-NLS-1$
+                    userId + 1);
             MoreAsserts.checkEqualsAndHashCodeMethods(model1, model2, false);
         }
 
         {
             // Null check
-            final AccessToken model1 =
-                    AccessTokenFixture.getFullModel(accessToken, userId);
+            final AccessToken model1 = AccessTokenFixture.getFullModel(accessToken, userId);
             MoreAsserts.checkEqualsAndHashCodeMethods(model1, null, false);
         }
     }
 
     @SmallTest
     public void testToString() throws JSONException {
-        final String accessToken = AccessTokenFixture.getRandomAccessToken();
-        final long userId = AccessTokenFixture.getRandomUserId();
+        final String accessToken = AccessTokenFixture.ACCESS_TOKEN_FIXTURE_1;
+        final long userId = AccessTokenFixture.USER_ID_FIXTURE_1;
 
         final AccessToken model = AccessTokenFixture.getFullModel(accessToken, userId);
 
@@ -102,18 +94,19 @@ public final class AccessTokenTest extends TestCase {
 
     @SmallTest
     public void testParcelable() throws JSONException {
-        final String accessToken = AccessTokenFixture.getRandomAccessToken();
-        final long userId = AccessTokenFixture.getRandomUserId();
-
-        final AccessToken model = AccessTokenFixture.getFullModel(accessToken, userId);
+        final AccessToken model = AccessTokenFixture.getFullModel();
 
         // Parcel this model and unparcel it into a new model
         final Parcel parcel = Parcel.obtain();
-        model.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-        final AccessToken parceledModel = AccessToken.CREATOR.createFromParcel(parcel);
+        try {
+            model.writeToParcel(parcel, 0);
+            parcel.setDataPosition(0);
+            final AccessToken parceledModel = AccessToken.CREATOR.createFromParcel(parcel);
 
-        assertEquals(model, parceledModel);
-        assertNotSame(model, parceledModel);
+            assertEquals(model, parceledModel);
+            assertNotSame(model, parceledModel);
+        } finally {
+            parcel.recycle();
+        }
     }
 }
