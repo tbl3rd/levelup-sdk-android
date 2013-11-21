@@ -9,7 +9,7 @@ import com.scvngr.levelup.test.R;
 /**
  * Activity to host fragments for testing. Gross.
  */
-public final class FragmentTestActivity extends SherlockFragmentActivity {
+public class FragmentTestActivity extends SherlockFragmentActivity {
 
     /**
      * Helper to track if the actionbar progress indicator is indeterminate or not. This is needed
@@ -31,13 +31,13 @@ public final class FragmentTestActivity extends SherlockFragmentActivity {
     }
 
     @Override
-    public void setSupportProgressBarIndeterminate(final boolean indeterminate) {
+    public final void setSupportProgressBarIndeterminate(final boolean indeterminate) {
         mIsProgressBarIndeterminate = indeterminate;
         super.setSupportProgressBarIndeterminate(indeterminate);
     }
 
     @Override
-    public void setSupportProgressBarIndeterminateVisibility(final boolean visible) {
+    public final void setSupportProgressBarIndeterminateVisibility(final boolean visible) {
         mIsProgressBarIndeterminateVisible = visible;
         super.setSupportProgressBarIndeterminateVisibility(visible);
     }
