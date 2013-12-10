@@ -67,6 +67,7 @@ public final class CategoriesList extends ParcelableArrayList<Category> {
     }
 
     @Override
+    @NonNull
     protected Creator<Category> getCreator() {
         return Category.CREATOR;
     }

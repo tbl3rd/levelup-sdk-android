@@ -153,6 +153,7 @@ public final class AbstractJsonModelFactoryTest extends AndroidTestCase {
         }
 
         @Override
+        @NonNull
         public TestModel createFrom(@NonNull final JSONObject json) throws JSONException {
             return new TestModel(json);
         }

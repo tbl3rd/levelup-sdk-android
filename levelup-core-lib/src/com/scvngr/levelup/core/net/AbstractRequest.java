@@ -258,6 +258,7 @@ public abstract class AbstractRequest implements Parcelable {
      * @return the base URL String.
      * @throws BadRequestException if the request is invalid.
      */
+    @NonNull
     public String getUrlString(@NonNull final Context context) throws BadRequestException {
         return mUrlString;
     }

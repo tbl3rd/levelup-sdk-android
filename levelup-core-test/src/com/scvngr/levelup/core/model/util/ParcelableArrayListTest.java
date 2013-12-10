@@ -236,6 +236,7 @@ public final class ParcelableArrayListTest extends AndroidTestCase {
         }
 
         @Override
+        @NonNull
         protected Creator<Uri> getCreator() {
             return Uri.CREATOR;
         }

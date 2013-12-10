@@ -3,6 +3,8 @@ package com.scvngr.levelup.core.net;
 import android.content.Context;
 import android.os.Parcel;
 
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.model.AccessToken;
 
 /**
@@ -51,7 +53,8 @@ public final class MockAccessTokenRetriever implements AccessTokenRetriever {
     }
 
     @Override
-    public AccessToken getAccessToken(final Context context) {
+    @Nullable
+    public AccessToken getAccessToken(@NonNull final Context context) {
         return new AccessToken("test_access_token", 1); //$NON-NLS-1$
     }
 

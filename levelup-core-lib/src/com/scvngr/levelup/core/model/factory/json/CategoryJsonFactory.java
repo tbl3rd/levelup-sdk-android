@@ -29,7 +29,7 @@ public final class CategoryJsonFactory extends AbstractJsonModelFactory<Category
 
     @Override
     @NonNull
-    protected Category createFrom(final JSONObject json) throws JSONException {
+    protected Category createFrom(@NonNull final JSONObject json) throws JSONException {
         final int id = json.getInt(JsonKeys.ID);
         final String name = json.getString(JsonKeys.NAME);
 

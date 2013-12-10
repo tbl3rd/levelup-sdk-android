@@ -30,7 +30,7 @@ public final class ErrorJsonFactory extends AbstractJsonModelFactory<Error> {
 
     @Override
     @NonNull
-    protected Error createFrom(final JSONObject json) throws JSONException {
+    protected Error createFrom(@NonNull final JSONObject json) throws JSONException {
         final String message = json.getString(JsonKeys.MESSAGE);
         final String object = JsonUtils.optString(json, JsonKeys.OBJECT);
         final String property = JsonUtils.optString(json, JsonKeys.PROPERTY);

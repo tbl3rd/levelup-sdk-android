@@ -4,6 +4,7 @@ import android.content.Context;
 import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.util.LogManager;
 
@@ -310,7 +311,8 @@ public final class LevelUpConnectionTest extends AndroidTestCase {
         }
 
         @Override
-        public String getUrlString(final Context context) throws BadRequestException {
+        @NonNull
+        public String getUrlString(@NonNull final Context context) throws BadRequestException {
             throw new BadRequestException("test"); //$NON-NLS-1$
         }
     }

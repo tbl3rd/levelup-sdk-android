@@ -52,6 +52,7 @@ public final class LocationList extends ParcelableArrayList<Location> {
     }
 
     @Override
+    @NonNull
     protected Creator<Location> getCreator() {
         return Location.CREATOR;
     }

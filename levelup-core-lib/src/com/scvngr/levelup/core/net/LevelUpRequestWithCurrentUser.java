@@ -155,7 +155,8 @@ public final class LevelUpRequestWithCurrentUser extends LevelUpRequest {
      * @throws BadRequestException if the user is not logged in.
      */
     @Override
-    public String getUrlString(final Context context) throws BadRequestException {
+    @NonNull
+    public String getUrlString(@NonNull final Context context) throws BadRequestException {
         final AccessToken token = getAccessToken(context);
 
         if (null == token) {

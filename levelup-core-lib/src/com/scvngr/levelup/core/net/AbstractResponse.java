@@ -63,9 +63,7 @@ public abstract class AbstractResponse<T> {
      * @param error any exception that was thrown during the request.
      */
     protected AbstractResponse(@NonNull final Exception error) {
-        mHttpStatusCode = HTTP_STATUS_CODE_UNUSED;
-        mError = error;
-        mHttpHeaders = null;
+        this(HTTP_STATUS_CODE_UNUSED, error);
     }
 
     /**
@@ -73,9 +71,7 @@ public abstract class AbstractResponse<T> {
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */AbstractResponse() {
-        mHttpStatusCode = HTTP_STATUS_CODE_UNUSED;
-        mError = null;
-        mHttpHeaders = null;
+        this(HTTP_STATUS_CODE_UNUSED, null);
     }
 
     /**

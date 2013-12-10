@@ -83,6 +83,7 @@ public final class PaymentTokenV2 extends LevelUpCode {
     }
 
     @Override
+    @NonNull
     String encodePaymentPreferences(final int color, final int tip) {
         final StringBuilder builder =
                 new StringBuilder(mData.length() + PaymentPreferencesV2.PREFERENCES_LENGTH);

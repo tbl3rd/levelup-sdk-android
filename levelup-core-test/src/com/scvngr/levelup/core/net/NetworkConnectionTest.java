@@ -15,6 +15,7 @@ import java.util.Map;
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
+import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 
 /**
@@ -407,7 +408,8 @@ public final class NetworkConnectionTest extends AndroidTestCase {
         }
 
         @Override
-        public String getUrlString(final Context context) throws BadRequestException {
+        @NonNull
+        public String getUrlString(@NonNull final Context context) throws BadRequestException {
             throw new BadRequestException("bad request"); //$NON-NLS-1$
         }
     }

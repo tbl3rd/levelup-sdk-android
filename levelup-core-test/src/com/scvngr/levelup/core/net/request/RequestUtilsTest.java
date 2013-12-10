@@ -138,8 +138,8 @@ public final class RequestUtilsTest extends AndroidTestCase {
          * @param context the context.
          * @param mgr the fake package manager to return
          */
-        public RequestUtilsMockContext(final Context context,
-                final RequestUtilsMockPackageManager mgr) {
+        public RequestUtilsMockContext(@NonNull final Context context,
+                @NonNull final RequestUtilsMockPackageManager mgr) {
             mContext = context;
             mMgr = mgr;
         }
