@@ -10,6 +10,7 @@ import net.jcip.annotations.Immutable;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -29,7 +30,7 @@ public final class Category implements Parcelable {
     public static final Creator<Category> CREATOR = new Creator<Category>() {
         @Override
         public Category createFromParcel(final Parcel source) {
-            return new Category(source);
+            return new Category(NullUtils.nonNullContract(source));
         }
 
         @Override
@@ -56,7 +57,7 @@ public final class Category implements Parcelable {
      */
     public Category(@NonNull final Parcel in) {
         id = in.readInt();
-        name = in.readString();
+        name = NullUtils.nonNullContract(in.readString());
     }
 
     @Override

@@ -12,11 +12,13 @@ import org.json.JSONObject;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
 /**
  * Superclass for JSON parsers that create model objects using a factory design pattern. Any model
  * object that wishes to be parsed from JSON should have an implementation of this class.
+ *
  * @param <T> The type of model this factory produces.
  */
 @Immutable
@@ -35,15 +37,15 @@ public abstract class AbstractJsonModelFactory<T> {
      * Constructs a new factory.
      *
      * @param typeKey the key which the object to parse can be nested under. It will usually be the
-     *            name of the object's type:
+     *        name of the object's type:
      *
-     *            <pre>
+     *        <pre>
      *            { 'typeKey' : { 'field1': 'test' } }.
-     *            </pre>
+     * </pre>
      *
-     *            When requesting a single object or a list of objects, the object will be nested
-     *            under this type key. When you are parsing an object as a field of another object,
-     *            it will not be nested under a type key.
+     *        When requesting a single object or a list of objects, the object will be nested under
+     *        this type key. When you are parsing an object as a field of another object, it will
+     *        not be nested under a type key.
      */
     public AbstractJsonModelFactory(@NonNull final String typeKey) {
         PreconditionUtil.assertNotNull(typeKey, "typeKey"); //$NON-NLS-1$
@@ -83,7 +85,7 @@ public abstract class AbstractJsonModelFactory<T> {
         final List<T> objectList = new ArrayList<T>(count);
 
         for (int i = 0; i < count; i++) {
-            final JSONObject jsonObject = jsonArray.getJSONObject(i);
+            final JSONObject jsonObject = NullUtils.nonNullContract(jsonArray.getJSONObject(i));
             objectList.add(from(jsonObject));
         }
 
@@ -109,7 +111,7 @@ public abstract class AbstractJsonModelFactory<T> {
              * sub-element with the same name
              */
             try {
-                objectToParse = jsonObject.getJSONObject(mTypeKey);
+                objectToParse = NullUtils.nonNullContract(jsonObject.getJSONObject(mTypeKey));
             } catch (final JSONException exception) {
                 /*
                  * A JSONException can be thrown if the key we are searching for happens to not be

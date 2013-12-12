@@ -13,6 +13,7 @@ import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.Category;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * JSON factory for {@link Category}.
@@ -31,7 +32,7 @@ public final class CategoryJsonFactory extends AbstractJsonModelFactory<Category
     @NonNull
     protected Category createFrom(@NonNull final JSONObject json) throws JSONException {
         final int id = json.getInt(JsonKeys.ID);
-        final String name = json.getString(JsonKeys.NAME);
+        final String name = NullUtils.nonNullContract(json.getString(JsonKeys.NAME), JsonKeys.NAME);
 
         return new Category(id, name);
     }
@@ -46,18 +47,21 @@ public final class CategoryJsonFactory extends AbstractJsonModelFactory<Category
          * The key under which this model can be nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
+        @NonNull
         public static final String MODEL_ROOT = "category"; //$NON-NLS-1$
 
         /**
          * Public web service ID.
          */
         @JsonValueType(JsonType.LONG)
+        @NonNull
         public static final String ID = "id"; //$NON-NLS-1$
 
         /**
          * Category name.
          */
         @JsonValueType(JsonType.STRING)
+        @NonNull
         public static final String NAME = "name"; //$NON-NLS-1$
 
         /**

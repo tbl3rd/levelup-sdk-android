@@ -18,7 +18,7 @@ import java.util.HashSet;
 public final class LocationJsonFactoryTest extends AndroidTestCase {
 
     /**
-     * Tests json parsing.
+     * Tests JSON parsing.
      *
      * @throws JSONException on parse errors.
      */
