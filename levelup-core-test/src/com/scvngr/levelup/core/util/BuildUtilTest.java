@@ -16,27 +16,41 @@ import com.scvngr.levelup.core.annotation.NonNull;
  */
 public final class BuildUtilTest extends AndroidTestCase {
 
+    private static final int VERSION_CODE_FIXTURE = 31415927;
+
+    @NonNull
+    private static final String VERSION_NAME_FIXTURE = "pi"; //$NON-NLS-1$
+
+    @NonNull
+    private static final String LABEL_FIXTURE = "LevelUp"; //$NON-NLS-1$
+
     @SmallTest
     public void testGetLabel() {
-        final Context mockContext = new TestContext(31415927, "pi", "LevelUp"); //$NON-NLS-1$ //$NON-NLS-2$
+        final Context mockContext =
+                new TestContext(VERSION_CODE_FIXTURE, VERSION_NAME_FIXTURE, LABEL_FIXTURE);
 
-        assertEquals(31415927, BuildUtil.getVersionCode(mockContext));
+        assertEquals(VERSION_CODE_FIXTURE, BuildUtil.getVersionCode(mockContext));
     }
 
     @SmallTest
     public void testGetVersionCode() {
-        final Context mockContext = new TestContext(31415927, "pi", "LevelUp"); //$NON-NLS-1$ //$NON-NLS-2$
+        final Context mockContext =
+                new TestContext(VERSION_CODE_FIXTURE, VERSION_NAME_FIXTURE, LABEL_FIXTURE);
 
-        assertEquals(31415927, BuildUtil.getVersionCode(mockContext));
+        assertEquals(VERSION_CODE_FIXTURE, BuildUtil.getVersionCode(mockContext));
     }
 
     @SmallTest
     public void testGetVersionName() {
-        final Context mockContext = new TestContext(31415927, "pi", "LevelUp"); //$NON-NLS-1$ //$NON-NLS-2$
+        final Context mockContext =
+                new TestContext(VERSION_CODE_FIXTURE, VERSION_NAME_FIXTURE, LABEL_FIXTURE);
 
-        assertEquals("pi", BuildUtil.getVersionName(mockContext)); //$NON-NLS-1$
+        assertEquals(VERSION_NAME_FIXTURE, BuildUtil.getVersionName(mockContext));
     }
 
+    /**
+     * A mock context to use {@link TestPackageManager}.
+     */
     private static final class TestContext extends MockContext {
 
         @NonNull
@@ -48,7 +62,7 @@ public final class BuildUtilTest extends AndroidTestCase {
          * @param label Mock label.
          */
         public TestContext(final int versionCode, @NonNull final String versionName,
-                final String label) {
+                @NonNull final String label) {
             mPackageManager = new TestPackageManager(versionCode, versionName, label);
         }
 
@@ -62,6 +76,9 @@ public final class BuildUtilTest extends AndroidTestCase {
             return "com.example.test"; //$NON-NLS-1$
         }
 
+        /**
+         * A mock package manager that returns a fixed version code, version name, and label.
+         */
         private static final class TestPackageManager extends MockPackageManager {
 
             @NonNull

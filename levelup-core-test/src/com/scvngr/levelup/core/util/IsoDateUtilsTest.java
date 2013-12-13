@@ -16,7 +16,9 @@ import java.util.TimeZone;
  */
 public final class IsoDateUtilsTest extends AndroidTestCase {
 
-    private static final TimeZone TIME_ZONE_EST = TimeZone.getTimeZone("GMT-0500"); //$NON-NLS-1$
+    @NonNull
+    private static final TimeZone TIME_ZONE_EST = NullUtils.nonNullContract(TimeZone
+            .getTimeZone("GMT-0500")); //$NON-NLS-1$
 
     @SmallTest
     public void testGetTimeZoneUtc() {

@@ -12,6 +12,6 @@ public final class DeviceIdentifierTest extends AndroidTestCase {
     @SmallTest
     public void testGetDeviceId() {
         assertEquals(Settings.Secure.getString(getContext().getContentResolver(), Settings.Secure.ANDROID_ID),
-                DeviceIdentifier.getDeviceId(getContext()));
+                DeviceIdentifier.getDeviceId(NullUtils.nonNullContract(getContext())));
     }
 }

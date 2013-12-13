@@ -29,7 +29,7 @@ public final class IsoDateUtils {
      */
     @NonNull
     public static TimeZone getTimeZoneUtc() {
-        return TimeZone.getTimeZone("UTC"); //$NON-NLS-1$
+        return NullUtils.nonNullContract(TimeZone.getTimeZone("UTC")); //$NON-NLS-1$
     }
 
     /**
@@ -47,7 +47,7 @@ public final class IsoDateUtils {
         final DateFormat formatter =
                 new SimpleDateFormat(ISO_DATETIME_TIME_ZONE_FORMAT_STRING, Locale.US);
         formatter.setTimeZone(timeZone);
-        return formatter.parse(datetime);
+        return NullUtils.nonNullContract(formatter.parse(datetime));
     }
 
     /**
@@ -63,7 +63,7 @@ public final class IsoDateUtils {
         final DateFormat formatter =
                 new SimpleDateFormat(ISO_DATETIME_TIME_ZONE_FORMAT_STRING, Locale.US);
         formatter.setTimeZone(timeZone);
-        return formatter.format(date);
+        return NullUtils.nonNullContract(formatter.format(date));
     }
 
     /**

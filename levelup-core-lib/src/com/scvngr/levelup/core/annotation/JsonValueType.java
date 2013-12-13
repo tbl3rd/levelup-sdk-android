@@ -61,5 +61,6 @@ public @interface JsonValueType {
      * JSONObject (e.g. a User's birthday may be a JSON String, but a Java Date
      * in the Model).
      */
+    @NonNull
     JsonType value();
 }

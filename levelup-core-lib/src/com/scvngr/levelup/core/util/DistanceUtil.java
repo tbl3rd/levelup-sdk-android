@@ -59,18 +59,22 @@ public final class DistanceUtil {
         /**
          * Metric meter.
          */
+        @NonNull
         METER,
         /**
          * Metric kilometer.
          */
+        @NonNull
         KILOMETER,
         /**
          * Imperial mile (standard).
          */
+        @NonNull
         MILE,
         /**
          * Imperial foot.
          */
+        @NonNull
         FOOT
     }
 

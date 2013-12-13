@@ -33,7 +33,6 @@ public final class CryptographicHashUtil {
             'a', 'b', 'c', 'd', 'e', 'f' };
 
     /**
-     *
      * Set of cryptographic hashing algorithms that can be used with
      * {@link CryptographicHashUtil#getHexHash(String, Algorithms)}.
      */
@@ -43,11 +42,13 @@ public final class CryptographicHashUtil {
         /**
          * SHA-256 algorithm.
          */
+        @NonNull
         SHA256,
 
         /**
          * SHA1 algorithm.
          */
+        @NonNull
         SHA1
     }
 
@@ -67,7 +68,8 @@ public final class CryptographicHashUtil {
         String hash = ""; //$NON-NLS-1$
         try {
             final byte[] data =
-                    MessageDigest.getInstance(algorithm.name()).digest(toHash.getBytes(UTF8));
+                    NullUtils.nonNullContract(MessageDigest.getInstance(algorithm.name()).digest(
+                            toHash.getBytes(UTF8)));
 
             hash = convertBytesToHex(data);
         } catch (final UnsupportedEncodingException e) {
@@ -98,6 +100,13 @@ public final class CryptographicHashUtil {
             chars[2 * x + 1] = HEXDIGITS[data[x] & 0x0F];
         }
 
-        return String.valueOf(chars);
+        return NullUtils.nonNullContract(String.valueOf(chars));
+    }
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private CryptographicHashUtil() {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
     }
 }

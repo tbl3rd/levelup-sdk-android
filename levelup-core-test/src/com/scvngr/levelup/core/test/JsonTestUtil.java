@@ -4,8 +4,10 @@ import android.test.MoreAsserts;
 
 import com.scvngr.levelup.core.annotation.JsonValueType;
 import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
+import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.factory.json.AbstractJsonModelFactory;
 import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,9 +55,9 @@ public final class JsonTestUtil {
      *        model). Note that this is the jsonKeysClass's field name as a string, not the JSON key
      *        value (eg "ID", not "id").
      */
-    public static void checkEqualsAndHashCodeOnJsonVariants(final Class<?> jsonKeysClass,
-            final AbstractJsonModelFactory<?> jsonFactory, final JSONObject baseJsonObject,
-            final String[] blacklistFields) {
+    public static void checkEqualsAndHashCodeOnJsonVariants(@NonNull final Class<?> jsonKeysClass,
+            @NonNull final AbstractJsonModelFactory<?> jsonFactory,
+            @NonNull final JSONObject baseJsonObject, @NonNull final String[] blacklistFields) {
         Object originalModel;
         Object differentModel;
         Object differentModelReparse;
@@ -81,7 +83,7 @@ public final class JsonTestUtil {
                 String fieldString;
                 // Don't check exceptions, just let tests fail.
                 try {
-                    fieldString = (String) field.get(key);
+                    fieldString = NullUtils.nonNullContract((String) field.get(key));
                     copiedDifferingObject =
                             cloneObjectDifferingOnParam(baseJsonObject, fieldString,
                                     reflectJsonType(field));
@@ -114,13 +116,14 @@ public final class JsonTestUtil {
      * @param field Field with a JsonValueType annotation to read from.
      * @return the {@link JsonType} of the field.
      */
-    private static JsonType reflectJsonType(final Field field) {
+    @NonNull
+    private static JsonType reflectJsonType(@NonNull final Field field) {
         final JsonValueType annotation = field.getAnnotation(JsonValueType.class);
         return annotation.value();
     }
 
     /**
-     * Makes a deep copy of a JSONObject, modifying one key based on its {@link JsonType} (eg
+     * Makes a deep copy of a JSONObject, modifying one key based on its {@link JsonType} (e.g.
      * flipping the value for a boolean, adding 1 to numbers, appending data to a string).
      *
      * @param baseObject JSONObject to create a modified deep copy of.
@@ -129,8 +132,9 @@ public final class JsonTestUtil {
      * @return a deep copy of the JSON object, with one modified field.
      * @throws JSONException if there was a parsing error.
      */
-    private static JSONObject cloneObjectDifferingOnParam(final JSONObject baseObject,
-            final String key, final JsonType jsonType) throws JSONException {
+    @NonNull
+    private static JSONObject cloneObjectDifferingOnParam(@NonNull final JSONObject baseObject,
+            @NonNull final String key, @NonNull final JsonType jsonType) throws JSONException {
         final JSONObject object = new JSONObject(baseObject.toString());
         LogManager.d("Testing field %s", key); //$NON-NLS-1$
 

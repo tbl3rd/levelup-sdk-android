@@ -3,6 +3,7 @@ package com.scvngr.levelup.core.util;
 import android.net.Uri;
 import android.test.AndroidTestCase;
 
+import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException;
 import com.scvngr.levelup.core.util.WebLinkParser.WebLink;
 
@@ -11,13 +12,16 @@ import com.scvngr.levelup.core.util.WebLinkParser.WebLink;
  *
  */
 @SuppressWarnings("nls")
-public class WebLinkParserTest extends AndroidTestCase {
+public final class WebLinkParserTest extends AndroidTestCase {
 
+    @NonNull
     public static final String RFC5988_EXAMPLE_1 =
             "<http://example.com/TheBook/chapter2>; rel=\"previous\"; title=\"previous chapter\"";
 
+    @NonNull
     public static final String RFC5988_EXAMPLE_2 = "</>; rel=\"http://example.net/foo\"";
 
+    @NonNull
     public static final String RFC5988_EXAMPLE_3 =
             "<http://example.org/>; rel=\"start http://example.net/relation/other\"";
 
@@ -146,7 +150,7 @@ public class WebLinkParserTest extends AndroidTestCase {
      *
      * @param link the link to parse.
      */
-    private void assertThrowsMalformedWebLinkException(final String link) {
+    private void assertThrowsMalformedWebLinkException(@NonNull final String link) {
         boolean caught = false;
         try {
             WebLinkParser.parseLinkHeader(link);
