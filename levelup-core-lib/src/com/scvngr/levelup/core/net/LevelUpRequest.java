@@ -40,29 +40,29 @@ public class LevelUpRequest extends BufferedRequest {
     /**
      * Creator for parceling.
      */
-    public static final Creator<LevelUpRequest> CREATOR =
-            new Creator<LevelUpRequest>() {
+    public static final Creator<LevelUpRequest> CREATOR = new Creator<LevelUpRequest>() {
 
-                @Override
-                public LevelUpRequest[] newArray(final int size) {
-                    return new LevelUpRequest[size];
-                }
+        @Override
+        public LevelUpRequest[] newArray(final int size) {
+            return new LevelUpRequest[size];
+        }
 
-                @Override
-                public LevelUpRequest createFromParcel(final Parcel in) {
-                    return new LevelUpRequest(in);
-                }
-            };
+        @Override
+        public LevelUpRequest createFromParcel(final Parcel in) {
+            return new LevelUpRequest(in);
+        }
+    };
 
     /**
      * API version code for v14.
      */
+    @NonNull
     public static final String API_VERSION_CODE_V14 = "v14"; //$NON-NLS-1$
 
     /**
      * Header key for the authentication.
      */
-    @VisibleForTesting(visibility = Visibility.PRIVATE)
+    @NonNull
     public static final String HEADER_AUTHORIZATION = "Authorization"; //$NON-NLS-1$
 
     /**
@@ -86,8 +86,8 @@ public class LevelUpRequest extends BufferedRequest {
     private final AccessTokenRetriever mAccessTokenRetriever;
 
     /**
-     * Creates a new {@link LevelUpRequest}. This request will not try to append the
-     * user's access token to the request.
+     * Creates a new {@link LevelUpRequest}. This request will not try to append the user's access
+     * token to the request.
      *
      * @param context Application context.
      * @param method the {@link HttpMethod} for this request.
@@ -96,17 +96,16 @@ public class LevelUpRequest extends BufferedRequest {
      * @param queryParams the query string parameters.
      * @param bodyParams the body of the request if it's a post/put.
      */
-    public LevelUpRequest(@NonNull final Context context,
-            @NonNull final HttpMethod method, @NonNull final String apiVersion,
-            @NonNull final String endpoint, @Nullable final Map<String, String> queryParams,
-            @Nullable final JSONObject bodyParams) {
+    public LevelUpRequest(@NonNull final Context context, @NonNull final HttpMethod method,
+            @NonNull final String apiVersion, @NonNull final String endpoint,
+            @Nullable final Map<String, String> queryParams, @Nullable final JSONObject bodyParams) {
         this(context, method, apiVersion, endpoint, queryParams, bodyParams, null);
     }
 
     /**
-     * Creates a new {@link LevelUpRequest}. This request will attempt to append the
-     * user's access_token to the request if the {@link AccessTokenRetriever} is not null and
-     * returns a non-null AccessToken.
+     * Creates a new {@link LevelUpRequest}. This request will attempt to append the user's
+     * access_token to the request if the {@link AccessTokenRetriever} is not null and returns a
+     * non-null AccessToken.
      *
      * @param context the Application context.
      * @param method the {@link HttpMethod} for this request.
@@ -117,10 +116,10 @@ public class LevelUpRequest extends BufferedRequest {
      * @param retriever implementation of {@link AccessTokenRetriever} to use to try to append the
      *        access token to this request.
      */
-    public LevelUpRequest(@NonNull final Context context,
-            @NonNull final HttpMethod method, @NonNull final String apiVersion,
-            @NonNull final String endpoint, @Nullable final Map<String, String> queryParams,
-            @Nullable final JSONObject bodyParams, @Nullable final AccessTokenRetriever retriever) {
+    public LevelUpRequest(@NonNull final Context context, @NonNull final HttpMethod method,
+            @NonNull final String apiVersion, @NonNull final String endpoint,
+            @Nullable final Map<String, String> queryParams, @Nullable final JSONObject bodyParams,
+            @Nullable final AccessTokenRetriever retriever) {
         super(method, getFullUrl(context, apiVersion, endpoint), RequestUtils
                 .getDefaultRequestHeaders(context), queryParams, getPostBody(bodyParams));
 
@@ -140,17 +139,16 @@ public class LevelUpRequest extends BufferedRequest {
      *        access token to this request.
      * @throws IllegalArgumentException if the URI specified isn't an absolute URL.
      */
-    public LevelUpRequest(@NonNull final Context context,
-            @NonNull final HttpMethod method, @NonNull final Uri url,
-            @Nullable final JSONObject postParams, @Nullable final AccessTokenRetriever retriever)
-            throws IllegalArgumentException {
+    public LevelUpRequest(@NonNull final Context context, @NonNull final HttpMethod method,
+            @NonNull final Uri url, @Nullable final JSONObject postParams,
+            @Nullable final AccessTokenRetriever retriever) throws IllegalArgumentException {
         super(method, url, RequestUtils.getDefaultRequestHeaders(context), getPostBody(postParams));
         mAccessTokenRetriever = retriever;
     }
 
     /**
-     * Creates a new {@link LevelUpRequest}. This request will not try to append the
-     * user's access token to the request.
+     * Creates a new {@link LevelUpRequest}. This request will not try to append the user's access
+     * token to the request.
      *
      * @param context Application context.
      * @param method the {@link HttpMethod} for this request.
@@ -159,10 +157,9 @@ public class LevelUpRequest extends BufferedRequest {
      * @param queryParams the query string parameters.
      * @param bodyParams the body of the request if it's a post/put.
      */
-    public LevelUpRequest(@NonNull final Context context,
-            @NonNull final HttpMethod method, @NonNull final String apiVersion,
-            @NonNull final String endpoint, @Nullable final Map<String, String> queryParams,
-            @Nullable final JSONArray bodyParams) {
+    public LevelUpRequest(@NonNull final Context context, @NonNull final HttpMethod method,
+            @NonNull final String apiVersion, @NonNull final String endpoint,
+            @Nullable final Map<String, String> queryParams, @Nullable final JSONArray bodyParams) {
         this(context, method, apiVersion, endpoint, queryParams, bodyParams, null);
     }
 
@@ -180,10 +177,10 @@ public class LevelUpRequest extends BufferedRequest {
      * @param retriever implementation of {@link AccessTokenRetriever} to use to try to append the
      *        access token to this request.
      */
-    public LevelUpRequest(@NonNull final Context context,
-            @NonNull final HttpMethod method, @NonNull final String apiVersion,
-            @NonNull final String endpoint, @Nullable final Map<String, String> queryParams,
-            @Nullable final JSONArray bodyParams, @Nullable final AccessTokenRetriever retriever) {
+    public LevelUpRequest(@NonNull final Context context, @NonNull final HttpMethod method,
+            @NonNull final String apiVersion, @NonNull final String endpoint,
+            @Nullable final Map<String, String> queryParams, @Nullable final JSONArray bodyParams,
+            @Nullable final AccessTokenRetriever retriever) {
         super(method, getFullUrl(context, apiVersion, endpoint), RequestUtils
                 .getDefaultRequestHeaders(context), queryParams, getPostBody(bodyParams));
 
@@ -203,10 +200,9 @@ public class LevelUpRequest extends BufferedRequest {
      *        access token to this request.
      * @throws IllegalArgumentException if the URI specified isn't an absolute URL.
      */
-    public LevelUpRequest(@NonNull final Context context,
-            @NonNull final HttpMethod method, @NonNull final Uri url,
-            @Nullable final JSONArray bodyParams, @Nullable final AccessTokenRetriever retriever)
-            throws IllegalArgumentException {
+    public LevelUpRequest(@NonNull final Context context, @NonNull final HttpMethod method,
+            @NonNull final Uri url, @Nullable final JSONArray bodyParams,
+            @Nullable final AccessTokenRetriever retriever) throws IllegalArgumentException {
         super(method, url, RequestUtils.getDefaultRequestHeaders(context), getPostBody(bodyParams));
         mAccessTokenRetriever = retriever;
     }
@@ -218,8 +214,7 @@ public class LevelUpRequest extends BufferedRequest {
      */
     public LevelUpRequest(@NonNull final Parcel in) {
         super(in);
-        mAccessTokenRetriever =
-                in.readParcelable(LevelUpRequest.class.getClassLoader());
+        mAccessTokenRetriever = in.readParcelable(LevelUpRequest.class.getClassLoader());
     }
 
     @Override
@@ -254,8 +249,7 @@ public class LevelUpRequest extends BufferedRequest {
 
     @Override
     public String toString() {
-        return String.format(Locale.US,
-                "LevelUpRequest [mAccessTokenRetriever=%s, super=%s]", //$NON-NLS-1$
+        return String.format(Locale.US, "LevelUpRequest [mAccessTokenRetriever=%s, super=%s]", //$NON-NLS-1$
                 mAccessTokenRetriever, super.toString());
     }
 
@@ -287,9 +281,8 @@ public class LevelUpRequest extends BufferedRequest {
      * @param endpoint the endpoint to hit.
      * @return the full URL to the endpoint passed.
      */
-    @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
-    /* package */final static String getFullUrl(@NonNull final Context context,
+    public final static String getFullUrl(@NonNull final Context context,
             @NonNull final String apiVersion, @NonNull final String endpoint) {
         return new Uri.Builder().scheme(context.getString(R.string.levelup_api_scheme))
                 .encodedAuthority(context.getString(R.string.levelup_api_authority))
