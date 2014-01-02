@@ -1,15 +1,16 @@
 package com.scvngr.levelup.core.util;
 
 import android.content.pm.PackageManager;
-import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
 import android.test.mock.MockPackageManager;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
 /**
  * Tests {@link PermissionUtil}.
  */
-public final class PermissionUtilTest extends AndroidTestCase {
+public final class PermissionUtilTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testIsPermissionGranted_yes() {

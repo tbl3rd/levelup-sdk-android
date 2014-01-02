@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest;
@@ -8,6 +7,7 @@ import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.DeviceUtil;
 
 import java.net.URL;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Tests {@link CampaignRequestFactory}.
  */
-public final class CampaignRequestFactoryTest extends AndroidTestCase {
+public final class CampaignRequestFactoryTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testConstructor() {

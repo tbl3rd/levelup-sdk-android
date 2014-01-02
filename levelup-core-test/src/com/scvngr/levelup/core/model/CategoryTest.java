@@ -1,18 +1,18 @@
 package com.scvngr.levelup.core.model;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.CategoryJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 
 /**
  * Tests {@link Category}.
  */
-public final class CategoryTest extends AndroidTestCase {
+public final class CategoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests that {@link Category} implements {@link android.os.Parcelable}.

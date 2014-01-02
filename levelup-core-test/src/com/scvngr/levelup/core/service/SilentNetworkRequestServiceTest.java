@@ -1,7 +1,6 @@
 package com.scvngr.levelup.core.service;
 
 import android.content.Intent;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest;
@@ -11,13 +10,14 @@ import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpConnection;
 import com.scvngr.levelup.core.net.LevelUpConnectionHelper;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONObject;
 
 /**
  * Tests {@link SilentNetworkRequestService}.
  */
-public final class SilentNetworkRequestServiceTest extends AndroidTestCase {
+public final class SilentNetworkRequestServiceTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link SilentNetworkRequestService#performRequest(android.content.Context, Intent)}

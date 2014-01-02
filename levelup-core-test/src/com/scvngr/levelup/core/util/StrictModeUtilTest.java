@@ -1,12 +1,13 @@
 package com.scvngr.levelup.core.util;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link StrictModeUtil}.
  */
-public final class StrictModeUtilTest extends AndroidTestCase {
+public final class StrictModeUtilTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testSetStrictMode() {

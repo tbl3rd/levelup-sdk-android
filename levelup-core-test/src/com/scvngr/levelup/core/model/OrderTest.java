@@ -1,12 +1,12 @@
 package com.scvngr.levelup.core.model;
 
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.OrderJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +14,7 @@ import org.json.JSONObject;
 /**
  * Tests {@link User}.
  */
-public final class OrderTest extends AndroidTestCase {
+public final class OrderTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testParcel_full() throws JSONException {

@@ -1,12 +1,12 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,7 +19,7 @@ import java.util.Locale;
 /**
  * Tests {@link ClaimRequestFactory}.
  */
-public final class ClaimRequestFactoryTest extends AndroidTestCase {
+public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
 
     private static final String SAMPLE_URL_CODE = "https://www.staging-levelup.com/c/3T5JPD44GZ"; //$NON-NLS-1$
     private static final String SAMPLE_CODE = "abc123"; //$NON-NLS-1$

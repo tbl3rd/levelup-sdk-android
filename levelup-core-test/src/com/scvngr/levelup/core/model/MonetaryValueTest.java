@@ -1,16 +1,16 @@
 package com.scvngr.levelup.core.model;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.test.ParcelTestUtils;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 
 /**
  * Tests {@link MonetaryValue}.
  */
-public final class MonetaryValueTest extends AndroidTestCase {
+public final class MonetaryValueTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testParcel() throws JSONException {

@@ -1,18 +1,18 @@
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.CauseAffiliationJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 
 /**
  * Tests {@link CauseAffiliation}.
  */
-public final class CauseAffiliationTest extends AndroidTestCase {
+public final class CauseAffiliationTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testConstructor_basic() throws JSONException {

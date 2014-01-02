@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import java.util.List;
@@ -13,11 +12,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link AbstractJsonModelFactory}.
  */
-public final class AbstractJsonModelFactoryTest extends AndroidTestCase {
+public final class AbstractJsonModelFactoryTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testGetTypeKey() {

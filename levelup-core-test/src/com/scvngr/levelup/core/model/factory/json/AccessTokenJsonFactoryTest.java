@@ -1,10 +1,10 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.AccessToken;
 import com.scvngr.levelup.core.model.AccessTokenFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Tests {@link AccessTokenJsonFactory}.
  */
-public final class AccessTokenJsonFactoryTest extends AndroidTestCase {
+public final class AccessTokenJsonFactoryTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testJsonParse_singleObject() throws JSONException {

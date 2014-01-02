@@ -1,12 +1,12 @@
 package com.scvngr.levelup.core.net;
 
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.BufferedResponse.ResponseTooLargeException;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,7 @@ import java.net.URL;
 /**
  * Tests {@link LevelUpResponse}.
  */
-public final class LevelUpResponseTest extends AndroidTestCase {
+public final class LevelUpResponseTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link LevelUpResponse} parceling.

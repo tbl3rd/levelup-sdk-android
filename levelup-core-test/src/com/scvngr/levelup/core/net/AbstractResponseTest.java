@@ -1,10 +1,10 @@
 package com.scvngr.levelup.core.net;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.apache.http.HttpStatus;
 
@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Tests {@link AbstractResponse}.
  */
-public final class AbstractResponseTest extends AndroidTestCase {
+public final class AbstractResponseTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testConstructor2() throws MalformedURLException, IOException {

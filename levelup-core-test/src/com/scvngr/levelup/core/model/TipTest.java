@@ -1,12 +1,13 @@
 package com.scvngr.levelup.core.model;
 
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link Tip}.
  */
-public final class TipTest extends AndroidTestCase {
+public final class TipTest extends SupportAndroidTestCase {
 
     /**
      * Tests that {@link Tip#getTipPercentages(android.content.Context)} returns a non-null,

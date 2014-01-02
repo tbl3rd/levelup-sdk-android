@@ -2,7 +2,6 @@ package com.scvngr.levelup.core.net;
 
 import android.content.Context;
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -12,6 +11,7 @@ import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.request.RequestUtils;
 import com.scvngr.levelup.core.net.request.RequestUtilsTest.RequestUtilsMockContext;
 import com.scvngr.levelup.core.net.request.RequestUtilsTest.RequestUtilsMockPackageManager;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * Tests {@link LevelUpV13Request}.
  */
-public final class LevelUpV13RequestTest extends AndroidTestCase {
+public final class LevelUpV13RequestTest extends SupportAndroidTestCase {
 
     private static final String API_VERSION_FOR_TESTING = "v0"; //$NON-NLS-1$
 

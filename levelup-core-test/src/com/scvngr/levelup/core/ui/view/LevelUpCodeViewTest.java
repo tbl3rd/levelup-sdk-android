@@ -56,7 +56,8 @@ public final class LevelUpCodeViewTest extends
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                final ViewGroup innerContent = (ViewGroup) activity.findViewById(com.scvngr.levelup.test.R.id.levelup_activity_content);
+                final ViewGroup innerContent = (ViewGroup) activity.findViewById(
+                        com.scvngr.levelup.core.test.R.id.levelup_activity_content);
 
                 mLevelUpCodeView = new LevelUpCodeView(innerContent.getContext());
                 innerContent.addView(mLevelUpCodeView, new LinearLayout.LayoutParams(

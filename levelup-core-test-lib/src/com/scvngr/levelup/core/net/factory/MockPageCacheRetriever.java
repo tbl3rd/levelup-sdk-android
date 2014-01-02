@@ -23,8 +23,8 @@ public final class MockPageCacheRetriever implements PageCacheRetriever {
      */
     public void assertNextPageSet(@NonNull final String pageKey,
             @Nullable final Uri expectedPage) {
-       AndroidTestCase.assertTrue(mPageMap.containsKey(pageKey));
-       AndroidTestCase.assertEquals(expectedPage, mPageMap.get(pageKey));
+        AndroidTestCase.assertTrue(mPageMap.containsKey(pageKey));
+        AndroidTestCase.assertEquals(expectedPage, mPageMap.get(pageKey));
     }
 
     /**

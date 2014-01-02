@@ -1,11 +1,11 @@
 package com.scvngr.levelup.core.net;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.LogManager;
 
 import java.io.ByteArrayInputStream;
@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests {@link LevelUpConnection}.
  */
-public final class LevelUpConnectionTest extends AndroidTestCase {
+public final class LevelUpConnectionTest extends SupportAndroidTestCase {
 
     @Override
     protected void setUp() throws Exception {

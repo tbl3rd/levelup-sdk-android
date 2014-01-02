@@ -1,7 +1,8 @@
 package com.scvngr.levelup.core.net;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +13,7 @@ import java.net.URL;
 /**
  * Tests {@link StreamingResponse}.
  */
-public final class StreamingResponseTest extends AndroidTestCase {
+public final class StreamingResponseTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testConstructor_successResponseCode() throws MalformedURLException, IOException {

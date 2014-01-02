@@ -1,10 +1,10 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.Order;
 import com.scvngr.levelup.core.model.OrderFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +12,7 @@ import org.json.JSONObject;
 /**
  * Tests {@link OrderJsonFactory}.
  */
-public final class OrderJsonFactoryTest extends AndroidTestCase {
+public final class OrderJsonFactoryTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testJsonParse_minimalSingleObject() throws JSONException {

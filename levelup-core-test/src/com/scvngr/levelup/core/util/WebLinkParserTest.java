@@ -1,9 +1,9 @@
 package com.scvngr.levelup.core.util;
 
 import android.net.Uri;
-import android.test.AndroidTestCase;
 
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException;
 import com.scvngr.levelup.core.util.WebLinkParser.WebLink;
 
@@ -12,7 +12,7 @@ import com.scvngr.levelup.core.util.WebLinkParser.WebLink;
  *
  */
 @SuppressWarnings("nls")
-public final class WebLinkParserTest extends AndroidTestCase {
+public final class WebLinkParserTest extends SupportAndroidTestCase {
 
     @NonNull
     public static final String RFC5988_EXAMPLE_1 =

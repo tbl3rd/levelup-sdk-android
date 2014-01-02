@@ -1,10 +1,10 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.Loyalty;
 import com.scvngr.levelup.core.model.LoyaltyFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Tests {@link LoyaltyJsonFactory}.
  */
-public final class LoyaltyJsonFactoryTest extends AndroidTestCase {
+public final class LoyaltyJsonFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests json parsing.

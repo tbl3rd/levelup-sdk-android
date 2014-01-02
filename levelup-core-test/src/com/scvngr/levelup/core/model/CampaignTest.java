@@ -1,11 +1,11 @@
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.CampaignJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +13,7 @@ import org.json.JSONObject;
 /**
  * Tests {@link Campaign}.
  */
-public final class CampaignTest extends AndroidTestCase {
+public final class CampaignTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testParcel() throws JSONException {

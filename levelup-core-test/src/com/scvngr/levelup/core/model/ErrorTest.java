@@ -1,19 +1,19 @@
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.ErrorJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 
 /**
  * Tests {@link Error}.
  */
-public final class ErrorTest extends AndroidTestCase {
+public final class ErrorTest extends SupportAndroidTestCase {
 
     /**
      * Tests the constructor parameter validation.

@@ -1,17 +1,17 @@
 package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link AbstractRequestFactory}.
  */
-public final class AbstractRequestFactoryTest extends AndroidTestCase {
+public final class AbstractRequestFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests the constructor and expected invariants.

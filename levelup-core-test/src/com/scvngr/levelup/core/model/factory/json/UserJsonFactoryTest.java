@@ -1,10 +1,10 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.model.UserFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +12,7 @@ import org.json.JSONObject;
 /**
  * Tests {@link UserJsonFactory}.
  */
-public final class UserJsonFactoryTest extends AndroidTestCase {
+public final class UserJsonFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests full User model json parsing.

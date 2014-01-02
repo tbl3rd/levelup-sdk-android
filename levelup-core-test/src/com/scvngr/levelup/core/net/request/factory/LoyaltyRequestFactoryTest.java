@@ -1,7 +1,6 @@
 package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest;
@@ -9,13 +8,14 @@ import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.util.Locale;
 
 /**
  * Tests {@link LoyaltyRequestFactory}.
  */
-public final class LoyaltyRequestFactoryTest extends AndroidTestCase {
+public final class LoyaltyRequestFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests the constructor and expected invariants.

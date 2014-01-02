@@ -1,12 +1,12 @@
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.LoyaltyJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +14,7 @@ import org.json.JSONObject;
 /**
  * Represents a loyalty progression on the server.
  */
-public final class LoyaltyTest extends AndroidTestCase {
+public final class LoyaltyTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testParcel_full() {

@@ -1,12 +1,12 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.CryptographicHashUtil;
 import com.scvngr.levelup.core.util.CryptographicHashUtil.Algorithms;
 import com.scvngr.levelup.core.util.DeviceIdentifier;
@@ -17,7 +17,7 @@ import org.json.JSONObject;
 /**
  * Tests {@link AccessTokenRequestFactory}.
  */
-public final class AccessTokenRequestFactoryTest extends AndroidTestCase {
+public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests the constructor and expected invariants.

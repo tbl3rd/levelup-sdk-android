@@ -1,15 +1,15 @@
 package com.scvngr.levelup.core.model.qr;
 
 import android.content.res.Resources;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.test.ResourcesUtil;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.util.Locale;
 
-public class LevelUpCodeTest extends AndroidTestCase {
+public class LevelUpCodeTest extends SupportAndroidTestCase {
 
     public static final String UNRECOGNIZED_CODE = "LU0301234671234567890123"; //$NON-NLS-1$
     public static final String UNRECOGNIZED_CODE_WITH_PARAMS = "LU0301234671234567890123020012LU"; //$NON-NLS-1$

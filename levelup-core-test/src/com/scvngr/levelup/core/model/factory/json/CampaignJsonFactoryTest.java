@@ -1,12 +1,12 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.Campaign;
 import com.scvngr.levelup.core.model.CampaignFixture;
 import com.scvngr.levelup.core.model.MonetaryValue;
 import com.scvngr.levelup.core.model.MonetaryValueFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +14,7 @@ import org.json.JSONObject;
 /**
  * Tests {@link CampaignJsonFactory}.
  */
-public final class CampaignJsonFactoryTest extends AndroidTestCase {
+public final class CampaignJsonFactoryTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testJsonParse_basic() throws JSONException {

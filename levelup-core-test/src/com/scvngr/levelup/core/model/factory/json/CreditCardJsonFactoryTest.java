@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.json.JSONArray;
@@ -11,11 +10,12 @@ import java.util.List;
 
 import com.scvngr.levelup.core.model.CreditCard;
 import com.scvngr.levelup.core.model.CreditCardFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link CreditCardJsonFactory}.
  */
-public final class CreditCardJsonFactoryTest extends AndroidTestCase {
+public final class CreditCardJsonFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests json parsing.

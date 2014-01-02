@@ -1,11 +1,11 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.util.Locale;
 import java.util.Map;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Tests {@link PaymentTokenRequestFactory}.
  */
-public final class PaymentTokenRequestFactoryTest extends AndroidTestCase {
+public final class PaymentTokenRequestFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests the constructor and expected invariants.

@@ -7,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.mock.MockContext;
 import android.test.mock.MockPackageManager;
@@ -18,6 +17,7 @@ import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,7 +33,7 @@ import java.util.Map;
 /**
  * Tests {@link LevelUpRequest}.
  */
-public final class LevelUpRequestTest extends AndroidTestCase {
+public final class LevelUpRequestTest extends SupportAndroidTestCase {
 
     private static final String TEST_VERSION = "v13"; //$NON-NLS-1$
 

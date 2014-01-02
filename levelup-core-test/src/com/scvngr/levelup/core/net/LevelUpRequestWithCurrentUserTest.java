@@ -1,11 +1,11 @@
 package com.scvngr.levelup.core.net;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONObject;
 
@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Tests {@link LevelUpRequestWithCurrentUser}.
  */
-public final class LevelUpRequestWithCurrentUserTest extends AndroidTestCase {
+public final class LevelUpRequestWithCurrentUserTest extends SupportAndroidTestCase {
 
     private static final String TEST_API_VERSION = "v13"; //$NON-NLS-1$
 

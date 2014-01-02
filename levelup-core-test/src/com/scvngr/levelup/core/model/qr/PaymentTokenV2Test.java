@@ -1,16 +1,16 @@
 package com.scvngr.levelup.core.model.qr;
 
 import android.content.res.Resources;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.test.ResourcesUtil;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link PaymentTokenV2} color parsing.
  */
-public class PaymentTokenV2Test extends AndroidTestCase {
+public class PaymentTokenV2Test extends SupportAndroidTestCase {
 
     public static final String V2_CODE = "020123467123456789012345020012LU"; //$NON-NLS-1$
     public static final String V2_CODE_WITHOUT_PREFERENCES = "020123467123456789012345"; //$NON-NLS-1$

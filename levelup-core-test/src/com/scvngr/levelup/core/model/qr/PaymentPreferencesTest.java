@@ -1,9 +1,10 @@
 package com.scvngr.levelup.core.model.qr;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
-public class PaymentPreferencesTest extends AndroidTestCase {
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
+public class PaymentPreferencesTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testgetPreferenceVersion_withV1Prefs() {

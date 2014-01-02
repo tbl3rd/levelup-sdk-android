@@ -1,7 +1,6 @@
 package com.scvngr.levelup.core.ui.view;
 
-import android.test.AndroidTestCase;
-
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
 import com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded;
 
@@ -12,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * Tests {@link AsyncTaskCodeLoader} using a {@link MockQrCodeGenerator}, {@link HashMapCache}, and
  * {@link LatchedOnImageLoaded}.
  */
-public final class AsyncTaskCodeLoaderTest extends AndroidTestCase {
+public final class AsyncTaskCodeLoaderTest extends SupportAndroidTestCase {
 
     private MockQrCodeGenerator mQrCodeGenerator;
     private HashMapCache mCache;

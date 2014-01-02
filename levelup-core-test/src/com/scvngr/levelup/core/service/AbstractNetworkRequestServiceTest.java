@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -17,6 +16,7 @@ import com.scvngr.levelup.core.net.LevelUpConnection;
 import com.scvngr.levelup.core.net.LevelUpConnectionHelper;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.LevelUpResponse;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONObject;
 
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit;
  * Tests {@link AbstractNetworkRequestService}.
  */
 @SuppressWarnings("javadoc")
-public final class AbstractNetworkRequestServiceTest extends AndroidTestCase {
+public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();

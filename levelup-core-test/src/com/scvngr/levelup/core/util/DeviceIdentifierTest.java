@@ -1,13 +1,14 @@
 package com.scvngr.levelup.core.util;
 
 import android.provider.Settings;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link DeviceIdentifier}.
  */
-public final class DeviceIdentifierTest extends AndroidTestCase {
+public final class DeviceIdentifierTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testGetDeviceId() {

@@ -1,10 +1,10 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.Location;
 import com.scvngr.levelup.core.model.LocationFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,7 +15,7 @@ import java.util.HashSet;
 /**
  * Tests {@link LocationJsonFactory}.
  */
-public final class LocationJsonFactoryTest extends AndroidTestCase {
+public final class LocationJsonFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests JSON parsing.

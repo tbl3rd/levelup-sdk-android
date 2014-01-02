@@ -1,9 +1,9 @@
 package com.scvngr.levelup.core.util;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -14,7 +14,7 @@ import java.util.TimeZone;
 /**
  * Tests {@link IsoDateUtils}.
  */
-public final class IsoDateUtilsTest extends AndroidTestCase {
+public final class IsoDateUtilsTest extends SupportAndroidTestCase {
 
     @NonNull
     private static final TimeZone TIME_ZONE_EST = NullUtils.nonNullContract(TimeZone

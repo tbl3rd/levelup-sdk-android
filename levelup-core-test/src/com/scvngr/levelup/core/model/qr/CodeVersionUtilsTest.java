@@ -1,11 +1,11 @@
 package com.scvngr.levelup.core.model.qr;
 
-import android.test.AndroidTestCase;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link CodeVersionUtils}.
  */
-public final class CodeVersionUtilsTest extends AndroidTestCase {
+public final class CodeVersionUtilsTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link CodeVersionUtils#isValidCode(String, int, int, int, int)}.

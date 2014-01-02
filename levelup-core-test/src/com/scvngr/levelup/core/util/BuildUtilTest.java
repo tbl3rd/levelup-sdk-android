@@ -4,17 +4,17 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
 import android.test.mock.MockPackageManager;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link BuildUtil}.
  */
-public final class BuildUtilTest extends AndroidTestCase {
+public final class BuildUtilTest extends SupportAndroidTestCase {
 
     private static final int VERSION_CODE_FIXTURE = 31415927;
 

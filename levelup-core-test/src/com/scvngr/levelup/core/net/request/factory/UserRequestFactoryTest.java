@@ -3,7 +3,6 @@ package com.scvngr.levelup.core.net.request.factory;
 import android.app.DownloadManager.Request;
 import android.content.Context;
 import android.location.Location;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -19,6 +18,7 @@ import com.scvngr.levelup.core.net.LevelUpV13Request;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
 import com.scvngr.levelup.core.net.request.RequestUtils;
 import com.scvngr.levelup.core.net.request.factory.UserRequestFactory.UserInfoRequestBuilder;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.LogManager;
 
 import org.json.JSONException;
@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * Tests {@link UserRequestFactory}.
  */
-public final class UserRequestFactoryTest extends AndroidTestCase {
+public final class UserRequestFactoryTest extends SupportAndroidTestCase {
     /**
      * Tests the constructor to make sure the object performs parameter checking.
      */

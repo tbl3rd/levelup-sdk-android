@@ -1,11 +1,11 @@
 package com.scvngr.levelup.core.net;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.net.URLEncoder;
 import java.util.Locale;
@@ -13,7 +13,7 @@ import java.util.Locale;
 /**
  * Tests {@link LevelUpV13RequestWithCurrentUser}.
  */
-public final class LevelUpV13RequestWithCurrentUserTest extends AndroidTestCase {
+public final class LevelUpV13RequestWithCurrentUserTest extends SupportAndroidTestCase {
 
     /**
      * Tests the parceling of {@link LevelUpV13RequestWithCurrentUser}.

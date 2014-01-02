@@ -1,18 +1,18 @@
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.CreditCardJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 
 /**
  * Tests {@link CreditCard}.
  */
-public final class CreditCardTest extends AndroidTestCase {
+public final class CreditCardTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testConstructor_basic() throws JSONException {

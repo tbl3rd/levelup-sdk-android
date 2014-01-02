@@ -1,7 +1,6 @@
 package com.scvngr.levelup.core.net;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import java.io.ByteArrayInputStream;
@@ -9,11 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.scvngr.levelup.core.net.BufferedResponse.ResponseTooLargeException;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link BufferedResponse}.
  */
-public final class BufferedResponseTest extends AndroidTestCase {
+public final class BufferedResponseTest extends SupportAndroidTestCase {
 
     private static final String ONE_KB_OF_TEXT = getStringOfSize(1024);
 

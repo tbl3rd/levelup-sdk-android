@@ -1,17 +1,17 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpV13Request;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link CauseAffiliationRequestFactory}.
  */
-public final class CauseAffiliationRequestFactoryTest extends AndroidTestCase {
+public final class CauseAffiliationRequestFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests the constructor and expected invariants.

@@ -1,12 +1,12 @@
 package com.scvngr.levelup.core.net.request.factory;
 
 import android.location.Location;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.DeviceUtil;
 
 import java.net.URL;
@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Tests {@link LocationRequestFactory}.
  */
-public final class LocationRequestFactoryTest extends AndroidTestCase {
+public final class LocationRequestFactoryTest extends SupportAndroidTestCase {
 
     private static final double TEST_LATITUDE = 42.36275;
     private static final double TEST_LONGITUDE = -71.05987;

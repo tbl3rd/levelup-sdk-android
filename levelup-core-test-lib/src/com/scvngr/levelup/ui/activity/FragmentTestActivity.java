@@ -4,7 +4,8 @@ import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Window;
-import com.scvngr.levelup.test.R;
+
+import com.scvngr.levelup.core.test.R;
 
 /**
  * Activity to host fragments for testing. Gross.

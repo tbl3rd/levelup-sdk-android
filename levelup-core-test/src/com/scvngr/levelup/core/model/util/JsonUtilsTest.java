@@ -1,7 +1,8 @@
 package com.scvngr.levelup.core.model.util;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +15,7 @@ import java.util.Set;
 /**
  * Tests {@link JsonUtils}.
  */
-public final class JsonUtilsTest extends AndroidTestCase {
+public final class JsonUtilsTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link JsonUtils#optString(org.json.JSONObject, String)}.

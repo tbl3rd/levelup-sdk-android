@@ -1,13 +1,14 @@
 package com.scvngr.levelup.core.util;
 
 import android.os.Build;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link EnvironmentUtil}.
  */
-public final class EnvironmentUtilTest extends AndroidTestCase {
+public final class EnvironmentUtilTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testSdk11Check() {

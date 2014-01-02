@@ -3,11 +3,11 @@ package com.scvngr.levelup.core.model.util;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.test.AndroidTestCase;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList.ImmutableClassException;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Tests {@link ParcelableArrayList} using {@link Uri}s as a known-good {@link Parcelable} object.
  */
-public final class ParcelableArrayListTest extends AndroidTestCase {
+public final class ParcelableArrayListTest extends SupportAndroidTestCase {
     private static final Uri URI_01 = Uri.parse("foo:"); //$NON-NLS-1$
     private static final Uri URI_02 = Uri.parse("http://example.com/"); //$NON-NLS-1$
     private static final Uri URI_03 = Uri.parse("urn:12345"); //$NON-NLS-1$

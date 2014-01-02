@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.CreditCard;
@@ -11,6 +10,7 @@ import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +20,7 @@ import java.util.Locale;
 /**
  * Tests {@link CreditCardRequestFactory}.
  */
-public final class CreditCardRequestFactoryTest extends AndroidTestCase {
+public final class CreditCardRequestFactoryTest extends SupportAndroidTestCase {
 
     private static final String EXPECTED_CREDIT_CARDS_ENDPOINT = "credit_cards"; //$NON-NLS-1$
 

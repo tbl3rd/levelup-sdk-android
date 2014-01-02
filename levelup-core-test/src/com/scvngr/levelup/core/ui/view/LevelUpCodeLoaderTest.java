@@ -1,7 +1,6 @@
 package com.scvngr.levelup.core.ui.view;
 
-import android.test.AndroidTestCase;
-
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
 
 import java.util.concurrent.TimeUnit;
@@ -10,7 +9,7 @@ import java.util.concurrent.TimeUnit;
  * Tests {@link LevelUpCodeLoader}.
  */
 @SuppressWarnings("javadoc")
-public final class LevelUpCodeLoaderTest extends AndroidTestCase {
+public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
     private HashMapCache mCache;
     private LevelUpCodeLoaderUnderTest mLoader;
     private LatchedOnImageLoaded mOnImageLoaded;

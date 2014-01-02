@@ -1,12 +1,13 @@
 package com.scvngr.levelup.core.net;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link HttpMethod} for expected values.
  */
-public final class HttpMethodTest extends AndroidTestCase {
+public final class HttpMethodTest extends SupportAndroidTestCase {
 
     private static final String[] EXPECTED_HTTP_VERBS = { "GET", "POST", "PUT", "DELETE" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 

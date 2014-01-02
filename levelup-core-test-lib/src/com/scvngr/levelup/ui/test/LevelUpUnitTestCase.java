@@ -14,8 +14,8 @@ import android.test.ActivityUnitTestCase;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.net.LevelUpConnectionHelper;
+import com.scvngr.levelup.core.test.R;
 import com.scvngr.levelup.core.test.TestThreadingUtils;
-import com.scvngr.levelup.test.R;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;

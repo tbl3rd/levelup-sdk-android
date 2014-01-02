@@ -1,7 +1,6 @@
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -10,11 +9,12 @@ import org.json.JSONObject;
 
 import com.scvngr.levelup.core.model.factory.json.PaymentTokenJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link PaymentToken}.
  */
-public final class PaymentTokenTest extends AndroidTestCase {
+public final class PaymentTokenTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testParcel() throws JSONException {

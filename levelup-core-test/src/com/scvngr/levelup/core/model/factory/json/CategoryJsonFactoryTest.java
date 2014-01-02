@@ -1,16 +1,15 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
-
 import com.scvngr.levelup.core.model.Category;
 import com.scvngr.levelup.core.model.CategoryFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 
 /**
  * Tests {@link CategoryJsonFactory}.
  */
-public final class CategoryJsonFactoryTest extends AndroidTestCase {
+public final class CategoryJsonFactoryTest extends SupportAndroidTestCase {
 
     private static final int ID_FIXTURE = 5;
 

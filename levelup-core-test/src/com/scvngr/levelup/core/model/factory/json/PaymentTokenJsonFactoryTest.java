@@ -1,10 +1,10 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.PaymentToken;
 import com.scvngr.levelup.core.model.PaymentTokenFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,7 +12,7 @@ import org.json.JSONObject;
 /**
  * Tests {@link PaymentTokenJsonFactory}.
  */
-public final class PaymentTokenJsonFactoryTest extends AndroidTestCase {
+public final class PaymentTokenJsonFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests basic json parsing.

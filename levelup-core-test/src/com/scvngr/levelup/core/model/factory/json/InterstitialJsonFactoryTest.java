@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -9,6 +8,7 @@ import com.scvngr.levelup.core.model.Interstitial.ClaimAction;
 import com.scvngr.levelup.core.model.Interstitial.ShareAction;
 import com.scvngr.levelup.core.model.Interstitial.UrlAction;
 import com.scvngr.levelup.core.model.InterstitialFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +16,7 @@ import org.json.JSONObject;
 /**
  * Tests {@link InterstitialJsonFactory}.
  */
-public final class InterstitialJsonFactoryTest extends AndroidTestCase {
+public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
 
     private static final String TEST_KEY_1 = "test_key_1"; //$NON-NLS-1$
     private static final String TEST_KEY_2 = "test_key_2"; //$NON-NLS-1$

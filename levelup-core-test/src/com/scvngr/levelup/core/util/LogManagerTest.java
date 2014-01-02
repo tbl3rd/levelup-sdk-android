@@ -1,12 +1,13 @@
 package com.scvngr.levelup.core.util;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link LogManager}.
  */
-public final class LogManagerTest extends AndroidTestCase {
+public final class LogManagerTest extends SupportAndroidTestCase {
 
     /*
      * NOTE: This class does not check for correct output to logcat. It is designed to simply verify

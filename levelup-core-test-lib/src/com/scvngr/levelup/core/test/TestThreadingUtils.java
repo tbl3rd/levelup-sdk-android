@@ -14,7 +14,6 @@ import android.view.View;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.test.R;
 
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;

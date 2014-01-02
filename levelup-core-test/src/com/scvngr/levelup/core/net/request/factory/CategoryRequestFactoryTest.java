@@ -1,19 +1,19 @@
 package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * Tests {@link CategoryRequestFactory}.
  */
-public final class CategoryRequestFactoryTest extends AndroidTestCase {
+public final class CategoryRequestFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests the constructor and expected invariants.

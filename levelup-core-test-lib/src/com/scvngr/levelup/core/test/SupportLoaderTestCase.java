@@ -14,7 +14,7 @@
  * the License
  */
 
-package android.test;
+package com.scvngr.levelup.core.test;
 
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -31,7 +31,7 @@ import java.util.concurrent.CountDownLatch;
  * synchronously get the result from a Loader making it easy to assert that the Loader returns the
  * expected result.
  */
-public class SupportLoaderTestCase extends AndroidTestCase {
+public class SupportLoaderTestCase extends SupportAndroidTestCase {
     static {
         // Force class loading of AsyncTask on the main thread so that its handlers are tied to
         // the main thread and responses from the worker thread get delivered on the main thread.

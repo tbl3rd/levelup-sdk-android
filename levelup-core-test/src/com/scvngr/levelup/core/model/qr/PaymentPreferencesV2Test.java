@@ -1,12 +1,13 @@
 package com.scvngr.levelup.core.model.qr;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link PaymentPreferencesV2}.
  */
-public final class PaymentPreferencesV2Test extends AndroidTestCase {
+public final class PaymentPreferencesV2Test extends SupportAndroidTestCase {
     protected static final String V2_PREFS = "020013LU"; //$NON-NLS-1$
 
     /**

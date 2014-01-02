@@ -1,7 +1,6 @@
 package com.scvngr.levelup.core.net.request.factory;
 
 import android.net.Uri;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.Interstitial;
@@ -10,6 +9,7 @@ import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.DeviceUtil;
 
 import java.net.URL;
@@ -19,7 +19,7 @@ import java.util.UUID;
 /**
  * Tests {@link InterstitialRequestFactory}.
  */
-public final class InterstitialRequestFactoryTest extends AndroidTestCase {
+public final class InterstitialRequestFactoryTest extends SupportAndroidTestCase {
 
     private static final String TEST_UUID = UUID.randomUUID().toString();
 

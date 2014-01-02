@@ -2,7 +2,6 @@ package com.scvngr.levelup.core.net;
 
 import android.app.DownloadManager.Request;
 import android.content.Context;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import java.io.BufferedReader;
@@ -17,11 +16,12 @@ import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link NetworkConnection}.
  */
-public final class NetworkConnectionTest extends AndroidTestCase {
+public final class NetworkConnectionTest extends SupportAndroidTestCase {
 
     private final MockWebServer mServer = new MockWebServer();
     private static final String RESPONSE_BODY = "This is a response body"; //$NON-NLS-1$

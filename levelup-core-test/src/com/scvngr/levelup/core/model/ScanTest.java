@@ -1,14 +1,15 @@
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
+
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link Scan}.
  */
-public final class ScanTest extends AndroidTestCase {
+public final class ScanTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testConstructor() {

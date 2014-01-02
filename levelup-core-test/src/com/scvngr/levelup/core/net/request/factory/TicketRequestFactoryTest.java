@@ -1,12 +1,12 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.LevelUpV13RequestWithCurrentUser;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
 import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.net.URL;
 import java.util.Locale;
@@ -14,7 +14,7 @@ import java.util.Locale;
 /**
  * Tests {@link TicketRequestFactory}.
  */
-public final class TicketRequestFactoryTest extends AndroidTestCase {
+public final class TicketRequestFactoryTest extends SupportAndroidTestCase {
 
     /**
      * Tests the constructor and expected invariants.

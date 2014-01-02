@@ -1,13 +1,12 @@
 package com.scvngr.levelup.core.util;
 
-import android.test.AndroidTestCase;
-
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.DistanceUtil.DistanceUnit;
 
 /**
  * Tests {@link DistanceUtil}. Expected values were computed manually using GNU Units.
  */
-public final class DistanceUtilsTest extends AndroidTestCase {
+public final class DistanceUtilsTest extends SupportAndroidTestCase {
 
     private static final double ASSERT_DELTA = 0.01;
 

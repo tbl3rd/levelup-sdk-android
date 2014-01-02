@@ -1,11 +1,11 @@
 package com.scvngr.levelup.core.net;
 
 import android.os.Parcel;
-import android.test.AndroidTestCase;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Tests {@link BufferedRequest}.
  */
-public final class BufferedRequestTest extends AndroidTestCase {
+public final class BufferedRequestTest extends SupportAndroidTestCase {
 
     public static final String BASE_URL = "http://www.example.com"; //$NON-NLS-1$
 

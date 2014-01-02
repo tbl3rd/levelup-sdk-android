@@ -1,18 +1,18 @@
 package com.scvngr.levelup.core.model;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.ClaimJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 
 /**
  * Tests {@link Claim}.
  */
-public final class ClaimTest extends AndroidTestCase {
+public final class ClaimTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testParcel_full_object() throws JSONException {

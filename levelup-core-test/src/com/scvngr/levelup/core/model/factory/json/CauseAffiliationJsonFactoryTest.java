@@ -1,17 +1,17 @@
 package com.scvngr.levelup.core.model.factory.json;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.CauseAffiliation;
 import com.scvngr.levelup.core.model.CauseAffiliationFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONException;
 
 /**
  * Tests {@link CauseAffiliationJsonFactory}.
  */
-public final class CauseAffiliationJsonFactoryTest extends AndroidTestCase {
+public final class CauseAffiliationJsonFactoryTest extends SupportAndroidTestCase {
     @SmallTest
     public void testJsonParse_basic() throws JSONException {
         final CauseAffiliation causeAffiliation =

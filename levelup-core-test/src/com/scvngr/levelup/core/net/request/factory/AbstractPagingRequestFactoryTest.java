@@ -2,7 +2,6 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 import android.net.Uri;
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -14,6 +13,7 @@ import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
 import com.scvngr.levelup.core.net.MockPageCacheRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.json.JSONObject;
 
@@ -22,7 +22,7 @@ import java.util.concurrent.CountDownLatch;
 /**
  * Tests {@link AbstractPagingRequestFactory}.
  */
-public final class AbstractPagingRequestFactoryTest extends AndroidTestCase {
+public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCase {
 
     private static final String TEST_PAGE_ENDPOINT_ONE = "test_page_endpoint_one"; //$NON-NLS-1$
     private static final String TEST_PAGE_ENDPOINT_TWO = "test_page_endpoint_two"; //$NON-NLS-1$

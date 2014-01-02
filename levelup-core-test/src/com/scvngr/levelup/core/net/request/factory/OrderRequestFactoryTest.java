@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.OrderFixture;
@@ -9,13 +8,14 @@ import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.util.Locale;
 
 /**
  * Tests {@link OrderRequestFactory}.
  */
-public final class OrderRequestFactoryTest extends AndroidTestCase {
+public final class OrderRequestFactoryTest extends SupportAndroidTestCase {
 
     /**
      * App ID #23 fixture.

@@ -8,13 +8,13 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.os.Build;
-import android.test.AndroidTestCase;
 import android.test.mock.MockContext;
 import android.test.mock.MockPackageManager;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.CoreLibConstants;
 
 import java.util.Locale;
@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Tests {@link RequestUtils}.
  */
-public final class RequestUtilsTest extends AndroidTestCase {
+public final class RequestUtilsTest extends SupportAndroidTestCase {
 
     @Nullable
     private Context mMockContext = null;
