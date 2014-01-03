@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -125,10 +124,10 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
     }
 
     /**
-     * Constructor to use to build the LevelUpResponse from a {@link Response}. Reads the
-     * data from the response and calls {@link Response#close()} after.
+     * Constructor to use to build the LevelUpResponse from a {@link StreamingResponse}. Reads the
+     * data from the response and calls {@link StreamingResponse#close} after.
      *
-     * @param response the {@link Response} to convert to an LevelUpResponse.
+     * @param response the {@link StreamingResponse} to convert to an LevelUpResponse.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */BufferedResponse(@NonNull final StreamingResponse response) {
@@ -241,7 +240,7 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
     /* package */static class ResponseTooLargeException extends IOException {
 
         /**
-         * Implements the {@link Serializable} interface.
+         * Implements the {@link java.io.Serializable} interface.
          */
         private static final long serialVersionUID = 2498672579135573453L;
     }

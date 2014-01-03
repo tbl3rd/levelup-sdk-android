@@ -112,8 +112,7 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      * Saves and restores a {@link Fragment} from instance state, using
      * {@link FragmentManager#saveFragmentInstanceState(Fragment)} and
      * {@link Fragment#setInitialSavedState(SavedState)}. This saves the state, removes the
-     * fragment, and then calls
-     * {@link #addFragmentInMainSync(Instrumentation, FragmentActivity, Fragment, boolean)}.
+     * fragment, and then calls {@link TestThreadingUtils#addFragmentInMainSync}.
      *
      * @param fragment Fragment to remove and re-add.
      * @return the new instance of the input fragment created using the saved/restored state.

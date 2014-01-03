@@ -119,7 +119,7 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpResponse#mapStatus(Response)}.
+     * Tests {@link LevelUpResponse#mapStatus(StreamingResponse)}.
      *
      * @throws Exception if the URL in the mock object is malformed (i.e. it won't throw this)
      */
@@ -131,7 +131,7 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpResponse#mapStatus(Response)}. Tests that a response with an
+     * Tests {@link LevelUpResponse#mapStatus(StreamingResponse)}. Tests that a response with an
      * error doesn't use the status code to determine the status, but uses the exception in the
      * response object.
      */
@@ -144,7 +144,7 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpResponse#mapStatus(Response, )}.
+     * Tests {@link LevelUpResponse#mapStatus(StreamingResponse, Exception)}.
      *
      * @throws Exception if the URL in the mock object is malformed (i.e. it won't throw this)
      */
@@ -156,9 +156,9 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpResponse#mapStatus(Response)}. Tests that passing an error with
-     * the response doesn't use the status code to determine the status, but uses the exception
-     * passed.
+     * Tests {@link LevelUpResponse#mapStatus(StreamingResponse, Exception)}. Tests that passing an
+     * error with the response doesn't use the status code to determine the status, but uses the
+     * exception passed.
      *
      * @throws Exception if the URL in the mock object is malformed (i.e. it won't throw this)
      */
@@ -171,9 +171,9 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpResponse#mapStatus(Response)}. Tests that passing an error with
-     * the response doesn't use the status code or response error to determine the status, but uses
-     * the exception passed.
+     * Tests {@link LevelUpResponse#mapStatus(StreamingResponse, Exception)}. Tests that passing an
+     * error with the response doesn't use the status code or response error to determine the
+     * status, but uses the exception passed.
      */
     @SmallTest
     public void testMapStatusResponseException_withErrorAndResponseError() {

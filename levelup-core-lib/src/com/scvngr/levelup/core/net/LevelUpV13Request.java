@@ -74,9 +74,9 @@ public class LevelUpV13Request extends BufferedRequest implements Parcelable {
     public static final String PARAM_ACCESS_TOKEN = "access_token"; //$NON-NLS-1$
 
     /**
-     * Implementation of {@link AccessTokenRetriever} to use to get the user's
-     * {@link OAuthAccessToken} if it is needed for the request. This allows the request to get the
-     * access token at request time, so disk/db operations won't have to be done in the main thread.
+     * Implementation of {@link AccessTokenRetriever} to use to get the user's {@link AccessToken}
+     * if it is needed for the request. This allows the request to get the access token at request
+     * time, so disk/db operations won't have to be done in the main thread.
      */
     @Nullable
     private final AccessTokenRetriever mAccessTokenRetriever;

@@ -233,7 +233,7 @@ public final class LevelUpV13RequestTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpV13Request#getFullJsonUrl(String)}.
+     * Tests {@link LevelUpV13Request#getFullJsonUrl}.
      */
     @SmallTest
     public void testGetFullJsonUrl() {

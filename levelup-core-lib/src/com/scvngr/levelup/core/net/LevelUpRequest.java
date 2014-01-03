@@ -75,9 +75,9 @@ public class LevelUpRequest extends BufferedRequest {
     /* package */static final String HEADER_CONTENT_TYPE = "Content-Type"; //$NON-NLS-1$
 
     /**
-     * Implementation of {@link AccessTokenRetriever} to use to get the user's
-     * {@link OAuthAccessToken} if it is needed for the request. This allows the request to get the
-     * access token at request time, so disk/db operations won't have to be done in the main thread.
+     * Implementation of {@link AccessTokenRetriever} to use to get the user's {@link AccessToken}
+     * if it is needed for the request. This allows the request to get the access token at request
+     * time, so disk/db operations won't have to be done in the main thread.
      */
     @Nullable
     private final AccessTokenRetriever mAccessTokenRetriever;
@@ -125,9 +125,9 @@ public class LevelUpRequest extends BufferedRequest {
     }
 
     /**
-     * Creates a new {@link LevelUpRequest} from a URL. This request will attempt to
-     * append the user's access_token to the request if the {@link AccessTokenRetriever} passed is
-     * not null and returns a non-null OAuthAccessToken.
+     * Creates a new {@link LevelUpRequest} from a URL. This request will attempt to append the
+     * user's access_token to the request if the {@link AccessTokenRetriever} passed is not null and
+     * returns a non-null {@link AccessToken}.
      *
      * @param context the Application context.
      * @param method the {@link HttpMethod} for this request.
@@ -164,9 +164,9 @@ public class LevelUpRequest extends BufferedRequest {
     }
 
     /**
-     * Creates a new {@link LevelUpRequest}. This request will attempt to append the
-     * user's access_token to the request the {@link AccessTokenRetriever} is not null and returns a
-     * non-null OAuthAccessToken.
+     * Creates a new {@link LevelUpRequest}. This request will attempt to append the user's
+     * access_token to the request the {@link AccessTokenRetriever} is not null and returns a
+     * non-null {@link AccessToken}.
      *
      * @param context the Application context.
      * @param method the {@link HttpMethod} for this request.
@@ -188,9 +188,9 @@ public class LevelUpRequest extends BufferedRequest {
     }
 
     /**
-     * Creates a new {@link LevelUpRequest} from a URL. This request will attempt to
-     * append the user's access_token to the request if the {@link AccessTokenRetriever} passed is
-     * not null and returns a non-null OAuthAccessToken.
+     * Creates a new {@link LevelUpRequest} from a URL. This request will attempt to append the
+     * user's access_token to the request if the {@link AccessTokenRetriever} passed is not null and
+     * returns a non-null {@link AccessToken}.
      *
      * @param context the Application context.
      * @param method the {@link HttpMethod} for this request.

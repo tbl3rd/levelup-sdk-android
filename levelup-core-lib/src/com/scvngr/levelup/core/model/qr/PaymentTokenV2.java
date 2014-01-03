@@ -54,7 +54,8 @@ public final class PaymentTokenV2 extends LevelUpCode {
      * Parses a V1 version of the code to try to get the user's selected color. IE:
      *
      * @param resources the resources to use to get color resources with
-     * @return a valid color value if successfully parsed or {@link #COLOR_UNKNOWN} if not.
+     * @return a valid color value if successfully parsed or
+     * {@link PaymentPreferences#COLOR_UNKNOWN} if not.
      */
     @Override
     protected int getColor(@NonNull final Resources resources) {

@@ -73,7 +73,7 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
      * Constructor for testing purposes.
      *
      * @param data the string content of the response.
-     * @param statusCode HTTP status code.
+     * @param status HTTP status code.
      * @param headers HTTP headers.
      * @param error error from response or null if there was none.
      */
@@ -112,10 +112,10 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
     }
 
     /**
-     * Constructor to use to build the LevelUpResponse from a {@link Response}. Reads the data from
-     * the response and calls {@link Response#close()} after.
+     * Constructor to use to build the LevelUpResponse from a {@link StreamingResponse}. Reads the
+     * data from the response and calls {@link StreamingResponse#close} after.
      *
-     * @param response the {@link Response} to convert to an LevelUpResponse.
+     * @param response the {@link StreamingResponse} to convert to an LevelUpResponse.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */LevelUpResponse(@NonNull final StreamingResponse response) {

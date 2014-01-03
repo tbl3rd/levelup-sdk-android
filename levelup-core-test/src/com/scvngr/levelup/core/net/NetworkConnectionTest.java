@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.net;
 
-import android.app.DownloadManager.Request;
 import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
 
@@ -41,9 +40,9 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#configureConnection(Request)} builds a basic request properly.
+     * Tests {@link NetworkConnection#configureConnection} builds a basic request properly.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testConfigureConnection_Basic() throws IOException, BadRequestException {
@@ -60,10 +59,9 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#configureConnection(Request)} builds a request with headers
-     * properly.
+     * Tests {@link NetworkConnection#configureConnection} builds a request with headers properly.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testConfigureConnection_withHeaders() throws IOException, BadRequestException {
@@ -83,10 +81,10 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#configureConnection(Request)} builds a request with null
-     * headers properly.
+     * Tests {@link NetworkConnection#configureConnection} builds a request with null headers
+     * properly.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testConfigureConnection_withNullHeaders() throws IOException, BadRequestException {
@@ -103,10 +101,10 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#configureConnection(Request)} builds a request with query
-     * params properly.
+     * Tests {@link NetworkConnection#configureConnection} builds a request with query params
+     * properly.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testConfigureConnection_withQueryParameters() throws IOException,
@@ -126,10 +124,10 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#configureConnection(Request)} builds a request with null query
-     * params properly.
+     * Tests {@link NetworkConnection#configureConnection} builds a request with null query params
+     * properly.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testConfigureConnection_withNullQueryParamters() throws IOException,
@@ -145,10 +143,10 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#configureConnection(Request)} builds a request with a POST
-     * body correctly.
+     * Tests {@link NetworkConnection#configureConnection} builds a request with a POST body
+     * correctly.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testConfigureConnection_withPostBody() throws IOException, BadRequestException {
@@ -164,10 +162,10 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#configureConnection(Request)} builds a request with a POST
-     * body correctly.
+     * Tests {@link NetworkConnection#configureConnection} builds a request with a POST body
+     * correctly.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testConfigureConnection_withPostBodyAndPutRequest() throws IOException,
@@ -184,10 +182,10 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#doOutput(HttpURLConnection, Request)} with a get request with
-     * no post body does not mark the connection as output and keeps it as a get.
+     * Tests {@link NetworkConnection#doOutput} with a get request with no post body does not mark
+     * the connection as output and keeps it as a get.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testDoOutput_withNoPostBody() throws IOException, BadRequestException {
@@ -203,10 +201,10 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#configureConnection(Request)} builds a request with a POST
-     * body correctly even if the request is marked as a GET.
+     * Tests {@link NetworkConnection#configureConnection} builds a request with a POST body
+     * correctly even if the request is marked as a GET.
      *
-     * @throws IOException if {@link NetworkConnection#configureConnection(Request)} throws
+     * @throws IOException if {@link NetworkConnection#configureConnection} throws
      */
     @SmallTest
     public void testDoOutput_withPostBodyAndGetRequest() throws IOException, BadRequestException {
@@ -223,7 +221,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send(Request)} with a GET request.
+     * Tests {@link NetworkConnection#send} with a GET request.
      *
      * @throws InterruptedException if {@link MockWebServer#takeRequest()} throws it
      * @throws IOException if {@link #getMockServerUrl()} throws it
@@ -242,7 +240,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send(Request)} with a GET request and query params.
+     * Tests {@link NetworkConnection#send} with a GET request and query params.
      *
      * @throws InterruptedException if {@link MockWebServer#takeRequest()} throws it
      * @throws IOException if {@link #getMockServerUrl()} throws it
@@ -263,7 +261,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send(Request)} with a GET request and headers.
+     * Tests {@link NetworkConnection#send} with a GET request and headers.
      *
      * @throws InterruptedException if {@link MockWebServer#takeRequest()} throws it
      * @throws IOException if {@link #getMockServerUrl()} throws it
@@ -289,7 +287,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send(Request)} with a GET request and data returned.
+     * Tests {@link NetworkConnection#send} with a GET request and data returned.
      *
      * @throws InterruptedException if {@link MockWebServer#takeRequest()} throws it
      * @throws IOException if {@link #getMockServerUrl()} throws it
@@ -313,7 +311,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send(Request)} with a POST request with post body.
+     * Tests {@link NetworkConnection#send} with a POST request with post body.
      *
      * @throws InterruptedException if {@link MockWebServer#takeRequest()} throws it
      * @throws IOException if {@link #getMockServerUrl()} throws it
@@ -333,7 +331,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send(Request)} with a PUT request.
+     * Tests {@link NetworkConnection#send} with a PUT request.
      *
      * @throws InterruptedException if {@link MockWebServer#takeRequest()} throws it
      * @throws IOException if {@link #getMockServerUrl()} throws it
@@ -353,7 +351,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send(Request)} with a DELETE request.
+     * Tests {@link NetworkConnection#send} with a DELETE request.
      *
      * @throws InterruptedException if {@link MockWebServer#takeRequest()} throws it
      * @throws IOException if {@link #getMockServerUrl()} throws it
@@ -371,7 +369,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send(Request)} with a request that throws a
+     * Tests {@link NetworkConnection#send} with a request that throws a
      * {@link BadRequestException}.
      */
     @SmallTest
@@ -396,8 +394,8 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Test implementation of {@link Request} that throws a {@link BadRequestException} when
-     * {@link Request#getUrlString(Context)} is called.
+     * Test implementation of {@link AbstractRequest} that throws a {@link BadRequestException} when
+     * {@link AbstractRequest#getUrlString} is called.
      */
     private static final class ExceptionThrowingRequest extends BufferedRequest {
 

@@ -65,7 +65,7 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpConnection#setNextResponse(LevelUpResponse)}.
+     * Tests {@link LevelUpConnection#setNextResponse}.
      *
      * @throws BadRequestException
      */
@@ -85,7 +85,7 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpConnection#setNextResponse(LevelUpResponse)}.
+     * Tests {@link LevelUpConnection#setNextResponse}.
      *
      * @throws BadRequestException
      */
@@ -105,7 +105,7 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpConnection#setNextResponse(LevelUpResponse)}.
+     * Tests {@link LevelUpConnection#setNextResponse}.
      *
      * @throws BadRequestException
      */
@@ -132,7 +132,7 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpConnection#setNextResponse(LevelUpResponse)}.
+     * Tests {@link LevelUpConnection#setNextResponse}.
      *
      * @throws BadRequestException
      * @throws InterruptedException
@@ -216,8 +216,7 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpConnection#send(LevelUpV13Request)}.
-     *
+     * Tests {@link LevelUpConnection#send}.
      */
     @SmallTest
     public void testSend_basic() {
@@ -231,10 +230,9 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpConnection#send(LevelUpV13Request)}.
+     * Tests {@link LevelUpConnection#send}.
      *
      * @throws Exception if {@link MockHttpUrlConnection} throws
-     *
      */
     @SmallTest
     public void testSend_withResponse() throws Exception {

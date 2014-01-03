@@ -143,7 +143,7 @@ public final class AbstractJsonModelFactoryTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Test implementation of {@link AbstractModelFactory}.
+     * Test implementation of {@link AbstractJsonModelFactory}.
      */
     @Immutable
     private static final class TestModelFactory extends AbstractJsonModelFactory<TestModel> {

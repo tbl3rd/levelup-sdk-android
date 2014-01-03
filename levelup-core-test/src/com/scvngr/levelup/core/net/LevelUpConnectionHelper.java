@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.net;
 
-import android.app.DownloadManager.Request;
 import android.content.Context;
 
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -74,7 +73,7 @@ public final class LevelUpConnectionHelper {
     /**
      * @param requestUrl the url of the request to get.
      * @param connection An the instance of {@link LevelUpConnection} returned by
-     *        {@link #setNextResponse(Context, LevelUpResponse)}.
+     * {@link #setNextResponse}.
      * @return the last request made.
      */
     @Nullable
@@ -100,9 +99,9 @@ public final class LevelUpConnectionHelper {
 
     /**
      * Creates a new {@link LevelUpResponse} with the the data and the {@link LevelUpStatus}
-     * passed and sets it as the next response that
-     * {@link LevelUpConnection#send(Request)} will return. The newly created connection
-     * is set as the next {@link LevelUpConnection} instance that will be used by clients.
+     * passed and sets it as the next response that {@link LevelUpConnection#send} will return. The
+     * newly created connection is set as the next {@link LevelUpConnection} instance that will be
+     * used by clients.
      *
      * @param context Application context.
      * @param data the data that the request should return.

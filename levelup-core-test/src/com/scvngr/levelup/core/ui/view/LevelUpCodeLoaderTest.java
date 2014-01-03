@@ -30,7 +30,7 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
     /**
      * Tests {@link LevelUpCodeLoader#dispatchOnImageLoaded(String, LevelUpQrCodeImage)}.
      *
-     * @throws InterruptedException
+     * @throws InterruptedException from {@link java.util.concurrent.CountDownLatch#await}
      */
     public void testDispatchOnImageLoaded() throws InterruptedException {
         mLoader.registerOnImageLoadedCallback(mTestKey1, mOnImageLoaded);
@@ -68,9 +68,7 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests
-     * {@link LevelUpCodeLoader#getLevelUpCode(String, com.scvngr.levelup.core.ui.view.PendingImage.nImageLoaded)}
-     * with a cache hit.
+     * Tests {@link LevelUpCodeLoader#getLevelUpCode} with a cache hit.
      */
     public void testGetLevelUpCode_cacheHit() {
         mCache.putCode(mTestKey1, mQrCodeGenerator.mTestImage1);
@@ -88,9 +86,7 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests
-     * {@link LevelUpCodeLoader#getLevelUpCode(String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
-     * with a cache miss.
+     * Tests {@link LevelUpCodeLoader#getLevelUpCode} with a cache miss.
      */
     public void testGetLevelUpCode_cacheMiss() {
         final PendingImage<LevelUpQrCodeImage> levelUpCode =
@@ -107,13 +103,9 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests
-     * {@link LevelUpCodeLoader#registerOnImageLoadedCallback(String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
-     * .
-     *
-     * @throws InterruptedException
+     * Tests {@link LevelUpCodeLoader#registerOnImageLoadedCallback}.
      */
-    public void testRegisterOnImageLoad() throws InterruptedException {
+    public void testRegisterOnImageLoad() {
         mLoader.registerOnImageLoadedCallback(mTestKey1, mOnImageLoaded);
 
         assertTrue(mLoader.mLoaderCallbacks.containsKey(mTestKey1));
@@ -121,9 +113,7 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests that
-     * {@link LevelUpCodeLoaderUnderTest#scheduleLoad(String, String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
-     * works as expected.
+     * Tests that {@link LevelUpCodeLoaderUnderTest#startLoadInBackground} works as expected.
      */
     public void testScheduleLoad() {
         final LatchedOnImageLoaded onImageLoaded = new LatchedOnImageLoaded(mTestKey1);
@@ -134,10 +124,8 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link LevelUpCodeLoader#unregisterOnImageLoadedCallback(String)}.
-     *
-     * @throws InterruptedException
      */
-    public void testUnregisterOnImageLoad() throws InterruptedException {
+    public void testUnregisterOnImageLoad() {
 
         mLoader.registerOnImageLoadedCallback(mTestKey1, mOnImageLoaded);
         mLoader.unregisterOnImageLoadedCallback(mTestKey1);

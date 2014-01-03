@@ -203,9 +203,9 @@ public final class LevelUpConnection {
     }
 
     /**
-     * Testing Helper: set if un-caught (see {@link #setNextResponse(LevelUpResponse)})
-     * network activity should be enabled. If disabled, any network activity that does not have a
-     * pre-created response will throw an exception.
+     * Testing Helper: set if un-caught (see {@link #setNextResponse}) network activity should be
+     * enabled. If disabled, any network activity that does not have a pre-created response will
+     * throw an exception.
      *
      * @param enabled true if network connections should be enabled.
      */

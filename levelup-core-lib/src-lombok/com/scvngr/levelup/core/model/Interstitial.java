@@ -90,7 +90,7 @@ public final class Interstitial implements Parcelable {
      * <p>
      * NOTE: This could return any of the recognized types (or a currently unsupported type). This
      * is mostly intended to be used to determine what type will be returned from
-     * {@link #getInterstitialAction()}.
+     * {@link #getAction}.
      * </p>
      * 
      * @see #TYPE_CLAIM

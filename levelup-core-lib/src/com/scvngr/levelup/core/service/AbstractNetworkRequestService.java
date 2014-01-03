@@ -84,7 +84,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * Handle the response from the server.
      *
      * @param context the Application context.
-     * @param response the {@link Response} received from the server.
+     * @param response the {@link LevelUpResponse} received from the server.
      * @return true if the response indicated a successful request.
      */
     protected abstract boolean handleResponse(@NonNull final Context context,

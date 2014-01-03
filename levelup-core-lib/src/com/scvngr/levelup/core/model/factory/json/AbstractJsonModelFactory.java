@@ -28,7 +28,7 @@ public abstract class AbstractJsonModelFactory<T> {
     /**
      * The type key under which the JSON object can be nested under.
      *
-     * @see {@link #AbstractModelFactory(String)}
+     * @see {@link #AbstractJsonModelFactory}
      */
     @NonNull
     private final String mTypeKey;

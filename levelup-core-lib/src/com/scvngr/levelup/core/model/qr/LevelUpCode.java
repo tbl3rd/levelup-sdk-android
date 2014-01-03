@@ -114,7 +114,8 @@ public abstract class LevelUpCode {
      * Get the color from this LevelUp code.
      *
      * @param resources the resources to use to resolve the color.
-     * @return the int color or {@link #COLOR_UNKNOWN} if none were found in QR code.
+     * @return the int color or {@link PaymentPreferences#COLOR_UNKNOWN} if none were found in QR
+     * code.
      */
     protected abstract int getColor(@NonNull final Resources resources);
 

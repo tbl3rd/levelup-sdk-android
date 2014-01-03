@@ -17,7 +17,7 @@ public final class LevelUpConnectionHelper {
 
     /**
      * The amount of milliseconds to sleep between loop iterations in
-     * {@link #waitForRequest(LevelUpConnection, long)}.
+     * {@link #waitForRequest}.
      */
     private static final int WAIT_SLEEP_MILLIS = 20;
 

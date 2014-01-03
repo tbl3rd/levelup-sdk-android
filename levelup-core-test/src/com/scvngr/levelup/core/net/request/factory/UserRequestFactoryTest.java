@@ -1,6 +1,5 @@
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.app.DownloadManager.Request;
 import android.content.Context;
 import android.location.Location;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -24,6 +23,7 @@ import com.scvngr.levelup.core.util.LogManager;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Locale;
@@ -65,13 +65,15 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests the returned {@link Request} from
-     * {@link UserRequestFactory#buildForgotPasswordRequest(String)} for validity.
+     * Tests the {@link AbstractRequest} return from
+     * {@link UserRequestFactory#buildForgotPasswordRequest}.
      *
-     * @throws Exception if URLEncoder throws
+     * @throws BadRequestException from {@link AbstractRequest#getUrl}
+     * @throws UnsupportedEncodingException from {@link URLEncoder#encode(String, String)}
      */
     @SmallTest
-    public void testBuildForgotPasswordRequest_withValidArgument() throws Exception {
+    public void testBuildForgotPasswordRequest_withValidArgument() throws BadRequestException,
+            UnsupportedEncodingException {
         final LevelUpV13Request request =
                 (LevelUpV13Request) new UserRequestFactory(getContext(),
                         new MockAccessTokenRetriever())

@@ -7,7 +7,6 @@ import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
-import java.net.URLEncoder;
 import java.util.Locale;
 
 /**
@@ -115,10 +114,10 @@ public final class LevelUpV13RequestWithCurrentUserTest extends SupportAndroidTe
     }
 
     /**
-     * Tests {@link LevelUpV13RequestWithcurrentUser#getQueryParams(android.content.Context)}
-     * to ensure the user's access token is appended to the params.
+     * Tests {@link LevelUpV13RequestWithCurrentUser#getQueryParams} to ensure the user's access
+     * token is appended to the params.
      *
-     * @throws Exception if {@link URLEncoder#encode(String, String)} throws
+     * @throws Exception if {@link java.net.URLEncoder#encode(String, String)} throws
      */
     @SmallTest
     public void testGetQueryParams_appendsAccessToken() throws Exception {

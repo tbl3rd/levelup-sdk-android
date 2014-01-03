@@ -70,7 +70,7 @@ public final class NetworkConnection {
      *
      * @param context Application Context.
      * @param request the request to send.
-     * @return {@link Response} containing information regarding the outcome of the send.
+     * @return {@link StreamingResponse} containing information regarding the outcome of the send.
      * @throws IOException if network operations fail.
      */
     @NonNull
@@ -155,7 +155,7 @@ public final class NetworkConnection {
      *
      * @param connection the connection to use to make the request to the server
      * @param request the request to send to the server
-     * @return @return {@link Response} containing information regarding the outcome of the send
+     * @return {@link StreamingResponse} containing information regarding the outcome of the send
      * @throws IOException if network operations fail
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
