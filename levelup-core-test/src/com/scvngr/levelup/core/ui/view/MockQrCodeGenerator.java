@@ -76,9 +76,12 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
         return isEqual;
     }
 
+    @NonNull
     private LevelUpQrCodeImage generateTestImage(final int color) {
         final Bitmap bitmap =
                 Bitmap.createBitmap(TEST_IMAGE_SIZE, TEST_IMAGE_SIZE, Bitmap.Config.RGB_565);
+
+        bitmap.setDensity(Bitmap.DENSITY_NONE);
 
         bitmap.setPixel(TEST_COLOR_PIXEL, TEST_COLOR_PIXEL, color);
         // These are the target markers.
@@ -86,7 +89,13 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
         bitmap.setPixel(TARGET_RIGHT, TARGET_BOTTOM, Color.BLACK);
         bitmap.setPixel(TARGET_LEFT, TARGET_BOTTOM, Color.BLACK);
 
-        return new LevelUpQrCodeImage(Bitmap.createBitmap(bitmap), 1, 2);
+        final Bitmap immutableBitmap = Bitmap.createBitmap(bitmap);
+
+        if (bitmap != immutableBitmap) {
+            bitmap.recycle();
+        }
+
+        return new LevelUpQrCodeImage(immutableBitmap, 1, 2);
     }
 
     /**

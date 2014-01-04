@@ -3,6 +3,8 @@
  */
 package com.scvngr.levelup.core.ui.view;
 
+import android.os.Looper;
+
 import java.util.HashMap;
 
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -75,7 +77,7 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
      * Gets a minimally-small bitmap from the cache whose contents encode {@code qrCodeContents}.
      * This returns a {@link PendingImage}, which will either contain the resulting image if the
      * code has been cached or will be loaded eventually and the {@code onImageLoaded} callback will
-     * be called.
+     * be called. This must be called on the main thread.
      *
      * @param qrCodeContents the data to display to the user. This is the raw string to encode in
      *        the QR code.
@@ -87,6 +89,10 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
     public final PendingImage<LevelUpQrCodeImage> getLevelUpCode(
             @NonNull final String qrCodeContents,
             @Nullable final OnImageLoaded<LevelUpQrCodeImage> onImageLoaded) {
+        if (Looper.getMainLooper() != Looper.myLooper()) {
+            throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
+        }
+
         final String key = getKey(qrCodeContents);
 
         final PendingImage<LevelUpQrCodeImage> pendingImage =
@@ -104,10 +110,6 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
             mPendingImages.put(key, pendingImage);
 
             startLoadInBackground(qrCodeContents, key, onImageLoaded);
-
-            if (null != onImageLoaded) {
-                registerOnImageLoadedCallback(key, onImageLoaded);
-            }
         }
 
         return pendingImage;
@@ -116,11 +118,15 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
     /**
      * Generate and cache the code image. This is the same as
      * {@link #getLevelUpCode(String, OnImageLoaded)}, but does not return a result to the user.
-     * This can be used for pre-caching codes.
+     * This can be used for pre-caching codes. This must be called on the main thread.
      *
      * @param codeData the data to display to the user.
      */
     public final void loadLevelUpCode(@NonNull final String codeData) {
+        if (Looper.getMainLooper() != Looper.myLooper()) {
+            throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
+        }
+
         startLoadInBackground(codeData, getKey(codeData), null);
     }
 
@@ -220,7 +226,7 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
      * <p>
      * Implement this to start the loading of the given QR code into an image in the background. If
      * an existing request for the same content has been made, the second request will be dropped
-     * unless the previous request has been cancelled. This will be called on the main thread.
+     * unless the previous request has been cancelled. This must be called on the main thread.
      * </p>
      * <p>
      * Subclasses shouldn't call this method directly, instead call
@@ -250,7 +256,7 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
      * <p>
      * Start the loading of the given QR code into an image in the background. If an existing
      * request for the same content has been made, the second request will be dropped unless the
-     * previous request has been cancelled.
+     * previous request has been cancelled. This must be called on the main thread.
      * </p>
      *
      * @param qrCodeContents the contents to render into a QR code.

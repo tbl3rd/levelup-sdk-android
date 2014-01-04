@@ -3,16 +3,18 @@
  */
 package com.scvngr.levelup.core.ui.view;
 
-import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.test.SupportInstrumentationTestCase;
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Tests {@link LevelUpCodeLoader}.
  */
 @SuppressWarnings("javadoc")
-public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
+public final class LevelUpCodeLoaderTest extends SupportInstrumentationTestCase {
     private HashMapCache mCache;
     private LevelUpCodeLoaderUnderTest mLoader;
     private LatchedOnImageLoaded mOnImageLoaded;
@@ -76,8 +78,7 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
     public void testGetLevelUpCode_cacheHit() {
         mCache.putCode(mTestKey1, mQrCodeGenerator.mTestImage1);
 
-        final PendingImage<LevelUpQrCodeImage> levelUpCode =
-                mLoader.getLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mOnImageLoaded);
+        final PendingImage<LevelUpQrCodeImage> levelUpCode = getPendingImageOnMainThread();
 
         // Check the PendingImage
         assertEquals(mTestKey1, levelUpCode.getLoadKey());
@@ -92,8 +93,7 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
      * Tests {@link LevelUpCodeLoader#getLevelUpCode} with a cache miss.
      */
     public void testGetLevelUpCode_cacheMiss() {
-        final PendingImage<LevelUpQrCodeImage> levelUpCode =
-                mLoader.getLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mOnImageLoaded);
+        final PendingImage<LevelUpQrCodeImage> levelUpCode = getPendingImageOnMainThread();
 
         // Check the PendingImage
         assertEquals(mTestKey1, levelUpCode.getLoadKey());
@@ -121,7 +121,14 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
     public void testScheduleLoad() {
         final LatchedOnImageLoaded onImageLoaded = new LatchedOnImageLoaded(mTestKey1);
 
-        mLoader.startLoadInBackground(MockQrCodeGenerator.TEST_CONTENT1, mTestKey1, onImageLoaded);
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                mLoader.startLoadInBackground(MockQrCodeGenerator.TEST_CONTENT1, mTestKey1,
+                        onImageLoaded);
+            }
+        });
+
         assertTrue(mLoader.mScheduleLoadKeys.contains(mTestKey1));
     }
 
@@ -134,5 +141,29 @@ public final class LevelUpCodeLoaderTest extends SupportAndroidTestCase {
         mLoader.unregisterOnImageLoadedCallback(mTestKey1);
 
         assertFalse(mLoader.mLoaderCallbacks.containsKey(mTestKey1));
+    }
+
+    /**
+     * Gets the {@link PendingImage} from the main thread.
+     *
+     * @return the {@link PendingImage}
+     */
+    @NonNull
+    private PendingImage<LevelUpQrCodeImage> getPendingImageOnMainThread() {
+        final AtomicReference<PendingImage<LevelUpQrCodeImage>> levelUpCodeReference =
+                new AtomicReference<PendingImage<LevelUpQrCodeImage>>();
+
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                levelUpCodeReference.set(mLoader.getLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1,
+                        mOnImageLoaded));
+            }
+        });
+
+        final PendingImage<LevelUpQrCodeImage> levelUpCode = levelUpCodeReference.get();
+        assertNotNull(levelUpCode);
+
+        return levelUpCode;
     }
 }

@@ -17,7 +17,6 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License
  */
-
 package com.scvngr.levelup.core.test;
 
 import android.os.AsyncTask;
@@ -36,6 +35,7 @@ import java.util.concurrent.CountDownLatch;
  * expected result.
  */
 public class SupportLoaderTestCase extends SupportAndroidTestCase {
+
     static {
         // Force class loading of AsyncTask on the main thread so that its handlers are tied to
         // the main thread and responses from the worker thread get delivered on the main thread.

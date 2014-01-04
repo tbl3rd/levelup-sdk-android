@@ -12,7 +12,6 @@ import android.support.v4.app.Fragment.SavedState;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.test.AndroidTestCase;
-import android.text.format.DateUtils;
 import android.view.View;
 
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -20,6 +19,7 @@ import com.scvngr.levelup.core.annotation.Nullable;
 
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Methods to help with some of the intricacies of threading in the test cases.
@@ -32,6 +32,10 @@ public final class TestThreadingUtils {
      * parent id should be validated.
      */
     public static final int PARENT_ID_UNDEFINED = -1;
+
+    private static final long WAIT_TIMEOUT_MILLIS = TimeUnit.SECONDS.toMillis(4L);
+
+    private static final long WAIT_SLEEP_MILLIS = 20L;
 
     /**
      * Adds a fragment in a transaction synchronized in the main thread (tagged with the fragment's
@@ -66,13 +70,14 @@ public final class TestThreadingUtils {
      * Saves a {@link Fragment} to instance state, removes it from the activity. Then creates a new
      * one of the same class, restores the instance state, and re-adds it to the activity.
      *
+     * @param <T> the type of Fragment
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the {@link FragmentActivity} to add it to.
      * @param fragment Fragment to remove and re-add.
      * @return the new instance of the input fragment created using the saved/restored state.
      */
     @NonNull
-    public static final <T extends Fragment> T saveAndRestoreFragmentStateSync(
+    public static <T extends Fragment> T saveAndRestoreFragmentStateSync(
             @NonNull final Instrumentation instrumentation,
             @NonNull final FragmentActivity activity, @NonNull final T fragment) {
         final boolean inView = fragment.isInLayout();
@@ -140,7 +145,7 @@ public final class TestThreadingUtils {
      * @param fragmentManager the fragment manager the fragment was added to.
      * @param tag the tag to check for.
      * @param parentId the id of the parent container the fragment is expected to be in or pass
-     *        {@link #PARENT_ID_UNDEFINED} if no parent id should be validated.
+     * {@link #PARENT_ID_UNDEFINED} if no parent id should be validated.
      */
     public static void validateFragmentAdded(@NonNull final Instrumentation instrumentation,
             @NonNull final Activity activity, @NonNull final FragmentManager fragmentManager,
@@ -195,16 +200,37 @@ public final class TestThreadingUtils {
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the activity for the test being run.
      * @param runnable the runnable that will check the condition and signal success via the
-     *        {@link CountDownLatch} passed.
+     * {@link CountDownLatch} passed.
      * @param latch the {@link CountDownLatch} to check for success.
      * @param isMainThreadRunnable Determine whether or not the runnable must be invoked on the main
-     *        thread.
+     * thread.
      * @return true if the action happened before the timeout, false otherwise.
      */
     public static boolean waitForAction(@NonNull final Instrumentation instrumentation,
             @NonNull final Activity activity, @NonNull final Runnable runnable,
             @NonNull final CountDownLatch latch, final boolean isMainThreadRunnable) {
-        final long endTime = SystemClock.elapsedRealtime() + (4 * DateUtils.SECOND_IN_MILLIS);
+        return waitForAction(instrumentation, activity, runnable, latch, WAIT_TIMEOUT_MILLIS,
+                isMainThreadRunnable);
+    }
+
+    /**
+     * Helper method to wait for an action to occur.
+     *
+     * @param instrumentation the test {@link Instrumentation}.
+     * @param activity the activity for the test being run.
+     * @param runnable the runnable that will check the condition and signal success via the
+     * {@link CountDownLatch} passed.
+     * @param latch the {@link CountDownLatch} to check for success.
+     * @param timeoutMillis the timeout duration in milliseconds.
+     * @param isMainThreadRunnable Determine whether or not the runnable must be invoked on the main
+     * thread.
+     * @return true if the action happened before the timeout, false otherwise.
+     */
+    public static boolean waitForAction(@NonNull final Instrumentation instrumentation,
+            @NonNull final Activity activity, @NonNull final Runnable runnable,
+            @NonNull final CountDownLatch latch, final long timeoutMillis,
+            final boolean isMainThreadRunnable) {
+        final long endTime = SystemClock.elapsedRealtime() + timeoutMillis;
         boolean result = true;
 
         while (true) {
@@ -224,7 +250,7 @@ public final class TestThreadingUtils {
                 break;
             }
 
-            SystemClock.sleep(20);
+            SystemClock.sleep(WAIT_SLEEP_MILLIS);
         }
 
         return result;
@@ -240,7 +266,7 @@ public final class TestThreadingUtils {
      */
     public static void runOnMainSync(@NonNull final Instrumentation instrumentation,
             @NonNull final Activity activity, @NonNull final Runnable runnable) {
-        if (activity.getMainLooper() == Looper.myLooper()) {
+        if (activity.getMainLooper().equals(Looper.myLooper())) {
             runnable.run();
         } else {
             final FutureAssertionError futureError = new FutureAssertionError();
@@ -262,13 +288,6 @@ public final class TestThreadingUtils {
     }
 
     /**
-     * Private constructor prevents instantiation.
-     */
-    private TestThreadingUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
-    }
-
-    /**
      * This class is used to capture {@link AssertionError}s thrown inside anonymous
      * {@link Runnable}s so they can be re-thrown on the {@link Instrumentation} test thread.
      */
@@ -284,7 +303,7 @@ public final class TestThreadingUtils {
          * Set the {@link AssertionError} to be thrown by {@link #throwPendingAssertionError()}.
          *
          * @param error The {@link AssertionError} to be thrown by
-         *        {@link #throwPendingAssertionError()}.
+         * {@link #throwPendingAssertionError()}.
          */
         private void setAssertionError(@NonNull final AssertionError error) {
             mError = error;
@@ -299,5 +318,12 @@ public final class TestThreadingUtils {
                 throw mError;
             }
         }
+    }
+
+    /**
+     * Private constructor prevents instantiation.
+     */
+    private TestThreadingUtils() {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
     }
 }

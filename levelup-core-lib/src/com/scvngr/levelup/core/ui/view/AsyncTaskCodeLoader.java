@@ -6,6 +6,7 @@ package com.scvngr.levelup.core.ui.view;
 import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Looper;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
@@ -70,6 +71,10 @@ public final class AsyncTaskCodeLoader extends LevelUpCodeLoader {
     protected void onStartLoadInBackground(@NonNull final String qrCodeContents,
             @NonNull final String key,
             @Nullable final OnImageLoaded<LevelUpQrCodeImage> onImageLoaded) {
+        if (Looper.getMainLooper() != Looper.myLooper()) {
+            throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
+        }
+
         final AsyncTask<Void, Void, LevelUpQrCodeImage> existingLoad = mAsyncTasks.get(key);
 
         if (null == existingLoad || existingLoad.isCancelled()) {

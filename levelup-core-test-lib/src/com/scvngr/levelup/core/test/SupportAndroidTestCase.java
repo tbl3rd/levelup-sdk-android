@@ -12,7 +12,7 @@ import android.test.AndroidTestCase;
  * This class implements a workaround in {@link #setContext} to avoid a race condition which causes
  * {@link Context#getApplicationContext} to temporarily return null.
  *
- * @see SupportTestCaseUtils#waitForApplicationContextIfNecessary
+ * @see SupportTestCaseUtils#waitForApplicationContext
  */
 public class SupportAndroidTestCase extends AndroidTestCase {
 
@@ -20,6 +20,6 @@ public class SupportAndroidTestCase extends AndroidTestCase {
     public void setContext(final Context context) {
         super.setContext(context);
 
-        SupportTestCaseUtils.waitForApplicationContextIfNecessary(context);
+        SupportTestCaseUtils.waitForApplicationContext(context);
     }
 }

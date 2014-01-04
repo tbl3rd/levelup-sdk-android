@@ -24,7 +24,7 @@ public final class LatchedOnImageLoaded implements OnImageLoaded<LevelUpQrCodeIm
     /**
      * The image that is passed into {@link #onImageLoaded(String, LevelUpQrCodeImage)}.
      */
-    public LevelUpQrCodeImage mLoadedImage;
+    public volatile LevelUpQrCodeImage mLoadedImage;
 
     /**
      * @param expectedKey the key that's expected to be passed to
@@ -38,10 +38,10 @@ public final class LatchedOnImageLoaded implements OnImageLoaded<LevelUpQrCodeIm
     @Override
     public void
             onImageLoaded(@NonNull final String loadKey, @NonNull final LevelUpQrCodeImage image) {
+        mLoadedImage = image;
+
         if (mExpectedKey.equals(loadKey)) {
             mLatch.countDown();
         }
-
-        mLoadedImage = image;
     }
 }

@@ -74,12 +74,14 @@ public final class LevelUpCodeView extends View {
     /**
      * The end value of the alpha channel for the color fade animation.
      */
-    private static final int ANIM_FADE_COLOR_ALPHA_END = 150;
+    @VisibleForTesting(visibility = Visibility.PRIVATE)
+    /* package */static final int ANIM_FADE_COLOR_ALPHA_END = 150;
 
     /**
      * The start value of the alpha channel for the color fade animation.
      */
-    private static final int ANIM_FADE_COLOR_ALPHA_START = 255;
+    @VisibleForTesting(visibility = Visibility.PRIVATE)
+    /* package */static final int ANIM_FADE_COLOR_ALPHA_START = 255;
 
     /**
      * The default value for {@link #mIsColorizeSet}.
@@ -106,7 +108,8 @@ public final class LevelUpCodeView extends View {
     /**
      * The current alpha value of the colored target areas.
      */
-    private int mColorAlpha = ANIM_FADE_COLOR_ALPHA_START;
+    @VisibleForTesting(visibility = Visibility.PRIVATE)
+    /* package */int mColorAlpha = ANIM_FADE_COLOR_ALPHA_START;
 
     /**
      * The currently-displayed data.
@@ -318,7 +321,7 @@ public final class LevelUpCodeView extends View {
     public void setLevelUpCode(@NonNull final String codeData,
             @NonNull final LevelUpCodeLoader codeLoader) {
 
-        if (!Looper.getMainLooper().equals(Looper.myLooper())) {
+        if (Looper.getMainLooper() != Looper.myLooper()) {
             throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
         }
 

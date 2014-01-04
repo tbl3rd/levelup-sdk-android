@@ -16,7 +16,7 @@ import com.scvngr.levelup.core.annotation.NonNull;
  * {@link Context#getApplicationContext} to temporarily return null.
  *
  * @param <T> the type of {@link Application}.
- * @see SupportTestCaseUtils#waitForApplicationContextIfNecessary
+ * @see SupportTestCaseUtils#waitForApplicationContext
  */
 public class SupportApplicationTestCase<T extends Application> extends ApplicationTestCase<T> {
 
@@ -33,6 +33,6 @@ public class SupportApplicationTestCase<T extends Application> extends Applicati
     public void setContext(final Context context) {
         super.setContext(context);
 
-        SupportTestCaseUtils.waitForApplicationContextIfNecessary(context);
+        SupportTestCaseUtils.waitForApplicationContext(context);
     }
 }

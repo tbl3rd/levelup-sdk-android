@@ -37,20 +37,21 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
 
     public LevelUpUnitTestCase(final Class<T> activityClass) {
         super(activityClass);
-
-        // Disable all network connections.
-        LevelUpConnectionHelper.setNetworkEnabled(false);
     }
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+
+        // Disable all network connections.
+        LevelUpConnectionHelper.setNetworkEnabled(false);
         LevelUpConnectionHelper.clearInstance();
     }
 
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+
         LevelUpConnectionHelper.clearInstance();
     }
 

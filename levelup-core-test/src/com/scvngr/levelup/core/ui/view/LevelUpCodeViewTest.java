@@ -3,11 +3,9 @@
  */
 package com.scvngr.levelup.core.ui.view;
 
-import android.app.Activity;
-import android.app.Instrumentation.ActivityMonitor;
-import android.app.Instrumentation.ActivityResult;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.os.SystemClock;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -16,13 +14,18 @@ import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.test.R;
 import com.scvngr.levelup.core.test.TestThreadingUtils;
 import com.scvngr.levelup.core.ui.view.LevelUpCodeView.OnCodeLoadListener;
+import com.scvngr.levelup.core.util.EnvironmentUtil;
+import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.ui.activity.FragmentTestActivity;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Tests {@link LevelUpCodeView}.
@@ -34,7 +37,6 @@ public final class LevelUpCodeViewTest extends
     private HashMapCache mCache;
     private LevelUpCodeView mLevelUpCodeView;
     private LevelUpCodeLoaderUnderTest mLoader;
-    private ActivityMonitor mMonitor;
     private MockQrCodeGenerator mQrCodeGenerator;
 
     public LevelUpCodeViewTest() {
@@ -50,32 +52,49 @@ public final class LevelUpCodeViewTest extends
         mQrCodeGenerator = new MockQrCodeGenerator();
         mLoader = new LevelUpCodeLoaderUnderTest(mQrCodeGenerator, mCache);
 
-        final ActivityResult result = new ActivityResult(0, null);
-        mMonitor = new ActivityMonitor(FragmentTestActivity.class.getName(), result, false);
-        getInstrumentation().addMonitor(mMonitor);
-        final Activity activity = getActivity();
-        mMonitor.waitForActivity();
+        final FragmentTestActivity activity = getActivity();
+        getInstrumentation().waitForIdleSync();
 
-        getInstrumentation().runOnMainSync(new Runnable() {
+        TestThreadingUtils.runOnMainSync(getInstrumentation(), activity, new Runnable() {
             @Override
             public void run() {
-                final ViewGroup innerContent = (ViewGroup) activity.findViewById(
-                        com.scvngr.levelup.core.test.R.id.levelup_activity_content);
+                mLevelUpCodeView = new LevelUpCodeView(activity);
 
-                mLevelUpCodeView = new LevelUpCodeView(innerContent.getContext());
-                innerContent.addView(mLevelUpCodeView, new LinearLayout.LayoutParams(
-                        LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+                final int layoutSize;
+
+                if (EnvironmentUtil.isSdk11OrGreater()) {
+                    layoutSize = LayoutParams.MATCH_PARENT;
+                } else {
+                    /*
+                     * Pre-Honeycomb devices do not fare well when rapidly allocating large bitmaps
+                     * during tests. Choose a small layout size that is large enough to validate
+                     * pixel scaling.
+                     */
+                    layoutSize = MockQrCodeGenerator.TEST_IMAGE_SIZE * 3;
+                }
+
+                ((ViewGroup) activity.findViewById(R.id.levelup_activity_content)).addView(
+                        mLevelUpCodeView, new LinearLayout.LayoutParams(layoutSize, layoutSize));
             }
         });
-
-        getInstrumentation().waitForIdleSync();
     }
 
     @Override
     protected void tearDown() throws Exception {
-        super.tearDown();
+        /*
+         * Manage Memory on Android 2.3.3 and Lower
+         * https://developer.android.com/training/displaying-bitmaps/manage-memory.html#recycle
+         */
+        if (!EnvironmentUtil.isSdk11OrGreater()) {
+            TestThreadingUtils.runOnMainSync(getInstrumentation(), getActivity(), new Runnable() {
+                @Override
+                public void run() {
+                    mLevelUpCodeView.destroyDrawingCache();
+                }
+            });
+        }
 
-        getInstrumentation().removeMonitor(mMonitor);
+        super.tearDown();
     }
 
     /**
@@ -108,6 +127,8 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
+        getInstrumentation().waitForIdleSync();
+
         /*
          * The callback should only be called once with loading=false, so progress bars and such can
          * be handled properly.
@@ -137,6 +158,8 @@ public final class LevelUpCodeViewTest extends
                 mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
             }
         });
+
+        getInstrumentation().waitForIdleSync();
 
         assertOnCodeLoaded(onCodeLoadListener, false, 0);
         assertOnCodeLoaded(onCodeLoadListener, true, 1);
@@ -173,16 +196,17 @@ public final class LevelUpCodeViewTest extends
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                mLevelUpCodeView.setDrawingCacheEnabled(true);
                 mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
             }
         });
 
+        getInstrumentation().waitForIdleSync();
+
         mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
                 MockQrCodeGenerator.TEST_CONTENT1);
 
-        Bitmap drawingCache = mLevelUpCodeView.getDrawingCache();
-        assertTestColorPixelEquals(drawingCache, MockQrCodeGenerator.TEST_CONTENT1_COLOR);
+        assertTestColorPixelEquals(getLevelUpCodeViewDrawingCache(),
+                MockQrCodeGenerator.TEST_CONTENT1_COLOR);
 
         assertOnCodeLoaded(onCodeLoadListener, false, 1);
         assertOnCodeLoaded(onCodeLoadListener, true, 0);
@@ -199,8 +223,11 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
-        drawingCache = mLevelUpCodeView.getDrawingCache();
-        assertTestColorPixelEquals(drawingCache, MockQrCodeGenerator.TEST_CONTENT2_COLOR);
+        mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
+                MockQrCodeGenerator.TEST_CONTENT2);
+
+        assertTestColorPixelEquals(getLevelUpCodeViewDrawingCache(),
+                MockQrCodeGenerator.TEST_CONTENT2_COLOR);
 
         assertOnCodeLoaded(onCodeLoadListener, false, 2);
         assertOnCodeLoaded(onCodeLoadListener, true, 0);
@@ -223,16 +250,17 @@ public final class LevelUpCodeViewTest extends
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                mLevelUpCodeView.setDrawingCacheEnabled(true);
                 mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
             }
         });
 
+        getInstrumentation().waitForIdleSync();
+
         mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
                 MockQrCodeGenerator.TEST_CONTENT1);
 
-        Bitmap drawingCache = mLevelUpCodeView.getDrawingCache();
-        assertTestColorPixelEquals(drawingCache, MockQrCodeGenerator.TEST_CONTENT1_COLOR);
+        assertTestColorPixelEquals(getLevelUpCodeViewDrawingCache(),
+                MockQrCodeGenerator.TEST_CONTENT1_COLOR);
 
         assertOnCodeLoaded(onCodeLoadListener, false, 1);
         assertOnCodeLoaded(onCodeLoadListener, true, 0);
@@ -246,8 +274,10 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
-        drawingCache = mLevelUpCodeView.getDrawingCache();
-        assertTestColorPixelEquals(drawingCache, MockQrCodeGenerator.TEST_CONTENT1_COLOR);
+        getInstrumentation().waitForIdleSync();
+
+        assertTestColorPixelEquals(getLevelUpCodeViewDrawingCache(),
+                MockQrCodeGenerator.TEST_CONTENT1_COLOR);
 
         assertOnCodeLoaded(onCodeLoadListener, false, 2);
         assertOnCodeLoaded(onCodeLoadListener, true, 0);
@@ -260,18 +290,25 @@ public final class LevelUpCodeViewTest extends
     @MediumTest
     public void testShowCode_colorizing() {
         final String key1 = mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1);
-
         mCache.putCode(key1, mQrCodeGenerator.mTestImage1);
+
+        final LatchingOnCodeLoadListener onCodeLoadListener = new LatchingOnCodeLoadListener();
+        mLevelUpCodeView.setOnCodeLoadListener(onCodeLoadListener);
 
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                mLevelUpCodeView.setDrawingCacheEnabled(true);
+                mLevelUpCodeView.setFadeColors(false);
                 mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
             }
         });
 
-        final Bitmap drawingCache = mLevelUpCodeView.getDrawingCache();
+        getInstrumentation().waitForIdleSync();
+
+        mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
+                MockQrCodeGenerator.TEST_CONTENT1);
+
+        final Bitmap drawingCache = getLevelUpCodeViewDrawingCache();
 
         final Resources resources = getActivity().getResources();
         final int orange = resources.getColor(R.color.levelup_logo_orange);
@@ -299,14 +336,15 @@ public final class LevelUpCodeViewTest extends
         getInstrumentation().runOnMainSync(new Runnable() {
             @Override
             public void run() {
-                mLevelUpCodeView.setDrawingCacheEnabled(true);
                 // Disable colorization
                 mLevelUpCodeView.setColorize(false);
                 mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
             }
         });
 
-        final Bitmap drawingCache = mLevelUpCodeView.getDrawingCache();
+        getInstrumentation().waitForIdleSync();
+
+        final Bitmap drawingCache = getLevelUpCodeViewDrawingCache();
 
         final Resources resources = getActivity().getResources();
         final int black = resources.getColor(android.R.color.black);
@@ -320,7 +358,7 @@ public final class LevelUpCodeViewTest extends
     }
 
     /**
-     * Tests that {@link LevelUpCodeView}'s color fading is producing an animation.
+     * Tests that {@link LevelUpCodeView}'s color fading is animating the color alpha.
      */
     @MediumTest
     public void testShowCode_fading() {
@@ -335,11 +373,21 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
-        final Animation animation = mLevelUpCodeView.getAnimation();
-        assertNotNull(animation);
-        assertEquals(LevelUpCodeView.FadeColorsAnimation.class, animation.getClass());
-        // It's delayed.
-        assertFalse(animation.hasStarted());
+        getInstrumentation().waitForIdleSync();
+
+        final long timeoutMillis = LevelUpCodeView.ANIM_FADE_START_DELAY_MILLIS
+                + LevelUpCodeView.ANIM_FADE_DURATION_MILLIS + TimeUnit.SECONDS.toMillis(4);
+        final CountDownLatch latch = new CountDownLatch(1);
+        assertTrue(TestThreadingUtils.waitForAction(getInstrumentation(), getActivity(),
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        if (LevelUpCodeView.ANIM_FADE_COLOR_ALPHA_END
+                                == mLevelUpCodeView.mColorAlpha) {
+                            latch.countDown();
+                        }
+                    }
+                }, latch, timeoutMillis, true));
     }
 
     /**
@@ -360,8 +408,11 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
+        getInstrumentation().waitForIdleSync();
+
         final Animation animation = mLevelUpCodeView.getAnimation();
         assertNull(animation);
+        assertEquals(LevelUpCodeView.ANIM_FADE_COLOR_ALPHA_START, mLevelUpCodeView.mColorAlpha);
     }
 
     /**
@@ -383,8 +434,11 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
+        getInstrumentation().waitForIdleSync();
+
         final Animation animation = mLevelUpCodeView.getAnimation();
         assertNull(animation);
+        assertEquals(LevelUpCodeView.ANIM_FADE_COLOR_ALPHA_START, mLevelUpCodeView.mColorAlpha);
     }
 
     /**
@@ -456,7 +510,7 @@ public final class LevelUpCodeViewTest extends
      * @param miniSize size of the pre-scaled bitmap.
      * @param expectedColor the expected color.
      */
-    private void assertScaledPixelIsColor(final Bitmap bitmap, final int x, final int y,
+    private void assertScaledPixelIsColor(@NonNull final Bitmap bitmap, final int x, final int y,
             final int miniSize, final int expectedColor) {
         final int largeSize = bitmap.getWidth();
         final float scaleFactor = (float) largeSize / miniSize;
@@ -470,10 +524,67 @@ public final class LevelUpCodeViewTest extends
      * @param bitmap the bitmap to check.
      * @param expectedColor the expected color.
      */
-    private void assertTestColorPixelEquals(final Bitmap bitmap, final int expectedColor) {
+    private void assertTestColorPixelEquals(@NonNull final Bitmap bitmap, final int expectedColor) {
         assertScaledPixelIsColor(bitmap, MockQrCodeGenerator.TEST_COLOR_PIXEL,
                 MockQrCodeGenerator.TEST_COLOR_PIXEL, MockQrCodeGenerator.TEST_IMAGE_SIZE,
                 expectedColor);
+    }
+
+    /**
+     * Get the drawing cache from {@link #mLevelUpCodeView}.
+     *
+     * @return the drawing cache.
+     */
+    @NonNull
+    private Bitmap getLevelUpCodeViewDrawingCache() {
+        if (EnvironmentUtil.isSdk11OrGreater()) {
+            return NullUtils.nonNullContract(getLevelUpCodeViewDrawingCacheHelper());
+        }
+
+        /*
+         * Attempt to build the drawing cache multiple times on older devices. This can take a while
+         * due to the unpredictable nature of native memory management.
+         */
+
+        final long endTime = SystemClock.elapsedRealtime() + TimeUnit.SECONDS.toMillis(20);
+
+        while (true) {
+            getInstrumentation().waitForIdleSync();
+
+            final Bitmap bitmap = getLevelUpCodeViewDrawingCacheHelper();
+
+            if (null != bitmap) {
+                return NullUtils.nonNullContract(bitmap);
+            }
+
+            assertTrue("Timed out getting the code view drawing cache.", //$NON-NLS-1$
+                    SystemClock.elapsedRealtime() < endTime);
+
+            SystemClock.sleep(500);
+        }
+    }
+
+    /**
+     * Helper to obtain the drawing cache bitmap. This may temporarily return null on older devices.
+     * Clients should use {@link #getLevelUpCodeViewDrawingCache} instead of this method.
+     *
+     * @return the drawing cache bitmap or null if the drawing cache could not be built.
+     */
+    @Nullable
+    private Bitmap getLevelUpCodeViewDrawingCacheHelper() {
+        final AtomicReference<Bitmap> drawingCacheReference = new AtomicReference<Bitmap>();
+
+        TestThreadingUtils.runOnMainSync(getInstrumentation(), getActivity(), new Runnable() {
+            @Override
+            public void run() {
+                mLevelUpCodeView.destroyDrawingCache();
+                mLevelUpCodeView.buildDrawingCache();
+
+                drawingCacheReference.set(mLevelUpCodeView.getDrawingCache());
+            }
+        });
+
+        return drawingCacheReference.get();
     }
 
     /**
