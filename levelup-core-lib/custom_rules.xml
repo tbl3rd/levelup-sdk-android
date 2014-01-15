@@ -3,9 +3,12 @@
     <!-- fix renderscript complaint. This is normally set elsewhere and isn't used by delombok. -->
     <property name="renderscript.opt.level" value="O3" />
 
+    <property name="lombokjar" value="../tools/lombok.jar" />
+
     <!-- De-Lombok for the core models. This transforms the Lombok-annotated source into regular Java. -->
-    <target name="delombok" depends="-pre-build, -build-setup, -code-gen, -pre-compile">
-        <taskdef classname="lombok.delombok.ant.DelombokTask" name="delombok" classpath="../tools/lombok.jar" />
+    <target name="delombok" depends="-set-debug-mode, -pre-build, -build-setup, -code-gen, -pre-compile">
+
+        <taskdef classname="lombok.delombok.ant.DelombokTask" name="delombok" classpath="${lombokjar}" />
 
         <delombok verbose="true" encoding="UTF-8" to="src" from="src-lombok">
             <!-- indent with 4 spaces -->

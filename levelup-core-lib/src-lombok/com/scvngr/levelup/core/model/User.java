@@ -124,6 +124,7 @@ public final class User implements Parcelable {
     /**
      * True if the user is connected to Facebook. False if the user is not connected to Facebook.
      */
+    @LevelUpApi(contract = Contract.INTERNAL)
     private final boolean isConnectedToFacebook;
 
     /**

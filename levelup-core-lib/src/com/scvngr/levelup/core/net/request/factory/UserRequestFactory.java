@@ -45,6 +45,7 @@ import com.scvngr.levelup.core.util.PreconditionUtil;
 @LevelUpApi(contract = Contract.DRAFT)
 public final class UserRequestFactory extends AbstractRequestFactory {
 
+    @LevelUpApi(contract = Contract.INTERNAL)
     private static final String FACEBOOK_CONNECTION_ENDPOINT = "facebook_connection"; //$NON-NLS-1$
 
     /**
@@ -116,13 +117,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      * Parameter for Facebook access token during Facebook connect.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
+    @LevelUpApi(contract = Contract.INTERNAL)
     /* package */static final String PARAM_FACEBOOK_ACCESS_TOKEN = "facebook_access_token"; //$NON-NLS-1$
-
-    /**
-     * Parameter for the device identifier during register.
-     */
-    @VisibleForTesting(visibility = Visibility.PRIVATE)
-    public static final String PARAM_DEVICE_IDENTIFIER = "device_identifier"; //$NON-NLS-1$
 
     /**
      * @param context the Application context.
@@ -159,7 +155,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} to use to connect the user to Facebook.
      */
     @NonNull
-    @LevelUpApi(contract = Contract.DRAFT)
+    @LevelUpApi(contract = Contract.INTERNAL)
     @AccessTokenRequired
     public AbstractRequest buildFacebookConnectRequest(@NonNull final String facebookAccessToken) {
         PreconditionUtil.assertNotNull(facebookAccessToken, "facebookAccessToken"); //$NON-NLS-1$
@@ -185,7 +181,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} to use to disconnect the user from Facebook.
      */
     @NonNull
-    @LevelUpApi(contract = Contract.DRAFT)
+    @LevelUpApi(contract = Contract.INTERNAL)
     @AccessTokenRequired
     public AbstractRequest buildFacebookDisconnectRequest() {
         return new LevelUpRequest(getContext(), HttpMethod.DELETE,
@@ -217,13 +213,15 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         final JSONObject userObject = new JSONObject();
 
         try {
-            AccessTokenRequestFactory.addApiKeyToRequest(getContext(), object);
+            final Context context = getContext();
+
+            RequestUtils.addApiKeyToRequestBody(context, object);
             userObject.put(PARAM_FIRST_NAME, firstName);
             userObject.put(PARAM_LAST_NAME, lastName);
             userObject.put(PARAM_EMAIL, email);
             userObject.put(PARAM_TERMS_ACCEPTED, true);
             userObject.put(PARAM_PASSWORD, password);
-            addDeviceIdToRequest(getContext(), userObject);
+            RequestUtils.addDeviceIdToRequestBody(context, userObject);
 
             if (null != location) {
                 userObject.put(PARAM_LATITUDE, location.getLatitude());
@@ -246,12 +244,13 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      * @return the {@link AbstractRequest} to use to register the new user.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.INTERNAL)
     public AbstractRequest buildFacebookRegisterRequest(@NonNull final String facebookAccessToken) {
         final JSONObject object = new JSONObject();
         final JSONObject userObject = new JSONObject();
 
         try {
-            AccessTokenRequestFactory.addApiKeyToRequest(getContext(), object);
+            RequestUtils.addApiKeyToRequestBody(getContext(), object);
             userObject.put(PARAM_FACEBOOK_ACCESS_TOKEN, facebookAccessToken);
 
             object.put(OUTER_PARAM_USER, userObject);
@@ -476,22 +475,6 @@ public final class UserRequestFactory extends AbstractRequestFactory {
                     LogManager.e("JSONException when adding key(%s) to body", key, e); //$NON-NLS-1$
                 }
             }
-        }
-    }
-
-    /**
-     * Helper method to add the Device ID to the request body.
-     *
-     * @param context the Application context.
-     * @param object the {@link JSONObject} to add the device ID to.
-     * @throws JSONException if adding to the {@link JSONObject} fails.
-     */
-    public static void addDeviceIdToRequest(@NonNull final Context context,
-            @NonNull final JSONObject object) throws JSONException {
-        final String deviceId = RequestUtils.getDeviceId(context);
-
-        if (null != deviceId) {
-            object.put(PARAM_DEVICE_IDENTIFIER, deviceId);
         }
     }
 }

@@ -15,11 +15,17 @@ import android.test.mock.MockContext;
 import android.test.mock.MockPackageManager;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.CoreLibConstants;
+import com.scvngr.levelup.core.util.NullUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -113,6 +119,54 @@ public final class RequestUtilsTest extends SupportAndroidTestCase {
     public void testGetUserAgentSdkVersionString() {
         assertEquals(
                 "LevelUpSdk/" + CoreLibConstants.SDK_VERSION, RequestUtils.getUserAgentSdkVersionString(mMockContext)); //$NON-NLS-1$
+    }
+
+    /**
+     * Test {@link RequestUtils#addApiKeyToRequestQueryParams}.
+     */
+    @SmallTest
+    public void testAddApiKeyToRequestQueryParams() {
+        final Map<String, String> expected = new HashMap<String, String>();
+        final Map<String, String> params = new HashMap<String, String>();
+        final Context context = NullUtils.nonNullContract(getContext());
+
+        expected.put(RequestUtils.PARAM_CLIENT_ID, context.getString(R.string.levelup_api_key));
+
+        RequestUtils.addApiKeyToRequestQueryParams(context, params);
+        assertEquals(expected.toString(), params.toString());
+    }
+
+    /**
+     * Test {@link RequestUtils#addApiKeyToRequestBody}.
+     *
+     * @throws JSONException from {@link JSONObject#put}
+     */
+    @SmallTest
+    public void testAddApiKeyToRequestBody() throws JSONException {
+        final JSONObject object = new JSONObject();
+        final JSONObject expected = new JSONObject();
+        final Context context = NullUtils.nonNullContract(getContext());
+
+        expected.put(RequestUtils.PARAM_CLIENT_ID, context.getString(R.string.levelup_api_key));
+
+        RequestUtils.addApiKeyToRequestBody(context, object);
+        assertEquals(expected.toString(), object.toString());
+    }
+
+    /**
+     * Test {@link RequestUtils#addDeviceIdToRequestBody}.
+     *
+     * @throws JSONException from {@link JSONObject#getString}
+     */
+    @SmallTest
+    public void testAddDeviceIdToRequestBody() throws JSONException {
+        final JSONObject object = new JSONObject();
+        final Context context = NullUtils.nonNullContract(getContext());
+        RequestUtils.addDeviceIdToRequestBody(context, object);
+
+        assertTrue(object.has(RequestUtils.PARAM_DEVICE_IDENTIFIER));
+        assertEquals(RequestUtils.getDeviceId(context),
+                object.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
     }
 
     /**

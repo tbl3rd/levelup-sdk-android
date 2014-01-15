@@ -6,11 +6,9 @@ package com.scvngr.levelup.core.net.request;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.os.Build;
+import android.text.TextUtils;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
+import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -20,6 +18,13 @@ import com.scvngr.levelup.core.util.CoreLibConstants;
 import com.scvngr.levelup.core.util.CryptographicHashUtil;
 import com.scvngr.levelup.core.util.CryptographicHashUtil.Algorithms;
 import com.scvngr.levelup.core.util.DeviceIdentifier;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Class with methods to help with creating requests.
@@ -58,6 +63,16 @@ public final class RequestUtils {
             "%s/%s", Build.BRAND, Build.PRODUCT); //$NON-NLS-1$
 
     /**
+     * Parameter for the client identifier.
+     */
+    public static final String PARAM_CLIENT_ID = "client_id"; //$NON-NLS-1$
+
+    /**
+     * Parameter for the device identifier.
+     */
+    public static final String PARAM_DEVICE_IDENTIFIER = "device_identifier"; //$NON-NLS-1$
+
+    /**
      * Method to create a nested parameter key. A nested parameter key looks like: "user[name]".
      *
      * @param outerParam the outer parameter name.
@@ -94,7 +109,7 @@ public final class RequestUtils {
     /**
      * Returns a {@link String} representation to use as the User-Agent string when communicating
      * with the server. A sample string looks like:
-     *
+     * <p/>
      * "LevelUp/2.3.12 (Linux; U; Android; 1.0; generic_x86/sd_x86; en-US;) LevelUpSdk/0.0.1".
      *
      * @param context Application context.
@@ -141,6 +156,24 @@ public final class RequestUtils {
     }
 
     /**
+     * Get the API key for the context passed.
+     *
+     * @param context the Application context.
+     * @return The API key from resources.
+     */
+    @NonNull
+    public static String getApiKey(@NonNull final Context context) {
+        final String apiKey = context.getString(R.string.levelup_api_key);
+
+        if (TextUtils.isEmpty(apiKey)) {
+            throw new AssertionError(String.format(Locale.US, "Application must override %s", //$NON-NLS-1$
+                    context.getResources().getResourceEntryName(R.string.levelup_api_key)));
+        }
+
+        return apiKey;
+    }
+
+    /**
      * Gets the deviceId to add to the login/register requests.
      *
      * @param context the Application context.
@@ -159,6 +192,48 @@ public final class RequestUtils {
         }
 
         return hashedDeviceIdentifier;
+    }
+
+    /**
+     * Add the API key to the request query parameters.
+     *
+     * @param context Application context.
+     * @param params the query parameter {@link Map} to add the API key to.
+     */
+    public static void addApiKeyToRequestQueryParams(@NonNull final Context context,
+            @NonNull final Map<String, String> params) {
+        params.put(PARAM_CLIENT_ID, getApiKey(context));
+    }
+
+    /**
+     * Add the API key to the request body.
+     *
+     * @param context Application context.
+     * @param body the {@link JSONObject} to add the API key to.
+     */
+    public static void addApiKeyToRequestBody(@NonNull final Context context,
+            @NonNull final JSONObject body) {
+        try {
+            body.put(PARAM_CLIENT_ID, getApiKey(context));
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    /**
+     * Add the Device ID to the request body if the Device ID can be determined. The request body is
+     * not modified if the Device ID could not be determined.
+     *
+     * @param context Application context
+     * @param body the {@link JSONObject} to add the Device ID to
+     */
+    public static void addDeviceIdToRequestBody(@NonNull final Context context,
+            @NonNull final JSONObject body) {
+        try {
+            body.putOpt(PARAM_DEVICE_IDENTIFIER, getDeviceId(context));
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
     }
 
     /**

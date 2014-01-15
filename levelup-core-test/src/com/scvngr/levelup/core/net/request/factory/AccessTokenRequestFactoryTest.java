@@ -5,10 +5,10 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.request.RequestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.CryptographicHashUtil;
 import com.scvngr.levelup.core.util.CryptographicHashUtil.Algorithms;
@@ -55,16 +55,16 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
         assertTrue("Params include password", //$NON-NLS-1$
                 token.has(AccessTokenRequestFactory.PARAM_PASSWORD));
         assertTrue("Params include device id", //$NON-NLS-1$
-                token.has(UserRequestFactory.PARAM_DEVICE_IDENTIFIER));
+                token.has(RequestUtils.PARAM_DEVICE_IDENTIFIER));
         assertTrue("Params include client_id", //$NON-NLS-1$
-                token.has(AccessTokenRequestFactory.PARAM_CLIENT_ID));
+                token.has(RequestUtils.PARAM_CLIENT_ID));
 
         assertEquals("email", token.getString(AccessTokenRequestFactory.PARAM_USERNAME)); //$NON-NLS-1$
         assertEquals("password", token.getString(AccessTokenRequestFactory.PARAM_PASSWORD)); //$NON-NLS-1$
         assertEquals(CryptographicHashUtil.getHexHash(DeviceIdentifier.getDeviceId(getContext()),
-                Algorithms.SHA256), token.getString(UserRequestFactory.PARAM_DEVICE_IDENTIFIER));
+                Algorithms.SHA256), token.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
         assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
-                token.getString(AccessTokenRequestFactory.PARAM_CLIENT_ID));
+                token.getString(RequestUtils.PARAM_CLIENT_ID));
     }
 
     @SmallTest
@@ -89,26 +89,15 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
         assertTrue("Params include facebook_access_token", //$NON-NLS-1$
                 token.has(AccessTokenRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
         assertTrue("Params include device id", //$NON-NLS-1$
-                token.has(UserRequestFactory.PARAM_DEVICE_IDENTIFIER));
+                token.has(RequestUtils.PARAM_DEVICE_IDENTIFIER));
         assertTrue("Params include client_id", //$NON-NLS-1$
-                token.has(AccessTokenRequestFactory.PARAM_CLIENT_ID));
+                token.has(RequestUtils.PARAM_CLIENT_ID));
 
         assertEquals("facebook_access_token", //$NON-NLS-1$
                 token.getString(AccessTokenRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
         assertEquals(CryptographicHashUtil.getHexHash(DeviceIdentifier.getDeviceId(getContext()),
-                Algorithms.SHA256), token.getString(UserRequestFactory.PARAM_DEVICE_IDENTIFIER));
+                Algorithms.SHA256), token.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
         assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
-                token.getString(AccessTokenRequestFactory.PARAM_CLIENT_ID));
-    }
-
-    @SmallTest
-    public void testAddApiKeyToRequest() throws JSONException {
-        final JSONObject object = new JSONObject();
-        final JSONObject expected = new JSONObject();
-        expected.put(AccessTokenRequestFactory.PARAM_CLIENT_ID,
-                getContext().getString(R.string.levelup_api_key));
-
-        AccessTokenRequestFactory.addApiKeyToRequest(getContext(), object);
-        assertEquals(expected.toString(), object.toString());
+                token.getString(RequestUtils.PARAM_CLIENT_ID));
     }
 }

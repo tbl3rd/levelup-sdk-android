@@ -60,6 +60,11 @@ public class LevelUpRequest extends BufferedRequest {
     public static final String API_VERSION_CODE_V14 = "v14"; //$NON-NLS-1$
 
     /**
+     * API version code for v15.
+     */
+    public static final String API_VERSION_CODE_V15 = "v15"; //$NON-NLS-1$
+
+    /**
      * Header key for the authentication.
      */
     @NonNull

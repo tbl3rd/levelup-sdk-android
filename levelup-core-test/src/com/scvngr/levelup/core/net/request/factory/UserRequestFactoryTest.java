@@ -22,6 +22,7 @@ import com.scvngr.levelup.core.net.request.RequestUtils;
 import com.scvngr.levelup.core.net.request.factory.UserRequestFactory.UserInfoRequestBuilder;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -305,16 +306,6 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         validateRegisterRequest(location);
     }
 
-    @SmallTest
-    public void testAddDeviceIdToRequest() throws JSONException {
-        final JSONObject object = new JSONObject();
-        UserRequestFactory.addDeviceIdToRequest(getContext(), object);
-
-        assertTrue(object.has(UserRequestFactory.PARAM_DEVICE_IDENTIFIER));
-        assertEquals(RequestUtils.getDeviceId(getContext()),
-                object.getString(UserRequestFactory.PARAM_DEVICE_IDENTIFIER));
-    }
-
     /**
      * Helper to validate the register request and json.
      *
@@ -351,13 +342,15 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final JSONObject userObject = new JSONObject();
 
         try {
-            AccessTokenRequestFactory.addApiKeyToRequest(getContext(), object);
+            final Context context = NullUtils.nonNullContract(getContext());
+
+            RequestUtils.addApiKeyToRequestBody(context, object);
             userObject.put(UserRequestFactory.PARAM_FIRST_NAME, "first_name"); //$NON-NLS-1$
             userObject.put(UserRequestFactory.PARAM_LAST_NAME, "last_name"); //$NON-NLS-1$
             userObject.put(UserRequestFactory.PARAM_EMAIL, "email@email.com"); //$NON-NLS-1$
             userObject.put(UserRequestFactory.PARAM_TERMS_ACCEPTED, true);
             userObject.put(UserRequestFactory.PARAM_PASSWORD, "password123"); //$NON-NLS-1$
-            UserRequestFactory.addDeviceIdToRequest(getContext(), userObject);
+            RequestUtils.addDeviceIdToRequestBody(context, userObject);
 
             if (null != location) {
                 userObject.put(UserRequestFactory.PARAM_LATITUDE, location.getLatitude());
