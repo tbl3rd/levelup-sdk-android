@@ -1,3 +1,6 @@
+/**
+ * Copyright 2013-2014 SCVNGR, Inc., D.B.A. LevelUp. All rights reserved.
+ */
 package com.scvngr.levelup.core.model.util;
 
 import android.test.suitebuilder.annotation.SmallTest;

@@ -1,6 +1,10 @@
 /*
  * This is a copy of the LoaderTestCase from android. It was modified to use the support library
- * instead of the default implementation. CHECKSTYLE:OFF Copyright (C) 2010 The Android Open Source
+ * instead of the default implementation. Modifications Copyright 2013-2014 SCVNGR, Inc., D.B.A.
+ * LevelUp. All rights reserved.
+ *
+ * CHECKSTYLE:OFF Original license:
+ * Copyright (C) 2010 The Android Open Source
  * Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
