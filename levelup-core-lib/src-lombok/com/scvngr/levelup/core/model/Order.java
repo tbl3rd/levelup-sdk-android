@@ -16,6 +16,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.model.MonetaryValue;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -33,6 +34,7 @@ public final class Order implements Parcelable {
     /**
      * Implements the {@code Parcelable} interface.
      */
+    @NonNull
     public static final Creator<Order> CREATOR = new OrderCreator();
 
     /**
@@ -217,7 +219,7 @@ public final class Order implements Parcelable {
             builder.transactedAt(in.readString());
             builder.uuid(in.readString());
 
-            return builder.build();
+            return NullUtils.nonNullContract(builder.build());
         }
 
         private void writeToParcel(@NonNull final Parcel dest, final int flags,
@@ -255,6 +257,6 @@ public final class Order implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        ((OrderCreator) CREATOR).writeToParcel(dest, flags, this);
+        ((OrderCreator) CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 }

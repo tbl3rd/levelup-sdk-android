@@ -14,6 +14,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -59,7 +60,7 @@ public final class Error implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        ((ErrorCreator) CREATOR).writeToParcel(dest, flags, this);
+        ((ErrorCreator) CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 
     /**
@@ -81,7 +82,7 @@ public final class Error implements Parcelable {
             final String object = in.readString();
             final String property = in.readString();
 
-            return new Error(message, object, property);
+            return new Error(NullUtils.nonNullContract(message), object, property);
         }
 
         private void writeToParcel(@NonNull final Parcel dest, final int flags,

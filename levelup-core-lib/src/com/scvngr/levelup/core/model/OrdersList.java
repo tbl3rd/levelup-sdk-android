@@ -10,6 +10,7 @@ import java.util.Collection;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * Parcelable list of {@link Order}s.
@@ -19,10 +20,11 @@ public final class OrdersList extends ParcelableArrayList<Order> {
     /**
      * Parcelable creator.
      */
+    @NonNull
     public static Creator<OrdersList> CREATOR = new Creator<OrdersList>() {
         @Override
         public OrdersList createFromParcel(final Parcel source) {
-            return new OrdersList(source);
+            return new OrdersList(NullUtils.nonNullContract(source));
         }
 
         @Override

@@ -15,6 +15,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * An immutable list of categories. This is needed to make the list parcelable.
@@ -30,7 +31,7 @@ public final class CategoriesList extends ParcelableArrayList<Category> {
     public static Creator<CategoriesList> CREATOR = new Creator<CategoriesList>() {
         @Override
         public CategoriesList createFromParcel(final Parcel source) {
-            return new CategoriesList(source);
+            return new CategoriesList(NullUtils.nonNullContract(source));
         }
 
         @Override

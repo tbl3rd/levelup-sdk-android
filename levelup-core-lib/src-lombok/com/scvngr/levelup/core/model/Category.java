@@ -30,6 +30,7 @@ public final class Category implements Parcelable {
     /**
      * Parcelable creator.
      */
+    @NonNull
     public static final Creator<Category> CREATOR = new Creator<Category>() {
         @Override
         public Category createFromParcel(final Parcel source) {

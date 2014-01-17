@@ -16,6 +16,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.model.MonetaryValue;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -100,7 +101,7 @@ public final class Campaign implements Parcelable {
     private final String shareUrlEmail;
 
     /**
-     * The URL to share via facbeook.
+     * The URL to share via Facebook.
      */
     @Nullable
     private final String shareUrlFacebook;
@@ -126,6 +127,7 @@ public final class Campaign implements Parcelable {
     /**
      * Implements the {@code Parcelable} interface.
      */
+    @NonNull
     public static final Creator<Campaign> CREATOR = new CampaignCreator();
 
     @Override
@@ -135,7 +137,7 @@ public final class Campaign implements Parcelable {
 
     @Override
     public final void writeToParcel(final Parcel dest, final int flags) {
-        ((CampaignCreator) CREATOR).writeToParcel(dest, flags, this);
+        ((CampaignCreator) CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 
     @Immutable
@@ -166,7 +168,7 @@ public final class Campaign implements Parcelable {
             builder.type(in.readString());
             builder.value((MonetaryValue) in.readParcelable(MonetaryValue.class.getClassLoader()));
 
-            return builder.build();
+            return NullUtils.nonNullContract(builder.build());
         }
 
         public final void writeToParcel(@NonNull final Parcel dest, final int flags,

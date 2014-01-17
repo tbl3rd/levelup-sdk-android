@@ -11,6 +11,7 @@ import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * Represents a tip for a payment.
@@ -30,8 +31,8 @@ public final class Tip {
      * @return Array of tips ordered from {@link #MINIMUM_TIP_PERCENTAGE} to the maximum tip value.
      */
     @NonNull
-    public static final int[] getTipPercentages(@NonNull final Context context) {
-        return context.getResources().getIntArray(R.array.levelup_tip_percentages);
+    public static int[] getTipPercentages(@NonNull final Context context) {
+        return NullUtils.nonNullContract(context.getResources().getIntArray(R.array.levelup_tip_percentages));
     }
 
     /**

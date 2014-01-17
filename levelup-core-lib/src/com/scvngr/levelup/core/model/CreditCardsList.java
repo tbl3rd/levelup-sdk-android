@@ -12,6 +12,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * Parcelable list of {@link CreditCard}s.
@@ -22,10 +23,11 @@ public final class CreditCardsList extends ParcelableArrayList<CreditCard> {
     /**
      * Parcelable creator.
      */
+    @NonNull
     public static Creator<CreditCardsList> CREATOR = new Creator<CreditCardsList>() {
         @Override
         public CreditCardsList createFromParcel(final Parcel source) {
-            return new CreditCardsList(source);
+            return new CreditCardsList(NullUtils.nonNullContract(source));
         }
 
         @Override

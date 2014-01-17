@@ -17,6 +17,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -36,18 +37,21 @@ public final class MonetaryValue implements Parcelable {
     /**
      * Implements the {@code Parcelable} interface.
      */
+    @NonNull
     public static final Creator<MonetaryValue> CREATOR = new MonetaryValueCreator();
 
     /**
      * The currency code for USD.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
+    @NonNull
     protected static final String USD_CODE = "usd"; //$NON-NLS-1$
 
     /**
      * The symbol for USD.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
+    @NonNull
     protected static final String USD_SYMBOL = "$"; //$NON-NLS-1$
 
     /**
@@ -66,7 +70,6 @@ public final class MonetaryValue implements Parcelable {
      */
     @NonNull
     private final String currencySymbol;
-
 
     /**
      * Constructor. Assumes USD.
@@ -105,7 +108,8 @@ public final class MonetaryValue implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        ((MonetaryValueCreator) CREATOR).writeToParcel(dest, flags, this);
+        ((MonetaryValueCreator) CREATOR)
+                .writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 
     @Override
@@ -125,8 +129,8 @@ public final class MonetaryValue implements Parcelable {
     @NonNull
     public static String getFormattedMoney(@NonNull final Context context,
             @NonNull final String currencySymbol, final long amount) {
-        return context.getString(R.string.levelup_monetary_value_format, currencySymbol,
-                amount / 100f);
+        return NullUtils.nonNullContract(context.getString(R.string.levelup_monetary_value_format,
+                currencySymbol, amount / 100f));
     }
 
     /**
@@ -141,8 +145,9 @@ public final class MonetaryValue implements Parcelable {
     @NonNull
     public static String getFormattedMoneyNoDecimal(@NonNull final Context context,
             @NonNull final String currencySymbol, final long amount) {
-        return context.getString(R.string.levelup_monetary_value_no_decimal_format, currencySymbol,
-                Math.round(amount / 100f));
+        return NullUtils.nonNullContract(context.getString(
+                R.string.levelup_monetary_value_no_decimal_format, currencySymbol,
+                Math.round(amount / 100f)));
     }
 
     /**
@@ -154,8 +159,8 @@ public final class MonetaryValue implements Parcelable {
         @Override
         public MonetaryValue createFromParcel(final Parcel in) {
             final long amount = in.readLong();
-            final String currencyCode = in.readString();
-            final String currencySymbol = in.readString();
+            final String currencyCode = NullUtils.nonNullContract(in.readString());
+            final String currencySymbol = NullUtils.nonNullContract(in.readString());
 
             return new MonetaryValue(amount, currencyCode, currencySymbol);
         }

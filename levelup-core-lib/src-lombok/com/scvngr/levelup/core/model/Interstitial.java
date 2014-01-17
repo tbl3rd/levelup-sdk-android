@@ -9,6 +9,7 @@ import android.os.Parcelable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Value;
+import lombok.experimental.Builder;
 import net.jcip.annotations.Immutable;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
@@ -17,6 +18,7 @@ import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -35,7 +37,8 @@ public final class Interstitial implements Parcelable {
     /**
      * Implements the {@link Parcelable} interface.
      */
-    public static final InterstitialCreator CREATOR = new InterstitialCreator();
+    @NonNull
+    public static final Creator<Interstitial> CREATOR = new InterstitialCreator();
 
     /**
      * The type returned from {@link #getType()} if this is a claim Interstitial.
@@ -111,7 +114,7 @@ public final class Interstitial implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        CREATOR.writeToParcel(dest, flags, this);
+        ((InterstitialCreator)CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 
     /**
@@ -125,11 +128,11 @@ public final class Interstitial implements Parcelable {
         public Interstitial createFromParcel(final Parcel source) {
             final InterstitialAction action =
                     source.readParcelable(InterstitialAction.class.getClassLoader());
-            final String calloutText = source.readString();
-            final String descriptionHtml = source.readString();
-            final String imageUrl = source.readString();
-            final String title = source.readString();
-            final String type = source.readString();
+            final String calloutText = NullUtils.nonNullContract(source.readString());
+            final String descriptionHtml = NullUtils.nonNullContract(source.readString());
+            final String imageUrl = NullUtils.nonNullContract(source.readString());
+            final String title = NullUtils.nonNullContract(source.readString());
+            final String type = NullUtils.nonNullContract(source.readString());
 
             return new Interstitial(action, calloutText, descriptionHtml, imageUrl, title, type);
         }
@@ -139,7 +142,7 @@ public final class Interstitial implements Parcelable {
             return new Interstitial[size];
         }
 
-        private void writeToParcel(@NonNull final Parcel dest, final int flags,
+        private void writeToParcel(final Parcel dest, final int flags,
                 @NonNull final Interstitial interstitial) {
             dest.writeParcelable(interstitial.getAction(), flags);
             dest.writeString(interstitial.getCalloutText());
@@ -169,6 +172,7 @@ public final class Interstitial implements Parcelable {
         /**
          * Implements Parcelable.
          */
+        @NonNull
         public static final Creator<ClaimAction> CREATOR = new Creator<Interstitial.ClaimAction>() {
 
             @Override
@@ -178,7 +182,7 @@ public final class Interstitial implements Parcelable {
 
             @Override
             public ClaimAction createFromParcel(Parcel source) {
-                return new ClaimAction(source.readString());
+                return new ClaimAction(NullUtils.nonNullContract(source.readString()));
             }
         };
 
@@ -189,7 +193,7 @@ public final class Interstitial implements Parcelable {
         private final String code;
 
         @Override
-        public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        public void writeToParcel(final Parcel dest, final int flags) {
             dest.writeString(code);
         }
 
@@ -206,10 +210,12 @@ public final class Interstitial implements Parcelable {
     @Value
     @AllArgsConstructor(suppressConstructorProperties = true)
     @LevelUpApi(contract = Contract.INTERNAL)
+    @Builder
     public static final class ShareAction implements InterstitialAction {
         /**
          * Implements Parcelable.
          */
+        @NonNull
         public static final Creator<ShareAction> CREATOR = new Creator<Interstitial.ShareAction>() {
 
             @Override
@@ -219,9 +225,16 @@ public final class Interstitial implements Parcelable {
 
             @Override
             public ShareAction createFromParcel(Parcel source) {
-                return new ShareAction(source.readString(), source.readString(), source
-                        .readString(), source.readString(), source.readString(), source
-                        .readString(), source.readString());
+                final ShareActionBuilder builder = new ShareActionBuilder();
+                builder.messageForEmailBody(NullUtils.nonNullContract(source.readString()));
+                builder.messageForEmailSubject(NullUtils.nonNullContract(source.readString()));
+                builder.messageForFacebook(NullUtils.nonNullContract(source.readString()));
+                builder.messageForTwitter(NullUtils.nonNullContract(source.readString()));
+                builder.shareUrlEmail(NullUtils.nonNullContract(source.readString()));
+                builder.shareUrlFacebook(NullUtils.nonNullContract(source.readString()));
+                builder.shareUrlTwitter(NullUtils.nonNullContract(source.readString()));
+
+                return builder.build();
             }
         };
 
@@ -268,7 +281,7 @@ public final class Interstitial implements Parcelable {
         private final String shareUrlTwitter;
 
         @Override
-        public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        public void writeToParcel(final Parcel dest, final int flags) {
             dest.writeString(messageForEmailBody);
             dest.writeString(messageForEmailSubject);
             dest.writeString(messageForFacebook);
@@ -299,6 +312,7 @@ public final class Interstitial implements Parcelable {
         /**
          * Implements Parcelable.
          */
+        @NonNull
         public static final Creator<UrlAction> CREATOR = new Creator<Interstitial.UrlAction>() {
 
             @Override
@@ -308,7 +322,7 @@ public final class Interstitial implements Parcelable {
 
             @Override
             public UrlAction createFromParcel(Parcel source) {
-                return new UrlAction(source.readString());
+                return new UrlAction(NullUtils.nonNullContract(source.readString()));
             }
         };
 
@@ -319,7 +333,7 @@ public final class Interstitial implements Parcelable {
         private final String url;
 
         @Override
-        public void writeToParcel(@NonNull final Parcel dest, final int flags) {
+        public void writeToParcel(final Parcel dest, final int flags) {
             dest.writeString(url);
         }
 

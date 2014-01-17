@@ -11,6 +11,7 @@
             <!-- indent with 4 spaces -->
             <format value="indent:4" />
             <format value="javaLangAsFQN:skip" />
+            <format value="emptyLines:blank" />
 
             <classpath>
                 <path location="src" />

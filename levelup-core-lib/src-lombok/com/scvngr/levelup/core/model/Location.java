@@ -19,6 +19,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -34,6 +35,7 @@ public final class Location implements Parcelable {
     /**
      * Implements the {@code Parcelable} interface.
      */
+    @NonNull
     public static final Creator<Location> CREATOR = new LocationCreator();
 
     /**
@@ -186,11 +188,13 @@ public final class Location implements Parcelable {
             @Nullable final String name, @Nullable final String phone,
             @Nullable final String postalCode, @Nullable final String region, final boolean shown,
             @Nullable final String streetAddress, @Nullable final Map<String, String> urls) {
+
         if (null == categories) {
             // Collections' emptySet is immutable.
-            this.categories = Collections.emptySet();
+            this.categories = NullUtils.nonNullContract(Collections.<Integer> emptySet());
         } else {
-            this.categories = Collections.unmodifiableSet(categories);
+            this.categories =
+                    NullUtils.nonNullContract(Collections.<Integer> unmodifiableSet(categories));
         }
 
         this.extendedAddress = extendedAddress;
@@ -212,7 +216,8 @@ public final class Location implements Parcelable {
          * persisted separately from an empty hash map.
          */
         this.urls =
-                Collections.unmodifiableMap(null == urls ? new HashMap<String, String>(0) : urls);
+                NullUtils.nonNullContract(Collections
+                        .unmodifiableMap(null == urls ? new HashMap<String, String>(0) : urls));
     }
 
     /**
@@ -231,7 +236,7 @@ public final class Location implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        ((LocationCreator) CREATOR).writeToParcel(dest, flags, this);
+        ((LocationCreator) CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 
     /**

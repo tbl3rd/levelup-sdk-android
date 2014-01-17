@@ -13,6 +13,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import lombok.Value;
+import lombok.experimental.Builder;
 import net.jcip.annotations.Immutable;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
@@ -20,6 +21,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -29,6 +31,7 @@ import com.scvngr.levelup.core.util.LogManager;
  */
 @Immutable
 @Value
+@Builder
 @LevelUpApi(contract = Contract.DRAFT)
 public final class User implements Parcelable {
 
@@ -204,7 +207,7 @@ public final class User implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        ((UserCreator) CREATOR).writeToParcel(dest, flags, this);
+        ((UserCreator) CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 
     /**
@@ -216,27 +219,25 @@ public final class User implements Parcelable {
         @NonNull
         @Override
         public User createFromParcel(final Parcel source) {
-            final String bornAt = source.readString();
-            @SuppressWarnings("unchecked")
-            final Map<String, String> customAttributes =
-                    (Map<String, String>) source.readSerializable();
-            final String email = source.readString();
-            final boolean isConnectedToFacebook = 1 == source.readInt();
-            final String firstName = source.readString();
-            final Gender gender = Gender.forString(source.readString());
-            final MonetaryValue globalCredit =
-                    source.readParcelable(MonetaryValue.class.getClassLoader());
-            final long id = source.readLong();
-            final String lastName = source.readString();
-            final int merchantsVisitedCount = source.readInt();
-            final int ordersCount = source.readInt();
-            final String termsAcceptedAt = source.readString();
-            final MonetaryValue totalSavings =
-                    source.readParcelable(MonetaryValue.class.getClassLoader());
+            final UserBuilder user = new UserBuilder();
 
-            return new User(bornAt, customAttributes, email, firstName, gender, globalCredit, id,
-                    isConnectedToFacebook, lastName, merchantsVisitedCount, ordersCount,
-                    termsAcceptedAt, totalSavings);
+            user.bornAt(source.readString());
+            @SuppressWarnings("unchecked")
+            final Map<String, String> customAttributes = (Map<String, String>) source.readSerializable();
+            user.customAttributes(customAttributes);
+            user.email(source.readString());
+            user.isConnectedToFacebook(1 == source.readInt());
+            user.firstName(source.readString());
+            user.gender(Gender.forString(source.readString()));
+            user.globalCredit(source.<MonetaryValue>readParcelable(MonetaryValue.class.getClassLoader()));
+            user.id(source.readLong());
+            user.lastName(source.readString());
+            user.merchantsVisitedCount(source.readInt());
+            user.ordersCount(source.readInt());
+            user.termsAcceptedAt(source.readString());
+            user.totalSavings(source.<MonetaryValue>readParcelable(MonetaryValue.class.getClassLoader()));
+
+            return NullUtils.nonNullContract(user.build());
         }
 
         @Override
@@ -251,7 +252,8 @@ public final class User implements Parcelable {
             dest.writeString(user.getEmail());
             dest.writeInt(user.isConnectedToFacebook() ? 1 : 0);
             dest.writeString(user.getFirstName());
-            dest.writeString(null != user.getGender() ? user.getGender().toString() : null);
+            final Gender gender = user.getGender();
+            dest.writeString(null != gender ? gender.toString() : null);
             dest.writeParcelable(user.getGlobalCredit(), flags);
             dest.writeLong(user.getId());
             dest.writeString(user.getLastName());

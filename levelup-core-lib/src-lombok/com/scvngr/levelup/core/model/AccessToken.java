@@ -13,6 +13,7 @@ import net.jcip.annotations.Immutable;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -29,6 +30,7 @@ public final class AccessToken implements Parcelable {
     /**
      * Implements the {@code Parcelable} interface.
      */
+    @NonNull
     public static final Creator<AccessToken> CREATOR = new AccessTokenCreator();
 
     /**
@@ -49,7 +51,7 @@ public final class AccessToken implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        ((AccessTokenCreator) CREATOR).writeToParcel(dest, flags, this);
+        ((AccessTokenCreator) CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 
     /**
@@ -66,7 +68,7 @@ public final class AccessToken implements Parcelable {
         @Override
         @NonNull
         public AccessToken createFromParcel(final Parcel in) {
-            final String accessToken = in.readString();
+            final String accessToken = NullUtils.nonNullContract(in.readString());
             final long userId = in.readLong();
 
             return new AccessToken(accessToken, userId);

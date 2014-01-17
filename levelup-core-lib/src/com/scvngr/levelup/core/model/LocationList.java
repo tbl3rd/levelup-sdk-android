@@ -12,6 +12,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * An immutable {@link ArrayList} of {@link Location}s.
@@ -21,6 +22,7 @@ public final class LocationList extends ParcelableArrayList<Location> {
     /**
      * Parcelable creator.
      */
+    @NonNull
     public static final Creator<LocationList> CREATOR = new Creator<LocationList>() {
 
         @Override
@@ -29,8 +31,8 @@ public final class LocationList extends ParcelableArrayList<Location> {
         }
 
         @Override
-        public LocationList createFromParcel(@NonNull final Parcel source) {
-            return new LocationList(source);
+        public LocationList createFromParcel(final Parcel source) {
+            return new LocationList(NullUtils.nonNullContract(source));
         }
     };
 
@@ -43,7 +45,7 @@ public final class LocationList extends ParcelableArrayList<Location> {
      *
      * @param in the parcel to read from.
      */
-    public LocationList(final Parcel in) {
+    public LocationList(@NonNull final Parcel in) {
         super(in);
     }
 
