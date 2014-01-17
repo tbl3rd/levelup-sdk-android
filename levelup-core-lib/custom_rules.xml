@@ -8,6 +8,10 @@
         <taskdef classname="lombok.delombok.ant.DelombokTask" name="delombok" classpath="../tools/lombok.jar" />
 
         <delombok verbose="true" encoding="UTF-8" to="src" from="src-lombok">
+            <!-- indent with 4 spaces -->
+            <format value="indent:4" />
+            <format value="javaLangAsFQN:skip" />
+
             <classpath>
                 <path location="src" />
                 <path location="gen" />
