@@ -43,14 +43,29 @@ public final class UserFixture {
     }
 
     /**
-     * Helper method to return a valid user object with all of its fields filled. Defaults the ID
-     * to 1.
+     * Helper method to return a valid user object with all of its fields filled. Defaults the ID to
+     * 1.
      *
      * @return a valid {@link User} with all fields filled.
      */
     @NonNull
     public static User getFullModel() {
         return getFullModel(1);
+    }
+
+    /**
+     * Helper method to return a valid user object with all of its fields filled. Defaults the ID to
+     * 1. Order and Merchant visit count are set to 30 so all colors are unlocked.
+     *
+     * @return a valid {@link User} with all fields filled.
+     */
+    @NonNull
+    public static User getFullModelColorUnlocked() {
+        try {
+            return new UserJsonFactory().from(getFullJsonObjectColorUnlocked());
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
     }
 
     /**
@@ -129,6 +144,37 @@ public final class UserFixture {
                     .put(UserJsonFactory.JsonKeys.LAST_NAME, "Doe") //$NON-NLS-1$
                     .put(UserJsonFactory.JsonKeys.MERCHANTS_VISITED_COUNT, 1)
                     .put(UserJsonFactory.JsonKeys.ORDERS_COUNT, 2)
+                    .put(UserJsonFactory.JsonKeys.TERMS_ACCEPTED_AT, "2012-12-04T18:10:45-0500") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.TOTAL_SAVINGS_AMOUNT, 1000);
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    /**
+     * Create an unnested representation of the required and optional JSON, with order and merchant
+     * visit count set to 30. Id defaulted to 1.
+     *
+     * @return valid JSON representation of the user.
+     */
+    private static JSONObject getFullJsonObjectColorUnlocked() {
+        final HashMap<String, String> customAttributesMap = new HashMap<String, String>();
+        customAttributesMap.put("test_attr", "0"); //$NON-NLS-1$ //$NON-NLS-2$
+        customAttributesMap.put("test_attr2", "1"); //$NON-NLS-1$ //$NON-NLS-2$
+
+        try {
+            return getMinimalJsonObject(1)
+                    .put(UserJsonFactory.JsonKeys.BORN_AT, "1911-12-26T00:00:00-0200") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.CUSTOM_ATTRIBUTES,
+                            new JSONObject(customAttributesMap))
+                    .put(UserJsonFactory.JsonKeys.EMAIL, "test@example.com") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.CONNECTED_TO_FACEBOOK, true)
+                    .put(UserJsonFactory.JsonKeys.FIRST_NAME, "John") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.GENDER, "male") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.GLOBAL_CREDIT_AMOUNT, 1000)
+                    .put(UserJsonFactory.JsonKeys.LAST_NAME, "Doe") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.MERCHANTS_VISITED_COUNT, 30)
+                    .put(UserJsonFactory.JsonKeys.ORDERS_COUNT, 30)
                     .put(UserJsonFactory.JsonKeys.TERMS_ACCEPTED_AT, "2012-12-04T18:10:45-0500") //$NON-NLS-1$
                     .put(UserJsonFactory.JsonKeys.TOTAL_SAVINGS_AMOUNT, 1000);
         } catch (final JSONException e) {
