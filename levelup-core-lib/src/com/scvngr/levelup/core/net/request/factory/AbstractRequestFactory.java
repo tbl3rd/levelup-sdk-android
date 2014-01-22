@@ -16,6 +16,7 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.AccessToken;
 import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
+import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
 /**
@@ -70,7 +71,7 @@ public abstract class AbstractRequestFactory {
             @Nullable final AccessTokenRetriever retriever) {
         PreconditionUtil.assertNotNull(context, "context"); //$NON-NLS-1$
 
-        mContext = context.getApplicationContext();
+        mContext = NullUtils.nonNullContract(context.getApplicationContext());
         mAccessTokenRetriever = retriever;
     }
 
@@ -86,7 +87,7 @@ public abstract class AbstractRequestFactory {
      * @return the implementation of {@link AccessTokenRetriever} to use to get the {@link User}'s
      *         {@link AccessToken} if needed.
      */
-    @NonNull
+    @Nullable
     protected AccessTokenRetriever getAccessTokenRetriever() {
         return mAccessTokenRetriever;
     }
