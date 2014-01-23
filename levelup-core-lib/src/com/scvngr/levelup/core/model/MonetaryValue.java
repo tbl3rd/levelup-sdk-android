@@ -7,13 +7,16 @@ package com.scvngr.levelup.core.model;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import net.jcip.annotations.Immutable;
+
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.annotation.model.NonWrappable;
 import com.scvngr.levelup.core.util.NullUtils;
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -25,40 +28,41 @@ import com.scvngr.levelup.core.util.NullUtils;
  * Represents some amount of money on the server.
  */
 @Immutable
+@NonWrappable
 @LevelUpApi(contract = Contract.DRAFT)
 public final class MonetaryValue implements Parcelable {
-    
+
     /**
      * Implements the {@code Parcelable} interface.
      */
     @NonNull
     public static final Creator<MonetaryValue> CREATOR = new MonetaryValueCreator();
-    
+
     /**
      * The currency code for USD.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
     protected static final String USD_CODE = "usd"; //$NON-NLS-1$
-    
+
     /**
      * The symbol for USD.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
     protected static final String USD_SYMBOL = "$"; //$NON-NLS-1$
-    
+
     /**
      * The amount (in cents) for this {@link MonetaryValue}.
      */
     private final long amount;
-    
+
     /**
      * The raw currency code, such as "USD" or "EUR".
      */
     @NonNull
     private final String currencyCode;
-    
+
     /**
      * The currency symbol (i.e.: "$" or "\u20ac").
      */

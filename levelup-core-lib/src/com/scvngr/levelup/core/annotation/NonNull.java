@@ -11,7 +11,7 @@ import java.lang.annotation.RetentionPolicy;
  * Denotes that a reference cannot be null.
  */
 @Documented
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface NonNull {
     // this space intentionally left blank
 }
