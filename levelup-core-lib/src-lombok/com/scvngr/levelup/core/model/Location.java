@@ -160,6 +160,11 @@ public final class Location implements Parcelable {
      * URL key for Facebook.
      */
     public static final String URL_FACEBOOK = "facebook"; //$NON-NLS-1$
+    
+    /**
+     * URL key for Foodler.
+     */
+    public static final String URL_FOODLER = "foodler"; //$NON-NLS-1$
 
     /**
      * @param categories the categories that this {@link Location} is classified under. {@code null}

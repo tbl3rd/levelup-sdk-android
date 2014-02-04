@@ -56,6 +56,7 @@ public final class LocationJsonFactory extends AbstractJsonModelFactory<Location
         final HashMap<String, String> urls = new HashMap<String, String>();
 
         urls.put(Location.URL_FACEBOOK, JsonUtils.optString(json, JsonKeys.FACEBOOK_URL));
+        urls.put(Location.URL_FOODLER, JsonUtils.optString(json, JsonKeys.FOODLER_URL));
         urls.put(Location.URL_MENU, JsonUtils.optString(json, JsonKeys.MENU_URL));
         urls.put(Location.URL_NEWSLETTER, JsonUtils.optString(json, JsonKeys.NEWSLETTER_URL));
         urls.put(Location.URL_OPENTABLE, JsonUtils.optString(json, JsonKeys.OPENTABLE_URL));
@@ -87,6 +88,9 @@ public final class LocationJsonFactory extends AbstractJsonModelFactory<Location
 
         @JsonValueType(JsonType.STRING)
         public static final String FACEBOOK_URL = "facebook_url"; //$NON-NLS-1$
+
+        @JsonValueType(JsonType.STRING)
+        public static final String FOODLER_URL = "foodler_url"; //$NON-NLS-1$
 
         @JsonValueType(JsonType.STRING)
         public static final String HOURS = "hours"; //$NON-NLS-1$

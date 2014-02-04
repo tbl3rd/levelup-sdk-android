@@ -109,6 +109,7 @@ public final class LocationFixture {
                     new JSONArray(Arrays.asList(2, 3, 5, 23)));
             object.put(LocationJsonFactory.JsonKeys.EXTENDED_ADDRESS, "extended_address"); //$NON-NLS-1$
             object.put(LocationJsonFactory.JsonKeys.FACEBOOK_URL, "facebook_url"); //$NON-NLS-1$
+            object.put(LocationJsonFactory.JsonKeys.FOODLER_URL, "foodler_url"); //$NON-NLS-1$
             object.put(LocationJsonFactory.JsonKeys.HOURS, "hours"); //$NON-NLS-1$
             object.put(LocationJsonFactory.JsonKeys.LATITUDE, LOCATION_LATITUDE);
             object.put(LocationJsonFactory.JsonKeys.LONGITUDE, LOCATION_LONGITUDE);

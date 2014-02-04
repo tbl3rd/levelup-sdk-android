@@ -39,6 +39,7 @@ public final class LocationJsonFactoryTest extends SupportAndroidTestCase {
             assertEquals(new HashSet<Integer>(Arrays.asList(2, 3, 5, 23)), location.getCategories());
             assertEquals("extended_address", location.getExtendedAddress()); //$NON-NLS-1$
             assertEquals("facebook_url", location.getUrl(Location.URL_FACEBOOK)); //$NON-NLS-1$
+            assertEquals("foodler_url", location.getUrl(Location.URL_FOODLER)); //$NON-NLS-1$
             assertEquals("hours", location.getHours()); //$NON-NLS-1$
             assertEquals(1, location.getId());
             assertEquals(LocationFixture.LOCATION_LATITUDE, location.getLatitude());
