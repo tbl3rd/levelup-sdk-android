@@ -3,7 +3,6 @@
  */
 package com.scvngr.levelup.ui.test;
 
-import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +18,7 @@ import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.net.LevelUpConnectionHelper;
 import com.scvngr.levelup.core.test.R;
 import com.scvngr.levelup.core.test.TestThreadingUtils;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
@@ -29,11 +29,21 @@ import java.util.concurrent.atomic.AtomicReference;
  * <p>
  * To test an activity , subclass this class and call {@link #startActivitySync()} to obtain the
  * Activity after it's gone through the simulated lifecycle up to onResume().
+ * <p>
+ * The tear down will call the simulated lifecycle's onDestroy() so that the activity doesn't live
+ * past the test's scope.
  *
  * @param <T> the Activity to test.
  */
 public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
         ActivityUnitTestCase<T> {
+
+    /**
+     * Reference to the activity created in {@link #startActivitySync()} so that the tear down can
+     * properly destroy the activity.
+     */
+    @Nullable
+    /* package */ AtomicReference<FragmentActivity> mActivityReference;
 
     public LevelUpUnitTestCase(final Class<T> activityClass) {
         super(activityClass);
@@ -51,6 +61,10 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+
+        if (null != mActivityReference) {
+            stopActivitySync();
+        }
 
         LevelUpConnectionHelper.clearInstance();
     }
@@ -122,7 +136,8 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      * @return the new instance of the input fragment created using the saved/restored state.
      */
     @NonNull
-    protected final <F extends Fragment> F saveAndRestoreFragmentStateSync(@NonNull final F fragment) {
+    protected final <F extends Fragment> F
+            saveAndRestoreFragmentStateSync(@NonNull final F fragment) {
         return TestThreadingUtils.saveAndRestoreFragmentStateSync(getInstrumentation(),
                 getActivity(), fragment);
     }
@@ -145,8 +160,8 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      */
     @NonNull
     protected final FragmentActivity startActivitySync() {
-        final AtomicReference<FragmentActivity> reference =
-                new AtomicReference<FragmentActivity>(null);
+        mActivityReference = new AtomicReference<FragmentActivity>(null);
+        @NonNull final AtomicReference<FragmentActivity> activityReference = mActivityReference;
 
         // Cannot use autosyncrunnable because the activity is not created yet.
         getInstrumentation().runOnMainSync(new Runnable() {
@@ -159,12 +174,29 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
                 getInstrumentation().callActivityOnPostCreate(activity, null);
                 getInstrumentation().callActivityOnResume(activity);
 
-                reference.set(activity);
+                activityReference.set(activity);
             }
         });
         getInstrumentation().waitForIdleSync();
 
-        return reference.get();
+        return NullUtils.nonNullContract(activityReference.get());
+    }
+
+    private final void stopActivitySync() {
+        // Cannot use autosyncrunnable because the activity is not created yet.
+        getInstrumentation().runOnMainSync(new Runnable() {
+
+            @Override
+            public void run() {
+                @SuppressWarnings("null")
+                final FragmentActivity activity = mActivityReference.get();
+
+                getInstrumentation().callActivityOnPause(activity);
+                getInstrumentation().callActivityOnStop(activity);
+                getInstrumentation().callActivityOnDestroy(activity);
+            }
+        });
+        getInstrumentation().waitForIdleSync();
     }
 
     /**

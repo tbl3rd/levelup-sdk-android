@@ -215,7 +215,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getMerchantWebServiceId()
          */
         @JsonValueType(JsonType.LONG)
-        public static final String MERCHANT_WEB_SERVICE_ID = "merchant_web_service_id"; //$NON-NLS-1$
+        public static final String MERCHANT_WEB_SERVICE_ID = "merchant_id"; //$NON-NLS-1$
 
         /**
          * Optional String field parsed as a date.
