@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
@@ -49,6 +50,23 @@ public final class TestThreadingUtils {
     public static void addFragmentInMainSync(@NonNull final Instrumentation instrumentation,
             @NonNull final FragmentActivity activity, @NonNull final Fragment fragment,
             final boolean inView) {
+        addFragmentInMainSync(instrumentation, activity, fragment, inView,
+                NullUtils.nonNullContract(fragment.getClass().getName()));
+    }
+
+    /**
+     * Adds a fragment in a transaction synchronized in the main thread (tagged with the fragment's
+     * class name).
+     *
+     * @param instrumentation the test {@link Instrumentation}.
+     * @param activity the {@link FragmentActivity} to add it to.
+     * @param fragment Fragment to add.
+     * @param inView adds the fragment to the view hierarchy if true.
+     * @param tag the Fragment's tag.
+     */
+    public static void addFragmentInMainSync(@NonNull final Instrumentation instrumentation,
+            @NonNull final FragmentActivity activity, @NonNull final Fragment fragment,
+            final boolean inView, @NonNull final String tag) {
         runOnMainSync(instrumentation, activity, new Runnable() {
             @Override
             public void run() {
@@ -57,8 +75,7 @@ public final class TestThreadingUtils {
                             .add(fragment, fragment.getClass().getName()).commit();
                 } else {
                     activity.getSupportFragmentManager().beginTransaction()
-                            .add(R.id.levelup_activity_content, fragment, fragment.getClass().getName())
-                            .commit();
+                            .add(R.id.levelup_activity_content, fragment, tag).commit();
                 }
 
                 activity.getSupportFragmentManager().executePendingTransactions();
@@ -145,7 +162,7 @@ public final class TestThreadingUtils {
      * @param fragmentManager the fragment manager the fragment was added to.
      * @param tag the tag to check for.
      * @param parentId the id of the parent container the fragment is expected to be in or pass
-     * {@link #PARENT_ID_UNDEFINED} if no parent id should be validated.
+     *        {@link #PARENT_ID_UNDEFINED} if no parent id should be validated.
      */
     public static void validateFragmentAdded(@NonNull final Instrumentation instrumentation,
             @NonNull final Activity activity, @NonNull final FragmentManager fragmentManager,
@@ -200,10 +217,10 @@ public final class TestThreadingUtils {
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the activity for the test being run.
      * @param runnable the runnable that will check the condition and signal success via the
-     * {@link CountDownLatch} passed.
+     *        {@link CountDownLatch} passed.
      * @param latch the {@link CountDownLatch} to check for success.
      * @param isMainThreadRunnable Determine whether or not the runnable must be invoked on the main
-     * thread.
+     *        thread.
      * @return true if the action happened before the timeout, false otherwise.
      */
     public static boolean waitForAction(@NonNull final Instrumentation instrumentation,
@@ -219,11 +236,11 @@ public final class TestThreadingUtils {
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the activity for the test being run.
      * @param runnable the runnable that will check the condition and signal success via the
-     * {@link CountDownLatch} passed.
+     *        {@link CountDownLatch} passed.
      * @param latch the {@link CountDownLatch} to check for success.
      * @param timeoutMillis the timeout duration in milliseconds.
      * @param isMainThreadRunnable Determine whether or not the runnable must be invoked on the main
-     * thread.
+     *        thread.
      * @return true if the action happened before the timeout, false otherwise.
      */
     public static boolean waitForAction(@NonNull final Instrumentation instrumentation,
@@ -291,7 +308,7 @@ public final class TestThreadingUtils {
      * This class is used to capture {@link AssertionError}s thrown inside anonymous
      * {@link Runnable}s so they can be re-thrown on the {@link Instrumentation} test thread.
      */
-    private static class FutureAssertionError {
+    /* package */ static class FutureAssertionError {
 
         /**
          * The {@link AssertionError} to be thrown by {@link #throwPendingAssertionError()}.
@@ -303,9 +320,9 @@ public final class TestThreadingUtils {
          * Set the {@link AssertionError} to be thrown by {@link #throwPendingAssertionError()}.
          *
          * @param error The {@link AssertionError} to be thrown by
-         * {@link #throwPendingAssertionError()}.
+         *        {@link #throwPendingAssertionError()}.
          */
-        private void setAssertionError(@NonNull final AssertionError error) {
+        /* package */ void setAssertionError(@NonNull final AssertionError error) {
             mError = error;
         }
 
@@ -313,7 +330,7 @@ public final class TestThreadingUtils {
          * If an {@link AssertionError} was set via {@link #setAssertionError(AssertionError)} this
          * method will throw that {@link AssertionError}, otherwise it does nothing.
          */
-        private void throwPendingAssertionError() {
+        /* package */ void throwPendingAssertionError() {
             if (null != mError) {
                 throw mError;
             }
