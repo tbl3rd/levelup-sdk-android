@@ -24,45 +24,51 @@ public @interface JsonValueType {
         /**
          * Value is a JSON true or JSON false that should map to a Java boolean.
          */
+        @NonNull
         BOOLEAN,
 
         /**
          * Value is a JSON number and should be read as a Java double.
          */
+        @NonNull
         DOUBLE,
 
         /**
          * Value is a JSON number that should be read as a Java int.
          */
+        @NonNull
         INT,
 
         /**
          * Value is a JSON array.
          */
+        @NonNull
         JSON_ARRAY,
 
         /**
          * Value is a JSON object.
          */
+        @NonNull
         JSON_OBJECT,
 
         /**
          * Value is a JSON number that should be read as a Java long.
          */
+        @NonNull
         LONG,
 
         /**
          * Value is a JSON string.
          */
+        @NonNull
         STRING
     }
 
     /**
-     * Documents the intended parser mapping from JSON object fields. This will
-     * usually (but not always) match the type of the model's related field, but
-     * may not where the model has a more complex type not supported by JSON or
-     * JSONObject (e.g. a User's birthday may be a JSON String, but a Java Date
-     * in the Model).
+     * Documents the intended parser mapping from JSON object fields. This will usually (but not
+     * always) match the type of the model's related field, but may not where the model has a more
+     * complex type not supported by JSON or JSONObject (e.g. a User's birthday may be a JSON
+     * String, but a Java Date in the Model).
      */
     @NonNull
     JsonType value();

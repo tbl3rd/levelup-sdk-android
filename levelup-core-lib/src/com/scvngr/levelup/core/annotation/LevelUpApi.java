@@ -23,17 +23,20 @@ public @interface LevelUpApi {
          * <p>
          * This API is unlikely to change in future versions of the SDK.
          */
+        @NonNull
         FINAL,
 
         /**
          * This is a draft public API that may change.
          */
+        @NonNull
         DRAFT,
 
         /**
          * This is a non-public API that is used internally within the LevelUp SDK. Clients of the
          * SDK should not use APIs annotated with this.
          */
+        @NonNull
         INTERNAL;
     }
 

@@ -20,21 +20,25 @@ public @interface VisibleForTesting {
         /**
          * The visibility is intended to be public.
          */
+        @NonNull
         PUBLIC,
 
         /**
          * The visibility is intended to be package.
          */
+        @NonNull
         PACKAGE,
 
         /**
          * The visibility is intended to be protected.
          */
+        @NonNull
         PROTECTED,
 
         /**
          * The visibility is intended to be private.
          */
+        @NonNull
         PRIVATE
     }
 

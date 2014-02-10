@@ -49,11 +49,13 @@ public final class User implements Parcelable {
         /**
          * A male-identified person.
          */
+        @NonNull
         MALE,
 
         /**
          * A female-identified person.
          */
+        @NonNull
         FEMALE;
 
         /**
