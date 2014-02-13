@@ -77,6 +77,37 @@ public final class InterstitialFixture {
     }
 
     /**
+     * Gets a valid feedback action model.
+     *
+     * @return a {@link Interstitial} with the required fields to be a feedback interstitial.
+     */
+    @NonNull
+    public static Interstitial getFeedbackActionModel() {
+        try {
+            return new InterstitialJsonFactory().from(getFeedbackActionJsonObject());
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    /**
+     * Gets a valid full JSON object with the feedback action.
+     *
+     * @return a {@link JSONObject} with all the Interstitial fields.
+     * @throws JSONException if we failed to construct the JSONObject.
+     */
+    @NonNull
+    public static JSONObject getFeedbackActionJsonObject() throws JSONException {
+        final JSONObject object = getMinimalJsonObject();
+        object.put(InterstitialJsonFactory.JsonKeys.TYPE, Interstitial.TYPE_FEEDBACK);
+        final JSONObject action = new JSONObject();
+        action.put(InterstitialJsonFactory.FeedbackActionJsonKeys.QUESTION_TEXT,
+                "question_prompt"); //$NON-NLS-1$
+        object.put(JsonKeys.ACTION, action);
+        return object;
+    }
+
+    /**
      * Gets a valid claim action model.
      *
      * @return a {@link Interstitial} with the required fields to be a claim interstitial.

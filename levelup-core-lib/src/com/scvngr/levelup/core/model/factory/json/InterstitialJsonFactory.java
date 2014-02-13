@@ -3,11 +3,6 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.JsonValueType;
 import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
@@ -18,9 +13,15 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.Interstitial;
 import com.scvngr.levelup.core.model.Interstitial.ClaimAction;
+import com.scvngr.levelup.core.model.Interstitial.FeedbackAction;
 import com.scvngr.levelup.core.model.Interstitial.InterstitialAction;
 import com.scvngr.levelup.core.model.Interstitial.ShareAction;
 import com.scvngr.levelup.core.model.Interstitial.UrlAction;
+
+import net.jcip.annotations.Immutable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Factory for parsing {@link Interstitial}s from JSON.
@@ -63,27 +64,28 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
     @Nullable
     /* package */static InterstitialAction parseAction(@NonNull final JsonModelHelper mh,
             @NonNull final String type) throws JSONException {
-        final InterstitialAction action = null;
+        InterstitialAction action = null;
 
         if (mh.has(JsonKeys.ACTION)) {
             final JsonModelHelper actionHelper =
                     new JsonModelHelper(mh.getJSONObject(JsonKeys.ACTION));
 
             if (Interstitial.TYPE_CLAIM.equals(type)) {
-                return new ClaimAction(actionHelper.getString(ClaimActionJsonKeys.CODE));
+                action = new ClaimAction(actionHelper.getString(ClaimActionJsonKeys.CODE));
+            } else if (Interstitial.TYPE_FEEDBACK.equals(type)) {
+                action = new FeedbackAction(
+                        actionHelper.getString(FeedbackActionJsonKeys.QUESTION_TEXT));
             } else if (Interstitial.TYPE_SHARE.equals(type)) {
-                return new ShareAction(actionHelper
-                        .getString(ShareActionJsonKeys.MESSAGE_FOR_EMAIL_BODY), actionHelper
-                        .getString(ShareActionJsonKeys.MESSAGE_FOR_EMAIL_SUBJECT), actionHelper
-                        .getString(ShareActionJsonKeys.MESSAGE_FOR_FACEBOOK), actionHelper
-                        .getString(ShareActionJsonKeys.MESSAGE_FOR_TWITTER), actionHelper
-                        .getString(ShareActionJsonKeys.SHARE_URL_EMAIL), actionHelper
-                        .getString(ShareActionJsonKeys.SHARE_URL_FACEBOOK), actionHelper
-                        .getString(ShareActionJsonKeys.SHARE_URL_TWITTER));
+                action = new ShareAction(
+                        actionHelper.getString(ShareActionJsonKeys.MESSAGE_FOR_EMAIL_BODY),
+                        actionHelper.getString(ShareActionJsonKeys.MESSAGE_FOR_EMAIL_SUBJECT),
+                        actionHelper.getString(ShareActionJsonKeys.MESSAGE_FOR_FACEBOOK),
+                        actionHelper.getString(ShareActionJsonKeys.MESSAGE_FOR_TWITTER),
+                        actionHelper.getString(ShareActionJsonKeys.SHARE_URL_EMAIL),
+                        actionHelper.getString(ShareActionJsonKeys.SHARE_URL_FACEBOOK),
+                        actionHelper.getString(ShareActionJsonKeys.SHARE_URL_TWITTER));
             } else if (Interstitial.TYPE_URL.equals(type)) {
-                return new UrlAction(actionHelper.getString(UrlActionJsonKeys.URL));
-            } else {
-                return null;
+                action = new UrlAction(actionHelper.getString(UrlActionJsonKeys.URL));
             }
         }
 
@@ -107,7 +109,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
         public static final String ACTION = "action"; //$NON-NLS-1$
 
         @JsonValueType(JsonType.STRING)
-        public static final String  CALLOUT_TEXT = "callout_text"; //$NON-NLS-1$
+        public static final String CALLOUT_TEXT = "callout_text"; //$NON-NLS-1$
 
         @JsonValueType(JsonType.STRING)
         public static final String DESCRIPTION_HTML = "description_html"; //$NON-NLS-1$
@@ -146,6 +148,25 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private ClaimActionJsonKeys() {
+            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        }
+    }
+
+    /**
+     * All of the keys in the JSON representation of the {@link FeedbackAction} model.
+     */
+    @Immutable
+    @SuppressWarnings("javadoc")
+    public static final class FeedbackActionJsonKeys {
+        @JsonValueType(JsonType.STRING)
+        public static final String QUESTION_TEXT = "question_text"; //$NON-NLS-1$
+
+        /**
+         * Private constructor prevents instantiation.
+         *
+         * @throws UnsupportedOperationException because this class cannot be instantiated.
+         */
+        private FeedbackActionJsonKeys() {
             throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
         }
     }

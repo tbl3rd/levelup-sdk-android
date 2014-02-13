@@ -19,6 +19,7 @@ public final class OrderFixture {
     /**
      * A constant UUID fixture, #1.
      */
+    @NonNull
     public static final String UUID_FIXTURE_1 = "123456789abcdef0123456789abcdef0"; //$NON-NLS-1$
 
     /**

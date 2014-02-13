@@ -8,10 +8,12 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.Interstitial;
 import com.scvngr.levelup.core.model.Interstitial.ClaimAction;
+import com.scvngr.levelup.core.model.Interstitial.FeedbackAction;
 import com.scvngr.levelup.core.model.Interstitial.ShareAction;
 import com.scvngr.levelup.core.model.Interstitial.UrlAction;
 import com.scvngr.levelup.core.model.InterstitialFixture;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +39,14 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
                 mFactory.from(InterstitialFixture.getShareActionJsonObject());
         assertEquals("share", interstitial.getType()); //$NON-NLS-1$
         assertTrue(interstitial.getAction() instanceof ShareAction);
+    }
+
+    @SmallTest
+    public void testJsonParse_feedbackAction() throws JSONException {
+        final Interstitial interstitial =
+                mFactory.from(InterstitialFixture.getFeedbackActionJsonObject());
+        assertEquals("collect_feedback", interstitial.getType()); //$NON-NLS-1$
+        assertTrue(interstitial.getAction() instanceof FeedbackAction);
     }
 
     @SmallTest
@@ -78,6 +88,19 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
         assertEquals("share_url_email", action.getShareUrlEmail()); //$NON-NLS-1$
         assertEquals("share_url_facebook", action.getShareUrlFacebook()); //$NON-NLS-1$
         assertEquals("share_url_twitter", action.getShareUrlTwitter()); //$NON-NLS-1$
+    }
+
+    @SmallTest
+    public void testParseAction_withFeedbackAction() throws JSONException {
+        final JsonModelHelper mh =
+                new JsonModelHelper(InterstitialFixture.getFeedbackActionJsonObject());
+
+        @NonNull
+        final FeedbackAction action =
+                NullUtils.nonNullContract((FeedbackAction) InterstitialJsonFactory.parseAction(mh,
+                        Interstitial.TYPE_FEEDBACK));
+        assertNotNull(action);
+        assertEquals("question_prompt", action.getQuestionText()); //$NON-NLS-1$
     }
 
     @SmallTest

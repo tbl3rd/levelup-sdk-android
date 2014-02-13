@@ -47,6 +47,12 @@ public final class Interstitial implements Parcelable {
     public static final String TYPE_CLAIM = "claim"; //$NON-NLS-1$
 
     /**
+     * The type returned from {@link #getType()} if this is a customer feedback Interstitial.
+     */
+    @NonNull
+    public static final String TYPE_FEEDBACK = "collect_feedback"; //$NON-NLS-1$
+
+    /**
      * The type returned from {@link #getType()} if this is a no_action Interstitial. A No_Action
      * interstitial requires no action from the user, but provides information.
      */
@@ -99,14 +105,15 @@ public final class Interstitial implements Parcelable {
      * The type of the interstitial.
      * <p>
      * NOTE: This could return any of the recognized types (or a currently unsupported type). This
-     * is mostly intended to be used to determine what type will be returned from
-     * {@link #getAction}.
+     * is mostly intended to be used to determine what type will be returned from {@link #getAction}
+     * .
      * </p>
-     * 
+     *
      * @see #TYPE_CLAIM
      * @see #TYPE_NO_ACTION
      * @see #TYPE_SHARE
      * @see #TYPE_URL
+     * @see #TYPE_FEEDBACK
      */
     @NonNull
     private final String type;
@@ -118,7 +125,7 @@ public final class Interstitial implements Parcelable {
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        ((InterstitialCreator)CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
+        ((InterstitialCreator) CREATOR).writeToParcel(NullUtils.nonNullContract(dest), flags, this);
     }
 
     /**
@@ -178,14 +185,13 @@ public final class Interstitial implements Parcelable {
          */
         @NonNull
         public static final Creator<ClaimAction> CREATOR = new Creator<Interstitial.ClaimAction>() {
-
             @Override
-            public ClaimAction[] newArray(int size) {
+            public ClaimAction[] newArray(final int size) {
                 return new ClaimAction[size];
             }
 
             @Override
-            public ClaimAction createFromParcel(Parcel source) {
+            public ClaimAction createFromParcel(final Parcel source) {
                 return new ClaimAction(NullUtils.nonNullContract(source.readString()));
             }
         };
@@ -208,6 +214,49 @@ public final class Interstitial implements Parcelable {
     }
 
     /**
+     * Represents an interstitial that requests feedback from the user.
+     */
+    @Immutable
+    @Value
+    @AllArgsConstructor(suppressConstructorProperties = true)
+    @LevelUpApi(contract = Contract.INTERNAL)
+    public static final class FeedbackAction implements InterstitialAction {
+
+        /**
+         * Implements Parcelable.
+         */
+        @NonNull
+        public static final Creator<FeedbackAction> CREATOR =
+                new Creator<Interstitial.FeedbackAction>() {
+                    @Override
+                    public FeedbackAction[] newArray(final int size) {
+                        return new FeedbackAction[size];
+                    }
+
+                    @Override
+                    public FeedbackAction createFromParcel(final Parcel source) {
+                        return new FeedbackAction(NullUtils.nonNullContract(source.readString()));
+                    }
+                };
+
+        /**
+         * The question that should be displayed for this feedback interstitial.
+         */
+        @NonNull
+        private final String questionText;
+
+        @Override
+        public void writeToParcel(final Parcel dest, final int flags) {
+            dest.writeString(questionText);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+    }
+
+    /**
      * Represents an interstitial that can be shared by the user.
      */
     @Immutable
@@ -221,14 +270,13 @@ public final class Interstitial implements Parcelable {
          */
         @NonNull
         public static final Creator<ShareAction> CREATOR = new Creator<Interstitial.ShareAction>() {
-
             @Override
-            public ShareAction[] newArray(int size) {
+            public ShareAction[] newArray(final int size) {
                 return new ShareAction[size];
             }
 
             @Override
-            public ShareAction createFromParcel(Parcel source) {
+            public ShareAction createFromParcel(final Parcel source) {
                 final ShareActionBuilder builder = new ShareActionBuilder();
                 builder.messageForEmailBody(NullUtils.nonNullContract(source.readString()));
                 builder.messageForEmailSubject(NullUtils.nonNullContract(source.readString()));
@@ -318,14 +366,13 @@ public final class Interstitial implements Parcelable {
          */
         @NonNull
         public static final Creator<UrlAction> CREATOR = new Creator<Interstitial.UrlAction>() {
-
             @Override
-            public UrlAction[] newArray(int size) {
+            public UrlAction[] newArray(final int size) {
                 return new UrlAction[size];
             }
 
             @Override
-            public UrlAction createFromParcel(Parcel source) {
+            public UrlAction createFromParcel(final Parcel source) {
                 return new UrlAction(NullUtils.nonNullContract(source.readString()));
             }
         };
