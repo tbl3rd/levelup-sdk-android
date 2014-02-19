@@ -46,7 +46,7 @@ public final class LevelUpCodeLoaderTest extends SupportInstrumentationTestCase 
         assertTrue(
                 "countdown did not reach expected amount", mOnImageLoaded.mLatch.await(2, TimeUnit.SECONDS)); //$NON-NLS-1$
 
-        assertTrue(mQrCodeGenerator.isBitmapForCode(mOnImageLoaded.mLoadedImage,
+        assertTrue(MockQrCodeGenerator.isBitmapForCode(mOnImageLoaded.mLoadedImage,
                 MockQrCodeGenerator.TEST_CONTENT1));
     }
 
@@ -82,7 +82,7 @@ public final class LevelUpCodeLoaderTest extends SupportInstrumentationTestCase 
 
         // Check the PendingImage
         assertEquals(mTestKey1, levelUpCode.getLoadKey());
-        assertTrue(mQrCodeGenerator.isBitmapForCode(levelUpCode.getImage(),
+        assertTrue(MockQrCodeGenerator.isBitmapForCode(levelUpCode.getImage(),
                 MockQrCodeGenerator.TEST_CONTENT1));
 
         // Check the loader state.

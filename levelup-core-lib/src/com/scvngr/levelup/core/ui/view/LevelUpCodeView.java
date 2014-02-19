@@ -8,6 +8,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
@@ -495,14 +496,20 @@ public final class LevelUpCodeView extends View {
         final Resources res = context.getResources();
         final Xfermode xferMode = new PorterDuffXfermode(Mode.SCREEN);
 
-        mTargetBottomLeftPaint.setColor(res.getColor(R.color.levelup_logo_green));
+        if (!isInEditMode()) {
+            mTargetBottomLeftPaint.setColor(res.getColor(R.color.levelup_logo_green));
+            mTargetBottomRightPaint.setColor(res.getColor(R.color.levelup_logo_blue));
+            mTargetTopRightPaint.setColor(res.getColor(R.color.levelup_logo_orange));
+        } else {
+            mTargetBottomLeftPaint.setColor(Color.GREEN);
+            mTargetBottomRightPaint.setColor(Color.BLUE);
+            mTargetTopRightPaint.setColor(Color.YELLOW);
+        }
+
         mTargetBottomLeftPaint.setXfermode(xferMode);
-
-        mTargetBottomRightPaint.setColor(res.getColor(R.color.levelup_logo_blue));
         mTargetBottomRightPaint.setXfermode(xferMode);
-
-        mTargetTopRightPaint.setColor(res.getColor(R.color.levelup_logo_orange));
         mTargetTopRightPaint.setXfermode(xferMode);
+
         mGestureDetector = new GestureDetectorCompat(context, mGestureDetectorCallbacks);
     }
 

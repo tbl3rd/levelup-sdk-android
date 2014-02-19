@@ -6,6 +6,9 @@ package com.scvngr.levelup.core.test;
 import android.content.Context;
 import android.test.AndroidTestCase;
 
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.util.NullUtils;
+
 /**
  * Test cases that need access to Resources or depend on Activity context should extend this class.
  * <p/>
@@ -15,6 +18,12 @@ import android.test.AndroidTestCase;
  * @see SupportTestCaseUtils#waitForApplicationContext
  */
 public class SupportAndroidTestCase extends AndroidTestCase {
+
+    @Override
+    @NonNull
+    public Context getContext() {
+        return NullUtils.nonNullContract(super.getContext());
+    }
 
     @Override
     public void setContext(final Context context) {

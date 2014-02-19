@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.R;
+import com.scvngr.levelup.core.model.tip.PercentageTip;
 import com.scvngr.levelup.core.test.ResourcesUtil;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
@@ -60,12 +61,6 @@ public class LevelUpCodeTest extends SupportAndroidTestCase {
     }
 
     @SmallTest
-    public void testGetPaymentTokenVersion_withValidV2Code() {
-        final LevelUpCode code = LevelUpCode.getPaymentTokenVersion(PaymentTokenV2Test.V3_CODE);
-        assertTrue(code instanceof PaymentTokenV2);
-    }
-
-    @SmallTest
     public void testGetPaymentTokenVersion_withValidV2Token() {
         final LevelUpCode code =
                 LevelUpCode.getPaymentTokenVersion(PaymentTokenV2Test.V2_CODE_WITHOUT_PREFERENCES);
@@ -81,14 +76,16 @@ public class LevelUpCodeTest extends SupportAndroidTestCase {
     }
 
     @SmallTest
-    public void testEncodeLevelUpCode_witV2Token() {
+    public void testEncodeLevelUpCode_withV2Code() {
         final String base = PaymentTokenV2Test.V2_CODE_WITHOUT_PREFERENCES;
-        assertEquals(base + "020027LU", LevelUpCode.encodeLevelUpCode(base, 7, 2)); //$NON-NLS-1$
+        assertEquals(base + "030027LU", LevelUpCode.encodeLevelUpCode(base, 7, //$NON-NLS-1$
+                new PercentageTip(2)));
     }
 
     @SmallTest
     public void testEncodeLevelUpCode_withV2CodeAndNullColor() {
         final String base = PaymentTokenV2Test.V2_CODE_WITHOUT_PREFERENCES;
-        assertEquals(base + "020030LU", LevelUpCode.encodeLevelUpCode(base, -1, 3)); //$NON-NLS-1$
+        assertEquals(base + "030030LU", LevelUpCode.encodeLevelUpCode(base, -1, //$NON-NLS-1$
+                new PercentageTip(3)));
     }
 }

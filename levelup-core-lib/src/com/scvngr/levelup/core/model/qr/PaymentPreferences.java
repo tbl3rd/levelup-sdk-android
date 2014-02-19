@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import net.jcip.annotations.Immutable;
 
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.model.tip.Tip;
 
 /**
  * Class to encompass the PaymentPreferences at the end of QR codes.
@@ -47,7 +48,7 @@ public abstract class PaymentPreferences {
      * @return String with the encoded color/tip values.
      */
     @NonNull
-    /* package */abstract String encode(final int color, final int tip);
+    /* package */abstract String encode(final int color, final Tip tip);
 
     /**
      * Gets the color index of the provided {@code preferenceData}.
@@ -55,15 +56,11 @@ public abstract class PaymentPreferences {
      * @param preferenceData the preference string from the QR code.
      * @return the color from the QR code or {@link #COLOR_UNKNOWN} if parsing failed.
      */
-    public static final int getColorPreference(@NonNull final String preferenceData) {
+    public static int getColorPreference(@NonNull final String preferenceData) {
         int color = COLOR_UNKNOWN;
 
         if (!TextUtils.isEmpty(preferenceData)) {
-            final PaymentPreferences prefs = getPreferenceVersion(preferenceData);
-
-            if (prefs != null) {
-                color = prefs.getColor();
-            }
+            color = getPreferenceVersion(preferenceData).getColor();
         }
 
         return color;
@@ -77,8 +74,7 @@ public abstract class PaymentPreferences {
      *         newest version that we support if we cannot detect the preference type.
      */
     @NonNull
-    /* package */static final PaymentPreferences getPreferenceVersion(@NonNull final String prefs) {
-
-        return new PaymentPreferencesV2(prefs);
+    /* package */static PaymentPreferences getPreferenceVersion(@NonNull final String prefs) {
+        return new PaymentPreferencesV3(prefs);
     }
 }

@@ -10,12 +10,13 @@ import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 public class PaymentPreferencesTest extends SupportAndroidTestCase {
 
     @SmallTest
-    public void testgetPreferenceVersion_withV1Prefs() {
-        assertTrue(PaymentPreferences.getPreferenceVersion(PaymentPreferencesV2Test.V2_PREFS) instanceof PaymentPreferencesV2);
+    public void testgetPreferenceVersion_withV3Prefs() {
+        assertTrue(PaymentPreferences.getPreferenceVersion("030012LU") //$NON-NLS-1$
+                instanceof PaymentPreferencesV3);
     }
 
     @SmallTest
     public void testgetPreferenceVersion_invalidPrefs() {
-        assertTrue(PaymentPreferences.getPreferenceVersion("") instanceof PaymentPreferencesV2); //$NON-NLS-1$
+        assertTrue(PaymentPreferences.getPreferenceVersion("") instanceof PaymentPreferencesV3); //$NON-NLS-1$
     }
 }

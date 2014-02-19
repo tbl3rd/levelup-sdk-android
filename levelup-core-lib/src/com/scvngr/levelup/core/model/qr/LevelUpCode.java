@@ -15,6 +15,8 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.model.tip.PercentageTip;
+import com.scvngr.levelup.core.model.tip.Tip;
 import com.scvngr.levelup.core.util.LogManager;
 
 /**
@@ -37,6 +39,7 @@ import com.scvngr.levelup.core.util.LogManager;
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
 public abstract class LevelUpCode {
+
     /**
      * The QR code data.
      */
@@ -86,7 +89,7 @@ public abstract class LevelUpCode {
      */
     @NonNull
     public static String encodeLevelUpCode(@NonNull final String data, final int color,
-            final int tip) {
+            final Tip tip) {
         String encodedQr = data;
 
         if (!TextUtils.isEmpty(data)) {
@@ -104,14 +107,31 @@ public abstract class LevelUpCode {
     }
 
     /**
+     * Encodes the payment preferences to the end of the QR code string passed.
+     *
+     * @param data the QR code data to append the preferences to.
+     * @param color the color to encode. This value is between 0 and 9, indexing into a list of
+     *        preset colors.
+     * @param tipValue the tip value to encode.
+     * @return the String with the payment preferences encoded into it.
+     * @deprecated use {@link #encodeLevelUpCode(String, int, Tip)} instead.
+     */
+    @NonNull
+    @Deprecated
+    public static String encodeLevelUpCode(@NonNull final String data, final int color,
+            final int tipValue) {
+        return encodeLevelUpCode(data, color, new PercentageTip(tipValue));
+    }
+
+    /**
      * Subclasses must implement this to encode the payment preferences into the LevelUp code.
      *
      * @param color the color to encode. This is an index between 0 and 9, inclusive.
-     * @param tip the tip to encode. This is a percentage between 0 and 100, inclusive.
+     * @param tip the tip to encode.
      * @return the full LevelUp code with the payment preferences encoded into it
      */
     @NonNull
-    /* package */abstract String encodePaymentPreferences(int color, int tip);
+    /* package */abstract String encodePaymentPreferences(int color, Tip tip);
 
     /**
      * Get the color from this LevelUp code.

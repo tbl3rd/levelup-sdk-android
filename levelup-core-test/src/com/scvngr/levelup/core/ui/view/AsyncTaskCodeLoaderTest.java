@@ -51,7 +51,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
         assertTrue("countdown did not reach expected amount", //$NON-NLS-1$
                 mOnImageLoaded.mLatch.await(2, TimeUnit.SECONDS));
 
-        assertTrue(mQrCodeGenerator.isBitmapForCode(mOnImageLoaded.mLoadedImage,
+        assertTrue(MockQrCodeGenerator.isBitmapForCode(mOnImageLoaded.mLoadedImage,
                 MockQrCodeGenerator.TEST_CONTENT1));
     }
 
@@ -87,7 +87,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
 
         // Check the PendingImage
         assertEquals(mTestKey1, levelUpCode.getLoadKey());
-        assertTrue(mQrCodeGenerator.isBitmapForCode(levelUpCode.getImage(),
+        assertTrue(MockQrCodeGenerator.isBitmapForCode(levelUpCode.getImage(),
                 MockQrCodeGenerator.TEST_CONTENT1));
 
         // Check the loader state.
@@ -143,7 +143,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
         // Check the PendingImage
         assertEquals(mTestKey1, levelUpCode.getLoadKey());
         assertNotNull(levelUpCode.getImage());
-        assertTrue(mQrCodeGenerator.isBitmapForCode(levelUpCode.getImage(),
+        assertTrue(MockQrCodeGenerator.isBitmapForCode(levelUpCode.getImage(),
                 MockQrCodeGenerator.TEST_CONTENT1));
 
         assertEquals(levelUpCode.getImage(), mOnImageLoaded.mLoadedImage);

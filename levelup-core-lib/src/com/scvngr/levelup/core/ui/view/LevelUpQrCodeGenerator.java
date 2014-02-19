@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import net.jcip.annotations.Immutable;
 
 import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.SlowOperation;
 
 /**
@@ -36,7 +35,7 @@ public interface LevelUpQrCodeGenerator {
      * @param qrCodeData the complete contents to be encoded in the QR code.
      * @return a {@link LevelUpQrCodeImage} of the code.
      */
-    @Nullable
+    @NonNull
     @SlowOperation
     public LevelUpQrCodeImage generateLevelUpQrCode(@NonNull String qrCodeData);
 

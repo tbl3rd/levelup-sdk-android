@@ -14,6 +14,9 @@ import com.scvngr.levelup.core.annotation.SlowOperation;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Mock implementation of {@link LevelUpQrCodeGenerator} for test purposes.
+ */
 public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
     /**
      * The x & y coordinate of the test color pixel.
@@ -41,6 +44,8 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
 
     public CountDownLatch mGenerateDelayLatch;
 
+    private static final int GENERATE_LATCH_WAIT_SECONDS = 4;
+
     public MockQrCodeGenerator() {
         mTestImage1 = generateTestImage(TEST_CONTENT1_COLOR);
         mTestImage2 = generateTestImage(TEST_CONTENT2_COLOR);
@@ -52,10 +57,11 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
      * @param code the code to check.
      * @return true if the given bitmap is the one representing the given code.
      */
-    public boolean isBitmapForCode(final LevelUpQrCodeImage image, final String code) {
+    public static boolean isBitmapForCode(@Nullable final LevelUpQrCodeImage image,
+            @Nullable final String code) {
         boolean isEqual = false;
 
-        if (null != image && null != image.getBitmap()) {
+        if (null != image) {
             final int color = image.getBitmap().getPixel(TEST_COLOR_PIXEL, TEST_COLOR_PIXEL);
 
             switch (color) {
@@ -76,6 +82,12 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
         return isEqual;
     }
 
+    /**
+     * Generate a {@link LevelUpQrCodeImage} for the specified color.
+     *
+     * @param color the color to generate the image from
+     * @return the {@link LevelUpQrCodeImage}
+     */
     @NonNull
     private LevelUpQrCodeImage generateTestImage(final int color) {
         final Bitmap bitmap =
@@ -100,14 +112,14 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
 
     /**
      * The mock version of this returns pre-rendered immutable bitmaps. These can be checked against
-     * expected results using
-     * {@link #isBitmapForCode(com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage, String)}
-     * .
+     * expected results using {@link #isBitmapForCode}.
      *
-     * @see com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator#generateLevelUpQrCode(java.lang.String)
+     * @param qrCodeData the QR code data string
+     * @return the test {@link LevelUpQrCodeImage}
+     * @see LevelUpQrCodeGenerator#generateLevelUpQrCode
      */
     @Override
-    @Nullable
+    @NonNull
     @SlowOperation
     public LevelUpQrCodeImage generateLevelUpQrCode(@NonNull final String qrCodeData) {
         LevelUpQrCodeImage result;
@@ -120,13 +132,13 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
             result = mTestImage3;
         } else {
             // This is an error condition that will probably never occur in real life.
-            result = null;
+            throw new AssertionError();
         }
 
         if (null != mGenerateDelayLatch) {
             try {
                 mGenerateDelayLatch.await();
-                if (!mGenerateDelayLatch.await(4, TimeUnit.SECONDS)) {
+                if (!mGenerateDelayLatch.await(GENERATE_LATCH_WAIT_SECONDS, TimeUnit.SECONDS)) {
                     AndroidTestCase.fail("latch timeout exceeded"); //$NON-NLS-1$
                 }
             } catch (final InterruptedException e) {
@@ -141,9 +153,9 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
     }
 
     /**
-     * Adds a {@link CountDownLatch} starting at 1 to the {@link #generateLevelUpQrCode(String)}
+     * Adds a {@link CountDownLatch} starting at 1 to the {@link #generateLevelUpQrCode}
      * method to allow testing classes to forcibly delay the background task. Make sure to call this
-     * method before calling {@link #generateLevelUpQrCode(String)} or anything that may call it.
+     * method before calling {@link #generateLevelUpQrCode} or anything that may call it.
      *
      * @return the latch
      */

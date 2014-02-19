@@ -4,6 +4,7 @@
 package com.scvngr.levelup.core.ui.view;
 
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
 import com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded;
 
@@ -24,6 +25,7 @@ public final class LatchedOnImageLoaded implements OnImageLoaded<LevelUpQrCodeIm
     /**
      * The image that is passed into {@link #onImageLoaded(String, LevelUpQrCodeImage)}.
      */
+    @Nullable
     public volatile LevelUpQrCodeImage mLoadedImage;
 
     /**

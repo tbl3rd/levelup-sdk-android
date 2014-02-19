@@ -136,7 +136,7 @@ public final class LevelUpCodeViewTest extends
         assertOnCodeLoaded(onCodeLoadListener, false, 1);
         assertOnCodeLoaded(onCodeLoadListener, true, 0);
 
-        mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
+        MockQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
                 MockQrCodeGenerator.TEST_CONTENT1);
     }
 
@@ -202,7 +202,7 @@ public final class LevelUpCodeViewTest extends
 
         getInstrumentation().waitForIdleSync();
 
-        mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
+        MockQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
                 MockQrCodeGenerator.TEST_CONTENT1);
 
         assertTestColorPixelEquals(getLevelUpCodeViewDrawingCache(),
@@ -223,7 +223,7 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
-        mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
+        MockQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
                 MockQrCodeGenerator.TEST_CONTENT2);
 
         assertTestColorPixelEquals(getLevelUpCodeViewDrawingCache(),
@@ -256,7 +256,7 @@ public final class LevelUpCodeViewTest extends
 
         getInstrumentation().waitForIdleSync();
 
-        mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
+        MockQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
                 MockQrCodeGenerator.TEST_CONTENT1);
 
         assertTestColorPixelEquals(getLevelUpCodeViewDrawingCache(),
@@ -305,7 +305,7 @@ public final class LevelUpCodeViewTest extends
 
         getInstrumentation().waitForIdleSync();
 
-        mQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
+        MockQrCodeGenerator.isBitmapForCode(mLevelUpCodeView.mCurrentCode,
                 MockQrCodeGenerator.TEST_CONTENT1);
 
         final Bitmap drawingCache = getLevelUpCodeViewDrawingCache();
