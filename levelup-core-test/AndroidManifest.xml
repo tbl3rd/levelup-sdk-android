@@ -15,8 +15,9 @@
     </application>
 
     <instrumentation
-        android:name="android.test.InstrumentationTestRunner"
+        android:name="com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         android:label="Tests for com.scvngr.levelup.core"
         android:targetPackage="com.scvngr.levelup.core.build" />
 
 </manifest>
+
