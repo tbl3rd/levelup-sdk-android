@@ -53,8 +53,9 @@ public final class CreditCardFixture {
      */
     @NonNull
     public static CreditCard getFullModel(final int creditCardId, final boolean promoted) {
-        return new CreditCard("description", "06", "2012", creditCardId, "9999", promoted, "type", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-                111111L);
+        return new CreditCard(111111L, true, "description", "06", //$NON-NLS-1$ //$NON-NLS-2$
+                "2012", creditCardId, "9999", //$NON-NLS-1$ //$NON-NLS-2$
+                promoted, "type"); //$NON-NLS-1$
     }
 
     /**
@@ -97,18 +98,21 @@ public final class CreditCardFixture {
      * @param serverId the ID of the object on the server.
      * @param promoted if the card is promoted or not.
      * @return a {@link JSONObject} with all the {@link CreditCard} fields.
+     *
+     * @throws JSONException if there was a problem constructing the object
      */
     @NonNull
     public static JSONObject getFullJsonObject(final int serverId, final boolean promoted)
             throws JSONException {
         final JSONObject object = getValidJsonObject(serverId);
+        object.put(CreditCardJsonFactory.JsonKeys.BIN, 111111L);
+        object.put(CreditCardJsonFactory.JsonKeys.DEBIT, true);
         object.put(CreditCardJsonFactory.JsonKeys.DESCRIPTION, "description"); //$NON-NLS-1$
         object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_MONTH, "01"); //$NON-NLS-1$
         object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_YEAR, "1999"); //$NON-NLS-1$
         object.put(CreditCardJsonFactory.JsonKeys.LAST_4, "last_4"); //$NON-NLS-1$
         object.put(CreditCardJsonFactory.JsonKeys.PROMOTED, promoted);
         object.put(CreditCardJsonFactory.JsonKeys.TYPE, "type"); //$NON-NLS-1$
-        object.put(CreditCardJsonFactory.JsonKeys.BIN, 111111);
         return object;
     }
 

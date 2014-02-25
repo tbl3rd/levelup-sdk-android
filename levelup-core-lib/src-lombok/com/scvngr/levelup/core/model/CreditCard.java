@@ -59,6 +59,19 @@ public final class CreditCard implements Parcelable {
     public static final String VISA = "Visa"; //$NON-NLS-1$
 
     /**
+     * The BIN of the card.
+     */
+    @Nullable
+    private final Long bin;
+
+    /**
+     * Whether this card is a debit card.
+     *
+     * @return True if the card is a debit card or unknown, false if it's a known credit card.
+     */
+    private final boolean debit;
+
+    /**
      * The description of the card.
      */
     @Nullable
@@ -98,11 +111,19 @@ public final class CreditCard implements Parcelable {
     @Nullable
     private final String type;
 
+
     /**
-     * The BIN of the card.
+     * @deprecated Provided for SDK backwards compatibility only. Newer code should use
+     *             {@link com.scvngr.levelup.core.model.CreditCard#CreditCard(Long, boolean, String, String, String, long, String, boolean, String)}
+     *             instead. This constructor omits the debit field and has the BIN field last.
      */
-    @Nullable
-    private final Long bin;
+    @Deprecated
+    @SuppressWarnings("all")
+    public CreditCard(@Nullable final String description, @Nullable final String expirationMonth,
+            @Nullable final String expirationYear, final long id, @Nullable final String last4,
+            final boolean promoted, @Nullable final String type, @Nullable final Long bin) {
+        this(bin, true, description, expirationMonth, expirationYear, id, last4, promoted, type);
+    }
 
     @Override
     public int describeContents() {
@@ -126,6 +147,8 @@ public final class CreditCard implements Parcelable {
 
         @Override
         public CreditCard createFromParcel(final Parcel source) {
+            final Long bin = (Long) source.readValue(Long.class.getClassLoader());
+            final boolean debit = source.readInt() == 1;
             final String description = source.readString();
             final String expirationMonth = source.readString();
             final String expirationYear = source.readString();
@@ -133,10 +156,9 @@ public final class CreditCard implements Parcelable {
             final String last4 = source.readString();
             final boolean promoted = source.readInt() == 1;
             final String type = source.readString();
-            final Long bin = (Long) source.readValue(Long.class.getClassLoader());
 
-            return new CreditCard(description, expirationMonth, expirationYear, id, last4,
-                    promoted, type, bin);
+            return new CreditCard(bin, debit, description, expirationMonth, expirationYear, id,
+                    last4, promoted, type);
         }
 
         /**
@@ -148,20 +170,15 @@ public final class CreditCard implements Parcelable {
          */
         private void writeToParcel(@NonNull final Parcel dest, final int flag,
                 @NonNull final CreditCard card) {
+            dest.writeValue(card.getBin());
+            dest.writeInt(card.isDebit() ? 1 : 0);
             dest.writeString(card.getDescription());
             dest.writeString(card.getExpirationMonth());
             dest.writeString(card.getExpirationYear());
             dest.writeLong(card.getId());
             dest.writeString(card.getLast4());
-
-            if (card.isPromoted()) {
-                dest.writeInt(1);
-            } else {
-                dest.writeInt(0);
-            }
-
+            dest.writeInt(card.isPromoted() ? 1 : 0);
             dest.writeString(card.getType());
-            dest.writeValue(card.getBin());
         }
     }
 }

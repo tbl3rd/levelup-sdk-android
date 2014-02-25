@@ -37,13 +37,6 @@ public final class CreditCardJsonFactory extends AbstractJsonModelFactory<Credit
     @NonNull
     @Override
     protected CreditCard createFrom(@NonNull final JSONObject json) throws JSONException {
-        final String description = JsonUtils.optString(json, JsonKeys.DESCRIPTION);
-        final String expirationMonth = JsonUtils.optString(json, JsonKeys.EXPIRATION_MONTH);
-        final String expirationYear = JsonUtils.optString(json, JsonKeys.EXPIRATION_YEAR);
-        final long id = json.getLong(JsonKeys.ID);
-        final boolean promoted = json.optBoolean(JsonKeys.PROMOTED, false);
-        final String last4 = JsonUtils.optString(json, JsonKeys.LAST_4);
-        final String type = JsonUtils.optString(json, JsonKeys.TYPE);
         final Long bin;
         {
             if (json.isNull(JsonKeys.BIN)) {
@@ -53,8 +46,17 @@ public final class CreditCardJsonFactory extends AbstractJsonModelFactory<Credit
             }
         }
 
-        return new CreditCard(description, expirationMonth, expirationYear, id, last4, promoted,
-                type, bin);
+        final boolean debit = json.optBoolean(JsonKeys.DEBIT, true);
+        final String description = JsonUtils.optString(json, JsonKeys.DESCRIPTION);
+        final String expirationMonth = JsonUtils.optString(json, JsonKeys.EXPIRATION_MONTH);
+        final String expirationYear = JsonUtils.optString(json, JsonKeys.EXPIRATION_YEAR);
+        final long id = json.getLong(JsonKeys.ID);
+        final boolean promoted = json.optBoolean(JsonKeys.PROMOTED, false);
+        final String last4 = JsonUtils.optString(json, JsonKeys.LAST_4);
+        final String type = JsonUtils.optString(json, JsonKeys.TYPE);
+
+        return new CreditCard(bin, debit, description, expirationMonth, expirationYear, id, last4,
+                promoted, type);
     }
 
     /**
@@ -73,6 +75,9 @@ public final class CreditCardJsonFactory extends AbstractJsonModelFactory<Credit
 
         @JsonValueType(JsonType.LONG)
         public static final String BIN = "bin"; //$NON-NLS-1$
+
+        @JsonValueType(JsonType.BOOLEAN)
+        public static final String DEBIT = "debit"; //$NON-NLS-1$
 
         @JsonValueType(JsonType.STRING)
         public static final String DESCRIPTION = "description"; //$NON-NLS-1$
