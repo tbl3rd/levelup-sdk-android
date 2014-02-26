@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,6 +25,7 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.AccessToken;
 import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * Class representing a request to the LevelUp web service using the API v14 and above standards.
@@ -49,7 +51,7 @@ public class LevelUpRequest extends BufferedRequest {
 
         @Override
         public LevelUpRequest createFromParcel(final Parcel in) {
-            return new LevelUpRequest(in);
+            return new LevelUpRequest(NullUtils.nonNullContract(in));
         }
     };
 
@@ -71,16 +73,10 @@ public class LevelUpRequest extends BufferedRequest {
     public static final String HEADER_AUTHORIZATION = "Authorization"; //$NON-NLS-1$
 
     /**
-     * Format string to use in the authorization header to format the oauth token in.
+     * Format string to use in the authorization header to format the access token in.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static final String AUTH_TOKEN_TYPE_FORMAT = "token %s"; //$NON-NLS-1$
-
-    /**
-     * Header key for Content Type.
-     */
-    @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String HEADER_CONTENT_TYPE = "Content-Type"; //$NON-NLS-1$
 
     /**
      * Implementation of {@link AccessTokenRetriever} to use to get the user's {@link AccessToken}
@@ -228,7 +224,7 @@ public class LevelUpRequest extends BufferedRequest {
         final Map<String, String> headers;
         final HashMap<String, String> temp =
                 new HashMap<String, String>(super.getRequestHeaders(context));
-        temp.put(HEADER_CONTENT_TYPE, RequestUtils.HEADER_CONTENT_TYPE_JSON);
+        temp.put(HTTP.CONTENT_TYPE, RequestUtils.HEADER_CONTENT_TYPE_JSON);
         final AccessToken token = getAccessToken(context);
 
         if (null != token) {
@@ -236,7 +232,7 @@ public class LevelUpRequest extends BufferedRequest {
                     String.format(Locale.US, AUTH_TOKEN_TYPE_FORMAT, token.getAccessToken()));
         }
 
-        headers = Collections.unmodifiableMap(temp);
+        headers = NullUtils.nonNullContract(Collections.unmodifiableMap(temp));
 
         return headers;
     }
@@ -289,10 +285,13 @@ public class LevelUpRequest extends BufferedRequest {
     @NonNull
     public final static String getFullUrl(@NonNull final Context context,
             @NonNull final String apiVersion, @NonNull final String endpoint) {
-        return new Uri.Builder().scheme(context.getString(R.string.levelup_api_scheme))
+        return NullUtils.nonNullContract(new Uri.Builder()
+                .scheme(context.getString(R.string.levelup_api_scheme))
                 .encodedAuthority(context.getString(R.string.levelup_api_authority))
-                .encodedPath(apiVersion).appendEncodedPath(endpoint).build().toString();
+                .encodedPath(apiVersion).appendEncodedPath(endpoint).build().toString());
     }
+
+    //@formatter:off
 
     @Override
     public int hashCode() {
@@ -330,4 +329,6 @@ public class LevelUpRequest extends BufferedRequest {
 
         return true;
     }
+
+    //@formatter:on
 }
