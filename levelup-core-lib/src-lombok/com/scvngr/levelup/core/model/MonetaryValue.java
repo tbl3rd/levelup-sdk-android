@@ -17,6 +17,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.annotation.model.NonWrappable;
 import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
@@ -31,6 +32,7 @@ import com.scvngr.levelup.core.util.NullUtils;
 @Immutable
 @AllArgsConstructor(suppressConstructorProperties = true)
 @Value
+@NonWrappable
 @LevelUpApi(contract = Contract.DRAFT)
 public final class MonetaryValue implements Parcelable {
 

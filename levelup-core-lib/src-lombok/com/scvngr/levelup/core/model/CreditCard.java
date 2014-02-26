@@ -37,21 +37,25 @@ public final class CreditCard implements Parcelable {
     /**
      * Full brand name of American Express.
      */
+    @NonNull
     public static final String AMEX = "American Express"; //$NON-NLS-1$
 
     /**
      * Full brand name of Discover.
      */
+    @NonNull
     public static final String DISCOVER = "Discover"; //$NON-NLS-1$
 
     /**
      * Full brand name of MasterCard.
      */
+    @NonNull
     public static final String MASTERCARD = "MasterCard"; //$NON-NLS-1$
 
     /**
      * Full brand name of Visa.
      */
+    @NonNull
     public static final String VISA = "Visa"; //$NON-NLS-1$
 
     /**

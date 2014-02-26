@@ -1,3 +1,6 @@
+/*
+ * Copyright 2013-2014 SCVNGR, Inc., D.B.A. LevelUp. All rights reserved.
+ */
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
@@ -10,8 +13,10 @@ import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.model.MonetaryValue;
 import com.scvngr.levelup.core.util.NullUtils;
+
+// The code below will be machine-processed.
+// CHECKSTYLE:OFF
 
 /**
  * Represents a credit of a {@link Location} on the server.
@@ -37,6 +42,7 @@ public final class LocationCredit implements Parcelable {
     /**
      * Implements the {@code Parcelable} interface.
      */
+    @NonNull
     public static final Creator<LocationCredit> CREATOR = new LocationCreditCreator();
 
     @Override

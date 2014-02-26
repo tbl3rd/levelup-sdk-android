@@ -43,22 +43,26 @@ public final class Interstitial implements Parcelable {
     /**
      * The type returned from {@link #getType()} if this is a claim Interstitial.
      */
+    @NonNull
     public static final String TYPE_CLAIM = "claim"; //$NON-NLS-1$
 
     /**
      * The type returned from {@link #getType()} if this is a no_action Interstitial. A No_Action
      * interstitial requires no action from the user, but provides information.
      */
+    @NonNull
     public static final String TYPE_NO_ACTION = "no_action"; //$NON-NLS-1$
 
     /**
      * The type returned from {@link #getType()} if this is a share Interstitial.
      */
+    @NonNull
     public static final String TYPE_SHARE = "share"; //$NON-NLS-1$
 
     /**
      * The type returned from {@link #getType()} if this is a URL Interstitial.
      */
+    @NonNull
     public static final String TYPE_URL = "url"; //$NON-NLS-1$
 
     /**

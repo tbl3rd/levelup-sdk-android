@@ -14,8 +14,6 @@ import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.model.Campaign;
-import com.scvngr.levelup.core.model.MonetaryValue;
 import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
