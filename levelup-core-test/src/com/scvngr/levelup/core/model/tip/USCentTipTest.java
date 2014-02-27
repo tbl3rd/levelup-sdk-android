@@ -83,4 +83,17 @@ public final class USCentTipTest extends SupportAndroidTestCase {
         ParcelTestUtils.assertParcelableRoundtrips(new USCentTip(0));
         ParcelTestUtils.assertParcelableRoundtrips(new USCentTip(50));
     }
+
+    /**
+     * Test {@link USCentTip#withValue} gets a new {@link USCentTip} with the specified value.
+     */
+    @SmallTest
+    public void testWithValue() {
+        final USCentTip zero = new USCentTip(0);
+        final USCentTip one = zero.withValue(1);
+
+        assertEquals(0, zero.getValue());
+        assertEquals(1, one.getValue());
+        MoreAsserts.assertNotEqual(zero, one);
+    }
 }

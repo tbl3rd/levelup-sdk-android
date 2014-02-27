@@ -8,21 +8,24 @@ import android.os.Parcel;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.Immutable;
+
+import java.util.Locale;
 
 /**
  * Tip as a percentage of the purchase amount.
  */
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
-public final class PercentageTip extends Tip {
+public final class PercentageTip extends Tip<PercentageTip> {
 
     public static final Creator<PercentageTip> CREATOR = new Creator<PercentageTip>() {
         @NonNull
         @Override
         public PercentageTip createFromParcel(final Parcel in) {
-            return new PercentageTip(in);
+            return new PercentageTip(NullUtils.nonNullContract(in));
         }
 
         @NonNull
@@ -65,9 +68,15 @@ public final class PercentageTip extends Tip {
         return MINIMUM_VALUE_WITH_OFFSET_DECIMAL + getValue();
     }
 
+    @NonNull
+    @Override
+    public PercentageTip withValue(final int value) {
+        return new PercentageTip(value);
+    }
+
     @Override
     public String toString() {
-        return "PercentageTip(value=" + getValue() + ")";
+        return String.format(Locale.US, "PercentageTip(value=%s)", getValue());
     }
 
     /**

@@ -14,10 +14,11 @@ import java.util.Locale;
 /**
  * Represents a tip as a percentage or as US cents for purchases.
  *
+ * @param <T> the concrete type of Tip
  * @see com.scvngr.levelup.core.model.qr.PaymentPreferencesV3
  */
 @LevelUpApi(contract = LevelUpApi.Contract.DRAFT)
-public abstract class Tip implements Parcelable {
+public abstract class Tip<T extends Tip<T>> implements Parcelable {
 
     /**
      * The value of the tip.
@@ -63,6 +64,15 @@ public abstract class Tip implements Parcelable {
     public final int getValue() {
         return mValue;
     }
+
+    /**
+     * Get a copy of the Tip with the specified tip value.
+     *
+     * @param value the value of the tip
+     * @return a tip with the specified value
+     */
+    @NonNull
+    public abstract T withValue(final int value);
 
     @Override
     public boolean equals(final Object o) {

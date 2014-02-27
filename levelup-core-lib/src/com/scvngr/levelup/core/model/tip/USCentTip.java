@@ -8,21 +8,24 @@ import android.os.Parcel;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.Immutable;
+
+import java.util.Locale;
 
 /**
  * Tip as an amount of US cents.
  */
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
-public final class USCentTip extends Tip {
+public final class USCentTip extends Tip<USCentTip> {
 
     public static final Creator<USCentTip> CREATOR = new Creator<USCentTip>() {
         @NonNull
         @Override
         public USCentTip createFromParcel(final Parcel in) {
-            return new USCentTip(in);
+            return new USCentTip(NullUtils.nonNullContract(in));
         }
 
         @NonNull
@@ -66,9 +69,15 @@ public final class USCentTip extends Tip {
         return MINIMUM_VALUE_WITH_OFFSET_DECIMAL + getValue();
     }
 
+    @NonNull
+    @Override
+    public USCentTip withValue(final int value) {
+        return new USCentTip(value);
+    }
+
     @Override
     public String toString() {
-        return "USCentTip(value=" + getValue() + ")";
+        return String.format(Locale.US, "USCentTip(value=%s)", getValue());
     }
 
     /**

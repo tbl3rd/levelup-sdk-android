@@ -84,4 +84,18 @@ public final class PercentageTipTest extends SupportAndroidTestCase {
         ParcelTestUtils.assertParcelableRoundtrips(new PercentageTip(0));
         ParcelTestUtils.assertParcelableRoundtrips(new PercentageTip(50));
     }
+
+    /**
+     * Test {@link PercentageTip#withValue} gets a new {@link PercentageTip} with the specified
+     * value.
+     */
+    @SmallTest
+    public void testWithValue() {
+        final PercentageTip zero = new PercentageTip(0);
+        final PercentageTip one = zero.withValue(1);
+
+        assertEquals(0, zero.getValue());
+        assertEquals(1, one.getValue());
+        MoreAsserts.assertNotEqual(zero, one);
+    }
 }
