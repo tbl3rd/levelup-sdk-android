@@ -89,7 +89,7 @@ public abstract class LevelUpCode {
      */
     @NonNull
     public static String encodeLevelUpCode(@NonNull final String data, final int color,
-            final Tip tip) {
+            final Tip<?> tip) {
         String encodedQr = data;
 
         if (!TextUtils.isEmpty(data)) {
@@ -131,7 +131,7 @@ public abstract class LevelUpCode {
      * @return the full LevelUp code with the payment preferences encoded into it
      */
     @NonNull
-    /* package */abstract String encodePaymentPreferences(int color, Tip tip);
+    /* package */abstract String encodePaymentPreferences(int color, Tip<?> tip);
 
     /**
      * Get the color from this LevelUp code.

@@ -21,6 +21,9 @@ import java.util.Locale;
 @LevelUpApi(contract = Contract.DRAFT)
 public final class PercentageTip extends Tip<PercentageTip> {
 
+    /**
+     * Implements the {@link android.os.Parcelable} interface.
+     */
     public static final Creator<PercentageTip> CREATOR = new Creator<PercentageTip>() {
         @NonNull
         @Override
@@ -76,7 +79,7 @@ public final class PercentageTip extends Tip<PercentageTip> {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "PercentageTip(value=%s)", getValue());
+        return String.format(Locale.US, "PercentageTip(value=%s)", getValue()); //$NON-NLS-1$
     }
 
     /**

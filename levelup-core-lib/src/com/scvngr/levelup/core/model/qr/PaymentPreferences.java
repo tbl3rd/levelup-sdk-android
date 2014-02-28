@@ -48,7 +48,7 @@ public abstract class PaymentPreferences {
      * @return String with the encoded color/tip values.
      */
     @NonNull
-    /* package */abstract String encode(final int color, final Tip tip);
+    /* package */abstract String encode(final int color, final Tip<?> tip);
 
     /**
      * Gets the color index of the provided {@code preferenceData}.

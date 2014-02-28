@@ -21,6 +21,9 @@ import java.util.Locale;
 @LevelUpApi(contract = Contract.DRAFT)
 public final class USCentTip extends Tip<USCentTip> {
 
+    /**
+     * Implements the {@link android.os.Parcelable} interface.
+     */
     public static final Creator<USCentTip> CREATOR = new Creator<USCentTip>() {
         @NonNull
         @Override
@@ -77,7 +80,7 @@ public final class USCentTip extends Tip<USCentTip> {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "USCentTip(value=%s)", getValue());
+        return String.format(Locale.US, "USCentTip(value=%s)", getValue()); //$NON-NLS-1$
     }
 
     /**

@@ -84,7 +84,7 @@ public abstract class Tip<T extends Tip<T>> implements Parcelable {
             return false;
         }
 
-        final Tip that = (Tip) o;
+        final Tip<?> that = (Tip<?>) o;
 
         if (mValue != that.mValue) {
             return false;
@@ -106,7 +106,7 @@ public abstract class Tip<T extends Tip<T>> implements Parcelable {
     /* package */void checkRep(final int maximumValue) {
         if (0 > mValue || maximumValue < mValue) {
             throw new IllegalArgumentException(String.format(Locale.US,
-                    "value(%d) must be between 0 and %d", mValue, maximumValue));
+                    "value(%d) must be between 0 and %d", mValue, maximumValue)); //$NON-NLS-1$
         }
     }
 }

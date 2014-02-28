@@ -53,7 +53,7 @@ public final class PaymentTokenV2 extends LevelUpCode {
 
     @Override
     @NonNull
-    String encodePaymentPreferences(final int color, final Tip tip) {
+    String encodePaymentPreferences(final int color, final Tip<?> tip) {
         return NullUtils.format("%s%s", mData, PaymentPreferences.getPreferenceVersion(mData)
                 .encode(color, tip));
     }

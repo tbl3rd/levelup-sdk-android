@@ -125,7 +125,7 @@ public final class PaymentPreferencesV3 extends PaymentPreferences {
      */
     @Override
     @NonNull
-    String encode(final int color, final Tip tip) {
+    String encode(final int color, final Tip<?> tip) {
         // Validate tip string size
         final String tipStr = Integer.toString(tip.getEncodedValue(), Character.MAX_RADIX);
         if (tipStr.length() > TIP_LENGTH) {
