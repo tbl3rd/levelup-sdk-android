@@ -24,6 +24,7 @@ public final class BufferedRequestTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link BufferedRequest} parceling.
+     *
      * @throws BadRequestException on bad request
      */
     @SmallTest
@@ -160,7 +161,8 @@ public final class BufferedRequestTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link BufferedRequest#getUrl(android.content.Context)}.
-     * @throws BadRequestException  on bad request
+     *
+     * @throws BadRequestException on bad request
      */
     @SmallTest
     public void testGetUrl_withQueryParams() throws BadRequestException {
@@ -178,7 +180,8 @@ public final class BufferedRequestTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link BufferedRequest#getUrl(android.content.Context)}.
-     * @throws BadRequestException  on bad request
+     *
+     * @throws BadRequestException on bad request
      */
     @SmallTest
     public void testGetUrl_withOutOfOrderQueryParams() throws BadRequestException {
@@ -198,6 +201,7 @@ public final class BufferedRequestTest extends SupportAndroidTestCase {
 
     /**
      * Tests {@link BufferedRequest#getUrl(android.content.Context)}.
+     *
      * @throws BadRequestException on bad request
      */
     @SmallTest
@@ -206,7 +210,12 @@ public final class BufferedRequestTest extends SupportAndroidTestCase {
         final BufferedRequest request =
                 new BufferedRequest(HttpMethod.GET, url, new HashMap<String, String>(), null, null);
 
-        assertNull("MalformedURLException thrown and null returned", request.getUrl(getContext())); //$NON-NLS-1$
+        try {
+            request.getUrl(getContext());
+            fail("Expected exception"); //$NON-NLS-1$
+        } catch (final BadRequestException e) {
+            // Expected exception.
+        }
     }
 
     @SmallTest

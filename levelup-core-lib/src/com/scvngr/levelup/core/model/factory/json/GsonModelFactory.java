@@ -1,18 +1,18 @@
+/*
+ * Copyright 2013-2014 SCVNGR, Inc., D.B.A. LevelUp. All rights reserved.
+ */
 package com.scvngr.levelup.core.model.factory.json;
 
 import android.net.Uri;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-
-import net.jcip.annotations.NotThreadSafe;
-
-import org.json.JSONArray;
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.annotation.model.NonWrappable;
+import com.scvngr.levelup.core.model.MonetaryValue;
+import com.scvngr.levelup.core.net.JsonElementRequestBody;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
@@ -28,12 +28,16 @@ import com.google.gson.TypeAdapterFactory;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.model.NonWrappable;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.model.MonetaryValue;
-import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.NotThreadSafe;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Loads an LevelUp model from JSON using Gson. When inflating from JSON, this ensures that the
@@ -61,7 +65,7 @@ public class GsonModelFactory<T> {
     /**
      * The type key under which the JSON object can be nested under.
      *
-     * @see {@link #AbstractJsonModelFactory}
+     * @see {@link AbstractJsonModelFactory}
      */
     @NonNull
     private final String mTypeKey;
@@ -147,7 +151,7 @@ public class GsonModelFactory<T> {
     /**
      * Parse a list of models from the JSON array passed.
      *
-     * @param jsonArray the {@link JSONArray} containing a list of models.
+     * @param jsonArray the {@link JsonArray} containing a list of models.
      * @return a {@link List} of model instances.
      * @throws JsonParseException if there is a problem decoding the JSON structure.
      */
@@ -191,6 +195,29 @@ public class GsonModelFactory<T> {
     }
 
     /**
+     * @param model the model to serialize as JSON.
+     * @return a string representation of the given {@code model}
+     */
+    @NonNull
+    public final String to(@NonNull final T model) {
+        return NullUtils.nonNullContract(mGson.toJson(model));
+    }
+
+    /**
+     * @param model the model to serialize as JSON.
+     * @return a {@link JsonElement} representing the given model.
+     */
+    @NonNull
+    public final JsonElement toJsonElement(@NonNull final T model) {
+        return NullUtils.nonNullContract(mGson.toJsonTree(model));
+    }
+
+    @NonNull
+    public final JsonElementRequestBody toRequestSerializer(@NonNull final T model) {
+        return new JsonElementRequestBody(mGson, NullUtils.nonNullContract(mGson.toJsonTree(model)));
+    }
+
+    /**
      * Parse an instance of the model from a {@link JsonObject}.
      *
      * @param json the JSON representation of the model to parse.
@@ -199,9 +226,7 @@ public class GsonModelFactory<T> {
      */
     @NonNull
     protected T createFrom(@NonNull final JsonObject json) throws JsonParseException {
-        final T model = NullUtils.nonNullContract(mGson.fromJson(json, mType));
-
-        return model;
+        return NullUtils.nonNullContract(mGson.fromJson(json, mType));
     }
 
     /**
@@ -217,6 +242,8 @@ public class GsonModelFactory<T> {
      * longs.
      */
     private static class MonetaryValueTypeAdapter extends TypeAdapter<MonetaryValue> {
+
+        @NonNull
         @Override
         public MonetaryValue read(final JsonReader reader) throws IOException {
             return new MonetaryValue(reader.nextLong());
@@ -233,6 +260,8 @@ public class GsonModelFactory<T> {
      * package.
      */
     private static class NullCheckedTypeAdapterFactory implements TypeAdapterFactory {
+
+        @Nullable
         @Override
         public <T2> TypeAdapter<T2> create(final Gson gson, final TypeToken<T2> type) {
             final Class<? super T2> rawType = type.getRawType();
@@ -254,11 +283,12 @@ public class GsonModelFactory<T> {
      */
     private static class WrappedModelTypeAdapterFactory implements TypeAdapterFactory {
 
+        @Nullable
         @Override
         public <T2> TypeAdapter<T2> create(final Gson gson, final TypeToken<T2> type) {
             final Class<? super T2> rawType = type.getRawType();
 
-            if (rawType.isAnnotationPresent(NonWrappable.class)){
+            if (rawType.isAnnotationPresent(NonWrappable.class)) {
                 return null;
             }
 
@@ -282,7 +312,10 @@ public class GsonModelFactory<T> {
      */
     private static class NullCheckedWrappedTypeAdapter<T2> extends TypeAdapter<T2> {
 
+        @NonNull
         private final TypeAdapter<T2> mDelegate;
+
+        @NonNull
         private final HashSet<String> mNonNullFields = new HashSet<String>();
 
         public NullCheckedWrappedTypeAdapter(@NonNull final TypeAdapter<T2> delegate,
@@ -307,6 +340,7 @@ public class GsonModelFactory<T> {
             }
         }
 
+        @Nullable
         @Override
         public T2 read(final JsonReader reader) throws IOException {
             final T2 inspected = mDelegate.read(reader);
@@ -415,6 +449,7 @@ public class GsonModelFactory<T> {
             return NullUtils.nonNullContract(translation.toString());
         }
 
+        @Nullable
         @Override
         public T2 read(final JsonReader reader) throws IOException {
             reader.beginObject();
@@ -445,9 +480,11 @@ public class GsonModelFactory<T> {
      * Type adapter for {@link Uri}s.
      */
     private static class UriTypeAdapter extends TypeAdapter<Uri> {
+
+        @NonNull
         @Override
         public Uri read(final JsonReader reader) throws IOException {
-            return Uri.parse(reader.nextString());
+            return NullUtils.nonNullContract(Uri.parse(reader.nextString()));
         }
 
         @Override

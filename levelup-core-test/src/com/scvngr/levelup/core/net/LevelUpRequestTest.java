@@ -20,6 +20,7 @@ import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.test.ParcelTestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.NullUtils;
 
@@ -28,6 +29,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -46,6 +50,8 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
 
     @NonNull
     private static final String TEST_ENDPOINT = "endpoint"; //$NON-NLS-1$
+
+    private static final String BODY_FIXTURE = "{ \"test\": {\"snowman\": \"☃\"}}"; //$NON-NLS-1$
 
     @NonNull
     private Context mMockContext = new MyMockContext(new MyPackageManager(false));
@@ -139,6 +145,17 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
         assertEquals(request.getBody(mMockContext), parceledRequest.getBody(mMockContext));
         assertEquals(request.getUrl(mMockContext), parceledRequest.getUrl(mMockContext));
         out.recycle();
+    }
+
+    @SmallTest
+    public void testParcelable_roundtrip() throws JSONException {
+        final JSONObject object = new JSONObject();
+        object.put("test", "test_value"); //$NON-NLS-1$ //$NON-NLS-2$
+        final LevelUpRequest request =
+                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION,
+                        "test", null, object, null); //$NON-NLS-1$
+
+        ParcelTestUtils.assertParcelableRoundtrips(request);
     }
 
     /**
@@ -278,6 +295,47 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
                 new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION,
                         "test", null, (JSONObject) null); //$NON-NLS-1$
         assertNull(request.getBody(mMockContext));
+    }
+
+    @SmallTest
+    public void testGetBody_fromRequestBody() {
+        final RequestBody body = new RequestBodyImpl();
+
+        final LevelUpRequest request =
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
+                        null, body, null);
+
+        assertEquals(BODY_FIXTURE, request.getBody(mMockContext));
+    }
+
+    @SmallTest
+    public void testRequestBody_contentType() {
+        final RequestBody body = new RequestBodyImpl();
+
+        final LevelUpRequest request =
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
+                        null, body, null);
+
+        final Map<String, String> requestHeaders = request.getRequestHeaders(mMockContext);
+        assertTrue(requestHeaders.containsKey(HTTP.CONTENT_TYPE));
+        assertEquals(RequestBodyImpl.FIXTURE_CONTENT_TYPE, requestHeaders.get(HTTP.CONTENT_TYPE));
+    }
+
+    @SmallTest
+    public void testRequestBody_contentLength() {
+        final RequestBody body = new RequestBodyImpl();
+
+        final LevelUpRequest request =
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
+                        null, body, null);
+
+        final int expectedLength = body.getContentLength();
+        assertTrue(0 < expectedLength);
+
+        final Map<String, String> requestHeaders = request.getRequestHeaders(mMockContext);
+        assertTrue(requestHeaders.containsKey(HTTP.CONTENT_LEN));
+        assertEquals(String.valueOf(expectedLength), requestHeaders.get(HTTP.CONTENT_LEN));
+        assertEquals(expectedLength, request.getBodyLength(mMockContext));
     }
 
     @SmallTest
@@ -470,6 +528,43 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
             info.applicationInfo.name = "LevelUp-Core"; //$NON-NLS-1$
 
             return info;
+        }
+    }
+
+    private static final class RequestBodyImpl implements RequestBody {
+        @NonNull
+        public static final String FIXTURE_CONTENT_TYPE = "text/awesome"; //$NON-NLS-1$
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(final Parcel dest, final int flags) {
+            // This method intentionally left blank.
+        }
+
+        @Override
+        public void writeToOutputStream(@NonNull final Context context,
+                @NonNull final OutputStream outputStream) throws IOException {
+            final OutputStreamWriter w = new OutputStreamWriter(outputStream);
+            try {
+                w.write(BODY_FIXTURE);
+            } finally {
+                w.close();
+            }
+        }
+
+        @Override
+        public int getContentLength() {
+            return BODY_FIXTURE.length();
+        }
+
+        @Override
+        @NonNull
+        public String getContentType() {
+            return FIXTURE_CONTENT_TYPE;
         }
     }
 }

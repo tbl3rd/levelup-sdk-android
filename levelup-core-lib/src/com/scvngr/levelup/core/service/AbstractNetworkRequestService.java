@@ -8,18 +8,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import java.util.UUID;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
-import com.scvngr.levelup.core.net.BufferedRequest;
+import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.LevelUpConnection;
 import com.scvngr.levelup.core.net.LevelUpResponse;
 import com.scvngr.levelup.core.util.LogManager;
+
+import java.util.UUID;
 
 /**
  * Abstract base class to be used for services that do network requests in the background and may or
@@ -42,9 +42,9 @@ public abstract class AbstractNetworkRequestService extends IntentService {
             .getName() + ".intent.action.request_finished"; //$NON-NLS-1$
 
     /**
-     * Type: {@code BufferedRequest}.
+     * Type: {@code AbstractRequest}.
      * <p>
-     * Key mapping to a BufferedRequest that the service will perform. This extra is sent in the
+     * Key mapping to a AbstractRequest that the service will perform. This extra is sent in the
      * Intent to start the service.
      */
     /* package */static final String EXTRA_PARCELABLE_REQUEST = AbstractNetworkRequestService.class
@@ -107,7 +107,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */void performRequest(@NonNull final Context context, @NonNull final Intent intent) {
-        final BufferedRequest request = getRequest(intent);
+        final AbstractRequest request = getRequest(intent);
 
         if (null != request) {
             LogManager.v("Sending request in the background: %s", request); //$NON-NLS-1$
@@ -129,10 +129,10 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * build a request differently.
      *
      * @param intent the intent used to start the service.
-     * @return {@link BufferedRequest} to send with the service.
+     * @return {@link AbstractRequest} to send with the service.
      */
     @Nullable
-    protected BufferedRequest getRequest(@NonNull final Intent intent) {
+    protected AbstractRequest getRequest(@NonNull final Intent intent) {
         return intent.getParcelableExtra(EXTRA_PARCELABLE_REQUEST);
     }
 
@@ -144,7 +144,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * @return the token to use to identify a request.
      */
     @NonNull
-    protected static final String getToken() {
+    protected static String getToken() {
         return UUID.randomUUID().toString();
     }
 
@@ -159,7 +159,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * @param success true if the request was successful, false otherwise.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final void onRequestFinished(@NonNull final Context context,
+    /* package */static void onRequestFinished(@NonNull final Context context,
             @NonNull final Intent intent, @NonNull final LevelUpResponse response,
             final boolean success) {
         final Intent resultIntent = new Intent(ACTION_REQUEST_FINISHED);

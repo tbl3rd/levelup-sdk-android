@@ -29,9 +29,11 @@ import com.scvngr.levelup.core.util.LogManager;
  * This object follows a "buffered" model, where the entire request is stored in memory before being
  * sent. This implies a maximum size limit of a request that can be sent using this class. On
  * Android devices, this limit is around 500 kilobytes.
+ * @deprecated use a buffered implementation of {@link RequestBody} instead
  */
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
+@Deprecated
 public class BufferedRequest extends AbstractRequest implements Parcelable {
 
     /**

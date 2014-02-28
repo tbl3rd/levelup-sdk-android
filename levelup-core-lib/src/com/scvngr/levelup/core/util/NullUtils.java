@@ -3,14 +3,16 @@
  */
 package com.scvngr.levelup.core.util;
 
-import java.util.Locale;
-
+import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+
+import java.util.Locale;
 
 /**
  * Utilities to help use {@link NonNull} and {@link Nullable} annotations.
  */
+@LevelUpApi(contract = LevelUpApi.Contract.DRAFT)
 public final class NullUtils {
 
     /**
@@ -25,8 +27,11 @@ public final class NullUtils {
      */
     @NonNull
     public static <T> T nonNullContract(@Nullable final T source, @NonNull final String what) {
-        if (null == source) {
-            throw new AssertionError(String.format(Locale.US, "%s cannot be null", what)); //$NON-NLS-1$
+        // A separate conditional, so the compiler can strip it.
+        if (CoreLibConstants.IS_PARAMETER_CHECKING_ENABLED) {
+            if (null == source) {
+                throw new AssertionError(String.format(Locale.US, "%s cannot be null", what)); //$NON-NLS-1$
+            }
         }
 
         return source;
@@ -43,11 +48,23 @@ public final class NullUtils {
      */
     @NonNull
     public static <T> T nonNullContract(@Nullable final T source) {
-        if (null == source) {
-            throw new AssertionError("the source cannot be null"); //$NON-NLS-1$
+        // A separate conditional, so the compiler can strip it.
+        if (CoreLibConstants.IS_PARAMETER_CHECKING_ENABLED) {
+            if (null == source) {
+                throw new AssertionError("the source cannot be null"); //$NON-NLS-1$
+            }
         }
 
         return source;
+    }
+
+    /**
+     * @param clazz the class whose name is being retrieved
+     * @return the value of class.getName()
+     */
+    @NonNull
+    public static String getClassName(final Class<?> clazz) {
+        return NullUtils.nonNullContract(clazz.getName());
     }
 
     /**

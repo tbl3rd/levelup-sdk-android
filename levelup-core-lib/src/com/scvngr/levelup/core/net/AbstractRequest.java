@@ -8,9 +8,22 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.util.CoreLibConstants;
+import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
+import com.scvngr.levelup.core.util.PreconditionUtil;
+
+import net.jcip.annotations.Immutable;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
+
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,19 +36,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-
-import net.jcip.annotations.Immutable;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
-
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.util.CoreLibConstants;
-import com.scvngr.levelup.core.util.LogManager;
-import com.scvngr.levelup.core.util.PreconditionUtil;
 
 /**
  * Object which represents an HTTP request.
@@ -100,15 +100,22 @@ public abstract class AbstractRequest implements Parcelable {
 
         if (null != requestHeaders) {
             mRequestHeaders =
-                    Collections.unmodifiableMap(new HashMap<String, String>(requestHeaders));
+                    NullUtils.nonNullContract(Collections
+                            .unmodifiableMap(new HashMap<String, String>(requestHeaders)));
         } else {
-            mRequestHeaders = Collections.unmodifiableMap(new HashMap<String, String>());
+            mRequestHeaders =
+                    NullUtils.nonNullContract(Collections
+                            .unmodifiableMap(new HashMap<String, String>()));
         }
 
         if (null != queryParams) {
-            mQueryParams = Collections.unmodifiableMap(new HashMap<String, String>(queryParams));
+            mQueryParams =
+                    NullUtils.nonNullContract(Collections
+                            .unmodifiableMap(new HashMap<String, String>(queryParams)));
         } else {
-            mQueryParams = Collections.unmodifiableMap(new HashMap<String, String>());
+            mQueryParams =
+                    NullUtils.nonNullContract(Collections
+                            .unmodifiableMap(new HashMap<String, String>()));
         }
 
         mUrlString = url;
@@ -149,7 +156,7 @@ public abstract class AbstractRequest implements Parcelable {
             }
         } catch (final URISyntaxException e) {
             // failsafe
-            LogManager.e(String.format(Locale.US, "could not parse uri: '%s'. " //$NON-NLS-1$
+            LogManager.e(NullUtils.format("could not parse uri: '%s'. " //$NON-NLS-1$
                     + "dropping query parameters.", url), e); //$NON-NLS-1$
         }
 
@@ -170,7 +177,7 @@ public abstract class AbstractRequest implements Parcelable {
             throw new IllegalArgumentException("Request URI must be an absolute URL"); //$NON-NLS-1$
         }
 
-        return url.buildUpon().query(null).build().toString();
+        return NullUtils.nonNullContract(url.buildUpon().query(null).build().toString());
     }
 
     /**
@@ -179,16 +186,16 @@ public abstract class AbstractRequest implements Parcelable {
      * @param in the parcel to read from
      */
     public AbstractRequest(@NonNull final Parcel in) {
-        mMethod = HttpMethod.valueOf(in.readString());
-        mUrlString = in.readString();
+        mMethod = NullUtils.nonNullContract(HttpMethod.valueOf(in.readString()));
+        mUrlString = NullUtils.nonNullContract(in.readString());
 
         final Map<String, String> headers = new HashMap<String, String>();
         in.readMap(headers, HashMap.class.getClassLoader());
-        mRequestHeaders = Collections.unmodifiableMap(headers);
+        mRequestHeaders = NullUtils.nonNullContract(Collections.unmodifiableMap(headers));
 
         final Map<String, String> query = new HashMap<String, String>();
         in.readMap(query, HashMap.class.getClassLoader());
-        mQueryParams = Collections.unmodifiableMap(query);
+        mQueryParams = NullUtils.nonNullContract(Collections.unmodifiableMap(query));
 
         checkRep();
     }
@@ -196,6 +203,7 @@ public abstract class AbstractRequest implements Parcelable {
     /**
      * Asserts representation invariants of this class.
      */
+    @SuppressWarnings({ "unused", "null" })
     private void checkRep() {
         if (CoreLibConstants.IS_CHECKREP_ENABLED) {
             if (null == mMethod) {
@@ -290,6 +298,10 @@ public abstract class AbstractRequest implements Parcelable {
             url = new URL(builder.build().toString());
         } catch (final MalformedURLException e) {
             LogManager.e("MalformedUrlException when getting request url", e); //$NON-NLS-1$
+            final BadRequestException e2 =
+                    new BadRequestException("MalformedUrlException when getting request url"); //$NON-NLS-1$
+            e2.initCause(e);
+            throw e2;
         }
 
         return url;
@@ -319,6 +331,8 @@ public abstract class AbstractRequest implements Parcelable {
      */
     public abstract int getBodyLength(@NonNull final Context context);
 
+    //@formatter:off
+    @SuppressWarnings("null")
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -330,6 +344,7 @@ public abstract class AbstractRequest implements Parcelable {
         return result;
     }
 
+    @SuppressWarnings({ "unused", "null" })
     @Override
     public boolean equals(final Object obj) {
         if (this == obj) {
@@ -375,6 +390,7 @@ public abstract class AbstractRequest implements Parcelable {
 
         return true;
     }
+    //@formatter:on
 
     @Override
     public String toString() {
@@ -402,7 +418,7 @@ public abstract class AbstractRequest implements Parcelable {
     public static final class BadRequestException extends Exception {
 
         /**
-         * Implements {@link Serializable}.
+         * Implements {@link java.io.Serializable}.
          */
         private static final long serialVersionUID = 8423248708984803306L;
 

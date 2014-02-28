@@ -6,14 +6,6 @@ package com.scvngr.levelup.core.net.request.factory;
 import android.content.Context;
 import android.location.Location;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
@@ -21,21 +13,27 @@ import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
-import com.scvngr.levelup.core.model.AccessToken;
-import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
+import com.scvngr.levelup.core.net.JsonElementRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.LevelUpRequestWithCurrentUser;
-import com.scvngr.levelup.core.net.LevelUpV13Request;
 import com.scvngr.levelup.core.net.request.RequestUtils;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
+import com.google.gson.JsonObject;
+
+import net.jcip.annotations.Immutable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * <p>
- * Class to build requests to interact with the endpoints that deal with {@link User}s.
+ * Class to build requests to interact with the endpoints that deal with
+ * {@link com.scvngr.levelup.core.model.User}s.
  * </p>
  * <p>
  * If you're looking to login, see {@link AccessTokenRequestFactory}.
@@ -123,7 +121,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     /**
      * @param context the Application context.
      * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-     *        {@link User}'s {@link AccessToken} if needed.
+     *        User's {@link com.scvngr.levelup.core.model.AccessToken} if needed.
      */
     public UserRequestFactory(@NonNull final Context context,
             @Nullable final AccessTokenRetriever retriever) {
@@ -139,13 +137,12 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     @NonNull
     @LevelUpApi(contract = Contract.INTERNAL)
     public AbstractRequest buildForgotPasswordRequest(@NonNull final String email) {
-        PreconditionUtil.assertNotNull(email, "email"); //$NON-NLS-1$
+        final JsonObject resetRequest = new JsonObject();
+        resetRequest.addProperty("email", email); //$NON-NLS-1$
 
-        final Map<String, String> params = new HashMap<String, String>();
-        params.put(RequestUtils.getNestedParameterKey(OUTER_PARAM_USER, PARAM_EMAIL), email);
-
-        return new LevelUpV13Request(getContext(), HttpMethod.POST,
-                LevelUpV13Request.API_VERSION_CODE_V13, "users/forgot_password", null, params, null); //$NON-NLS-1$
+        return new LevelUpRequest(getContext(), HttpMethod.POST,
+                LevelUpRequest.API_VERSION_CODE_V14,
+                "passwords", null, new JsonElementRequestBody(resetRequest), null); //$NON-NLS-1$
     }
 
     /**
@@ -238,7 +235,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     }
 
     /**
-     * Build a request to register a new {@link User} via a facebook access token.
+     * Build a request to register a new User via a facebook access token.
      *
      * @param facebookAccessToken the facebook access token to use to register the new user.
      * @return the {@link AbstractRequest} to use to register the new user.
@@ -263,7 +260,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     }
 
     /**
-     * Build a request to retrieve the {@link User} information.
+     * Build a request to retrieve the User information.
      *
      * @return the request to retrieve the user information.
      */
@@ -275,19 +272,19 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     }
 
     /**
-     * Builder to create a request that updates the {@link User}'s information.
+     * Builder to create a request that updates the User's information.
      */
     public static final class UserInfoRequestBuilder {
 
         /**
-         * The Application context. A context is required to build any {@link LevelUpV13Request}.
+         * The Application context. A context is required to build any {@link LevelUpRequest}.
          */
         @NonNull
         private final Context mContext;
 
         /**
-         * The implementation of {@link AccessTokenRetriever} to use to get the {@link User}'s
-         * {@link AccessToken} if needed.
+         * The implementation of {@link AccessTokenRetriever} to use to get the User's
+         * {@link com.scvngr.levelup.core.model.AccessToken} if needed.
          */
         @NonNull
         private final AccessTokenRetriever mAccessTokenRetriever;
@@ -309,7 +306,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
          *
          * @param context The Application context.
          * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-         *        {@link User}'s {@link AccessToken} if needed.
+         *        User's {@link com.scvngr.levelup.core.model.AccessToken} if needed.
          */
         public UserInfoRequestBuilder(@NonNull final Context context,
                 @NonNull final AccessTokenRetriever retriever) {
@@ -318,9 +315,9 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Builds the request which updates the {@link User}'s information.
+         * Builds the request which updates the User's information.
          *
-         * @return The {@link AbstractRequest} which updates the {@link User}'s information.
+         * @return The {@link AbstractRequest} which updates the User's information.
          */
         @NonNull
         public AbstractRequest build() {
@@ -360,7 +357,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the {@link User}'s born at date information. An empty or null attribute value
+         * Adds the User's born at date information. An empty or null attribute value
          * removes the attribute's key from the pending update request.
          *
          * @param bornAt The born at date as an ISO date time.
@@ -373,7 +370,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the {@link User}'s custom attributes. An empty or null custom attribute value
+         * Adds the User's custom attributes. An empty or null custom attribute value
          * removes the custom attribute's key from the pending update request. The request is not
          * modified if the custom attribute set is null.
          *
@@ -394,10 +391,10 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the {@link User}'s email address. An empty or null attribute value removes the
+         * Adds the User's email address. An empty or null attribute value removes the
          * attribute's key from the pending update request.
          *
-         * @param email The {@link User}'s email address.
+         * @param email The User's email address.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
          */
         @NonNull
@@ -407,10 +404,10 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the {@link User}'s first name. An empty or null attribute value removes the
+         * Adds the User's first name. An empty or null attribute value removes the
          * attribute's key from the pending update request.
          *
-         * @param firstName The {@link User}'s first name.
+         * @param firstName The User's first name.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
          */
         @NonNull
@@ -420,7 +417,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the {@link User}'s gender information. An empty or null attribute value removes the
+         * Adds the User's gender information. An empty or null attribute value removes the
          * attribute's key from the pending update request.
          *
          * @param gender The gender string generated by
@@ -434,10 +431,10 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the {@link User}'s last name. An empty or null attribute value removes the
+         * Adds the User's last name. An empty or null attribute value removes the
          * attribute's key from the pending update request.
          *
-         * @param lastName The {@link User}'s last name.
+         * @param lastName The User's last name.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
          */
         @NonNull
@@ -447,10 +444,10 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the {@link User}'s new password. An empty or null attribute value removes the
+         * Adds the User's new password. An empty or null attribute value removes the
          * attribute's key from the pending update request.
          *
-         * @param newPassword The {@link User}'s new password or null if the password is not being
+         * @param newPassword The User's new password or null if the password is not being
          *        modified.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
          */

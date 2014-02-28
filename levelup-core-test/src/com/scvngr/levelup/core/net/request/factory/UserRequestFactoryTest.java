@@ -16,7 +16,6 @@ import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.LevelUpRequestWithCurrentUser;
-import com.scvngr.levelup.core.net.LevelUpV13Request;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
 import com.scvngr.levelup.core.net.request.RequestUtils;
 import com.scvngr.levelup.core.net.request.factory.UserRequestFactory.UserInfoRequestBuilder;
@@ -24,6 +23,9 @@ import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.NullUtils;
 
+import com.google.gson.JsonObject;
+
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,6 +39,9 @@ import java.util.Map;
  * Tests {@link UserRequestFactory}.
  */
 public final class UserRequestFactoryTest extends SupportAndroidTestCase {
+    @NonNull
+    private static final String EMAIL_EXAMPLE_COM = "email@example.com"; //$NON-NLS-1$
+
     /**
      * Tests the constructor to make sure the object performs parameter checking.
      */
@@ -53,22 +58,6 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link UserRequestFactory#buildForgotPasswordRequest(String)} by passing null for then
-     * accessToken argument.
-     */
-    @SmallTest
-    public void testBuildForgotPasswordRequest_withNullAccessToken() {
-        final UserRequestFactory builder = new UserRequestFactory(getContext(), null);
-
-        try {
-            builder.buildForgotPasswordRequest(null);
-            fail("null request should throw exception"); //$NON-NLS-1$
-        } catch (final AssertionError e) {
-            // Expected exception
-        }
-    }
-
-    /**
      * Tests the {@link AbstractRequest} return from
      * {@link UserRequestFactory#buildForgotPasswordRequest}.
      *
@@ -78,25 +67,23 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
     @SmallTest
     public void testBuildForgotPasswordRequest_withValidArgument() throws BadRequestException,
             UnsupportedEncodingException {
-        final LevelUpV13Request request =
-                (LevelUpV13Request) new UserRequestFactory(getContext(),
+        final LevelUpRequest request =
+                (LevelUpRequest) new UserRequestFactory(getContext(),
                         new MockAccessTokenRetriever())
-                        .buildForgotPasswordRequest("email@example.com"); //$NON-NLS-1$
+                        .buildForgotPasswordRequest(EMAIL_EXAMPLE_COM);
 
         assertEquals(HttpMethod.POST, request.getMethod());
-        assertTrue(request.getUrl(getContext()).getPath().endsWith("users/forgot_password.json")); //$NON-NLS-1$
-        final LevelUpV13Request apiRequest = request;
-        assertTrue(apiRequest.getPostParams().containsKey("user[email]")); //$NON-NLS-1$
-        assertEquals("email@example.com", apiRequest.getPostParams().get("user[email]")); //$NON-NLS-1$ //$NON-NLS-2$
-        assertFalse(apiRequest.getPostParams().containsKey("access_token")); //$NON-NLS-1$
-        assertFalse(apiRequest.getQueryParams(getContext()).containsKey("access_token")); //$NON-NLS-1$
+        final String path = request.getUrl(getContext()).getPath();
+        assertTrue(path.endsWith("passwords")); //$NON-NLS-1$
+        assertTrue(path.startsWith("/v14")); //$NON-NLS-1$
 
-        final StringBuilder postBody = new StringBuilder();
-        postBody.append(URLEncoder.encode("user[email]", "utf-8")); //$NON-NLS-1$ //$NON-NLS-2$
-        postBody.append("="); //$NON-NLS-1$
-        postBody.append(URLEncoder.encode("email@example.com", "utf-8")); //$NON-NLS-1$ //$NON-NLS-2$
+        final JsonObject expectedRequest = new JsonObject();
+        expectedRequest.addProperty("email", EMAIL_EXAMPLE_COM); //$NON-NLS-1$
 
-        assertEquals(postBody.toString(), request.getBody(getContext()));
+        assertEquals(expectedRequest.toString(), request.getBody(getContext()));
+
+        assertEquals(RequestUtils.HEADER_CONTENT_TYPE_JSON, request.getRequestHeaders(getContext())
+                .get(HTTP.CONTENT_TYPE));
     }
 
     @SmallTest
@@ -317,7 +304,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final Context context = getContext();
         final LevelUpRequest request =
                 (LevelUpRequest) new UserRequestFactory(context, null)
-                        .buildRegisterRequest("first_name", "last_name", "email@email.com", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+                        .buildRegisterRequest("first_name", "last_name", "email@example.com", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
                                 "password123", location); //$NON-NLS-1$
 
         assertEquals(HttpMethod.POST, request.getMethod());
@@ -347,7 +334,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
             RequestUtils.addApiKeyToRequestBody(context, object);
             userObject.put(UserRequestFactory.PARAM_FIRST_NAME, "first_name"); //$NON-NLS-1$
             userObject.put(UserRequestFactory.PARAM_LAST_NAME, "last_name"); //$NON-NLS-1$
-            userObject.put(UserRequestFactory.PARAM_EMAIL, "email@email.com"); //$NON-NLS-1$
+            userObject.put(UserRequestFactory.PARAM_EMAIL, "email@example.com"); //$NON-NLS-1$
             userObject.put(UserRequestFactory.PARAM_TERMS_ACCEPTED, true);
             userObject.put(UserRequestFactory.PARAM_PASSWORD, "password123"); //$NON-NLS-1$
             RequestUtils.addDeviceIdToRequestBody(context, userObject);

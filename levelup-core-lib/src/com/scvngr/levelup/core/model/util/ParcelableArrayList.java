@@ -123,7 +123,7 @@ public abstract class ParcelableArrayList<E extends Parcelable> extends ArrayLis
     @Override
     public final void clear() {
         throw new ImmutableClassException();
-    };
+    }
 
     @Override
     public int describeContents() {

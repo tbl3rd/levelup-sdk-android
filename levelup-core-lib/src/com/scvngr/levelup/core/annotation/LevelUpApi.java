@@ -37,7 +37,7 @@ public @interface LevelUpApi {
          * SDK should not use APIs annotated with this.
          */
         @NonNull
-        INTERNAL;
+        INTERNAL
     }
 
     /**

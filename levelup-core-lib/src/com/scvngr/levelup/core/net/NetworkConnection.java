@@ -5,13 +5,6 @@ package com.scvngr.levelup.core.net;
 
 import android.content.Context;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.util.Map;
-
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -20,6 +13,14 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.ThreadSafe;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.util.Map;
 
 /**
  * Utility class for performing network operations.
@@ -53,7 +54,7 @@ public final class NetworkConnection {
     @NonNull
     public static StreamingResponse send(@NonNull final Context context,
             @NonNull final AbstractRequest request) {
-        StreamingResponse response = null;
+        StreamingResponse response;
 
         try {
             response = doSend(context, request);
@@ -75,6 +76,7 @@ public final class NetworkConnection {
      * @param request the request to send.
      * @return {@link StreamingResponse} containing information regarding the outcome of the send.
      * @throws IOException if network operations fail.
+     * @throws BadRequestException if the request is invalid.
      */
     @NonNull
     private static StreamingResponse doSend(@NonNull final Context context,
@@ -101,8 +103,10 @@ public final class NetworkConnection {
      * @param request the request to use to configure the connection
      * @return the configured connection
      * @throws IOException if configuration fails
+     * @throws BadRequestException if the request is invalid.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
+    @NonNull
     /* package */static HttpURLConnection configureConnection(@NonNull final Context context,
             @NonNull final AbstractRequest request) throws IOException, BadRequestException {
         final HttpURLConnection connection =
@@ -141,9 +145,8 @@ public final class NetworkConnection {
             OutputStream stream = null;
 
             try {
-                stream = connection.getOutputStream();
+                stream = NullUtils.nonNullContract(connection.getOutputStream());
                 request.writeBodyToStream(context, stream);
-                stream.close();
             } finally {
                 if (null != stream) {
                     stream.close();
@@ -162,17 +165,21 @@ public final class NetworkConnection {
      * @throws IOException if network operations fail
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static StreamingResponse getResponse(final HttpURLConnection connection,
-            final AbstractRequest request) throws IOException {
-        StreamingResponse response = null;
+    @NonNull
+    /* package */static StreamingResponse getResponse(@NonNull final HttpURLConnection connection,
+            @NonNull final AbstractRequest request) throws IOException {
+        StreamingResponse response;
 
-        if (null == sNextResponse) {
+        // Pull it out to a local variable for static analysis
+        final StreamingResponse nextResponse = sNextResponse;
+
+        if (null == nextResponse) {
             // Create the response object to pass back to the caller
             response = new StreamingResponse(connection);
         } else {
             // If the sNextResponse field is set, return that response instead of doing the
             // network request.
-            response = sNextResponse;
+            response = nextResponse;
             sNextResponse = null;
         }
 

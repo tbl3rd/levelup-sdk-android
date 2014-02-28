@@ -41,8 +41,7 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
         assertNotSame(LevelUpConnection.newInstance(getContext()),
                 LevelUpConnection.newInstance(getContext()));
 
-        final LevelUpConnection connection =
-                new LevelUpConnection(getContext());
+        final LevelUpConnection connection = new LevelUpConnection(getContext());
         assertNotSame(connection, LevelUpConnection.newInstance(getContext()));
 
         // Make sure we return the object we set before calling new instance().
@@ -57,11 +56,12 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testGetLastRequest() {
-        final LevelUpConnection connection =
-                new LevelUpConnection(getContext());
+        final LevelUpConnection connection = new LevelUpConnection(getContext());
         LevelUpConnection.setNextInstance(connection);
-        final LevelUpV13Request request =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, getName(), null, null);
+        final LevelUpRequest request =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, getName(), null, (RequestBody) null,
+                        null);
         connection.setLastRequest(getName(), request);
         assertEquals(request, connection.getLastRequest(getName()));
         assertEquals(request, connection.getLastRequest(null));
@@ -74,12 +74,11 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSetNextResponse_withSpecificUrl() throws BadRequestException {
-        final LevelUpConnection connection =
-                new LevelUpConnection(getContext());
-        final LevelUpV13Request request =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, "/", null, null); //$NON-NLS-1$
-        final LevelUpResponse response =
-                new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
+        final LevelUpConnection connection = new LevelUpConnection(getContext());
+        final LevelUpRequest request =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, "/", null, (RequestBody) null, null); //$NON-NLS-1$
+        final LevelUpResponse response = new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
         LevelUpConnection.setNextInstance(connection);
         connection.setNextResponse(request.getUrl(getContext()).toString(), response);
 
@@ -94,12 +93,11 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSetNextResponse_withNullUrl() throws BadRequestException {
-        final LevelUpConnection connection =
-                new LevelUpConnection(getContext());
-        final LevelUpV13Request request =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, "/", null, null); //$NON-NLS-1$
-        final LevelUpResponse response =
-                new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
+        final LevelUpConnection connection = new LevelUpConnection(getContext());
+        final LevelUpRequest request =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, "/", null, (RequestBody) null, null); //$NON-NLS-1$
+        final LevelUpResponse response = new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
         LevelUpConnection.setNextInstance(connection);
         connection.setNextResponse(null, response);
 
@@ -114,14 +112,13 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSetNextResponse_withUnRecognizedUrl() throws BadRequestException {
-        final LevelUpConnection connection =
-                new LevelUpConnection(getContext());
-        final LevelUpV13Request request =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, "/", null, null); //$NON-NLS-1$
-        final LevelUpResponse response =
-                new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
+        final LevelUpConnection connection = new LevelUpConnection(getContext());
+        final LevelUpRequest request =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, "/", null, (RequestBody) null, null); //$NON-NLS-1$
+        final LevelUpResponse response = new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
         LevelUpConnection.setNextInstance(connection);
-        connection.setNextResponse("www.blah.com", response); //$NON-NLS-1$
+        connection.setNextResponse("www.example.com", response); //$NON-NLS-1$
 
         assertSame(connection, LevelUpConnection.newInstance(getContext()));
 
@@ -142,27 +139,27 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSetNextResponse_threading() throws BadRequestException, InterruptedException {
-        final LevelUpConnection connection =
-                new LevelUpConnection(getContext());
-        final LevelUpV13Request request1 =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, "1", null, null); //$NON-NLS-1$
-        final LevelUpResponse response1 =
-                new LevelUpResponse("test1", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
+        final LevelUpConnection connection = new LevelUpConnection(getContext());
+        final LevelUpRequest request1 =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, "1", null, (RequestBody) null, null); //$NON-NLS-1$
+        final LevelUpResponse response1 = new LevelUpResponse("test1", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
         final String requestUrl1 = request1.getUrl(getContext()).toString();
         // Add the first response to the list.
         connection.setNextResponse(requestUrl1, response1);
 
-        final LevelUpV13Request request2 =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, "2", null, null); //$NON-NLS-1$
-        final LevelUpResponse response2 =
-                new LevelUpResponse("test2", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
+        final LevelUpRequest request2 =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, "2", null, (RequestBody) null, null); //$NON-NLS-1$
+        final LevelUpResponse response2 = new LevelUpResponse("test2", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
         final String requestUrl2 = request2.getUrl(getContext()).toString();
         // Add the second response to the list.
         connection.setNextResponse(requestUrl2, response2);
 
         // Create one more request and don't set it right now.
-        final LevelUpV13Request request3 =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, "3", null, null); //$NON-NLS-1$
+        final LevelUpRequest request3 =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, "3", null, (RequestBody) null, null); //$NON-NLS-1$
         final String requestUrl3 = request3.getUrl(getContext()).toString();
 
         LevelUpConnection.setNextInstance(connection);
@@ -223,10 +220,10 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_basic() {
-        final LevelUpConnection connection =
-                LevelUpConnection.newInstance(getContext());
-        final LevelUpV13Request request =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, "user", null, null); //$NON-NLS-1$
+        final LevelUpConnection connection = LevelUpConnection.newInstance(getContext());
+        final LevelUpRequest request =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, "user", null, (RequestBody) null, null); //$NON-NLS-1$
         NetworkConnection.setNextResponse(new StreamingResponse());
         final LevelUpResponse response = connection.send(request);
         assertNotNull(response);
@@ -239,10 +236,10 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_withResponse() throws Exception {
-        final LevelUpConnection connection =
-                LevelUpConnection.newInstance(getContext());
-        final LevelUpV13Request request =
-                new LevelUpV13Request(getContext(), HttpMethod.GET, "user", null, null); //$NON-NLS-1$
+        final LevelUpConnection connection = LevelUpConnection.newInstance(getContext());
+        final LevelUpRequest request =
+                new LevelUpRequest(getContext(), HttpMethod.GET,
+                        LevelUpRequest.API_VERSION_CODE_V14, "user", null, (RequestBody) null, null); //$NON-NLS-1$
         NetworkConnection.setNextResponse(new StreamingResponse(new MockHttpUrlConnection()));
         final LevelUpResponse response = connection.send(request);
 
@@ -264,19 +261,19 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
         {
             // Default should not throw a runtime exception.
             NetworkConnection.setNextResponse(new StreamingResponse());
-            final LevelUpConnection connection =
-                    LevelUpConnection.newInstance(getContext());
-            connection.send(new LevelUpV13Request(getContext(), HttpMethod.GET,
-                    "user", null, null)); //$NON-NLS-1$
+            final LevelUpConnection connection = LevelUpConnection.newInstance(getContext());
+            connection.send(new LevelUpRequest(getContext(), HttpMethod.GET,
+                    LevelUpRequest.API_VERSION_CODE_V14, "user", null, (RequestBody) null, null)); //$NON-NLS-1$
         }
 
         {
-            final LevelUpConnection connection =
-                    LevelUpConnection.newInstance(getContext());
+            final LevelUpConnection connection = LevelUpConnection.newInstance(getContext());
             LevelUpConnection.setNetworkEnabled(false);
             try {
-                connection.send(new LevelUpV13Request(getContext(), HttpMethod.GET,
-                        "user", null, null)); //$NON-NLS-1$
+                connection
+                        .send(new LevelUpRequest(getContext(), HttpMethod.GET,
+                                LevelUpRequest.API_VERSION_CODE_V14,
+                                "user", null, (RequestBody) null, null)); //$NON-NLS-1$
                 fail("network connection should throw exception"); //$NON-NLS-1$
             } catch (final RuntimeException e) {
                 // Expected exception
@@ -289,26 +286,25 @@ public final class LevelUpConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSendWithRequestThatThrowsException() {
-        final LevelUpConnection connection =
-                LevelUpConnection.newInstance(getContext());
+        final LevelUpConnection connection = LevelUpConnection.newInstance(getContext());
         final TestRequest request =
-                new TestRequest(mContext, HttpMethod.GET, "test", null, null, null); //$NON-NLS-1$
+                new TestRequest(mContext, HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
+                        "test", null, null); //$NON-NLS-1$
 
         final LevelUpResponse response = connection.send(request);
         assertEquals(LevelUpStatus.ERROR_BAD_REQUEST, response.getStatus());
     }
 
     /**
-     * Test impl of {@link LevelUpV13Request} that throws an exception in
-     * {@link LevelUpV13Request#getUrlString(Context)}.
-     *
+     * Test impl of {@link LevelUpRequest} that throws an exception in
+     * {@link LevelUpRequest#getUrlString(Context)}.
      */
-    private static final class TestRequest extends LevelUpV13Request {
+    private static final class TestRequest extends LevelUpRequest {
 
         public TestRequest(final Context context, final HttpMethod method, final String endpoint,
-                final Map<String, String> queryParams, final Map<String, String> postParams,
+                final String apiVersion, final Map<String, String> queryParams,
                 final AccessTokenRetriever retriever) {
-            super(context, method, endpoint, queryParams, postParams, retriever);
+            super(context, method, apiVersion, endpoint, queryParams, (RequestBody) null, retriever);
         }
 
         @Override

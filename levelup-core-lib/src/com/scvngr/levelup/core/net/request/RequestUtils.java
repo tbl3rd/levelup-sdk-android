@@ -18,6 +18,7 @@ import com.scvngr.levelup.core.util.CoreLibConstants;
 import com.scvngr.levelup.core.util.CryptographicHashUtil;
 import com.scvngr.levelup.core.util.CryptographicHashUtil.Algorithms;
 import com.scvngr.levelup.core.util.DeviceIdentifier;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,16 +36,19 @@ public final class RequestUtils {
     /**
      * Header key for the accepts.
      */
+    @NonNull
     public static final String HEADER_ACCEPT = "Accept"; //$NON-NLS-1$
 
     /**
      * Value for the accepts header for JSON.
      */
+    @NonNull
     public static final String HEADER_CONTENT_TYPE_JSON = "application/json"; //$NON-NLS-1$
 
     /**
      * Header key for the user agent.
      */
+    @NonNull
     public static final String HEADER_USER_AGENT = "User-Agent"; //$NON-NLS-1$
 
     /**
@@ -52,6 +56,7 @@ public final class RequestUtils {
      *
      * @see RequestUtils#HEADER_DEVICE_MODEL_VALUE
      */
+    @NonNull
     public static final String HEADER_DEVICE_MODEL_KEY = "X-Device-Model"; //$NON-NLS-1$
 
     /**
@@ -59,37 +64,21 @@ public final class RequestUtils {
      *
      * @see RequestUtils#HEADER_DEVICE_MODEL_KEY
      */
-    public static final String HEADER_DEVICE_MODEL_VALUE = String.format(Locale.US,
+    @NonNull
+    public static final String HEADER_DEVICE_MODEL_VALUE = NullUtils.format(
             "%s/%s", Build.BRAND, Build.PRODUCT); //$NON-NLS-1$
 
     /**
      * Parameter for the client identifier.
      */
+    @NonNull
     public static final String PARAM_CLIENT_ID = "client_id"; //$NON-NLS-1$
 
     /**
      * Parameter for the device identifier.
      */
+    @NonNull
     public static final String PARAM_DEVICE_IDENTIFIER = "device_identifier"; //$NON-NLS-1$
-
-    /**
-     * Method to create a nested parameter key. A nested parameter key looks like: "user[name]".
-     *
-     * @param outerParam the outer parameter name.
-     * @param innerParam the inner parameter name.
-     * @return {@link String} formatted like a nested parameter key
-     */
-    public static String getNestedParameterKey(@NonNull final String outerParam,
-            @NonNull final String innerParam) {
-        if (null == outerParam) {
-            throw new IllegalArgumentException("outerParam cannot be null"); //$NON-NLS-1$
-        }
-        if (null == innerParam) {
-            throw new IllegalArgumentException("innerParam cannot be null"); //$NON-NLS-1$
-        }
-
-        return String.format(Locale.US, "%s[%s]", outerParam, innerParam); //$NON-NLS-1$
-    }
 
     /**
      * Get the request headers for all API requests.
@@ -117,8 +106,7 @@ public final class RequestUtils {
      */
     @NonNull
     public static String getUserAgent(@NonNull final Context context) {
-        return String.format(
-                Locale.US,
+        return NullUtils.format(
                 "%s (Linux; U; Android %s; %s/%s; %s) %s", //$NON-NLS-1$
                 getUserAgentAppVersionString(context), Build.VERSION.RELEASE, Build.BRAND,
                 Build.PRODUCT, Locale.getDefault().toString(),
@@ -140,7 +128,7 @@ public final class RequestUtils {
         builder.append(info.applicationInfo.name).append("/") //$NON-NLS-1$
                 .append(info.versionName);
 
-        return builder.toString();
+        return NullUtils.nonNullContract(builder.toString());
     }
 
     /**
@@ -152,7 +140,7 @@ public final class RequestUtils {
      */
     @NonNull
     public static String getUserAgentSdkVersionString(@NonNull final Context context) {
-        return String.format(Locale.US, "LevelUpSdk/%s", CoreLibConstants.SDK_VERSION); //$NON-NLS-1$
+        return NullUtils.format("LevelUpSdk/%s", CoreLibConstants.SDK_VERSION); //$NON-NLS-1$
     }
 
     /**
@@ -163,7 +151,7 @@ public final class RequestUtils {
      */
     @NonNull
     public static String getApiKey(@NonNull final Context context) {
-        final String apiKey = context.getString(R.string.levelup_api_key);
+        final String apiKey = NullUtils.nonNullContract(context.getString(R.string.levelup_api_key));
 
         if (TextUtils.isEmpty(apiKey)) {
             throw new AssertionError(String.format(Locale.US, "Application must override %s", //$NON-NLS-1$

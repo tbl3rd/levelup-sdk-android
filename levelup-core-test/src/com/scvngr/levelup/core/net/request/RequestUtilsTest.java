@@ -45,36 +45,6 @@ public final class RequestUtilsTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link RequestUtils#getNestedParameterKey(String, String)} with valid params.
-     */
-    @SmallTest
-    public void testGetNestedParameterKey_valid() {
-        final String key = RequestUtils.getNestedParameterKey("outer", "inner"); //$NON-NLS-1$ //$NON-NLS-2$
-
-        assertEquals("outer[inner]", key); //$NON-NLS-1$
-    }
-
-    /**
-     * Tests {@link RequestUtils#getNestedParameterKey(String, String)} with null params.
-     */
-    @SmallTest
-    public void testGetNestedParameterKey_nullParameters() {
-        try {
-            RequestUtils.getNestedParameterKey(null, ""); //$NON-NLS-1$
-            fail("null parameters should throw illegal argument exception"); //$NON-NLS-1$
-        } catch (final IllegalArgumentException e) {
-            // Expected exception
-        }
-
-        try {
-            RequestUtils.getNestedParameterKey("", null); //$NON-NLS-1$
-            fail("null parameters should throw illegal argument exception"); //$NON-NLS-1$
-        } catch (final IllegalArgumentException e) {
-            // Expected exception
-        }
-    }
-
-    /**
      * Tests {@link RequestUtils#getDefaultRequestHeaders(android.content.Context)} when a
      * {@link NameNotFoundException} is thrown.
      */

@@ -13,14 +13,12 @@ import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
-import com.scvngr.levelup.core.model.AccessToken;
-import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
 /**
- * Base class for all BufferedRequest building classes.
+ * Base class for all AbstractRequest building classes.
  */
 @Immutable
 @LevelUpApi(contract = Contract.INTERNAL)
@@ -54,8 +52,9 @@ public abstract class AbstractRequestFactory {
     private final Context mContext;
 
     /**
-     * The implementation of {@link AccessTokenRetriever} to use to get the {@link User}'s
-     * {@link AccessToken} if needed.
+     * The implementation of {@link AccessTokenRetriever} to use to get the
+     * {@link com.scvngr.levelup.core.model.User}'s
+     * {@link com.scvngr.levelup.core.model.AccessToken} if needed.
      */
     @Nullable
     private final AccessTokenRetriever mAccessTokenRetriever;
@@ -65,7 +64,8 @@ public abstract class AbstractRequestFactory {
      *
      * @param context Application context
      * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-     *        {@link User}'s {@link AccessToken} if needed.
+     *        {@link com.scvngr.levelup.core.model.User}'s
+     *        {@link com.scvngr.levelup.core.model.AccessToken} if needed.
      */
     public AbstractRequestFactory(@NonNull final Context context,
             @Nullable final AccessTokenRetriever retriever) {
@@ -84,8 +84,9 @@ public abstract class AbstractRequestFactory {
     }
 
     /**
-     * @return the implementation of {@link AccessTokenRetriever} to use to get the {@link User}'s
-     *         {@link AccessToken} if needed.
+     * @return the implementation of {@link AccessTokenRetriever} to use to get the
+     *         {@link com.scvngr.levelup.core.model.User}'s
+     *         {@link com.scvngr.levelup.core.model.AccessToken} if needed.
      */
     @Nullable
     protected AccessTokenRetriever getAccessTokenRetriever() {
