@@ -64,13 +64,13 @@ public final class LevelUpCodeView extends View {
     /**
      * The duration of the color fade animation, in milliseconds.
      */
-    public static final int ANIM_FADE_DURATION_MILLIS = 5000;
+    public static final int ANIM_FADE_DURATION_MILLIS = 2000;
 
     /**
      * The delay before starting the color fade animation, as used by
      * {@link #animateFadeColorsDelayed()}.
      */
-    public static final int ANIM_FADE_START_DELAY_MILLIS = 1500;
+    public static final int ANIM_FADE_START_DELAY_MILLIS = 0;
 
     /**
      * The end value of the alpha channel for the color fade animation.
