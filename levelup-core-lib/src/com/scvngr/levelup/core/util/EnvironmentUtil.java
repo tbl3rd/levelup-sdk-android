@@ -78,6 +78,16 @@ public final class EnvironmentUtil {
     }
 
     /**
+     * Determines whether the current SDK is greater than or equal to 17.
+     *
+     * @return {@code true} if {@link android.os.Build.VERSION#SDK_INT} is greater than or equal to
+     *         17.
+     */
+    public static boolean isSdk17OrGreater() {
+        return Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN_MR1;
+    }
+
+    /**
      * Private constructor prevents instantiation.
      *
      * @throws UnsupportedOperationException because this class cannot be instantiated.
