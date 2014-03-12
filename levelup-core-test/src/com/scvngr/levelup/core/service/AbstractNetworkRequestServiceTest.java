@@ -13,15 +13,13 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
-import com.scvngr.levelup.core.net.LevelUpStatus;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpConnection;
 import com.scvngr.levelup.core.net.LevelUpConnectionHelper;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.LevelUpResponse;
+import com.scvngr.levelup.core.net.LevelUpStatus;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.CountDownLatch;
@@ -76,7 +74,7 @@ public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestC
             final LevelUpRequest requestToSend =
                     new LevelUpRequest(getContext(), HttpMethod.GET,
                             LevelUpRequest.API_VERSION_CODE_V14, "test", null, //$NON-NLS-1$
-                            (JSONObject) null);
+                             null);
             final Intent intent = new Intent(context, NetworkRequestServiceUnderTest.class);
             intent.putExtra(NetworkRequestServiceUnderTest.EXTRA_PARCELABLE_REQUEST, requestToSend);
             intent.putExtra(NetworkRequestServiceUnderTest.EXTRA_STRING_TOKEN, token);
@@ -118,7 +116,7 @@ public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestC
             final LevelUpRequest request =
                     new LevelUpRequest(getContext(), HttpMethod.GET,
                             LevelUpRequest.API_VERSION_CODE_V14, "test", null, //$NON-NLS-1$
-                            (JSONObject) null);
+                             null);
             intent.putExtra(AbstractNetworkRequestService.EXTRA_PARCELABLE_REQUEST, request);
             assertEquals(request, service.getRequest(intent));
         }

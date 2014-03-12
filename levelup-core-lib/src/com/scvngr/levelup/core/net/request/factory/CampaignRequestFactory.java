@@ -5,13 +5,6 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
-import java.util.HashMap;
-import java.util.Locale;
-
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -23,6 +16,11 @@ import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.util.DeviceUtil;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+
+import java.util.HashMap;
 
 /**
  * Builds requests that interact with the Campaigns endpoint.
@@ -50,8 +48,8 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
     @NonNull
     public AbstractRequest buildGetCampaignRequest(final int campaignId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "campaigns/%d", campaignId), null, (JSONObject) null, //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14,
+                NullUtils.format("campaigns/%d", campaignId), null, null, //$NON-NLS-1$
                 getAccessTokenRetriever());
     }
 
@@ -69,9 +67,8 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
         queryParams.put(PARAM_DENSITY, deviceDensity);
         queryParams.put(PARAM_WIDTH, DEFAULT_WIDTH);
         queryParams.put(PARAM_HEIGHT, DEFAULT_HEIGHT);
-        return new LevelUpRequest(context, HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "campaigns/%d/image", campaignWebServiceId), queryParams, (JSONObject) null); //$NON-NLS-1$
+        return new LevelUpRequest(context, HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
+                NullUtils.format("campaigns/%d/image", campaignWebServiceId), queryParams, null); //$NON-NLS-1$
     }
 
     /**
@@ -83,7 +80,7 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
     @NonNull
     public AbstractRequest buildGetCampaignMerchantsRequest(final long campaignWebServiceId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "campaigns/%d/merchants", campaignWebServiceId), null, (JSONObject) null); //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                        "campaigns/%d/merchants", campaignWebServiceId), null, null); //$NON-NLS-1$
     }
 }

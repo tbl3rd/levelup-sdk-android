@@ -5,15 +5,6 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Locale;
-
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -25,8 +16,18 @@ import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
+import com.scvngr.levelup.core.net.JSONObjectRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * Builds requests to claim {@link Campaign}s.
@@ -39,12 +40,14 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
      * Outer parameter key for LegacyLoyalty.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
+    @NonNull
     /* package */static final String OUTER_PARAM_LEGACY_LOYALTY = "legacy_loyalty"; //$NON-NLS-1$
 
     /**
      * Parameter key for legacy loyalty card number.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
+    @NonNull
     /* package */static final String PARAM_LEGACY_ID = "legacy_id"; //$NON-NLS-1$
 
     /**
@@ -79,8 +82,8 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "loyalties/legacy/%d/claims", loyaltyCampaignId), null, object, //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format("loyalties/legacy/%d/claims", //$NON-NLS-1$
+                        loyaltyCampaignId), null, new JSONObjectRequestBody(object),
                 getAccessTokenRetriever());
     }
 
@@ -95,15 +98,14 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
         String codeToClaim = code;
 
         try {
-            codeToClaim =
-                    URLEncoder.encode(code, "UTF-8"); //$NON-NLS-1$
+            codeToClaim = URLEncoder.encode(code, "UTF-8"); //$NON-NLS-1$
         } catch (final UnsupportedEncodingException e) {
             LogManager.e("Unsupported encoding when encoding code to claim", e); //$NON-NLS-1$
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "codes/%s/claims", codeToClaim), null, (JSONObject) null, //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                        "codes/%s/claims", codeToClaim), null, null, //$NON-NLS-1$
                 getAccessTokenRetriever());
     }
 }

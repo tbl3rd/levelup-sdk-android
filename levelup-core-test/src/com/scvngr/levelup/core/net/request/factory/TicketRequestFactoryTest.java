@@ -11,7 +11,7 @@ import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
-import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.net.RequestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import org.apache.http.protocol.HTTP;

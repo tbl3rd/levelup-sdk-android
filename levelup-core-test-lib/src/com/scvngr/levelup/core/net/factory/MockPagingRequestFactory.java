@@ -15,9 +15,9 @@ import com.scvngr.levelup.core.net.LevelUpConnection;
 import com.scvngr.levelup.core.net.LevelUpConnectionHelper;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.request.factory.AbstractPagingRequestFactory;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import org.apache.http.HttpStatus;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,10 +27,9 @@ import java.util.Locale;
 /**
  * <p>
  * A concrete implementation of {@link AbstractPagingRequestFactory} which returns a
- * {@link LevelUpRequest} with the specified URL (or {@link #PAGE_1_URL} for the first
- * page) and empty content.
+ * {@link LevelUpRequest} with the specified URL (or {@link #PAGE_1_URL} for the first page) and
+ * empty content.
  * </p>
- *
  * <p>
  * This has three fake pages, whose responses can be set with
  * {@link #setNextResponsePage(Context, String)}.
@@ -49,18 +48,22 @@ public final class MockPagingRequestFactory extends AbstractPagingRequestFactory
     /**
      * The initial page URL. This has a Link header to page 2.
      */
+    @NonNull
     public static final String PAGE_1_URL = "http://example.com/"; //$NON-NLS-1$
 
     /**
      * The second page URL. This has a Link header to page 3.
      */
+    @NonNull
     public static final String PAGE_2_URL = "http://example.com/?page=2"; //$NON-NLS-1$
 
     /**
      * The third page URL. This has no Link header and is empty.
      */
+    @NonNull
     public static final String PAGE_3_URL = "http://example.com/?page=3"; //$NON-NLS-1$
 
+    @NonNull
     private static final String EMPTY_DATA = ""; //$NON-NLS-1$
 
     /**
@@ -78,20 +81,19 @@ public final class MockPagingRequestFactory extends AbstractPagingRequestFactory
     @Override
     @NonNull
     public AbstractRequest getFirstPageRequest() {
-        return new LevelUpRequest(getContext(), HttpMethod.GET,
-                Uri.parse(PAGE_1_URL), (JSONObject) null, getAccessTokenRetriever());
+        return new LevelUpRequest(getContext(), HttpMethod.GET, NullUtils.nonNullContract(Uri
+                .parse(PAGE_1_URL)), null, getAccessTokenRetriever());
     }
 
     @Override
     @Nullable
     public AbstractRequest getPageRequest(@NonNull final Uri page) {
-        return new LevelUpRequest(getContext(), HttpMethod.GET, page,
-                (JSONObject) null, getAccessTokenRetriever());
+        return new LevelUpRequest(getContext(), HttpMethod.GET, page, null,
+                getAccessTokenRetriever());
     }
 
     /**
-     * Sets the next response with {@link LevelUpConnectionHelper} to simulate the
-     * given page.
+     * Sets the next response with {@link LevelUpConnectionHelper} to simulate the given page.
      *
      * @param context application context.
      * @param pageUrl one of {@link #PAGE_1_URL}, {@link #PAGE_2_URL}, or {@link #PAGE_3_URL}.
@@ -104,12 +106,12 @@ public final class MockPagingRequestFactory extends AbstractPagingRequestFactory
 
         if (PAGE_1_URL.equals(pageUrl)) {
             connection =
-                    LevelUpConnectionHelper.setNextResponse(context, EMPTY_DATA,
-                            HttpStatus.SC_OK, getLinkHeaders(PAGE_2_URL));
+                    LevelUpConnectionHelper.setNextResponse(context, EMPTY_DATA, HttpStatus.SC_OK,
+                            getLinkHeaders(PAGE_2_URL));
         } else if (PAGE_2_URL.equals(pageUrl)) {
             connection =
-                    LevelUpConnectionHelper.setNextResponse(context, EMPTY_DATA,
-                            HttpStatus.SC_OK, getLinkHeaders(PAGE_3_URL));
+                    LevelUpConnectionHelper.setNextResponse(context, EMPTY_DATA, HttpStatus.SC_OK,
+                            getLinkHeaders(PAGE_3_URL));
         } else if (PAGE_3_URL.equals(pageUrl)) {
             connection =
                     LevelUpConnectionHelper.setNextResponse(context, EMPTY_DATA,
@@ -129,7 +131,7 @@ public final class MockPagingRequestFactory extends AbstractPagingRequestFactory
      * @return a new map with the given next page added to the link header.
      */
     @NonNull
-    public final static HashMap<String, List<String>> getLinkHeaders(
+    public static HashMap<String, List<String>> getLinkHeaders(
             @NonNull final String nextPageUrl) {
         final HashMap<String, List<String>> headers = new HashMap<String, List<String>>();
         headers.put(

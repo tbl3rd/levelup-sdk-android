@@ -5,10 +5,6 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
@@ -21,6 +17,8 @@ import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 
+import net.jcip.annotations.Immutable;
+
 /**
  * Factory for creating {@link AbstractRequest}'s to interact with {@link PaymentToken}s on the web
  * service.
@@ -28,6 +26,9 @@ import com.scvngr.levelup.core.net.LevelUpRequest;
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
 public final class PaymentTokenRequestFactory extends AbstractRequestFactory {
+
+    @NonNull
+    private static final String ENDPOINT = "payment_token"; //$NON-NLS-1$
 
     /**
      * @param context the Application context.
@@ -46,9 +47,8 @@ public final class PaymentTokenRequestFactory extends AbstractRequestFactory {
     @NonNull
     @AccessTokenRequired
     public AbstractRequest buildGetPaymentTokenRequest() {
-        // TODO: change to "payment_token".
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, "payment_token", null, //$NON-NLS-1$
-                (JSONObject) null, getAccessTokenRetriever());
+                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null, null,
+                getAccessTokenRetriever());
     }
 }

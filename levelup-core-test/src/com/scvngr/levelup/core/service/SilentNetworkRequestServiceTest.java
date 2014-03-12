@@ -8,14 +8,12 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
-import com.scvngr.levelup.core.net.LevelUpStatus;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpConnection;
 import com.scvngr.levelup.core.net.LevelUpConnectionHelper;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.LevelUpStatus;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
-
-import org.json.JSONObject;
 
 /**
  * Tests {@link SilentNetworkRequestService}.
@@ -50,7 +48,7 @@ public final class SilentNetworkRequestServiceTest extends SupportAndroidTestCas
         final LevelUpRequest requestToSend =
                 new LevelUpRequest(getContext(), HttpMethod.GET,
                         LevelUpRequest.API_VERSION_CODE_V14,
-                        "test", null, (JSONObject) null); //$NON-NLS-1$
+                        "test", null, null); //$NON-NLS-1$
         final Intent intent = new Intent(getContext(), SilentNetworkRequestService.class);
         intent.putExtra(SilentNetworkRequestService.EXTRA_PARCELABLE_REQUEST, requestToSend);
         final LevelUpConnection connection =

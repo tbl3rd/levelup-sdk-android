@@ -9,7 +9,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.os.Parcel;
 import android.test.MoreAsserts;
 import android.test.mock.MockContext;
 import android.test.mock.MockPackageManager;
@@ -18,23 +17,12 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
-import com.scvngr.levelup.core.net.request.RequestUtils;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -50,8 +38,6 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
 
     @NonNull
     private static final String TEST_ENDPOINT = "endpoint"; //$NON-NLS-1$
-
-    private static final String BODY_FIXTURE = "{ \"test\": {\"snowman\": \"☃\"}}"; //$NON-NLS-1$
 
     @NonNull
     private Context mMockContext = new MyMockContext(new MyPackageManager(false));
@@ -71,133 +57,44 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link LevelUpRequest} parceling.
+     * Tests {@link LevelUpRequest} parceling without query parameters, a body, or an
+     * {@link AccessTokenRetriever}.
      */
     @SmallTest
-    public void testParcelable_basic() throws BadRequestException {
+    public void testParcelable_basic() {
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION,
-                        "test", null, (JSONObject) null, null); //$NON-NLS-1$
-
-        final Parcel out = Parcel.obtain();
-        request.writeToParcel(out, 0);
-        out.setDataPosition(0);
-        final LevelUpRequest parceledRequest = LevelUpRequest.CREATOR.createFromParcel(out);
-
-        assertEquals(request, parceledRequest);
-        assertFalse(request == parceledRequest);
-        assertEquals(request.getRequestHeaders(getContext()).size(), parceledRequest
-                .getRequestHeaders(getContext()).size());
-        assertEquals(0, parceledRequest.getQueryParams(mMockContext).size());
-        assertEquals(null, parceledRequest.getBody(mMockContext));
-        assertEquals(request.getUrl(mMockContext), parceledRequest.getUrl(mMockContext));
-        out.recycle();
-    }
-
-    /**
-     * Tests {@link LevelUpRequest} parceling.
-     *
-     * @throws MalformedURLException if {@link URL} constructor throws
-     */
-    @SmallTest
-    public void testParcelable_queryParamMapValues() throws MalformedURLException,
-            BadRequestException {
-        final HashMap<String, String> query = new HashMap<String, String>();
-        query.put("name", "test"); //$NON-NLS-1$ //$NON-NLS-2$
-        query.put("test", "hey"); //$NON-NLS-1$ //$NON-NLS-2$
-
-        final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION,
-                        "test", query, (JSONObject) null, null); //$NON-NLS-1$
-
-        final Parcel out = Parcel.obtain();
-        request.writeToParcel(out, 0);
-        out.setDataPosition(0);
-        final LevelUpRequest parceledRequest = LevelUpRequest.CREATOR.createFromParcel(out);
-
-        assertEquals(request, parceledRequest);
-        assertEquals(request.getRequestHeaders(getContext()).size(), parceledRequest
-                .getRequestHeaders(getContext()).size());
-        assertEquals(2, parceledRequest.getQueryParams(mMockContext).size());
-        assertEquals(request.getBody(mMockContext), parceledRequest.getBody(mMockContext));
-        assertEquals(request.getUrl(mMockContext), parceledRequest.getUrl(mMockContext));
-        out.recycle();
-    }
-
-    @SmallTest
-    public void testParcelable_body() throws MalformedURLException, BadRequestException,
-            JSONException {
-        final JSONObject object = new JSONObject();
-        object.put("test", "test_value"); //$NON-NLS-1$ //$NON-NLS-2$
-        final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION,
-                        "test", null, object, null); //$NON-NLS-1$
-
-        final Parcel out = Parcel.obtain();
-        request.writeToParcel(out, 0);
-        out.setDataPosition(0);
-        final LevelUpRequest parceledRequest = LevelUpRequest.CREATOR.createFromParcel(out);
-
-        assertEquals(request, parceledRequest);
-        assertEquals(request.getRequestHeaders(getContext()).size(), parceledRequest
-                .getRequestHeaders(getContext()).size());
-        assertEquals(0, parceledRequest.getQueryParams(mMockContext).size());
-        assertEquals(request.getBody(mMockContext), parceledRequest.getBody(mMockContext));
-        assertEquals(request.getUrl(mMockContext), parceledRequest.getUrl(mMockContext));
-        out.recycle();
-    }
-
-    @SmallTest
-    public void testParcelable_roundtrip() throws JSONException {
-        final JSONObject object = new JSONObject();
-        object.put("test", "test_value"); //$NON-NLS-1$ //$NON-NLS-2$
-        final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION,
-                        "test", null, object, null); //$NON-NLS-1$
+                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
+                        null);
 
         ParcelTestUtils.assertParcelableRoundtrips(request);
     }
 
     /**
-     * Tests {@link LevelUpRequest} parceling.
-     *
-     * @throws MalformedURLException if {@link URL} constructor throws
+     * Tests {@link LevelUpRequest} parceling with query parameters, a body, and an
+     * {@link AccessTokenRetriever}.
      */
     @SmallTest
-    public void testParcelable_appendAccessToken() throws MalformedURLException,
-            BadRequestException {
+    public void testParcelable_full() {
+        final HashMap<String, String> query = new HashMap<String, String>();
+        query.put("name", "test"); //$NON-NLS-1$ //$NON-NLS-2$
+        query.put("test", "hey"); //$NON-NLS-1$ //$NON-NLS-2$
+
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION,
-                        "test", null, (JSONObject) null, new MockAccessTokenRetriever()); //$NON-NLS-1$
+                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, query,
+                        new MockRequestBody(), new MockAccessTokenRetriever());
 
-        final Parcel out = Parcel.obtain();
-        request.writeToParcel(out, 0);
-        out.setDataPosition(0);
-        final LevelUpRequest parceledRequest = LevelUpRequest.CREATOR.createFromParcel(out);
-
-        assertEquals(request, parceledRequest);
-        final Map<String, String> parceledHeaders = parceledRequest.getRequestHeaders(getContext());
-        assertEquals(parceledHeaders.size(), parceledHeaders.size());
-        assertTrue(parceledHeaders.containsKey(HTTP.CONTENT_TYPE));
-        assertEquals(RequestUtils.HEADER_CONTENT_TYPE_JSON, parceledHeaders.get(HTTP.CONTENT_TYPE));
-        assertTrue(parceledHeaders.containsKey(LevelUpRequest.HEADER_AUTHORIZATION));
-        assertEquals(String.format(Locale.US, LevelUpRequest.AUTH_TOKEN_TYPE_FORMAT, NullUtils
-                .nonNullContract(new MockAccessTokenRetriever().getAccessToken(mMockContext))
-                .getAccessToken()), parceledHeaders.get(LevelUpRequest.HEADER_AUTHORIZATION));
-        out.recycle();
+        ParcelTestUtils.assertParcelableRoundtrips(request);
     }
 
     /**
      * Tests {@link LevelUpRequest#getBody(android.content.Context)} when the user's access token
      * should not be appended to the body.
-     *
-     * @throws Exception if {@link URLEncoder#encode(String, String)} throws
      */
     @SmallTest
-    public void testGetBody_empty() throws Exception {
+    public void testGetBody_empty() {
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION,
-                        "test", null, (JSONObject) null, null); //$NON-NLS-1$
+                new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
+                        null);
 
         assertEquals(null, request.getBody(mMockContext));
     }
@@ -209,20 +106,19 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
     public void testGetAccessToken() {
         assertEquals(
                 "test_access_token", NullUtils.nonNullContract(new LevelUpRequest(mMockContext, //$NON-NLS-1$
-                        HttpMethod.GET, TEST_VERSION, "", null, (JSONObject) null, //$NON-NLS-1$
-                        new MockAccessTokenRetriever()).getAccessToken(mMockContext))
+                                HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null, null,
+                                new MockAccessTokenRetriever()).getAccessToken(mMockContext))
                         .getAccessToken());
 
         assertEquals(null, new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION,
-                "", null, (JSONObject) null, null) //$NON-NLS-1$
-                .getAccessToken(mMockContext));
+                TEST_ENDPOINT, null, null).getAccessToken(mMockContext));
     }
 
     @SmallTest
     public void testHeaders_withoutAccessToken() {
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION,
-                        "test", null, (JSONObject) null, null); //$NON-NLS-1$
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT, null,
+                        null);
 
         final HashMap<String, String> expectedHeaders =
                 new HashMap<String, String>(RequestUtils.getDefaultRequestHeaders(mMockContext));
@@ -237,8 +133,8 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
     public void testHeaders_withAccessToken() {
         final MockAccessTokenRetriever retreiver = new MockAccessTokenRetriever();
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION,
-                        "test", null, (JSONObject) null, retreiver); //$NON-NLS-1$
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
+                        null, null, retreiver);
 
         final HashMap<String, String> expectedHeaders =
                 new HashMap<String, String>(RequestUtils.getDefaultRequestHeaders(mMockContext));
@@ -267,67 +163,49 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
     }
 
     @SmallTest
-    public void testGetBody_nonNullJsonObject() throws JSONException {
-        final JSONObject json =
-                new JSONObject("{ 'test1' : 1, 'test2' : 'value2', 'test3' : true}"); //$NON-NLS-1$
+    public void testGetBody_null() {
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.POST,
-                        LevelUpRequest.API_VERSION_CODE_V14, "test", null, json); //$NON-NLS-1$
-        assertEquals(json.toString(), request.getBody(mMockContext));
-    }
-
-    @SmallTest
-    public void testGetBody_nonNullJsonArray() throws JSONException {
-        final JSONArray array = new JSONArray();
-        final JSONObject json =
-                new JSONObject("{ 'test1' : 1, 'test2' : 'value2', 'test3' : true}"); //$NON-NLS-1$
-        array.put(json);
-        array.put(json);
-        array.put(json);
-        final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, "test", null, array); //$NON-NLS-1$
-        assertEquals(array.toString(), request.getBody(mMockContext));
-    }
-
-    @SmallTest
-    public void testGetBody_null() throws JSONException {
-        final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION,
-                        "test", null, (JSONObject) null); //$NON-NLS-1$
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
+                        null, null);
         assertNull(request.getBody(mMockContext));
     }
 
     @SmallTest
+    public void testRequestBody_fixtureEquals() {
+        assertEquals(new MockRequestBody(), new MockRequestBody());
+    }
+
+    @SmallTest
     public void testGetBody_fromRequestBody() {
-        final RequestBody body = new RequestBodyImpl();
+        final RequestBody body = new MockRequestBody();
 
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
-                        null, body, null);
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT, null,
+                        body);
 
-        assertEquals(BODY_FIXTURE, request.getBody(mMockContext));
+        assertEquals(MockRequestBody.BODY_FIXTURE, request.getBody(mMockContext));
     }
 
     @SmallTest
     public void testRequestBody_contentType() {
-        final RequestBody body = new RequestBodyImpl();
+        final RequestBody body = new MockRequestBody();
 
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
-                        null, body, null);
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT, null,
+                        body);
 
         final Map<String, String> requestHeaders = request.getRequestHeaders(mMockContext);
         assertTrue(requestHeaders.containsKey(HTTP.CONTENT_TYPE));
-        assertEquals(RequestBodyImpl.FIXTURE_CONTENT_TYPE, requestHeaders.get(HTTP.CONTENT_TYPE));
+        assertEquals(MockRequestBody.FIXTURE_CONTENT_TYPE, requestHeaders.get(HTTP.CONTENT_TYPE));
     }
 
     @SmallTest
     public void testRequestBody_contentLength() {
-        final RequestBody body = new RequestBodyImpl();
+        final RequestBody body = new MockRequestBody();
 
         final LevelUpRequest request =
-                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
-                        null, body, null);
+                new LevelUpRequest(mMockContext, HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT, null,
+                        body);
 
         final int expectedLength = body.getContentLength();
         assertTrue(0 < expectedLength);
@@ -339,13 +217,13 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
     }
 
     @SmallTest
-    public void testEqualsAndHashCode() throws JSONException {
+    public void testEqualsAndHashCode() {
         LevelUpRequest request1 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        (JSONObject) null);
+                        null);
         LevelUpRequest request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        (JSONObject) null);
+                        null);
         final Map<String, String> hash = new HashMap<String, String>();
         hash.put("test", "test"); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -354,93 +232,68 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
         // Test equalities
         request1 =
                 new LevelUpRequest(getContext(), HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
-                        null, (JSONObject) null);
+                        null, null);
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
-                        null, (JSONObject) null);
+                        null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
         request1 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version", //$NON-NLS-1$
-                TEST_ENDPOINT, null, (JSONObject) null);
+                TEST_ENDPOINT, null, null);
         request2 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version", //$NON-NLS-1$
-                TEST_ENDPOINT, null, (JSONObject) null);
+                TEST_ENDPOINT, null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
         request1 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT
-                        + "endpoint", null, (JSONObject) null); //$NON-NLS-1$
+                        + "endpoint", null, null); //$NON-NLS-1$
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT
-                        + "endpoint", null, (JSONObject) null); //$NON-NLS-1$
+                        + "endpoint", null, null); //$NON-NLS-1$
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
         request1 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, hash,
-                        (JSONObject) null);
+                        null);
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, hash,
-                        (JSONObject) null);
+                        null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
         request1 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject());
+                        new MockRequestBody());
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject());
-        MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
-
-        request1 =
-                new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject("{ 'test' : 'test' }")); //$NON-NLS-1$
-        request2 =
-                new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject("{ 'test' : 'test' }")); //$NON-NLS-1$
-        MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
-
-        // JSONObject.toString() alphabetizes the keys... these are equal.
-        request1 =
-                new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject("{ 'test' : 'test', 'test1' : 'test1' }")); //$NON-NLS-1$
-        request2 =
-                new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject("{ 'test1' : 'test1', 'test' : 'test' }")); //$NON-NLS-1$
+                        new MockRequestBody());
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
         // Test differences
         request1 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        (JSONObject) null);
+                        null);
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.POST, TEST_VERSION, TEST_ENDPOINT,
-                        null, (JSONObject) null);
+                        null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
 
         request2 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version", //$NON-NLS-1$
-                TEST_ENDPOINT, null, (JSONObject) null);
+                TEST_ENDPOINT, null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
 
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT
-                        + "endpoint", null, (JSONObject) null); //$NON-NLS-1$
+                        + "endpoint", null, null); //$NON-NLS-1$
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
 
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, hash,
-                        (JSONObject) null);
+                        null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
 
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject());
-        MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
-
-        request1 =
-                new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject("{ 'test' : 'test' }")); //$NON-NLS-1$
-        request2 =
-                new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
-                        new JSONObject("{ 'test' : 'test2' }")); //$NON-NLS-1$
+                        new MockRequestBody());
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
 
         request2 = null;
@@ -528,43 +381,6 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
             info.applicationInfo.name = "LevelUp-Core"; //$NON-NLS-1$
 
             return info;
-        }
-    }
-
-    private static final class RequestBodyImpl implements RequestBody {
-        @NonNull
-        public static final String FIXTURE_CONTENT_TYPE = "text/awesome"; //$NON-NLS-1$
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(final Parcel dest, final int flags) {
-            // This method intentionally left blank.
-        }
-
-        @Override
-        public void writeToOutputStream(@NonNull final Context context,
-                @NonNull final OutputStream outputStream) throws IOException {
-            final OutputStreamWriter w = new OutputStreamWriter(outputStream);
-            try {
-                w.write(BODY_FIXTURE);
-            } finally {
-                w.close();
-            }
-        }
-
-        @Override
-        public int getContentLength() {
-            return BODY_FIXTURE.length();
-        }
-
-        @Override
-        @NonNull
-        public String getContentType() {
-            return FIXTURE_CONTENT_TYPE;
         }
     }
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright 2013-2014 SCVNGR, Inc., D.B.A. LevelUp. All rights reserved.
  */
-package com.scvngr.levelup.core.net.request;
+package com.scvngr.levelup.core.net;
 
 import android.content.Context;
 import android.content.SharedPreferences;

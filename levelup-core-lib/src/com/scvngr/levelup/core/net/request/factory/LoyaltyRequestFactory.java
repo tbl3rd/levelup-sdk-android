@@ -5,12 +5,6 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
-import java.util.Locale;
-
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -21,6 +15,9 @@ import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
 
 /**
  * Factory for creating {@link AbstractRequest}s for interacting with {@link Loyalty} on the web
@@ -49,8 +46,8 @@ public final class LoyaltyRequestFactory extends AbstractRequestFactory {
     @NonNull
     public AbstractRequest buildGetLoyaltyForMerchantRequest(final long merchantWebServiceId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "merchants/%d/loyalty", merchantWebServiceId), null, (JSONObject) null, //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                        "merchants/%d/loyalty", merchantWebServiceId), null, null, //$NON-NLS-1$
                 getAccessTokenRetriever());
     }
 }

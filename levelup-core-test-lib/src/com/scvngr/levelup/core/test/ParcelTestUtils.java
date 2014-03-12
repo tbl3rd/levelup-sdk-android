@@ -49,6 +49,7 @@ public final class ParcelTestUtils {
      * Asserts that the given Parcelable can pass through parceling/unparceling and is equal to the
      * input Parcelable object.
      *
+     * @param <T> the type of Parcelable under test.
      * @param parcelable the input Parcelable object.
      */
     public static <T extends Parcelable> void
@@ -56,6 +57,8 @@ public final class ParcelTestUtils {
         final T result = feedThroughParceling(parcelable);
         AndroidTestCase.assertNotNull("resulting Parcelable was null. ", result); //$NON-NLS-1$
         AndroidTestCase.assertEquals("resulting Parcelable differs. ", parcelable, result); //$NON-NLS-1$
+        AndroidTestCase.assertNotSame(
+                "Resulting Parcelable was the same object. ", parcelable, result); //$NON-NLS-1$
     }
 
     private ParcelTestUtils() {

@@ -5,14 +5,6 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -24,6 +16,12 @@ import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.util.DeviceUtil;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Factory to build requests to interact with the {@link Location} related web service endpoints.
@@ -32,9 +30,11 @@ import com.scvngr.levelup.core.util.DeviceUtil;
 @LevelUpApi(contract = Contract.DRAFT)
 public final class LocationRequestFactory extends AbstractRequestFactory {
 
+    @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     static final String PARAM_LAT = "lat"; //$NON-NLS-1$
 
+    @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     static final String PARAM_LNG = "lng"; //$NON-NLS-1$
 
@@ -61,8 +61,8 @@ public final class LocationRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "apps/%d/locations", appId), queryParams, (JSONObject) null); //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14,
+                NullUtils.format("apps/%d/locations", appId), queryParams, null); //$NON-NLS-1$
     }
 
     /**
@@ -73,8 +73,8 @@ public final class LocationRequestFactory extends AbstractRequestFactory {
     @NonNull
     public AbstractRequest buildGetLocationDetailsRequest(final long locationWebServiceId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "locations/%d", locationWebServiceId), null, (JSONObject) null); //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                        "locations/%d", locationWebServiceId), null, null); //$NON-NLS-1$
     }
 
     /**
@@ -91,10 +91,7 @@ public final class LocationRequestFactory extends AbstractRequestFactory {
         queryParams.put(PARAM_DENSITY, deviceDensity);
         queryParams.put(PARAM_WIDTH, DEFAULT_WIDTH);
         queryParams.put(PARAM_HEIGHT, DEFAULT_HEIGHT);
-        return new LevelUpRequest(
-                context,
-                HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14,
-                String.format(Locale.US, "locations/%d/image", locationWebServiceId), queryParams, (JSONObject) null); //$NON-NLS-1$
+        return new LevelUpRequest(context, HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
+                NullUtils.format("locations/%d/image", locationWebServiceId), queryParams, null); //$NON-NLS-1$
     }
 }

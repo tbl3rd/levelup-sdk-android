@@ -25,9 +25,31 @@ public final class MockAccessTokenRetriever implements AccessTokenRetriever {
 
                 @Override
                 public AccessTokenRetriever createFromParcel(final Parcel source) {
-                    return new MockAccessTokenRetriever();
+                    final AccessToken accessToken =
+                            source.readParcelable(AccessToken.class.getClassLoader());
+
+                    return new MockAccessTokenRetriever(accessToken);
                 }
             };
+
+    @Nullable
+    private final AccessToken mAccessToken;
+
+    /**
+     * Constructor which uses a basic {@link AccessToken}.
+     */
+    public MockAccessTokenRetriever() {
+        this(new AccessToken("test_access_token", 1)); //$NON-NLS-1$
+    }
+
+    /**
+     * Constructor which uses the specified {@link AccessToken}.
+     *
+     * @param accessToken the desired {@link AccessToken} or null
+     */
+    public MockAccessTokenRetriever(@Nullable final AccessToken accessToken) {
+        mAccessToken = accessToken;
+    }
 
     @Override
     public int describeContents() {
@@ -58,11 +80,11 @@ public final class MockAccessTokenRetriever implements AccessTokenRetriever {
     @Override
     @Nullable
     public AccessToken getAccessToken(@NonNull final Context context) {
-        return new AccessToken("test_access_token", 1); //$NON-NLS-1$
+        return mAccessToken;
     }
 
     @Override
     public void writeToParcel(final Parcel dest, final int flags) {
-        // Do nothing.
+        dest.writeParcelable(mAccessToken, flags);
     }
 }

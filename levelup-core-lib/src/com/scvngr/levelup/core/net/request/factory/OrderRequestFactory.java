@@ -5,14 +5,6 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -24,6 +16,12 @@ import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class to build requests to interact with the order endpoint.
@@ -31,20 +29,24 @@ import com.scvngr.levelup.core.net.LevelUpRequest;
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
 public final class OrderRequestFactory extends AbstractRequestFactory {
+    @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static final String PARAM_PAGE = "page"; //$NON-NLS-1$
 
+    @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static final String PARAM_MERCHANT_IDS = "merchant_ids"; //$NON-NLS-1$
 
     /**
      * The endpoint for the app-centric view of orders.
      */
+    @NonNull
     private static final String ENDPOINT_APPS_ID_ORDERS_FORMAT = "apps/%d/orders"; //$NON-NLS-1$
 
     /**
      * The endpoint for a given order.
      */
+    @NonNull
     private static final String ENDPOINT_ORDERS_UUID_FORMAT = "orders/%s"; //$NON-NLS-1$
 
     /**
@@ -74,8 +76,8 @@ public final class OrderRequestFactory extends AbstractRequestFactory {
         params.put(PARAM_PAGE, Integer.toString(page));
 
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        ENDPOINT_APPS_ID_ORDERS_FORMAT, appId), params, (JSONObject) null,
+                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                        ENDPOINT_APPS_ID_ORDERS_FORMAT, appId), params, null,
                 getAccessTokenRetriever());
     }
 
@@ -88,8 +90,7 @@ public final class OrderRequestFactory extends AbstractRequestFactory {
     @NonNull
     public AbstractRequest newGetOrderRequest(@NonNull final String orderUuid) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        ENDPOINT_ORDERS_UUID_FORMAT, orderUuid), null, (JSONObject) null,
-                getAccessTokenRetriever());
+                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(ENDPOINT_ORDERS_UUID_FORMAT,
+                        orderUuid), null, null, getAccessTokenRetriever());
     }
 }

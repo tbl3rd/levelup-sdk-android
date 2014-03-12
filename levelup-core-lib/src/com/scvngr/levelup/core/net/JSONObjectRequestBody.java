@@ -7,7 +7,6 @@ import android.os.Parcel;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.net.request.RequestUtils;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.Immutable;

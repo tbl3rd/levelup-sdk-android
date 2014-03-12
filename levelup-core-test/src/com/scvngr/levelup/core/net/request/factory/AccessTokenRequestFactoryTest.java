@@ -8,7 +8,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
-import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.net.RequestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.CryptographicHashUtil;
 import com.scvngr.levelup.core.util.CryptographicHashUtil.Algorithms;
@@ -32,6 +32,12 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
         assertNull(factory.getAccessTokenRetriever());
     }
 
+    /**
+     * Tests {@link AccessTokenRequestFactory#buildLoginRequest(String, String)}.
+     *
+     * @throws BadRequestException on bad requests.
+     * @throws JSONException on malformed JSON
+     */
     @SmallTest
     public void testGetLoginRequest_withValidArguments() throws BadRequestException, JSONException {
         final AccessTokenRequestFactory builder = new AccessTokenRequestFactory(getContext());
@@ -61,12 +67,25 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
 
         assertEquals("email", token.getString(AccessTokenRequestFactory.PARAM_USERNAME)); //$NON-NLS-1$
         assertEquals("password", token.getString(AccessTokenRequestFactory.PARAM_PASSWORD)); //$NON-NLS-1$
-        assertEquals(CryptographicHashUtil.getHexHash(DeviceIdentifier.getDeviceId(getContext()),
-                Algorithms.SHA256), token.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
+        final String deviceId = DeviceIdentifier.getDeviceId(getContext());
+
+        if (null != deviceId) {
+            assertEquals(CryptographicHashUtil.getHexHash(deviceId, Algorithms.SHA256),
+                    token.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
+        } else {
+            fail("Device ID was null"); //$NON-NLS-1$
+        }
+
         assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
                 token.getString(RequestUtils.PARAM_CLIENT_ID));
     }
 
+    /**
+     * Tests {@link AccessTokenRequestFactory#buildFacebookLoginRequest(String)}.
+     *
+     * @throws BadRequestException on bad requests.
+     * @throws JSONException on malformed JSON
+     */
     @SmallTest
     public void testGetFacebookLoginRequest_withValidArgument() throws BadRequestException,
             JSONException {
@@ -95,8 +114,16 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
 
         assertEquals("facebook_access_token", //$NON-NLS-1$
                 token.getString(AccessTokenRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
-        assertEquals(CryptographicHashUtil.getHexHash(DeviceIdentifier.getDeviceId(getContext()),
-                Algorithms.SHA256), token.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
+
+        final String deviceId = DeviceIdentifier.getDeviceId(getContext());
+
+        if (null != deviceId) {
+            assertEquals(CryptographicHashUtil.getHexHash(deviceId, Algorithms.SHA256),
+                    token.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
+        } else {
+            fail("Device ID was null"); //$NON-NLS-1$
+        }
+
         assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
                 token.getString(RequestUtils.PARAM_CLIENT_ID));
     }

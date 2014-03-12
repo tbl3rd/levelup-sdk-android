@@ -12,8 +12,9 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.HttpMethod;
+import com.scvngr.levelup.core.net.JSONObjectRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
-import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.net.RequestUtils;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
@@ -29,6 +30,9 @@ import org.json.JSONObject;
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
 public final class AccessTokenRequestFactory extends AbstractRequestFactory {
+
+    @NonNull
+    private static final String ENDPOINT = "access_tokens"; //$NON-NLS-1$
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static final String PARAM_OUTER_ACCESS_TOKEN = "access_token"; //$NON-NLS-1$
@@ -83,7 +87,8 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, "access_tokens", null, object); //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null,
+                new JSONObjectRequestBody(object));
     }
 
     /**
@@ -114,6 +119,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, "access_tokens", null, object); //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null,
+                new JSONObjectRequestBody(object));
     }
 }

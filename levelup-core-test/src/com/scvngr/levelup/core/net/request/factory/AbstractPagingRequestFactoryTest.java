@@ -17,8 +17,7 @@ import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
 import com.scvngr.levelup.core.net.MockPageCacheRetriever;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
-
-import org.json.JSONObject;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -27,8 +26,13 @@ import java.util.concurrent.CountDownLatch;
  */
 public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCase {
 
+    @NonNull
     private static final String TEST_PAGE_ENDPOINT_ONE = "test_page_endpoint_one"; //$NON-NLS-1$
+
+    @NonNull
     private static final String TEST_PAGE_ENDPOINT_TWO = "test_page_endpoint_two"; //$NON-NLS-1$
+
+    @NonNull
     private static final String TEST_PAGE_KEY = "test_page_key"; //$NON-NLS-1$
 
     /**
@@ -127,6 +131,13 @@ public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCa
 
         private final boolean mForcePageRequestError;
 
+        /**
+         * @param context application context
+         * @param retriever mock retriever
+         * @param pageCacheRetriever mock page cache retriever
+         * @param savedPageKey the key under which the page is stored
+         * @param forcePageRequestError if true, this causes a page request error
+         */
         public PagingRequestFactoryUnderTest(@NonNull final Context context,
                 @NonNull final MockAccessTokenRetriever retriever,
                 @NonNull final MockPageCacheRetriever pageCacheRetriever,
@@ -155,6 +166,13 @@ public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCa
             return AbstractPagingRequestFactoryTest.getPageRequest(getContext(),
                     getAccessTokenRetriever(), page);
         }
+
+        @Override
+        @NonNull
+        protected AccessTokenRetriever getAccessTokenRetriever() {
+            // This is OK because we always provide a retriever
+            return NullUtils.nonNullContract(super.getAccessTokenRetriever());
+        }
     }
 
     /**
@@ -168,9 +186,8 @@ public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCa
     @NonNull
     private static AbstractRequest getPageRequest(@NonNull final Context context,
             @NonNull final AccessTokenRetriever retriever, @NonNull final String endpoint) {
-        return new LevelUpRequest(context, HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, endpoint, null,
-                (JSONObject) null, retriever);
+        return new LevelUpRequest(context, HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
+                endpoint, null, null, retriever);
     }
 
     /**
@@ -184,7 +201,7 @@ public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCa
     @NonNull
     private static AbstractRequest getPageRequest(@NonNull final Context context,
             @NonNull final AccessTokenRetriever retriever, @NonNull final Uri page) {
-        return new LevelUpRequest(context, HttpMethod.GET, page, (JSONObject) null,
+        return new LevelUpRequest(context, HttpMethod.GET, page,  null,
                 retriever);
     }
 
@@ -196,7 +213,7 @@ public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCa
      * @param forcePageRequestError whether or not to force
      *        {@link PagingRequestFactoryUnderTest#getPageRequest(Uri)} to return null, simulating
      *        an error.
-     * @return
+     * @return the factory
      */
     @NonNull
     private PagingRequestFactoryUnderTest getPagingRequestFactory(
@@ -210,7 +227,7 @@ public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCa
     @NonNull
     private Uri getUriForRequest(@NonNull final AbstractRequest request) {
         try {
-            return Uri.parse(request.getUrlString(getContext()));
+            return NullUtils.nonNullContract(Uri.parse(request.getUrlString(getContext())));
         } catch (final BadRequestException e) {
             throw new RuntimeException(e);
         }

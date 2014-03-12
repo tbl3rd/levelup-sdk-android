@@ -6,21 +6,16 @@ package com.scvngr.levelup.core.net.request.factory;
 import android.content.Context;
 import android.net.Uri;
 
-import java.util.Locale;
-
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.model.AccessToken;
 import com.scvngr.levelup.core.model.Interstitial;
-import com.scvngr.levelup.core.model.Order;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.util.DeviceUtil;
+import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * Request factory for dealing with {@link Interstitial}s.
@@ -29,7 +24,8 @@ public final class InterstitialRequestFactory extends AbstractRequestFactory {
 
     /**
      * @param context the Application context.
-     * @param retriever the {@link AccessTokenRetriever} to use to retrieve the {@link AccessToken}.
+     * @param retriever the {@link AccessTokenRetriever} to use to retrieve the
+     *        {@link com.scvngr.levelup.core.model.AccessToken}.
      */
     public InterstitialRequestFactory(@NonNull final Context context,
             @Nullable final AccessTokenRetriever retriever) {
@@ -39,16 +35,17 @@ public final class InterstitialRequestFactory extends AbstractRequestFactory {
     /**
      * Build a request to get the {@link Interstitial} for the order passed.
      *
-     * @param orderUuid the UUID of the {@link Order} @see {@link Order#getUuid()}
+     * @param orderUuid the UUID of the {@link com.scvngr.levelup.core.model.Order} @see
+     *        {@link com.scvngr.levelup.core.model.Order#getUuid()}
      * @return an {@link AbstractRequest} to use to get the {@link Interstitial} for the
-     *         {@link Order}.
+     *         {@link com.scvngr.levelup.core.model.Order}.
      */
     @NonNull
     @AccessTokenRequired
     public AbstractRequest buildInterstitialForOrderRequest(@NonNull final String orderUuid) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, String.format(Locale.US,
-                        "orders/%s/interstitial", orderUuid), null, (JSONObject) null, //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                        "orders/%s/interstitial", orderUuid), null, null, //$NON-NLS-1$
                 getAccessTokenRetriever());
     }
 
@@ -67,7 +64,7 @@ public final class InterstitialRequestFactory extends AbstractRequestFactory {
         builder.appendQueryParameter(PARAM_WIDTH, DEFAULT_WIDTH);
         builder.appendQueryParameter(PARAM_HEIGHT, DEFAULT_HEIGHT);
 
-        return new LevelUpRequest(getContext(), HttpMethod.GET, builder.build(), (JSONObject) null,
-                getAccessTokenRetriever());
+        return new LevelUpRequest(getContext(), HttpMethod.GET, NullUtils.nonNullContract(builder
+                .build()), null, getAccessTokenRetriever());
     }
 }

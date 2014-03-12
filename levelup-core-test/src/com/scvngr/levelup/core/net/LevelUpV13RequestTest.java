@@ -11,9 +11,8 @@ import android.test.suitebuilder.annotation.SmallTest;
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
-import com.scvngr.levelup.core.net.request.RequestUtils;
-import com.scvngr.levelup.core.net.request.RequestUtilsTest.RequestUtilsMockContext;
-import com.scvngr.levelup.core.net.request.RequestUtilsTest.RequestUtilsMockPackageManager;
+import com.scvngr.levelup.core.net.RequestUtilsTest.RequestUtilsMockContext;
+import com.scvngr.levelup.core.net.RequestUtilsTest.RequestUtilsMockPackageManager;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import java.io.UnsupportedEncodingException;

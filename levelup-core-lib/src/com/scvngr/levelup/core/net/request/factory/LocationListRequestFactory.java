@@ -6,10 +6,6 @@ package com.scvngr.levelup.core.net.request.factory;
 import android.content.Context;
 import android.net.Uri;
 
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -20,6 +16,8 @@ import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.WebLinkParser;
+
+import net.jcip.annotations.Immutable;
 
 /**
  * A summarized list of all LevelUp locations. This list is paged using the Link header. See
@@ -32,11 +30,13 @@ public final class LocationListRequestFactory extends AbstractPagingRequestFacto
     /**
      * The API endpoint for locations.
      */
+    @NonNull
     public static final String ENDPOINT_LOCATIONS = "locations"; //$NON-NLS-1$
 
     /**
      * The key in the cache that the last page that we retrieved will be stored.
      */
+    @NonNull
     public static final String CACHE_PAGE_KEY_LOCATIONS = LocationListRequestFactory.class
             .getName() + ".page_cache.locations"; //$NON-NLS-1$
 
@@ -57,8 +57,8 @@ public final class LocationListRequestFactory extends AbstractPagingRequestFacto
     @Nullable
     public AbstractRequest getPageRequest(@NonNull final Uri page) {
         try {
-            return new LevelUpRequest(getContext(), HttpMethod.GET, page,
-                    (JSONObject) null, getAccessTokenRetriever());
+            return new LevelUpRequest(getContext(), HttpMethod.GET, page, null,
+                    getAccessTokenRetriever());
         } catch (final IllegalArgumentException e) {
             LogManager.e("error parsing URL for next page", e); //$NON-NLS-1$
             return null;
@@ -68,8 +68,7 @@ public final class LocationListRequestFactory extends AbstractPagingRequestFacto
     @Override
     @NonNull
     public AbstractRequest getFirstPageRequest() {
-        return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT_LOCATIONS, null,
-                (JSONObject) null, getAccessTokenRetriever());
+        return new LevelUpRequest(getContext(), HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
+                ENDPOINT_LOCATIONS, null, null, getAccessTokenRetriever());
     }
 }

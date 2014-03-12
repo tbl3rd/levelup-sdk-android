@@ -8,6 +8,17 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.scvngr.levelup.core.R;
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.annotation.VisibleForTesting;
+import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.model.AccessToken;
+import com.scvngr.levelup.core.util.CoreLibConstants;
+import com.scvngr.levelup.core.util.LogManager;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -17,18 +28,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
-
-import com.scvngr.levelup.core.R;
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.annotation.VisibleForTesting;
-import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
-import com.scvngr.levelup.core.model.AccessToken;
-import com.scvngr.levelup.core.net.request.RequestUtils;
-import com.scvngr.levelup.core.util.CoreLibConstants;
-import com.scvngr.levelup.core.util.LogManager;
 
 /**
  * Class which represents a request to the LevelUp web service.

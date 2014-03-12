@@ -17,7 +17,7 @@ import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.LevelUpRequestWithCurrentUser;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
-import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.net.RequestUtils;
 import com.scvngr.levelup.core.net.request.factory.UserRequestFactory.UserInfoRequestBuilder;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.LogManager;

@@ -16,11 +16,13 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
+import com.scvngr.levelup.core.net.JSONObjectRequestBody;
 import com.scvngr.levelup.core.net.JsonElementRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.LevelUpRequestWithCurrentUser;
-import com.scvngr.levelup.core.net.request.RequestUtils;
+import com.scvngr.levelup.core.net.RequestUtils;
 import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
 import com.google.gson.JsonObject;
@@ -44,84 +46,103 @@ import org.json.JSONObject;
 public final class UserRequestFactory extends AbstractRequestFactory {
 
     @LevelUpApi(contract = Contract.INTERNAL)
+    @NonNull
     private static final String FACEBOOK_CONNECTION_ENDPOINT = "facebook_connection"; //$NON-NLS-1$
+
+    @LevelUpApi(contract = Contract.INTERNAL)
+    @NonNull
+    private static final String USERS_ENDPOINT = "users"; //$NON-NLS-1$
 
     /**
      * Outer parameter name for user parameters.
      */
+    @NonNull
     public static final String OUTER_PARAM_USER = "user"; //$NON-NLS-1$
 
     /**
      * User Parameter for longitude, represented as a floating point number.
      */
+    @NonNull
     public static final String PARAM_LONGITUDE = "lng"; //$NON-NLS-1$
 
     /**
      * User Parameter for latitude, represented as a floating point number.
      */
+    @NonNull
     public static final String PARAM_LATITUDE = "lat"; //$NON-NLS-1$
 
     /**
      * User Parameter for password.
      */
+    @NonNull
     public static final String PARAM_PASSWORD = "password"; //$NON-NLS-1$
 
     /**
      * User Parameter for new password.
      */
+    @NonNull
     public static final String PARAM_NEW_PASSWORD = "new_password"; //$NON-NLS-1$
 
     /**
      * User Parameter for new password confirmation.
      */
+    @NonNull
     public static final String PARAM_NEW_PASSWORD_CONFIRMATION = "new_password_confirmation"; //$NON-NLS-1$
 
     /**
      * User Parameter for email.
      */
+    @NonNull
     public static final String PARAM_EMAIL = "email"; //$NON-NLS-1$
 
     /**
      * User Parameter for last name.
      */
+    @NonNull
     public static final String PARAM_LAST_NAME = "last_name"; //$NON-NLS-1$
 
     /**
      * User Parameter for first name.
      */
+    @NonNull
     public static final String PARAM_FIRST_NAME = "first_name"; //$NON-NLS-1$
 
     /**
      * User Parameter for if they have accepted the terms of service.
      */
+    @NonNull
     public static final String PARAM_TERMS_ACCEPTED = "terms_accepted"; //$NON-NLS-1$
 
     /**
      * User Parameter for birth date.
      */
+    @NonNull
     public static final String PARAM_BORN_AT = "born_at"; //$NON-NLS-1$
 
     /**
      * User Parameter for gender.
      */
+    @NonNull
     public static final String PARAM_GENDER = "gender"; //$NON-NLS-1$
 
     /**
      * User Parameter for custom attributes.
      */
+    @NonNull
     public static final String PARAM_CUSTOM_ATTRIBUTES = "custom_attributes"; //$NON-NLS-1$
 
     /**
      * Parameter for Facebook access token during Facebook connect.
      */
-    @VisibleForTesting(visibility = Visibility.PRIVATE)
     @LevelUpApi(contract = Contract.INTERNAL)
+    @NonNull
+    @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static final String PARAM_FACEBOOK_ACCESS_TOKEN = "facebook_access_token"; //$NON-NLS-1$
 
     /**
      * @param context the Application context.
-     * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-     *        User's {@link com.scvngr.levelup.core.model.AccessToken} if needed.
+     * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the User's
+     *        {@link com.scvngr.levelup.core.model.AccessToken} if needed.
      */
     public UserRequestFactory(@NonNull final Context context,
             @Nullable final AccessTokenRetriever retriever) {
@@ -141,8 +162,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         resetRequest.addProperty("email", email); //$NON-NLS-1$
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14,
-                "passwords", null, new JsonElementRequestBody(resetRequest), null); //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, "passwords", null, //$NON-NLS-1$
+                new JsonElementRequestBody(resetRequest));
     }
 
     /**
@@ -168,8 +189,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, FACEBOOK_CONNECTION_ENDPOINT, null, object,
-                getAccessTokenRetriever());
+                LevelUpRequest.API_VERSION_CODE_V14, FACEBOOK_CONNECTION_ENDPOINT, null,
+                new JSONObjectRequestBody(object), getAccessTokenRetriever());
     }
 
     /**
@@ -182,8 +203,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     @AccessTokenRequired
     public AbstractRequest buildFacebookDisconnectRequest() {
         return new LevelUpRequest(getContext(), HttpMethod.DELETE,
-                LevelUpRequest.API_VERSION_CODE_V14, FACEBOOK_CONNECTION_ENDPOINT, null,
-                (JSONObject) null, getAccessTokenRetriever());
+                LevelUpRequest.API_VERSION_CODE_V14, FACEBOOK_CONNECTION_ENDPOINT, null, null,
+                getAccessTokenRetriever());
     }
 
     /**
@@ -231,7 +252,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, "users", null, object); //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, USERS_ENDPOINT, null,
+                new JSONObjectRequestBody(object));
     }
 
     /**
@@ -256,7 +278,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, "users", null, object); //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, USERS_ENDPOINT, null,
+                new JSONObjectRequestBody(object));
     }
 
     /**
@@ -265,16 +288,20 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      * @return the request to retrieve the user information.
      */
     @NonNull
+    @AccessTokenRequired
     public AbstractRequest buildGetUserInfoRequest() {
         return new LevelUpRequestWithCurrentUser(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, "users/%d", null, (JSONObject) null, //$NON-NLS-1$
-                getAccessTokenRetriever());
+                LevelUpRequest.API_VERSION_CODE_V14, "users/%d", null, null, //$NON-NLS-1$
+                NullUtils.nonNullContract(getAccessTokenRetriever()));
     }
 
     /**
      * Builder to create a request that updates the User's information.
      */
     public static final class UserInfoRequestBuilder {
+
+        @NonNull
+        private static final String USERS_ID_ENDPOINT = "users/%d"; //$NON-NLS-1$
 
         /**
          * The Application context. A context is required to build any {@link LevelUpRequest}.
@@ -320,10 +347,11 @@ public final class UserRequestFactory extends AbstractRequestFactory {
          * @return The {@link AbstractRequest} which updates the User's information.
          */
         @NonNull
+        @AccessTokenRequired
         public AbstractRequest build() {
             return new LevelUpRequestWithCurrentUser(mContext, HttpMethod.PUT,
-                    LevelUpRequest.API_VERSION_CODE_V14,
-                    "users/%d", null, getParams(), mAccessTokenRetriever); //$NON-NLS-1$
+                    LevelUpRequest.API_VERSION_CODE_V14, USERS_ID_ENDPOINT, null,
+                    new JSONObjectRequestBody(getParams()), mAccessTokenRetriever);
         }
 
         /**
@@ -331,6 +359,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
          *
          * @return the full {@link JSONObject} to post to the server.
          */
+        @NonNull
         private JSONObject getParams() {
             if (0 < mCustomAttributes.length()) {
 
@@ -357,22 +386,25 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the User's born at date information. An empty or null attribute value
-         * removes the attribute's key from the pending update request.
+         * Adds the User's born at date information. An empty or null attribute value removes the
+         * attribute's key from the pending update request.
          *
          * @param bornAt The born at date as an ISO date time.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
          */
         @NonNull
         public UserInfoRequestBuilder withBornAt(@Nullable final String bornAt) {
-            setParam(PARAM_BORN_AT, bornAt);
+            if (null != bornAt) {
+                setParam(PARAM_BORN_AT, bornAt);
+            }
+
             return this;
         }
 
         /**
-         * Adds the User's custom attributes. An empty or null custom attribute value
-         * removes the custom attribute's key from the pending update request. The request is not
-         * modified if the custom attribute set is null.
+         * Adds the User's custom attributes. An empty or null custom attribute value removes the
+         * custom attribute's key from the pending update request. The request is not modified if
+         * the custom attribute set is null.
          *
          * @param key The custom attribute key.
          * @param value The custom attribute value.
@@ -391,8 +423,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         }
 
         /**
-         * Adds the User's email address. An empty or null attribute value removes the
-         * attribute's key from the pending update request.
+         * Adds the User's email address. An empty or null attribute value removes the attribute's
+         * key from the pending update request.
          *
          * @param email The User's email address.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
@@ -400,12 +432,13 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         @NonNull
         public UserInfoRequestBuilder withEmail(@Nullable final String email) {
             setParam(PARAM_EMAIL, email);
+
             return this;
         }
 
         /**
-         * Adds the User's first name. An empty or null attribute value removes the
-         * attribute's key from the pending update request.
+         * Adds the User's first name. An empty or null attribute value removes the attribute's key
+         * from the pending update request.
          *
          * @param firstName The User's first name.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
@@ -413,6 +446,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         @NonNull
         public UserInfoRequestBuilder withFirstName(@Nullable final String firstName) {
             setParam(PARAM_FIRST_NAME, firstName);
+
             return this;
         }
 
@@ -427,12 +461,13 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         @NonNull
         public UserInfoRequestBuilder withGender(@Nullable final String gender) {
             setParam(PARAM_GENDER, gender);
+
             return this;
         }
 
         /**
-         * Adds the User's last name. An empty or null attribute value removes the
-         * attribute's key from the pending update request.
+         * Adds the User's last name. An empty or null attribute value removes the attribute's key
+         * from the pending update request.
          *
          * @param lastName The User's last name.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
@@ -440,20 +475,21 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         @NonNull
         public UserInfoRequestBuilder withLastName(@Nullable final String lastName) {
             setParam(PARAM_LAST_NAME, lastName);
+
             return this;
         }
 
         /**
-         * Adds the User's new password. An empty or null attribute value removes the
-         * attribute's key from the pending update request.
+         * Adds the User's new password. An empty or null attribute value removes the attribute's
+         * key from the pending update request.
          *
-         * @param newPassword The User's new password or null if the password is not being
-         *        modified.
+         * @param newPassword The User's new password or null if the password is not being modified.
          * @return The {@link UserInfoRequestBuilder} for chaining convenience.
          */
         @NonNull
         public UserInfoRequestBuilder withNewPassword(@Nullable final String newPassword) {
             setParam(PARAM_NEW_PASSWORD, newPassword);
+
             return this;
         }
 
@@ -463,7 +499,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
          * @param key The key of the parameter.
          * @param value The value of the parameter.
          */
-        private void setParam(@NonNull final String key, @NonNull final String value) {
+        private void setParam(@NonNull final String key, @Nullable final String value) {
             // We do not allow nulls, but allow empty strings.
             if (null != value) {
                 try {

@@ -5,8 +5,6 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -23,6 +21,7 @@ public final class CategoryRequestFactory extends AbstractRequestFactory {
     /**
      * The API endpoint for categories.
      */
+    @NonNull
     public static final String ENDPOINT = "categories"; //$NON-NLS-1$
 
     /**
@@ -38,6 +37,6 @@ public final class CategoryRequestFactory extends AbstractRequestFactory {
     @NonNull
     public AbstractRequest getCategories() {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null, (JSONObject) null);
+                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null, null);
     }
 }
