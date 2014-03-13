@@ -144,7 +144,7 @@ public abstract class AbstractPagingRequestFactory extends AbstractRequestFactor
          *        the context of the application and be fully namespaced.
          */
         @Nullable
-        Uri getNextPageUrl(@NonNull String pageKey);
+        Uri getNextPageUrl(@NonNull final String pageKey);
 
         /**
          * <p>
@@ -161,6 +161,6 @@ public abstract class AbstractPagingRequestFactory extends AbstractRequestFactor
          *        context of the application and be fully namespaced.
          * @param page the URL as returned by the Link header of the response or null to clear.
          */
-        void setNextPage(@NonNull String pageKey, @Nullable final Uri page);
+        void setNextPage(@NonNull final String pageKey, @Nullable final Uri page);
     }
 }

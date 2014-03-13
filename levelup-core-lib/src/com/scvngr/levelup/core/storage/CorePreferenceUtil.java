@@ -34,6 +34,15 @@ public final class CorePreferenceUtil {
             + ".string_last_location_page"; //$NON-NLS-1$
 
     /**
+     * Type: {@code String}.
+     * <p/>
+     * The key used to cache the last location page by target app's web service ID.
+     */
+    @NonNull
+    public static final String KEY_STRING_LAST_APP_ID_LOCATION_PAGE = KEY_PREFIX
+            + ".string_last_app_id_location_page"; //$NON-NLS-1$
+
+    /**
      * Private constructor prevents instantiation.
      *
      * @throws UnsupportedOperationException because this class cannot be instantiated.

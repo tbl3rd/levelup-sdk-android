@@ -8,9 +8,6 @@ import android.content.Context;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.annotation.VisibleForTesting;
-import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
@@ -20,7 +17,6 @@ import com.scvngr.levelup.core.util.NullUtils;
 import net.jcip.annotations.Immutable;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Factory to build requests to interact with the {@link com.scvngr.levelup.core.model.Location}
@@ -30,39 +26,11 @@ import java.util.Map;
 @LevelUpApi(contract = Contract.DRAFT)
 public final class LocationRequestFactory extends AbstractRequestFactory {
 
-    @NonNull
-    @VisibleForTesting(visibility = Visibility.PRIVATE)
-    static final String PARAM_LAT = "lat"; //$NON-NLS-1$
-
-    @NonNull
-    @VisibleForTesting(visibility = Visibility.PRIVATE)
-    static final String PARAM_LNG = "lng"; //$NON-NLS-1$
-
     /**
      * @param context the Application context.
      */
     public LocationRequestFactory(@NonNull final Context context) {
         super(context, null);
-    }
-
-    /**
-     * @param appId the ID of the App on the web service.
-     * @param location the location of the user. Used to sort the returned locations by distance.
-     * @return the list of locations associated with the app.
-     */
-    @NonNull
-    public AbstractRequest buildGetAppLocationsListRequest(final long appId,
-            @Nullable final android.location.Location location) {
-        final Map<String, String> queryParams = new HashMap<String, String>();
-
-        if (null != location) {
-            queryParams.put(PARAM_LAT, Double.toString(location.getLatitude()));
-            queryParams.put(PARAM_LNG, Double.toString(location.getLongitude()));
-        }
-
-        return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14,
-                NullUtils.format("apps/%d/locations", appId), queryParams, null); //$NON-NLS-1$
     }
 
     /**
