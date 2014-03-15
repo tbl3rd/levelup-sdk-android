@@ -4,7 +4,6 @@
 package com.scvngr.levelup.core.net;
 
 import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.util.NullUtils;
 
 import org.json.JSONArray;
 
@@ -26,11 +25,5 @@ public final class JSONArrayRequestBodyTest extends AbstractRequestBodyTest<JSON
         jo.put("bar"); //$NON-NLS-1$
 
         return jo;
-    }
-
-    @Override
-    @NonNull
-    protected String getFixtureAsString() {
-        return NullUtils.nonNullContract(getArray().toString());
     }
 }

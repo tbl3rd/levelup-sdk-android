@@ -5,7 +5,6 @@ package com.scvngr.levelup.core.net;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.TicketFixture;
-import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * Tests {@link JsonElementRequestBody}.
@@ -16,11 +15,5 @@ public final class JsonElementRequestBodyTest extends AbstractRequestBodyTest<Js
     @NonNull
     protected JsonElementRequestBody getFixture() {
         return new JsonElementRequestBody(TicketFixture.getJsonModel());
-    }
-
-    @Override
-    @NonNull
-    protected String getFixtureAsString() {
-        return NullUtils.nonNullContract(TicketFixture.getJsonModel().toString());
     }
 }

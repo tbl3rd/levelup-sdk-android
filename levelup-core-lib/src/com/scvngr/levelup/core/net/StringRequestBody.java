@@ -104,4 +104,10 @@ public abstract class StringRequestBody implements RequestBody {
         return true;
     }
     //@formatter:on
+
+    @Override
+    @NonNull
+    public String toString() {
+        return mBody;
+    }
 }

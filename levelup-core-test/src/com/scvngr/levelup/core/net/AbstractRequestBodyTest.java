@@ -25,7 +25,7 @@ public abstract class AbstractRequestBodyTest<T extends RequestBody> extends And
      */
     @SmallTest
     public void testContent() {
-        assertEquals(getFixtureAsString(), getBodyAsString(getFixture()));
+        assertEquals(getFixture().toString(), getBodyAsString(getFixture()));
     }
 
     /**
@@ -57,17 +57,10 @@ public abstract class AbstractRequestBodyTest<T extends RequestBody> extends And
     }
 
     /**
-     * @return a fixture body to be used in tests. This should match {@link #getFixtureAsString()}.
+     * @return a fixture body to be used in tests.
      */
     @NonNull
     protected abstract T getFixture();
-
-    /**
-     * @return the string contents of the fixture body. This should match what {@link #getFixture()}
-     *         should return for the body.
-     */
-    @NonNull
-    protected abstract String getFixtureAsString();
 
     /**
      * @param body the content to serialize.

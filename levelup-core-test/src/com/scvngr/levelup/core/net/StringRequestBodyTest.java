@@ -73,10 +73,4 @@ public final class StringRequestBodyTest extends AbstractRequestBodyTest<StringR
     protected StringRequestBodyImpl getFixture() {
         return new StringRequestBodyImpl(FIXTURE_BODY);
     }
-
-    @Override
-    @NonNull
-    protected String getFixtureAsString() {
-        return FIXTURE_BODY;
-    }
 }

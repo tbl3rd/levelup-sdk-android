@@ -75,6 +75,12 @@ public final class MockRequestBody implements RequestBody {
     }
 
     @Override
+    @NonNull
+    public String toString() {
+        return BODY_FIXTURE;
+    }
+
+    @Override
     public void writeToOutputStream(@NonNull final Context context,
             @NonNull final OutputStream outputStream) throws IOException {
         final OutputStreamWriter w = new OutputStreamWriter(outputStream);
