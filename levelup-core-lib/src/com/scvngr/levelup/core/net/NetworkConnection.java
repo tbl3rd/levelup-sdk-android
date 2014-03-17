@@ -140,8 +140,10 @@ public final class NetworkConnection {
             @NonNull final HttpURLConnection connection, @NonNull final AbstractRequest request)
             throws IOException {
 
-        if (0 != request.getBodyLength(context)) {
-            connection.setFixedLengthStreamingMode(request.getBodyLength(context));
+        final int bodyLength = request.getBodyLength(context);
+
+        if (0 != bodyLength) {
+            connection.setFixedLengthStreamingMode(bodyLength);
             OutputStream stream = null;
 
             try {

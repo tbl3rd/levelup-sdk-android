@@ -27,7 +27,7 @@ public final class StringRequestBodyTest extends AbstractRequestBodyTest<StringR
     /**
      * Concrete implementation of {@link StringRequestBody}.
      */
-    public static final class StringRequestBodyImpl extends StringRequestBody {
+    protected static final class StringRequestBodyImpl extends StringRequestBody {
 
         /**
          * Parcelable creator.

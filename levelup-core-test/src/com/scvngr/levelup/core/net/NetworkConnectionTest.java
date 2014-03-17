@@ -6,33 +6,45 @@ package com.scvngr.levelup.core.net;
 import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.util.HashMap;
-import java.util.Map;
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+import com.scvngr.levelup.core.util.NullUtils;
 
 import com.google.mockwebserver.MockResponse;
 import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
-import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Tests {@link NetworkConnection}.
  */
 public final class NetworkConnectionTest extends SupportAndroidTestCase {
 
+    @NonNull
     private final MockWebServer mServer = new MockWebServer();
+
+    @NonNull
     private static final String RESPONSE_BODY = "This is a response body"; //$NON-NLS-1$
+
+    @NonNull
+    private static final String BASE_URL = "http://www.example.com"; //$NON-NLS-1$
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        mServer.enqueue(new MockResponse().setResponseCode(HttpURLConnection.HTTP_OK).setBody(
-                RESPONSE_BODY).setHeader("content-length", RESPONSE_BODY.getBytes("utf-8").length)); //$NON-NLS-1$ //$NON-NLS-2$
+        mServer.enqueue(new MockResponse().setResponseCode(HttpURLConnection.HTTP_OK)
+                .setBody(RESPONSE_BODY)
+                .setHeader("content-length", RESPONSE_BODY.getBytes("utf-8").length)); //$NON-NLS-1$ //$NON-NLS-2$
         mServer.play();
     }
 
@@ -49,9 +61,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testConfigureConnection_Basic() throws IOException, BadRequestException {
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, BufferedRequestTest.BASE_URL,
-                        new HashMap<String, String>(), new HashMap<String, String>(), null);
+        final RequestStub request = new RequestStub(HttpMethod.GET, BASE_URL, null, null, null);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
@@ -71,16 +81,11 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         final Map<String, String> headers = new HashMap<String, String>();
         headers.put("test_value", "test"); //$NON-NLS-1$ //$NON-NLS-2$
         headers.put("header2", "header"); //$NON-NLS-1$ //$NON-NLS-2$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, BufferedRequestTest.BASE_URL, headers,
-                        new HashMap<String, String>(), null);
+        final RequestStub request = new RequestStub(HttpMethod.GET, BASE_URL, headers, null, null);
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
-        assertFalse("Request headers are not empty", connection.getRequestProperties().isEmpty()); //$NON-NLS-1$
-        assertEquals(headers.size(), connection.getRequestProperties().size());
-        for (final String key : headers.keySet()) {
-            assertEquals(headers.get(key), connection.getRequestProperty(key));
-        }
+
+        assertRequestPropertiesEquals(headers, connection);
     }
 
     /**
@@ -91,9 +96,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testConfigureConnection_withNullHeaders() throws IOException, BadRequestException {
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, BufferedRequestTest.BASE_URL, null,
-                        new HashMap<String, String>(), null);
+        final RequestStub request = new RequestStub(HttpMethod.GET, BASE_URL, null, null, null);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
@@ -115,15 +118,15 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("test_value", "test"); //$NON-NLS-1$ //$NON-NLS-2$
         params.put("param2", "param"); //$NON-NLS-1$ //$NON-NLS-2$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, BufferedRequestTest.BASE_URL,
-                        new HashMap<String, String>(), params, null);
+        final RequestStub request = new RequestStub(HttpMethod.GET, BASE_URL, null, params, null);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
         final String expectedQueryString = "param2=param&test_value=test"; //$NON-NLS-1$
         assertEquals(request.getUrl(getContext()).getQuery(), connection.getURL().getQuery());
         assertEquals(expectedQueryString, connection.getURL().getQuery());
+
+        assertTrue("Request headers are empty", connection.getRequestProperties().isEmpty()); //$NON-NLS-1$
     }
 
     /**
@@ -135,9 +138,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testConfigureConnection_withNullQueryParamters() throws IOException,
             BadRequestException {
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, BufferedRequestTest.BASE_URL,
-                        new HashMap<String, String>(), null, null);
+        final RequestStub request = new RequestStub(HttpMethod.GET, BASE_URL, null, null, null);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
@@ -154,9 +155,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testConfigureConnection_withPostBody() throws IOException, BadRequestException {
         final String body = "this is a test body"; //$NON-NLS-1$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.POST, BufferedRequestTest.BASE_URL,
-                        new HashMap<String, String>(), new HashMap<String, String>(), body);
+        final RequestStub request = new RequestStub(HttpMethod.POST, BASE_URL, null, null, body);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
@@ -174,9 +173,9 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     public void testConfigureConnection_withPostBodyAndPutRequest() throws IOException,
             BadRequestException {
         final String body = "this is a test body"; //$NON-NLS-1$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.PUT, BufferedRequestTest.BASE_URL,
-                        new HashMap<String, String>(), new HashMap<String, String>(), body);
+        final RequestStub request =
+                new RequestStub(HttpMethod.PUT, BASE_URL, new HashMap<String, String>(),
+                        new HashMap<String, String>(), body);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
@@ -192,9 +191,9 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testDoOutput_withNoPostBody() throws IOException, BadRequestException {
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, getMockServerUrl(),
-                        new HashMap<String, String>(), new HashMap<String, String>(), null);
+        final RequestStub request =
+                new RequestStub(HttpMethod.GET, getMockServerUrl(), new HashMap<String, String>(),
+                        new HashMap<String, String>(), null);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
@@ -212,9 +211,9 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testDoOutput_withPostBodyAndGetRequest() throws IOException, BadRequestException {
         final String body = "this is a test body"; //$NON-NLS-1$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, getMockServerUrl(),
-                        new HashMap<String, String>(), new HashMap<String, String>(), body);
+        final RequestStub request =
+                new RequestStub(HttpMethod.GET, getMockServerUrl(), new HashMap<String, String>(),
+                        new HashMap<String, String>(), body);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
@@ -231,9 +230,9 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_get() throws InterruptedException, IOException {
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, getMockServerUrl(),
-                        new HashMap<String, String>(), new HashMap<String, String>(), null);
+        final RequestStub request =
+                new RequestStub(HttpMethod.GET, getMockServerUrl(), new HashMap<String, String>(),
+                        new HashMap<String, String>(), null);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
 
@@ -252,8 +251,8 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     public void testSend_getWithQueryParams() throws InterruptedException, IOException {
         final Map<String, String> query = new HashMap<String, String>();
         query.put("test1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, getMockServerUrl(), new HashMap<String, String>(),
+        final RequestStub request =
+                new RequestStub(HttpMethod.GET, getMockServerUrl(), new HashMap<String, String>(),
                         query, null);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
@@ -274,8 +273,8 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         final Map<String, String> headers = new HashMap<String, String>();
         headers.put("test1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
         headers.put("testing_this", "more headers"); //$NON-NLS-1$ //$NON-NLS-2$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, getMockServerUrl(), headers,
+        final RequestStub request =
+                new RequestStub(HttpMethod.GET, getMockServerUrl(), headers,
                         new HashMap<String, String>(), null);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
@@ -297,9 +296,9 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_getWithData() throws InterruptedException, IOException {
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.GET, getMockServerUrl(), null,
-                        new HashMap<String, String>(), null);
+        final RequestStub request =
+                new RequestStub(HttpMethod.GET, getMockServerUrl(), new HashMap<String, String>(),
+                        null, null);
 
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
@@ -322,8 +321,8 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testSend_post() throws InterruptedException, IOException {
         final String body = "this is a test body"; //$NON-NLS-1$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.POST, getMockServerUrl(), new HashMap<String, String>(),
+        final RequestStub request =
+                new RequestStub(HttpMethod.POST, getMockServerUrl(), new HashMap<String, String>(),
                         new HashMap<String, String>(), body);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
@@ -342,8 +341,8 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testSend_put() throws InterruptedException, IOException {
         final String body = "this is a test body"; //$NON-NLS-1$
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.PUT, getMockServerUrl(), new HashMap<String, String>(),
+        final RequestStub request =
+                new RequestStub(HttpMethod.PUT, getMockServerUrl(), new HashMap<String, String>(),
                         new HashMap<String, String>(), body);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
@@ -361,9 +360,9 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_delete() throws InterruptedException, IOException {
-        final BufferedRequest request =
-                new BufferedRequest(HttpMethod.DELETE, getMockServerUrl(), new HashMap<String, String>(),
-                        new HashMap<String, String>(), null);
+        final RequestStub request =
+                new RequestStub(HttpMethod.DELETE, getMockServerUrl(),
+                        new HashMap<String, String>(), new HashMap<String, String>(), null);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
 
@@ -372,8 +371,8 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send} with a request that throws a
-     * {@link BadRequestException}.
+     * Tests {@link NetworkConnection#send} with a request that throws a {@link BadRequestException}
+     * .
      */
     @SmallTest
     public void testSend_withRequestThatThrowsException() throws InterruptedException, IOException {
@@ -387,24 +386,25 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Helper method to get the mock server url.
+     * Helper method to get the mock server URL.
      *
-     * @return the string url to the mock server
+     * @return the string URL to the mock server
      * @throws IOException if {@link MockWebServer#getUrl(String)} throws
      */
+    @NonNull
     private String getMockServerUrl() throws IOException {
-        return mServer.getUrl("/").toString(); //$NON-NLS-1$
+        return NullUtils.nonNullContract(mServer.getUrl("/").toString()); //$NON-NLS-1$
     }
 
     /**
      * Test implementation of {@link AbstractRequest} that throws a {@link BadRequestException} when
      * {@link AbstractRequest#getUrlString} is called.
      */
-    private static final class ExceptionThrowingRequest extends BufferedRequest {
+    private static final class ExceptionThrowingRequest extends RequestStub {
 
-        public ExceptionThrowingRequest(final HttpMethod method, final String url,
-                final Map<String, String> requestHeaders, final Map<String, String> queryParams,
-                final String body) {
+        public ExceptionThrowingRequest(@NonNull final HttpMethod method,
+                @NonNull final String url, @Nullable final Map<String, String> requestHeaders,
+                @Nullable final Map<String, String> queryParams, @Nullable final String body) {
             super(method, url, requestHeaders, queryParams, body);
         }
 
@@ -412,6 +412,97 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         @NonNull
         public String getUrlString(@NonNull final Context context) throws BadRequestException {
             throw new BadRequestException("bad request"); //$NON-NLS-1$
+        }
+    }
+
+    private static void assertRequestPropertiesEquals(
+            @NonNull final Map<String, String> expectedHeaders,
+            @NonNull final HttpURLConnection connection) {
+        assertEquals(expectedHeaders.size(), connection.getRequestProperties().size());
+
+        for (final String key : expectedHeaders.keySet()) {
+            assertEquals(expectedHeaders.get(key), connection.getRequestProperty(key));
+        }
+    }
+
+    /**
+     * A mock implementation of an AbstractRequest.
+     */
+    public static class RequestStub extends AbstractRequest {
+        @Nullable
+        private final String mBody;
+
+        /**
+         * @param method request method
+         * @param url mock URL
+         * @param requestHeaders optional request headers
+         * @param queryParams optional query parameters
+         * @param body optional body
+         */
+        public RequestStub(@NonNull final HttpMethod method, @NonNull final String url,
+                @Nullable final Map<String, String> requestHeaders,
+                @Nullable final Map<String, String> queryParams, @Nullable final String body) {
+            super(method, url, requestHeaders, queryParams);
+            mBody = body;
+        }
+
+        @Override
+        public void writeBodyToStream(@NonNull final Context context,
+                @NonNull final OutputStream stream) throws IOException {
+            final OutputStreamWriter writer = new OutputStreamWriter(stream, "utf-8"); //$NON-NLS-1$
+
+            try {
+                writer.write(mBody);
+            } finally {
+                writer.close();
+            }
+        }
+
+        @Override
+        public int getBodyLength(@NonNull final Context context) {
+            final String body = mBody;
+
+            final int length;
+
+            if (null != body) {
+                length = body.length();
+            } else {
+                length = 0;
+            }
+
+            return length;
+        }
+
+        @SuppressWarnings("null")
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = super.hashCode();
+            result = prime * result + ((mBody == null) ? 0 : mBody.hashCode());
+            return result;
+        }
+
+        @SuppressWarnings("null")
+        @Override
+        public boolean equals(final Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (!super.equals(obj)) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final RequestStub other = (RequestStub) obj;
+            if (mBody == null) {
+                if (other.mBody != null) {
+                    return false;
+                }
+            } else if (!mBody.equals(other.mBody)) {
+                return false;
+            }
+            return true;
         }
     }
 }
