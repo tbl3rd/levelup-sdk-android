@@ -3,13 +3,12 @@
  */
 package com.scvngr.levelup.ui.test;
 
+import android.app.Instrumentation;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.Fragment.SavedState;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.LoaderManager;
 import android.test.ActivityUnitTestCase;
 
@@ -27,8 +26,9 @@ import java.util.concurrent.atomic.AtomicReference;
  * UnitTestCase with helpful threading and fragment methods; for situations when you don't need a
  * fully instrumented test case or want to wrap or mock contexts or other dependencies.
  * <p>
- * To test an activity , subclass this class and call {@link #startActivitySync()} to obtain the
- * Activity after it's gone through the simulated lifecycle up to onResume().
+ * To test an activity , subclass this class and call
+ * {@link LevelUpUnitTestCase#startActivitySync()} to obtain the Activity after it's gone through
+ * the simulated lifecycle up to onResume().
  * <p>
  * The tear down will call the simulated lifecycle's onDestroy() so that the activity doesn't live
  * past the test's scope.
@@ -45,6 +45,11 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
     @Nullable
     /* package */ AtomicReference<FragmentActivity> mActivityReference;
 
+    /**
+     * Create a new instance of the test case.
+     *
+     * @param activityClass the class under test.
+     */
     public LevelUpUnitTestCase(final Class<T> activityClass) {
         super(activityClass);
     }
@@ -69,13 +74,25 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
         LevelUpConnectionHelper.clearInstance();
     }
 
+    @Override
+    @NonNull
+    public Instrumentation getInstrumentation() {
+        return NullUtils.nonNullContract(super.getInstrumentation());
+    }
+
+    @Override
+    @NonNull
+    public T getActivity() {
+        return NullUtils.nonNullContract(super.getActivity());
+    }
+
     /**
      * Validates that a fragment was added to our test activity successfully. Will fail if the
      * activity isn't a FragmentActivity, but that's the right behavior in that case.
      *
-     * @param tag the tag to check for.
+     * @param tag the tag to check for (null will fail validation).
      */
-    protected final void validateFragmentAdded(@NonNull final String tag) {
+    protected final void validateFragmentAdded(final String tag) {
         validateFragmentAdded(tag, TestThreadingUtils.PARENT_ID_UNDEFINED);
     }
 
@@ -83,9 +100,11 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      * Validates that a fragment was added to our test activity successfully. Will fail if the
      * activity isn't a FragmentActivity, but that's the right behavior in that case.
      *
-     * @param tag the tag to check for.
+     * @param tag the tag to check for (null will fail validation).
+     * @param parentId the ID of the parent container the fragment is expected to be in or pass
+     *        {@link TestThreadingUtils#PARENT_ID_UNDEFINED} if no parent ID should be validated.
      */
-    protected final void validateFragmentAdded(@NonNull final String tag, final int parentId) {
+    protected final void validateFragmentAdded(final String tag, final int parentId) {
         TestThreadingUtils.validateFragmentAdded(getInstrumentation(), getActivity(), getActivity()
                 .getSupportFragmentManager(), tag, parentId);
     }
@@ -94,9 +113,9 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      * Validates that a fragment was removed from our test activity successfully. Will fail if the
      * activity isn't a FragmentActivity, but that's the right behavior in that case.
      *
-     * @param tag the tag to check for.
+     * @param tag the tag to check for (null will fail validation).
      */
-    protected final void validateFragmentRemoved(@NonNull final String tag) {
+    protected final void validateFragmentRemoved(final String tag) {
         TestThreadingUtils.validateFragmentRemoved(getInstrumentation(), getActivity(),
                 getActivity().getSupportFragmentManager(), tag);
     }
@@ -128,10 +147,11 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
 
     /**
      * Saves and restores a {@link Fragment} from instance state, using
-     * {@link FragmentManager#saveFragmentInstanceState(Fragment)} and
-     * {@link Fragment#setInitialSavedState(SavedState)}. This saves the state, removes the
-     * fragment, and then calls {@link TestThreadingUtils#addFragmentInMainSync}.
+     * {@link android.support.v4.app.FragmentManager#saveFragmentInstanceState} and
+     * {@link android.support.v4.app.Fragment#setInitialSavedState}. This saves the state, removes
+     * the fragment, and then calls {@link TestThreadingUtils#addFragmentInMainSync}.
      *
+     * @param <F> Type of fragment to remove/re-add.
      * @param fragment Fragment to remove and re-add.
      * @return the new instance of the input fragment created using the saved/restored state.
      */
@@ -142,9 +162,9 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
                 getActivity(), fragment);
     }
 
-    @NonNull
     @Override
-    protected T startActivity(@NonNull final Intent intent,
+    @Nullable
+    protected T startActivity(final Intent intent,
             @Nullable final Bundle savedInstanceState,
             @Nullable final Object lastNonConfigurationInstance) {
         // Set a custom theme on creation to prevent ActionBarSherlock crashes on Android 2.3.
@@ -152,6 +172,23 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
         context.setTheme(R.style.AppTheme);
         setActivityContext(context);
         return super.startActivity(intent, savedInstanceState, lastNonConfigurationInstance);
+    }
+
+    /**
+     * Starts the activity with no lastNonConfigurationInstance.
+     *
+     * @param intent the intent to start
+     * @param savedInstanceState the saved instance state to pass to the activity
+     * @return the started activity
+     */
+    @Nullable
+    protected T startActivity(@NonNull final Intent intent,
+            @Nullable final Bundle savedInstanceState) {
+        // Set a custom theme on creation to prevent ActionBarSherlock crashes on Android 2.3.
+        final Context context = getInstrumentation().getTargetContext();
+        context.setTheme(R.style.AppTheme);
+        setActivityContext(context);
+        return startActivity(intent, savedInstanceState, null);
     }
 
     /**
@@ -168,7 +205,7 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
 
             @Override
             public void run() {
-                final FragmentActivity activity = startActivity(new Intent(), null, null);
+                final FragmentActivity activity = startActivity(new Intent(), null);
 
                 getInstrumentation().callActivityOnStart(activity);
                 getInstrumentation().callActivityOnPostCreate(activity, null);
@@ -182,8 +219,10 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
         return NullUtils.nonNullContract(activityReference.get());
     }
 
-    private final void stopActivitySync() {
-        // Cannot use autosyncrunnable because the activity is not created yet.
+    /**
+     * Stops the activity and calls its lifecycle pause/stop/destroy methods.
+     */
+    private void stopActivitySync() {
         getInstrumentation().runOnMainSync(new Runnable() {
 
             @Override
@@ -206,8 +245,8 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      */
     public void validateLoadersFinished(@NonNull final LoaderManager mgr) {
         final CountDownLatch latch = new CountDownLatch(1);
-        assertTrue("All loaders should have finished", TestThreadingUtils.waitForAction( //$NON-NLS-1$
-                getInstrumentation(), getActivity(), new Runnable() {
+        assertTrue("All loaders should have finished", TestThreadingUtils //$NON-NLS-1$
+                .waitForAction(getInstrumentation(), getActivity(), new Runnable() {
 
                     @Override
                     public void run() {

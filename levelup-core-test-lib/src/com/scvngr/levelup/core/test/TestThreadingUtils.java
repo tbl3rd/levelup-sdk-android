@@ -62,11 +62,15 @@ public final class TestThreadingUtils {
      * @param activity the {@link FragmentActivity} to add it to.
      * @param fragment Fragment to add.
      * @param inView adds the fragment to the view hierarchy if true.
-     * @param tag the Fragment's tag.
+     * @param tag the Fragment's tag (null tag will fail fast).
      */
     public static void addFragmentInMainSync(@NonNull final Instrumentation instrumentation,
             @NonNull final FragmentActivity activity, @NonNull final Fragment fragment,
-            final boolean inView, @NonNull final String tag) {
+            final boolean inView, final String tag) {
+        if (null == tag) {
+            throw new AssertionError("Cannot add fragment with null tag"); //$NON-NLS-1$
+        }
+
         runOnMainSync(instrumentation, activity, new Runnable() {
             @Override
             public void run() {
@@ -143,13 +147,13 @@ public final class TestThreadingUtils {
      * added to.
      *
      * @param instrumentation the test {@link Instrumentation}.
-     * @param activity the activity for the test being run.
-     * @param fragmentManager the fragment manager the fragment was added to.
-     * @param tag the tag to check for.
+     * @param activity the activity for the test being run (null will fail validation).
+     * @param fragmentManager the fragment manager the fragment was added to (null will fail
+     *        validation).
+     * @param tag the tag to check for (null will fail validation).
      */
     public static void validateFragmentAdded(@NonNull final Instrumentation instrumentation,
-            @NonNull final Activity activity, @NonNull final FragmentManager fragmentManager,
-            @NonNull final String tag) {
+            final Activity activity, final FragmentManager fragmentManager, final String tag) {
         validateFragmentAdded(instrumentation, activity, fragmentManager, tag, PARENT_ID_UNDEFINED);
     }
 
@@ -158,18 +162,22 @@ public final class TestThreadingUtils {
      * added to.
      *
      * @param instrumentation the test {@link Instrumentation}.
-     * @param activity the activity for the test being run.
-     * @param fragmentManager the fragment manager the fragment was added to.
-     * @param tag the tag to check for.
+     * @param activity the activity for the test being run (null will fail validation).
+     * @param fragmentManager the fragment manager the fragment was added to (null will fail
+     *        validation).
+     * @param tag the tag to check for (null will fail validation).
      * @param parentId the id of the parent container the fragment is expected to be in or pass
      *        {@link #PARENT_ID_UNDEFINED} if no parent id should be validated.
      */
     public static void validateFragmentAdded(@NonNull final Instrumentation instrumentation,
-            @NonNull final Activity activity, @NonNull final FragmentManager fragmentManager,
-            @NonNull final String tag, final int parentId) {
+            final Activity activity, final FragmentManager fragmentManager, final String tag,
+            final int parentId) {
+        AndroidTestCase.assertNotNull(tag);
+        AndroidTestCase.assertNotNull(activity);
+        AndroidTestCase.assertNotNull(fragmentManager);
         final CountDownLatch latch = new CountDownLatch(1);
         AndroidTestCase.assertTrue(String.format(Locale.US, "%s added", tag), //$NON-NLS-1$
-                waitForAction(instrumentation, activity, new Runnable() {
+                waitForAction(instrumentation, NullUtils.nonNullContract(activity), new Runnable() {
                     @Override
                     public void run() {
                         final Fragment fragment = fragmentManager.findFragmentByTag(tag);
@@ -177,7 +185,8 @@ public final class TestThreadingUtils {
                         if (null != fragment) {
                             if (PARENT_ID_UNDEFINED != parentId) {
                                 final View parent = (View) fragment.getView().getParent();
-                                AndroidTestCase.assertEquals("In the proper container", parentId, //$NON-NLS-1$
+                                AndroidTestCase.assertEquals(
+                                        "In the proper container", parentId, //$NON-NLS-1$
                                         parent.getId());
                             }
 
@@ -191,16 +200,19 @@ public final class TestThreadingUtils {
      * Validates that a fragment was removed.
      *
      * @param instrumentation the test {@link Instrumentation}.
-     * @param activity the activity for the test being run.
-     * @param fragmentManager the fragment manager the fragment was removed from.
-     * @param tag The tag of the fragment.
+     * @param activity the activity for the test being run (null will fail validation).
+     * @param fragmentManager the fragment manager the fragment was removed from (null will fail
+     *        validation).
+     * @param tag The tag of the fragment (null will fail validation).
      */
     public static void validateFragmentRemoved(@NonNull final Instrumentation instrumentation,
-            @NonNull final Activity activity, @NonNull final FragmentManager fragmentManager,
-            @NonNull final String tag) {
+            final Activity activity, final FragmentManager fragmentManager, final String tag) {
+        AndroidTestCase.assertNotNull(tag);
+        AndroidTestCase.assertNotNull(activity);
+        AndroidTestCase.assertNotNull(fragmentManager);
         final CountDownLatch latch = new CountDownLatch(1);
         AndroidTestCase.assertTrue(String.format(Locale.US, "%s removed", tag), //$NON-NLS-1$
-                waitForAction(instrumentation, activity, new Runnable() {
+                waitForAction(instrumentation, NullUtils.nonNullContract(activity), new Runnable() {
                     @Override
                     public void run() {
                         final Fragment fragment = fragmentManager.findFragmentByTag(tag);
