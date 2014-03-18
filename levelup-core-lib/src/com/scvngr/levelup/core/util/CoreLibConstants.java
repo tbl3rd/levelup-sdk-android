@@ -5,12 +5,12 @@ package com.scvngr.levelup.core.util;
 
 import android.text.format.DateUtils;
 
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.BuildConfig;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * This is a utility class containing global constants for the app.
@@ -37,7 +37,7 @@ public final class CoreLibConstants {
      * Version of the SDK, as per <a href="http://semver.org">Semantic Versioning</a>.
      */
     @NonNull
-    public static final String SDK_VERSION = "0.4.3.SNAPSHOT"; //$NON-NLS-1$
+    public static final String SDK_VERSION = "1.0.0"; //$NON-NLS-1$
 
     /**
      * Delay in milliseconds when slow async operations are enabled.
