@@ -30,6 +30,7 @@ public final class CreditCardJsonFactoryTest extends SupportAndroidTestCase {
         final CreditCardJsonFactory factory = new CreditCardJsonFactory();
         final JSONObject object = CreditCardFixture.getFullJsonObject(true);
         final CreditCard card = factory.from(object);
+        assertEquals(object.get(CreditCardJsonFactory.JsonKeys.DEBIT), card.isDebit());
         assertEquals(object.get(CreditCardJsonFactory.JsonKeys.DESCRIPTION), card.getDescription());
         assertEquals(object.get(CreditCardJsonFactory.JsonKeys.EXPIRATION_MONTH), card
                 .getExpirationMonth());
@@ -39,6 +40,19 @@ public final class CreditCardJsonFactoryTest extends SupportAndroidTestCase {
         assertEquals(object.get(CreditCardJsonFactory.JsonKeys.LAST_4), card.getLast4());
         assertEquals(object.get(CreditCardJsonFactory.JsonKeys.PROMOTED), card.isPromoted());
         assertEquals(object.get(CreditCardJsonFactory.JsonKeys.TYPE), card.getType());
+    }
+
+    /**
+     * Tests that cards with null debit state on the server are treated as non-debit cards by the
+     * app. These are usually Amexes we want to treat as credit, not debit, cards.
+     */
+    @SmallTest
+    public void testJsonParse_debitNull() throws JSONException {
+        final CreditCardJsonFactory factory = new CreditCardJsonFactory();
+        final JSONObject object = CreditCardFixture.getFullJsonObject(true);
+        object.put(CreditCardJsonFactory.JsonKeys.DEBIT, null);
+        final CreditCard card = factory.from(object);
+        assertEquals(false, card.isDebit());
     }
 
     /**

@@ -46,7 +46,7 @@ public final class CreditCardJsonFactory extends AbstractJsonModelFactory<Credit
             }
         }
 
-        final boolean debit = json.optBoolean(JsonKeys.DEBIT, true);
+        final boolean debit = json.optBoolean(JsonKeys.DEBIT, false);
         final String description = JsonUtils.optString(json, JsonKeys.DESCRIPTION);
         final String expirationMonth = JsonUtils.optString(json, JsonKeys.EXPIRATION_MONTH);
         final String expirationYear = JsonUtils.optString(json, JsonKeys.EXPIRATION_YEAR);
