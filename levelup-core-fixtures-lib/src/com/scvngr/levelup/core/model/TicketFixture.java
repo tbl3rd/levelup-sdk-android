@@ -31,8 +31,17 @@ public final class TicketFixture {
      */
     @NonNull
     public static JsonObject getJsonModel() {
+        return getJsonModel(MESSAGE_FIXTURE);
+    }
+
+    /**
+     * @param message The message for {@link Ticket#getBody}.
+     * @return a full {@link Ticket} model with a specific message.
+     */
+    @NonNull
+    public static JsonObject getJsonModel(@NonNull final String message) {
         final JsonObject ticket = new JsonObject();
-        ticket.addProperty("body", MESSAGE_FIXTURE); //$NON-NLS-1$
+        ticket.addProperty("body", message); //$NON-NLS-1$
         final JsonObject expected = new JsonObject();
         expected.add("ticket", ticket); //$NON-NLS-1$
 

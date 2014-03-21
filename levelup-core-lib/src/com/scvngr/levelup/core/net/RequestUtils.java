@@ -114,36 +114,6 @@ public final class RequestUtils {
     }
 
     /**
-     * Gets the name and version of the app for the user agent header. For example,
-     * "LevelUp/2.3.12".
-     *
-     * @param context the Application Context
-     * @return version of the app.
-     */
-    @NonNull
-    public static String getUserAgentAppVersionString(@NonNull final Context context) {
-        final StringBuilder builder = new StringBuilder();
-
-        final PackageInfo info = BuildUtil.getMyPackageInfo(context);
-        builder.append(info.applicationInfo.name).append("/") //$NON-NLS-1$
-                .append(info.versionName);
-
-        return NullUtils.nonNullContract(builder.toString());
-    }
-
-    /**
-     * Gets the name and version of the SDK for the user agent header. For example,
-     * "LevelUpSdk/0.1".
-     *
-     * @param context the Application Context
-     * @return version of the SDK.
-     */
-    @NonNull
-    public static String getUserAgentSdkVersionString(@NonNull final Context context) {
-        return NullUtils.format("LevelUpSdk/%s", CoreLibConstants.SDK_VERSION); //$NON-NLS-1$
-    }
-
-    /**
      * Get the API key for the context passed.
      *
      * @param context the Application context.
@@ -222,6 +192,31 @@ public final class RequestUtils {
         } catch (final JSONException e) {
             throw new AssertionError(e);
         }
+    }
+
+    /**
+     * Gets the package name and version of the app for the user agent header. For example,
+     * "com.scvngr.levelup.app/2.3.12".
+     *
+     * @param context the Application Context
+     * @return version of the app.
+     */
+    @NonNull
+    private static String getUserAgentAppVersionString(@NonNull final Context context) {
+        final PackageInfo info = BuildUtil.getMyPackageInfo(context);
+        return info.applicationInfo.packageName + "/" + info.versionName; //$NON-NLS-1$
+    }
+
+    /**
+     * Gets the name and version of the SDK for the user agent header. For example,
+     * "LevelUpSdk/0.1".
+     *
+     * @param context the Application Context
+     * @return version of the SDK.
+     */
+    @NonNull
+    private static String getUserAgentSdkVersionString(@NonNull final Context context) {
+        return NullUtils.format("LevelUpSdk/%s", CoreLibConstants.SDK_VERSION); //$NON-NLS-1$
     }
 
     /**
