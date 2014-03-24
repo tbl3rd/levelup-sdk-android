@@ -3,11 +3,6 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.JsonValueType;
 import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
@@ -16,10 +11,14 @@ import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.CauseAffiliation;
-import com.scvngr.levelup.core.model.CreditCard;
+
+import net.jcip.annotations.Immutable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
- * Factory for creating {@link CreditCard}s from JSON.
+ * Factory for creating {@link com.scvngr.levelup.core.model.CreditCard}s from JSON.
  */
 @Immutable
 @LevelUpApi(contract = Contract.INTERNAL)

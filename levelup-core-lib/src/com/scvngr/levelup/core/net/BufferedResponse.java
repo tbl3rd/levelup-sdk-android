@@ -6,14 +6,6 @@ package com.scvngr.levelup.core.net;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -21,6 +13,15 @@ import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * An {@link AbstractResponse} that uses a buffered interface where the response data is buffered in
@@ -100,9 +101,7 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
         try {
             builder = readStream(data);
         } catch (final IOException e) {
-            if (null == builder) {
-                builder = new StringBuilder();
-            }
+            builder = new StringBuilder();
             error = e;
         }
 
@@ -137,16 +136,18 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
         super(response.getHttpStatusCode(), response.getHttpHeaders(), response.getError());
         Exception error = null;
         StringBuilder builder = null;
+
         try {
-            builder = readStream(response.getData());
-        } catch (final IOException e) {
-            if (null == builder) {
-                builder = new StringBuilder();
+            final InputStream data = response.getData();
+
+            if (null != data) {
+                builder = readStream(data);
             }
+        } catch (final IOException e) {
             error = e;
         }
 
-        mData = builder.toString();
+        mData = (null == builder) ? "" : NullUtils.nonNullContract(builder.toString()); //$NON-NLS-1$
         mReadError = error;
         response.close();
     }
@@ -160,6 +161,8 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
     /**
      * Get the error that occurred during the sending of the request OR during the reading of the
      * response.
+     *
+     * @return the error that occurred.
      */
     @Override
     @Nullable
@@ -185,30 +188,28 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
             throws IOException {
         final StringBuilder builder = new StringBuilder();
 
-        if (null != data) {
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(data, "utf-8")); //$NON-NLS-1$
-            final char[] chars = new char[READ_BUFFER_SIZE_BYTES];
-            int size = 0;
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(data, "utf-8")); //$NON-NLS-1$
+        final char[] chars = new char[READ_BUFFER_SIZE_BYTES];
+        int size = 0;
 
-            try {
-                while (true) {
-                    final int read = reader.read(chars);
-                    if (read == -1) {
-                        break;
-                    }
-
-                    size += read;
-
-                    if (size > MAX_DATA_SIZE_BYTES) {
-                        throw new ResponseTooLargeException();
-                    }
-
-                    // Only append the number of characters read (no extra junk)
-                    builder.append(chars, 0, read);
+        try {
+            while (true) {
+                final int read = reader.read(chars);
+                if (-1 == read) {
+                    break;
                 }
-            } finally {
-                reader.close();
+
+                size += read;
+
+                if (MAX_DATA_SIZE_BYTES < size) {
+                    throw new ResponseTooLargeException();
+                }
+
+                // Only append the number of characters read (no extra junk)
+                builder.append(chars, 0, read);
             }
+        } finally {
+            reader.close();
         }
 
         LogManager.v("Response is %s", builder); //$NON-NLS-1$

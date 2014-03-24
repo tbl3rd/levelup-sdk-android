@@ -76,8 +76,7 @@ public abstract class StringRequestBody implements RequestBody {
         return mBody.length();
     }
 
-    //@formatter:off
-    @SuppressWarnings({ "null" })
+    @SuppressWarnings("null") // Generated code.
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -86,24 +85,28 @@ public abstract class StringRequestBody implements RequestBody {
         return result;
     }
 
-    @SuppressWarnings({ "unused", "null" })
+    @SuppressWarnings({ "null", "unused" }) // Generated code.
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         final StringRequestBody other = (StringRequestBody) obj;
         if (mBody == null) {
-            if (other.mBody != null)
+            if (other.mBody != null) {
                 return false;
-        } else if (!mBody.equals(other.mBody))
+            }
+        } else if (!mBody.equals(other.mBody)) {
             return false;
+        }
         return true;
     }
-    //@formatter:on
 
     @Override
     @NonNull

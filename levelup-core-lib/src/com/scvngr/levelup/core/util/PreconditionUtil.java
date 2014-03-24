@@ -3,14 +3,14 @@
  */
 package com.scvngr.levelup.core.util;
 
-import java.util.Locale;
-
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+
+import net.jcip.annotations.ThreadSafe;
+
+import java.util.Locale;
 
 /**
  * This is a utility class to enforce preconditions.

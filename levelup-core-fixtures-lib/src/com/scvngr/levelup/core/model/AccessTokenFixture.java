@@ -70,4 +70,11 @@ public final class AccessTokenFixture {
             throw new AssertionError(e);
         }
     }
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private AccessTokenFixture() {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+    }
 }

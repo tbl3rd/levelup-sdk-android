@@ -6,14 +6,6 @@ package com.scvngr.levelup.core.net;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -22,6 +14,14 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.util.PreconditionUtil;
+
+import net.jcip.annotations.ThreadSafe;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Class to encompass a response from the LevelUp Web Service.
@@ -248,6 +248,7 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
         return mStatus;
     }
 
+    @SuppressWarnings("null") // Generated code.
     @Override
     public int hashCode() {
         final int prime = 31;

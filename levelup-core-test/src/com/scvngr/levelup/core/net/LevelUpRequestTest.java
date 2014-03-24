@@ -30,11 +30,10 @@ import java.util.Map;
 /**
  * Tests {@link LevelUpRequest}.
  */
-@SuppressWarnings("javadoc")
 public final class LevelUpRequestTest extends SupportAndroidTestCase {
 
     @NonNull
-    private static final String TEST_VERSION = "v13"; //$NON-NLS-1$
+    private static final String TEST_VERSION = "v14"; //$NON-NLS-1$
 
     @NonNull
     private static final String TEST_ENDPOINT = "endpoint"; //$NON-NLS-1$

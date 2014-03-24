@@ -14,7 +14,9 @@ import com.scvngr.levelup.core.model.AccessToken;
  * Test implementation of {@link AccessTokenRetriever}.
  */
 public final class MockAccessTokenRetriever implements AccessTokenRetriever {
-
+    /**
+     * Implements the {@link android.os.Parcelable} interface.
+     */
     public static final Creator<AccessTokenRetriever> CREATOR =
             new Creator<AccessTokenRetriever>() {
 

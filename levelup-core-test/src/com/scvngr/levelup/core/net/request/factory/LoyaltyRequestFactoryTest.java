@@ -3,7 +3,6 @@
  */
 package com.scvngr.levelup.core.net.request.factory;
 
-import android.content.Context;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.net.AbstractRequest;
@@ -34,7 +33,7 @@ public final class LoyaltyRequestFactoryTest extends SupportAndroidTestCase {
     /**
      * Tests the {@link LoyaltyRequestFactory#buildGetLoyaltyForMerchantRequest(long)} method.
      *
-     * @throws BadRequestException thrown by {@link AbstractRequest#getUrl(Context)}.
+     * @throws BadRequestException thrown by {@link AbstractRequest#getUrl}.
      */
     @SmallTest
     public void testBuildGetLoyaltyForMerchantRequest() throws BadRequestException {

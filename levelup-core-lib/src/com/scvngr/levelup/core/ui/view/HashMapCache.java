@@ -19,23 +19,23 @@ import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage
  */
 @ThreadSafe
 public final class HashMapCache implements LevelUpCodeCache {
-    private static final ConcurrentHashMap<String, LevelUpQrCodeImage> sCache =
+    private static final ConcurrentHashMap<String, LevelUpQrCodeImage> CACHE =
             new ConcurrentHashMap<String, LevelUpQrCodeImage>();
 
     @Override
     public void putCode(@NonNull final String key, @NonNull final LevelUpQrCodeImage image) {
-        sCache.put(key, image);
+        CACHE.put(key, image);
     }
 
     @Override
     @Nullable
     public LevelUpQrCodeImage getCode(@NonNull final String key) {
-        return sCache.get(key);
+        return CACHE.get(key);
     }
 
     @Override
     public boolean hasCode(@NonNull final String key) {
-        return sCache.containsKey(key);
+        return CACHE.containsKey(key);
     }
 
     /**
@@ -43,6 +43,6 @@ public final class HashMapCache implements LevelUpCodeCache {
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */void clear() {
-        sCache.clear();
+        CACHE.clear();
     }
 }

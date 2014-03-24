@@ -37,7 +37,7 @@ public final class ClaimFixture {
      * @return a fully populated {@link Claim}.
      */
     @NonNull
-    public static final Claim getFullModel(final long webServiceId) {
+    public static Claim getFullModel(final long webServiceId) {
         try {
             return new ClaimJsonFactory().from(getFullJsonObject(webServiceId));
         } catch (final JSONException e) {
@@ -50,7 +50,7 @@ public final class ClaimFixture {
      * @return a valid minimal {@link Claim}.
      */
     @NonNull
-    public static final Claim getMinimalModel(final long webServiceId) {
+    public static Claim getMinimalModel(final long webServiceId) {
         try {
             return new ClaimJsonFactory().from(getMinimalJsonObject(webServiceId));
         } catch (final JSONException e) {
@@ -64,7 +64,7 @@ public final class ClaimFixture {
      * @return a {@link JSONObject} with all the Claim required fields.
      */
     @NonNull
-    public static JSONObject getMinimalJsonObject() throws JSONException {
+    public static JSONObject getMinimalJsonObject() {
         return getMinimalJsonObject(1);
     }
 
@@ -75,14 +75,20 @@ public final class ClaimFixture {
      * @return a {@link JSONObject} with all the Claim required fields.
      */
     @NonNull
-    public static JSONObject getMinimalJsonObject(final long webServiceId) throws JSONException {
+    public static JSONObject getMinimalJsonObject(final long webServiceId) {
         final long amount = MonetaryValueFixture.getFullModel().getAmount();
         final JSONObject object = new JSONObject();
-        object.put(ClaimJsonFactory.JsonKeys.CAMPAIGN_ID, webServiceId);
-        object.put(ClaimJsonFactory.JsonKeys.CODE, "code"); //$NON-NLS-1$
-        object.put(ClaimJsonFactory.JsonKeys.ID, webServiceId);
-        object.put(ClaimJsonFactory.JsonKeys.VALUE, amount);
-        object.put(ClaimJsonFactory.JsonKeys.VALUE_REMAINING, amount);
+
+        try {
+            object.put(ClaimJsonFactory.JsonKeys.CAMPAIGN_ID, webServiceId);
+            object.put(ClaimJsonFactory.JsonKeys.CODE, "code"); //$NON-NLS-1$
+            object.put(ClaimJsonFactory.JsonKeys.ID, webServiceId);
+            object.put(ClaimJsonFactory.JsonKeys.VALUE, amount);
+            object.put(ClaimJsonFactory.JsonKeys.VALUE_REMAINING, amount);
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
+
         return object;
     }
 
@@ -92,7 +98,7 @@ public final class ClaimFixture {
      * @return a {@link JSONObject} with all the Claim fields.
      */
     @NonNull
-    public static JSONObject getFullJsonObject() throws JSONException {
+    public static JSONObject getFullJsonObject() {
         return getFullJsonObject(1);
     }
 
@@ -103,12 +109,12 @@ public final class ClaimFixture {
      * @return a {@link JSONObject} with all the Claim fields.
      */
     @NonNull
-    public static JSONObject getFullJsonObject(final long webServiceId) throws JSONException {
+    public static JSONObject getFullJsonObject(final long webServiceId) {
         return getMinimalJsonObject(webServiceId);
     }
 
     /**
-     * Private constructor prevents instantiation
+     * Private constructor prevents instantiation.
      *
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */

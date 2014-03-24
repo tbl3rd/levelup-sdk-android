@@ -5,7 +5,6 @@ package com.scvngr.levelup.core.model.util;
 
 import android.net.Uri;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList.ImmutableClassException;
@@ -18,7 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Tests {@link ParcelableArrayList} using {@link Uri}s as a known-good {@link Parcelable} object.
+ * Tests {@link ParcelableArrayList} using {@link Uri}s as a known-good
+ * {@link android.os.Parcelable} object.
  */
 public final class ParcelableArrayListTest extends SupportAndroidTestCase {
     private static final Uri URI_01 = Uri.parse("foo:"); //$NON-NLS-1$

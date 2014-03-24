@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit;
      * period of time.
      *
      * @param context the target Context.
-     * @see <a href=http://goo.gl/V5xbNd>Stack Overflow</a> for more information.
+     * @see <a href="http://goo.gl/V5xbNd">Stack Overflow</a>
      */
     public static void waitForApplicationContext(@NonNull final Context context) {
         final long endTime = SystemClock.elapsedRealtime() + WAIT_TIMEOUT_MILLIS;

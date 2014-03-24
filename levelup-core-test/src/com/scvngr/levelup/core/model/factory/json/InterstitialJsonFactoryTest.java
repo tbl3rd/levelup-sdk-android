@@ -20,10 +20,6 @@ import org.json.JSONObject;
  * Tests {@link InterstitialJsonFactory}.
  */
 public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
-
-    private static final String TEST_KEY_1 = "test_key_1"; //$NON-NLS-1$
-    private static final String TEST_KEY_2 = "test_key_2"; //$NON-NLS-1$
-
     @NonNull
     private final InterstitialJsonFactory mFactory = new InterstitialJsonFactory();
 

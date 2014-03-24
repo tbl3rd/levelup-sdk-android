@@ -10,9 +10,6 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
-import com.scvngr.levelup.core.model.AccessToken;
-import com.scvngr.levelup.core.model.Campaign;
-import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
@@ -30,7 +27,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 /**
- * Builds requests to claim {@link Campaign}s.
+ * Builds requests to claim {@link com.scvngr.levelup.core.model.Campaign}s.
  */
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
@@ -53,7 +50,8 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
     /**
      * @param context the Application context.
      * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-     *        {@link User}'s {@link AccessToken}.
+     *        {@link com.scvngr.levelup.core.model.User}'s
+     *        {@link com.scvngr.levelup.core.model.AccessToken}.
      */
     public ClaimRequestFactory(@NonNull final Context context,
             @NonNull final AccessTokenRetriever retriever) {
@@ -91,7 +89,8 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
      * Build a request to claim a generic campaign by its cohort code.
      *
      * @param code the code to claim.
-     * @return the {@link AbstractRequest} to use to claim the {@link Campaign}.
+     * @return the {@link AbstractRequest} to use to claim the
+     *         {@link com.scvngr.levelup.core.model.Campaign}.
      */
     @NonNull
     public AbstractRequest buildClaimCampaignRequest(@NonNull final String code) {

@@ -8,11 +8,11 @@ import android.content.Context;
 import android.content.pm.ConfigurationInfo;
 import android.os.Build;
 
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * This is a utility class to determine information about the environment the app is running under.
@@ -20,6 +20,12 @@ import com.scvngr.levelup.core.annotation.NonNull;
 @ThreadSafe
 @LevelUpApi(contract = Contract.INTERNAL)
 public final class EnvironmentUtil {
+    /**
+     * OpenGL version number in the <a href=
+     * "http://developer.android.com/guide/topics/manifest/uses-feature-element.html#glEsVersion">format
+     * required by Android</a>.
+     */
+    private static final int OPENGL_V2 = 0x20000;
 
     /**
      * @param context Application context.
@@ -31,7 +37,7 @@ public final class EnvironmentUtil {
                 (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         final ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
 
-        final boolean isOpenGlEs20Supported = configurationInfo.reqGlEsVersion >= 0x20000;
+        final boolean isOpenGlEs20Supported = configurationInfo.reqGlEsVersion >= OPENGL_V2;
 
         LogManager.v("isOpenGlEs20Supported = %b", isOpenGlEs20Supported); //$NON-NLS-1$
         return isOpenGlEs20Supported;

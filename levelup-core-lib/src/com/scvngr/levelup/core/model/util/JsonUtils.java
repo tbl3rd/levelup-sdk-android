@@ -3,12 +3,10 @@
  */
 package com.scvngr.levelup.core.model.util;
 
-import java.text.ParseException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-import java.util.TimeZone;
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.model.MonetaryValue;
+import com.scvngr.levelup.core.util.IsoDateUtils;
 
 import net.jcip.annotations.ThreadSafe;
 
@@ -16,10 +14,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.model.MonetaryValue;
-import com.scvngr.levelup.core.util.IsoDateUtils;
+import java.text.ParseException;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TimeZone;
 
 /**
  * Helper class to work with {@link JSONObject} and avoid its bugs.
@@ -48,6 +48,15 @@ public final class JsonUtils {
         return value;
     }
 
+    /**
+     * Loads a {@link Date}.
+     *
+     * @param json the object to read from.
+     * @param key the key in {@code json}.
+     * @return A parsed {@link Date} or {@code null} if either the key is not present or is set to
+     *         {@code null}.
+     * @throws JSONException if the date could not be parsed.
+     */
     @Nullable
     /* package */static Date optDate(@NonNull final JSONObject json, @NonNull final String key)
             throws JSONException {

@@ -36,7 +36,8 @@ public final class USCentTipTest extends SupportAndroidTestCase {
             final int value = 0;
             final USCentTip tip = new USCentTip(value);
             assertEquals(USCentTip.MINIMUM_VALUE_WITH_OFFSET_DECIMAL, tip.getEncodedValue());
-            assertEquals(USCentTip.MINIMUM_VALUE_WITH_OFFSET_DECIMAL, PercentageTip.MAXIMUM_VALUE_WITH_OFFSET_DECIMAL + 1);
+            assertEquals(USCentTip.MINIMUM_VALUE_WITH_OFFSET_DECIMAL,
+                    PercentageTip.MAXIMUM_VALUE_WITH_OFFSET_DECIMAL + 1);
         }
 
         // Typical
@@ -57,7 +58,8 @@ public final class USCentTipTest extends SupportAndroidTestCase {
 
         // Too large
         try {
-            new USCentTip(USCentTip.MAXIMUM_VALUE_WITH_OFFSET_DECIMAL - USCentTip.MINIMUM_VALUE_WITH_OFFSET_DECIMAL + 1);
+            new USCentTip(USCentTip.MAXIMUM_VALUE_WITH_OFFSET_DECIMAL
+                    - USCentTip.MINIMUM_VALUE_WITH_OFFSET_DECIMAL + 1);
             fail();
         } catch (final IllegalArgumentException e) {
             // Intentionally blank

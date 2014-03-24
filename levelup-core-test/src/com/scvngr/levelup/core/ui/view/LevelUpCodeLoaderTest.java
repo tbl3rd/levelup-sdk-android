@@ -13,7 +13,6 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Tests {@link LevelUpCodeLoader}.
  */
-@SuppressWarnings("javadoc")
 public final class LevelUpCodeLoaderTest extends SupportInstrumentationTestCase {
     private HashMapCache mCache;
     private LevelUpCodeLoaderUnderTest mLoader;

@@ -8,15 +8,15 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
-import java.util.Locale;
-
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.BuildConfig;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+
+import net.jcip.annotations.ThreadSafe;
+
+import java.util.Locale;
 
 /**
  * This is a utility class to wrap the Android {@link Log} class.
@@ -27,6 +27,11 @@ import com.scvngr.levelup.core.annotation.Nullable;
 @LevelUpApi(contract = Contract.DRAFT)
 @ThreadSafe
 public final class LogManager {
+    /**
+     * Where in the array of stack trace elements returned by {@link Thread#getStackTrace()} to find
+     * the source class/method reference.
+     */
+    private static final int STACKTRACE_SOURCE_FRAME_INDEX = 4;
 
     /**
      * Format string for log messages.
@@ -66,6 +71,9 @@ public final class LogManager {
         }
     }
 
+    /**
+     * Enables debug logging in Android 3.0+ classes.
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private static void enableDebugLoggingHoneycomb() {
         android.app.FragmentManager.enableDebugLogging(true);
@@ -198,13 +206,24 @@ public final class LogManager {
         return output;
     }
 
+    /**
+     * Logs a message to the Android log.
+     *
+     * @param logLevel {@link Log#VERBOSE}, {@link Log#DEBUG}, {@link Log#INFO}, {@link Log#WARN},
+     *        or {@link Log#ERROR}.
+     * @param message the message to be logged. This message is expected to be a format string if
+     *        messageFormatArgs is not null.
+     * @param messageFormatArgs formatting arguments for the message, or null if the string is to be
+     *        handled without formatting.
+     * @param err an optional error to log with a stacktrace.
+     */
     private static void logMessage(final int logLevel, @NonNull final String message,
             @Nullable final Object[] messageFormatArgs, @Nullable final Throwable err) {
         final String preppedMessage = formatMessage(message, messageFormatArgs);
 
         final StackTraceElement[] trace = Thread.currentThread().getStackTrace();
-        final String sourceClass = trace[4].getClassName();
-        final String sourceMethod = trace[4].getMethodName();
+        final String sourceClass = trace[STACKTRACE_SOURCE_FRAME_INDEX].getClassName();
+        final String sourceMethod = trace[STACKTRACE_SOURCE_FRAME_INDEX].getMethodName();
 
         final String logcatLogLine =
                 String.format(Locale.US, FORMAT, Thread.currentThread().getName(), sourceClass,

@@ -3,11 +3,6 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.JsonValueType;
 import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
@@ -15,9 +10,13 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
-import com.scvngr.levelup.core.model.MonetaryValue;
 import com.scvngr.levelup.core.model.Order;
 import com.scvngr.levelup.core.model.Order.OrderBuilder;
+
+import net.jcip.annotations.Immutable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Factory for creating {@link Order}s from JSON.
@@ -78,11 +77,12 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
         /**
          * The key under which this model can be nested.
          */
+        @NonNull
         @JsonValueType(JsonType.JSON_OBJECT)
         public static final String MODEL_ROOT = "order"; //$NON-NLS-1$
 
         /**
-         * Required field parsed as a {@link MonetaryValue} model.
+         * Required field parsed as a {@link com.scvngr.levelup.core.model.MonetaryValue} model.
          *
          * @see Order#getBalanceAmount()
          */
@@ -106,7 +106,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
         public static final String BUNDLE_DESCRIPTOR = "bundle_descriptor"; //$NON-NLS-1$
 
         /**
-         * Optional field parsed as a {@link MonetaryValue} model.
+         * Optional field parsed as a {@link com.scvngr.levelup.core.model.MonetaryValue} model.
          *
          * @see Order#getContributionAmount()
          */
@@ -130,7 +130,8 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
         public static final String CREATED_AT = "created_at"; //$NON-NLS-1$
 
         /**
-         * Required string field parsed as a {@link MonetaryValue} model.
+         * Required string field parsed as a {@link com.scvngr.levelup.core.model.MonetaryValue}
+         * model.
          *
          * @see Order#getCreditAppliedAmount()
          */
@@ -138,7 +139,8 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
         public static final String CREDIT_APPLIED = "credit_applied_amount"; //$NON-NLS-1$
 
         /**
-         * Required string field parsed as a {@link MonetaryValue} model.
+         * Required string field parsed as a {@link com.scvngr.levelup.core.model.MonetaryValue}
+         * model.
          *
          * @see Order#getCreditEarnedAmount()
          */
@@ -224,7 +226,8 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
         public static final String REFUNDED_AT = "refunded_at"; //$NON-NLS-1$
 
         /**
-         * Required String field containing the spend amount. Parsed as a {@link MonetaryValue}.
+         * Required String field containing the spend amount. Parsed as a
+         * {@link com.scvngr.levelup.core.model.MonetaryValue}.
          *
          * @see Order#getSpendAmount()
          */
@@ -232,7 +235,8 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
         public static final String SPEND = "spend_amount"; //$NON-NLS-1$
 
         /**
-         * Required String field containing the tip amount. Parsed as a {@link MonetaryValue}.
+         * Required String field containing the tip amount. Parsed as a
+         * {@link com.scvngr.levelup.core.model.MonetaryValue}.
          *
          * @see Order#getTipAmount()
          */
@@ -240,7 +244,8 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
         public static final String TIP = "tip_amount"; //$NON-NLS-1$
 
         /**
-         * Required String field containing the total. Parsed as a {@link MonetaryValue}.
+         * Required String field containing the total. Parsed as a
+         * {@link com.scvngr.levelup.core.model.MonetaryValue}.
          *
          * @see Order#getTotalAmount()
          */

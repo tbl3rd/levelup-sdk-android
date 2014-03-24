@@ -9,9 +9,7 @@ import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.model.AccessToken;
 import com.scvngr.levelup.core.model.CreditCard;
-import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
@@ -76,7 +74,8 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
     /**
      * @param context the Application context.
      * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-     *        {@link User}'s {@link AccessToken}.
+     *        {@link com.scvngr.levelup.core.model.User}'s
+     *        {@link com.scvngr.levelup.core.model.AccessToken}.
      */
     public CreditCardRequestFactory(@NonNull final Context context,
             @NonNull final AccessTokenRetriever retriever) {

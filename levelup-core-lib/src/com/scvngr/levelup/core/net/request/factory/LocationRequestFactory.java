@@ -11,7 +11,6 @@ import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
-import com.scvngr.levelup.core.model.Location;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
@@ -24,7 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Factory to build requests to interact with the {@link Location} related web service endpoints.
+ * Factory to build requests to interact with the {@link com.scvngr.levelup.core.model.Location}
+ * related web service endpoints.
  */
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
@@ -66,9 +66,10 @@ public final class LocationRequestFactory extends AbstractRequestFactory {
     }
 
     /**
-     * @param locationWebServiceId the ID of the {@link Location} on the web service.
+     * @param locationWebServiceId the ID of the {@link com.scvngr.levelup.core.model.Location} on
+     *        the web service.
      * @return an {@link AbstractRequest} that represents a request to the web service to get the
-     *         details of the {@link Location} with the ID passed.
+     *         details of the {@link com.scvngr.levelup.core.model.Location} with the ID passed.
      */
     @NonNull
     public AbstractRequest buildGetLocationDetailsRequest(final long locationWebServiceId) {
@@ -79,9 +80,11 @@ public final class LocationRequestFactory extends AbstractRequestFactory {
 
     /**
      * @param context the Application context.
-     * @param locationWebServiceId the web service ID of the {@link Location} to get the image for.
+     * @param locationWebServiceId the web service ID of the
+     *        {@link com.scvngr.levelup.core.model.Location} to get the image for.
      * @return an {@link AbstractRequest} that represents a request to the web service to get the
-     *         image for a {@link Location} with the web service ID passed.
+     *         image for a {@link com.scvngr.levelup.core.model.Location} with the web service ID
+     *         passed.
      */
     @NonNull
     public AbstractRequest buildGetLocationImageRequest(@NonNull final Context context,

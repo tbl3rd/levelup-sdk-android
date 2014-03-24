@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
  * Tests {@link PendingImage} using a class that has a good .equals() method ({@link Uri}) to make
  * comparison easier.
  */
-@SuppressWarnings("javadoc")
 public final class PendingImageTest extends TestCase {
 
     private static final String TEST_KEY = "foo"; //$NON-NLS-1$

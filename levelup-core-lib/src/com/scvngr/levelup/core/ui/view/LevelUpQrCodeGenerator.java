@@ -5,10 +5,10 @@ package com.scvngr.levelup.core.ui.view;
 
 import android.graphics.Bitmap;
 
-import net.jcip.annotations.Immutable;
-
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.SlowOperation;
+
+import net.jcip.annotations.Immutable;
 
 /**
  * <p>
@@ -37,7 +37,7 @@ public interface LevelUpQrCodeGenerator {
      */
     @NonNull
     @SlowOperation
-    public LevelUpQrCodeImage generateLevelUpQrCode(@NonNull String qrCodeData);
+    LevelUpQrCodeImage generateLevelUpQrCode(@NonNull String qrCodeData);
 
     /**
      * <p>

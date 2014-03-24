@@ -5,17 +5,17 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import net.jcip.annotations.Immutable;
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList;
 import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+import net.jcip.annotations.ThreadSafe;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * An immutable list of categories. This is needed to make the list parcelable.
@@ -24,11 +24,10 @@ import com.scvngr.levelup.core.util.NullUtils;
 @Immutable
 @LevelUpApi(contract = Contract.INTERNAL)
 public final class CategoriesList extends ParcelableArrayList<Category> {
-
     /**
      * Parcelable creator.
      */
-    public static Creator<CategoriesList> CREATOR = new Creator<CategoriesList>() {
+    public static final Creator<CategoriesList> CREATOR = new Creator<CategoriesList>() {
         @Override
         public CategoriesList createFromParcel(final Parcel source) {
             return new CategoriesList(NullUtils.nonNullContract(source));

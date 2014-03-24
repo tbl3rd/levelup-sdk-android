@@ -28,17 +28,17 @@ public interface RequestBody extends Parcelable {
      * @param outputStream the output stream to write to.
      * @throws IOException if there are any errors writing to the output stream.
      */
-    public void writeToOutputStream(@NonNull Context context, @NonNull OutputStream outputStream)
+    void writeToOutputStream(@NonNull Context context, @NonNull OutputStream outputStream)
             throws IOException;
 
     /**
      * @return the content length of the body.
      */
-    public int getContentLength();
+    int getContentLength();
 
     /**
      * @return the MIME type of the content that this body represents.
      */
     @NonNull
-    public String getContentType();
+    String getContentType();
 }

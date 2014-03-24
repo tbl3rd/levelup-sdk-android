@@ -3,11 +3,6 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.JsonValueType;
 import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
@@ -15,7 +10,11 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.Claim;
 import com.scvngr.levelup.core.model.MonetaryValue;
-import com.scvngr.levelup.core.model.util.JsonUtils;
+
+import net.jcip.annotations.Immutable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Factory for parsing {@link Claim}s from JSON.
@@ -35,7 +34,7 @@ public final class ClaimJsonFactory extends AbstractJsonModelFactory<Claim> {
     @Override
     protected Claim createFrom(@NonNull final JSONObject json) throws JSONException {
         final long campaignId = json.getLong(JsonKeys.CAMPAIGN_ID);
-        final String code = JsonUtils.optString(json, JsonKeys.CODE);
+        final String code = json.getString(JsonKeys.CODE);
         final long id = json.getLong(JsonKeys.ID);
         final MonetaryValue value = new MonetaryValue(json.getLong(JsonKeys.VALUE));
         final MonetaryValue valueRemaining =
@@ -54,6 +53,7 @@ public final class ClaimJsonFactory extends AbstractJsonModelFactory<Claim> {
         /**
          * The key under which this model can be nested.
          */
+        @NonNull
         @JsonValueType(JsonType.JSON_OBJECT)
         public static final String MODEL_ROOT = "claim"; //$NON-NLS-1$
 

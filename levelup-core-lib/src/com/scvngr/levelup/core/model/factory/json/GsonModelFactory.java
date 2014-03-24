@@ -196,7 +196,7 @@ public class GsonModelFactory<T> {
 
     /**
      * @param model the model to serialize as JSON.
-     * @return a string representation of the given {@code model}
+     * @return a string representation of the given {@code model}.
      */
     @NonNull
     public final String to(@NonNull final T model) {
@@ -212,6 +212,14 @@ public class GsonModelFactory<T> {
         return NullUtils.nonNullContract(mGson.toJsonTree(model));
     }
 
+    /**
+     * Serializes a model instance to a JSON string representation in a
+     * {@link com.scvngr.levelup.core.net.RequestBody}.
+     *
+     * @param model the model to serialize as JSON.
+     * @return The JSON representation of the model in a
+     *         {@link com.scvngr.levelup.core.net.RequestBody}.
+     */
     @NonNull
     public final JsonElementRequestBody toRequestSerializer(@NonNull final T model) {
         return new JsonElementRequestBody(mGson, NullUtils.nonNullContract(mGson.toJsonTree(model)));

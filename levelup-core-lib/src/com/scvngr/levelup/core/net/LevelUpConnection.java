@@ -5,12 +5,6 @@ package com.scvngr.levelup.core.net;
 
 import android.content.Context;
 
-import java.util.HashMap;
-import java.util.Locale;
-
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
@@ -19,6 +13,12 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.util.LogManager;
+
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
+import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Class for interacting with the LevelUp web service API.
@@ -80,10 +80,6 @@ public final class LevelUpConnection {
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */LevelUpConnection(@NonNull final Context context) {
-        if (null == context) {
-            throw new IllegalArgumentException("context cannot be null"); //$NON-NLS-1$
-        }
-
         mContext = context.getApplicationContext();
     }
 
@@ -189,6 +185,7 @@ public final class LevelUpConnection {
      * Testing Helper: get the next response to return for the URL passed.
      *
      * @param url the URL that this response should be returned for.
+     * @return the response to return next.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */LevelUpResponse getNextResponse(@NonNull final String url) {
@@ -229,18 +226,20 @@ public final class LevelUpConnection {
         LevelUpResponse response = null;
 
         String requestUrl = null;
+        LevelUpResponse nextResponse = null;
 
         try {
             requestUrl = request.getUrlString(mContext);
+            nextResponse = getNextResponse(requestUrl);
         } catch (final BadRequestException e) {
             LogManager.e("BadRequestException", e); //$NON-NLS-1$
             // Don't need to do anything, since this URL is just for logging.
         }
+
         // Set the last request for testing
         setLastRequest(requestUrl, request);
 
         LogManager.v("Requesting URL: %s %s", request.getMethod(), requestUrl); //$NON-NLS-1$
-        final LevelUpResponse nextResponse = getNextResponse(requestUrl);
 
         if (null != nextResponse) {
             LogManager.d("Returning canned response instead of performing network operation"); //$NON-NLS-1$

@@ -24,7 +24,7 @@ public final class SilentNetworkRequestService extends AbstractNetworkRequestSer
      * @param context the application context.
      * @param request the {@link AbstractRequest} to send.
      */
-    public static final void startService(@NonNull final Context context,
+    public static void startService(@NonNull final Context context,
             @NonNull final AbstractRequest request) {
         final Intent intent = new Intent(context, SilentNetworkRequestService.class);
         intent.putExtra(EXTRA_PARCELABLE_REQUEST, request);

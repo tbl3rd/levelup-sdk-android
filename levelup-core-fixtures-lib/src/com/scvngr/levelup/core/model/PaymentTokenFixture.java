@@ -25,7 +25,7 @@ public final class PaymentTokenFixture {
      * @return valid JSON representation of the model under test
      */
     @NonNull
-    public static final PaymentToken getFullModel(final long webServiceId) {
+    public static PaymentToken getFullModel(final long webServiceId) {
         try {
             return new PaymentTokenJsonFactory().from(getFullJsonObjectNested(webServiceId));
         } catch (final JSONException e) {
@@ -41,7 +41,7 @@ public final class PaymentTokenFixture {
      * @return valid JSON representation of the model under test
      */
     @NonNull
-    public static final PaymentToken getFullModel(final long webServiceId,
+    public static PaymentToken getFullModel(final long webServiceId,
             @Nullable final String data) {
         try {
             return new PaymentTokenJsonFactory().from(getFullJsonObject(webServiceId, data));
@@ -116,5 +116,12 @@ public final class PaymentTokenFixture {
         } catch (final JSONException e) {
             throw new AssertionError();
         }
+    }
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private PaymentTokenFixture() {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
     }
 }

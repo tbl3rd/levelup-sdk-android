@@ -12,6 +12,9 @@ import com.scvngr.levelup.core.annotation.NonNull;
  */
 @LevelUpApi(contract = Contract.INTERNAL)
 public final class DistanceUtil {
+    private static final float FOOT_IN_METERS = 0.3048f;
+    private static final float KILOMETER_IN_METERS = 1000.0f;
+    private static final float MILE_IN_METERS = 1609.344f;
 
     /**
      * Converts a distance in meters to the desired unit.
@@ -26,16 +29,16 @@ public final class DistanceUtil {
 
         switch (desiredUnit) {
             case KILOMETER:
-                result = distanceInMeters / 1000.0f;
+                result = distanceInMeters / KILOMETER_IN_METERS;
                 break;
             case METER:
                 result = distanceInMeters;
                 break;
             case MILE:
-                result = distanceInMeters / 1609.344f;
+                result = distanceInMeters / MILE_IN_METERS;
                 break;
             case FOOT:
-                result = distanceInMeters / 0.3048f;
+                result = distanceInMeters / FOOT_IN_METERS;
                 break;
             default:
                 // If this is thrown, it's a programming error as all cases should be handled.

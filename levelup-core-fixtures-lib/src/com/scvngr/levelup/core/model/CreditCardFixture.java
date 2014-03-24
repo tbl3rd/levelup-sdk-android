@@ -39,6 +39,7 @@ public final class CreditCardFixture {
     }
 
     /**
+     * @param creditCardId the ID to set for the created {@link CreditCard}.
      * @return A full {@link CreditCard} model.
      */
     @NonNull
@@ -65,9 +66,15 @@ public final class CreditCardFixture {
      * @return a {@link JSONObject} with all the {@link CreditCard} required fields.
      */
     @NonNull
-    public static JSONObject getValidJsonObject(final int serverId) throws JSONException {
+    public static JSONObject getValidJsonObject(final int serverId) {
         final JSONObject object = new JSONObject();
-        object.put(CreditCardJsonFactory.JsonKeys.ID, serverId);
+
+        try {
+            object.put(CreditCardJsonFactory.JsonKeys.ID, serverId);
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
+
         return object;
     }
 
@@ -77,7 +84,7 @@ public final class CreditCardFixture {
      * @return a {@link JSONObject} with all the {@link CreditCard} required fields.
      */
     @NonNull
-    public static JSONObject getValidJsonObject() throws JSONException {
+    public static JSONObject getValidJsonObject() {
         return getValidJsonObject(1);
     }
 
@@ -88,7 +95,7 @@ public final class CreditCardFixture {
      * @return a {@link JSONObject} with all the {@link CreditCard} fields.
      */
     @NonNull
-    public static JSONObject getFullJsonObject(final boolean promoted) throws JSONException {
+    public static JSONObject getFullJsonObject(final boolean promoted) {
         return getFullJsonObject(1, promoted);
     }
 
@@ -98,21 +105,24 @@ public final class CreditCardFixture {
      * @param serverId the ID of the object on the server.
      * @param promoted if the card is promoted or not.
      * @return a {@link JSONObject} with all the {@link CreditCard} fields.
-     *
-     * @throws JSONException if there was a problem constructing the object
      */
     @NonNull
-    public static JSONObject getFullJsonObject(final int serverId, final boolean promoted)
-            throws JSONException {
+    public static JSONObject getFullJsonObject(final int serverId, final boolean promoted) {
         final JSONObject object = getValidJsonObject(serverId);
-        object.put(CreditCardJsonFactory.JsonKeys.BIN, 111111L);
-        object.put(CreditCardJsonFactory.JsonKeys.DEBIT, true);
-        object.put(CreditCardJsonFactory.JsonKeys.DESCRIPTION, "description"); //$NON-NLS-1$
-        object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_MONTH, "01"); //$NON-NLS-1$
-        object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_YEAR, "1999"); //$NON-NLS-1$
-        object.put(CreditCardJsonFactory.JsonKeys.LAST_4, "last_4"); //$NON-NLS-1$
-        object.put(CreditCardJsonFactory.JsonKeys.PROMOTED, promoted);
-        object.put(CreditCardJsonFactory.JsonKeys.TYPE, "type"); //$NON-NLS-1$
+
+        try {
+            object.put(CreditCardJsonFactory.JsonKeys.BIN, 111111L);
+            object.put(CreditCardJsonFactory.JsonKeys.DEBIT, true);
+            object.put(CreditCardJsonFactory.JsonKeys.DESCRIPTION, "description"); //$NON-NLS-1$
+            object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_MONTH, "01"); //$NON-NLS-1$
+            object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_YEAR, "1999"); //$NON-NLS-1$
+            object.put(CreditCardJsonFactory.JsonKeys.LAST_4, "last_4"); //$NON-NLS-1$
+            object.put(CreditCardJsonFactory.JsonKeys.PROMOTED, promoted);
+            object.put(CreditCardJsonFactory.JsonKeys.TYPE, "type"); //$NON-NLS-1$
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
+
         return object;
     }
 

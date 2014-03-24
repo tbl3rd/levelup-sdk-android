@@ -28,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 /**
  * Tests {@link AbstractNetworkRequestService}.
  */
-@SuppressWarnings("javadoc")
 public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestCase {
     @Override
     protected void setUp() throws Exception {

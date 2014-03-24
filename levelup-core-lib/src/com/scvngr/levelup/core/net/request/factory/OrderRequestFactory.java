@@ -10,8 +10,6 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
-import com.scvngr.levelup.core.model.AccessToken;
-import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
@@ -54,7 +52,8 @@ public final class OrderRequestFactory extends AbstractRequestFactory {
      *
      * @param context Application context.
      * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-     *        {@link User}'s {@link AccessToken}.
+     *        {@link com.scvngr.levelup.core.model.User}'s
+     *        {@link com.scvngr.levelup.core.model.AccessToken}.
      */
     public OrderRequestFactory(@NonNull final Context context,
             @NonNull final AccessTokenRetriever retriever) {

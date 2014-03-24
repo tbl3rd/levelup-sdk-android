@@ -306,6 +306,9 @@ public final class LevelUpConnectionHelper {
         LevelUpConnection.setNextInstance(null);
     }
 
+    /**
+     * Private constructor to prevent instantiation.
+     */
     private LevelUpConnectionHelper() {
         throw new UnsupportedOperationException("This class is non-instantiable."); //$NON-NLS-1$
     }

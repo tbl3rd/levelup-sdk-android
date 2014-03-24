@@ -8,9 +8,6 @@ import android.content.Context;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.model.AccessToken;
-import com.scvngr.levelup.core.model.Campaign;
-import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
@@ -32,7 +29,8 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
     /**
      * @param context the Application context.
      * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-     *        {@link User}'s {@link AccessToken}.
+     *        {@link com.scvngr.levelup.core.model.User}'s
+     *        {@link com.scvngr.levelup.core.model.AccessToken}.
      */
     public CampaignRequestFactory(@NonNull final Context context,
             @NonNull final AccessTokenRetriever retriever) {
@@ -55,9 +53,11 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
 
     /**
      * @param context the Application context.
-     * @param campaignWebServiceId the web service ID of the {@link Campaign} to get the image for.
+     * @param campaignWebServiceId the web service ID of the
+     *        {@link com.scvngr.levelup.core.model.Campaign} to get the image for.
      * @return an {@link AbstractRequest} that represents a request to the web service to get the
-     *         image for a {@link Campaign} with the web service ID passed.
+     *         image for a {@link com.scvngr.levelup.core.model.Campaign} with the web service ID
+     *         passed.
      */
     @NonNull
     public AbstractRequest buildGetCampaignImageRequest(@NonNull final Context context,
@@ -68,12 +68,13 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
         queryParams.put(PARAM_WIDTH, DEFAULT_WIDTH);
         queryParams.put(PARAM_HEIGHT, DEFAULT_HEIGHT);
         return new LevelUpRequest(context, HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
-                NullUtils.format("campaigns/%d/image", campaignWebServiceId), queryParams, null); //$NON-NLS-1$
+                NullUtils.format("campaigns/%d/image", campaignWebServiceId), //$NON-NLS-1$
+                queryParams, null);
     }
 
     /**
-     * @param campaignWebServiceId the web service ID of the {@link Campaign} to get the merchants
-     *        for.
+     * @param campaignWebServiceId the web service ID of the
+     *        {@link com.scvngr.levelup.core.model.Campaign} to get the merchants for.
      * @return an {@link AbstractRequest} that represents a request to the web service to get the
      *         list of merchant IDs that its credit is valid at.
      */

@@ -62,7 +62,7 @@ public final class StreamingResponseTest extends SupportAndroidTestCase {
 
     private static class MockHttpUrlConnection extends HttpURLConnection {
 
-        private final int responseCode;
+        private final int mResponseCode;
 
         private final InputStream inputStream = new TestInputStream();
         private final InputStream errorStream = new TestErrorStream();
@@ -74,12 +74,12 @@ public final class StreamingResponseTest extends SupportAndroidTestCase {
          */
         public MockHttpUrlConnection(final int responseCode) throws MalformedURLException {
             super(new URL("http://www.example.com")); //$NON-NLS-1$
-            this.responseCode = responseCode;
+            this.mResponseCode = responseCode;
         }
 
         @Override
         public int getResponseCode() throws IOException {
-            return responseCode;
+            return mResponseCode;
         }
 
         @Override

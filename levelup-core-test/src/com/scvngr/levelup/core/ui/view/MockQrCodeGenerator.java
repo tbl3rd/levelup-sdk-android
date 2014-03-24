@@ -83,10 +83,12 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
     }
 
     /**
-     * Generate a {@link LevelUpQrCodeImage} for the specified color.
+     * Generate a {@link com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage}
+     * for the specified color.
      *
      * @param color the color to generate the image from
-     * @return the {@link LevelUpQrCodeImage}
+     * @return the {@link com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage}
+     *         .
      */
     @NonNull
     private LevelUpQrCodeImage generateTestImage(final int color) {
@@ -115,7 +117,8 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
      * expected results using {@link #isBitmapForCode}.
      *
      * @param qrCodeData the QR code data string
-     * @return the test {@link LevelUpQrCodeImage}
+     * @return the test
+     *         {@link com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage}.
      * @see LevelUpQrCodeGenerator#generateLevelUpQrCode
      */
     @Override

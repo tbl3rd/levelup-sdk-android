@@ -36,7 +36,7 @@ public final class Claim implements Parcelable {
     /**
      * The code of the {@link com.scvngr.levelup.core.model.Campaign} that was claimed.
      */
-    @NonNull
+    @Nullable
     private final String code;
 
     /**

@@ -6,12 +6,12 @@ package com.scvngr.levelup.core.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import net.jcip.annotations.Immutable;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+
+import net.jcip.annotations.Immutable;
 
 /**
  * Represents a cause affiliation the server.
@@ -102,8 +102,12 @@ public class CauseAffiliation implements Parcelable {
                 + ", mPercentDonation=" + mPercentDonation + "]"; //$NON-NLS-1$ //$NON-NLS-2$
     }
 
-    // CHECKSTYLE: ON
+    // CHECKSTYLE:ON
 
+    /**
+     * Creator for creating {@link CauseAffiliation}s from {@link Parcel}s and writing them to
+     * {@link Parcel}s.
+     */
     @Immutable
     private static final class CauseAffiliationCreator implements Creator<CauseAffiliation> {
 
@@ -121,6 +125,13 @@ public class CauseAffiliation implements Parcelable {
             return new CauseAffiliation(id, percentDonation);
         }
 
+        /**
+         * Parcel writer.
+         *
+         * @param dest the destination parcel.
+         * @param flags flags.
+         * @param causeAffiliation the {@link CauseAffiliation} to persist in the parcel.
+         */
         private void writeToParcel(@NonNull final Parcel dest, final int flags,
                 @NonNull final CauseAffiliation causeAffiliation) {
             dest.writeValue(causeAffiliation.getCauseWebServiceId());

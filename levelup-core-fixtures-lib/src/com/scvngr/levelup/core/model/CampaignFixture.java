@@ -18,7 +18,7 @@ public final class CampaignFixture {
      * @param webServiceId the web service ID of the {@link Campaign}.
      * @return a full {@link Campaign} model.
      */
-    public static final Campaign getFullModel(final int webServiceId) {
+    public static Campaign getFullModel(final int webServiceId) {
         try {
             return new CampaignJsonFactory().from(getFullJsonObject(webServiceId));
         } catch (final JSONException e) {
@@ -30,7 +30,7 @@ public final class CampaignFixture {
      * @param webServiceId the web service ID of the {@link Campaign}.
      * @return a minimal {@link Campaign} model.
      */
-    public static final Campaign getMinimalModel(final int webServiceId) {
+    public static Campaign getMinimalModel(final int webServiceId) {
         try {
             return new CampaignJsonFactory().from(getMinimalJsonObject(webServiceId));
         } catch (final JSONException e) {
@@ -117,5 +117,12 @@ public final class CampaignFixture {
         } catch (final JSONException e) {
             throw new AssertionError(e);
         }
+    }
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private CampaignFixture() {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
     }
 }

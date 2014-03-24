@@ -72,4 +72,11 @@ public final class CauseAffiliationFixture {
             throw new AssertionError(e);
         }
     }
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private CauseAffiliationFixture() {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+    }
 }

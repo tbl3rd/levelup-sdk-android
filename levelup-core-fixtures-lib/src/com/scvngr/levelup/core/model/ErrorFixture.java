@@ -24,7 +24,7 @@ public final class ErrorFixture {
      * @return valid, fully populated {@link Error}.
      */
     @NonNull
-    public static final Error getFullModel() {
+    public static Error getFullModel() {
         try {
             return new ErrorJsonFactory().from(getFullJsonObject());
         } catch (final JSONException e) {
@@ -36,7 +36,7 @@ public final class ErrorFixture {
      * @return valid, fully populated {@link Error}.
      */
     @NonNull
-    public static final List<Error> getFullModelList() {
+    public static List<Error> getFullModelList() {
         final ErrorJsonFactory factory = new ErrorJsonFactory();
         try {
             return factory.fromList(getListOfFullJsonObjects());
@@ -60,8 +60,7 @@ public final class ErrorFixture {
     /**
      * Create a nested representation of the required JSON.
      *
-     * @return valid JSON representation of the error
-     * @throws JSONException for parsing errors.
+     * @return valid JSON representation of the error.
      */
     @NonNull
     public static JSONObject getNestedJsonObject() {
@@ -78,7 +77,6 @@ public final class ErrorFixture {
      * Create an unnested representation of the required JSON with optional fields set.
      *
      * @return valid JSON representation of the error
-     * @throws JSONException for parsing errors.
      */
     @NonNull
     public static JSONObject getFullJsonObject() {
@@ -94,7 +92,6 @@ public final class ErrorFixture {
      * Create an unnested representation of the required JSON.
      *
      * @return valid JSON representation of the error
-     * @throws JSONException for parsing errors.
      */
     @NonNull
     private static JSONObject getMinimalJsonObject() {
@@ -106,7 +103,7 @@ public final class ErrorFixture {
     }
 
     /**
-     * Private constructor prevents instantiation
+     * Private constructor prevents instantiation.
      *
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */

@@ -6,12 +6,12 @@ package com.scvngr.levelup.core.util.bundle;
 import android.content.Intent;
 import android.os.Bundle;
 
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.util.LogManager;
+
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * Helper class to scrub Bundles of invalid extras. This is a workaround for an Android bug:

@@ -24,4 +24,11 @@ public final class MonetaryValueFixture {
     public static MonetaryValue getFullModel() {
         return new MonetaryValue(TEN_DOLLARS);
     }
+
+    /**
+     * Private constructor to prevent instantiation.
+     */
+    private MonetaryValueFixture() {
+        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+    }
 }

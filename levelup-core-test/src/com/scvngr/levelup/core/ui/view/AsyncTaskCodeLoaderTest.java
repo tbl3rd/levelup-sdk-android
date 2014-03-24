@@ -6,7 +6,6 @@ package com.scvngr.levelup.core.ui.view;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.test.SupportInstrumentationTestCase;
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
-import com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -78,7 +77,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
     }
 
     /**
-     * Tests {@link LevelUpCodeLoader#getLevelUpCode(String, OnImageLoaded)} with a cache hit.
+     * Tests {@link LevelUpCodeLoader#getLevelUpCode} with a cache hit.
      */
     public void testGetLevelUpCode_cacheHit() {
         final CountDownLatch latch = mQrCodeGenerator.addCountdownLatch();
@@ -96,9 +95,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
     }
 
     /**
-     * Tests
-     * {@link LevelUpCodeLoader#getLevelUpCode(String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
-     * with a cache miss.
+     * Tests {@link LevelUpCodeLoader#getLevelUpCode} with a cache miss.
      */
     public void testGetLevelUpCode_cacheMiss() {
         final CountDownLatch latch = mQrCodeGenerator.addCountdownLatch();
@@ -156,9 +153,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
     }
 
     /**
-     * Tests
-     * {@link LevelUpCodeLoader#registerOnImageLoadedCallback(String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
-     * .
+     * Tests {@link LevelUpCodeLoader#registerOnImageLoadedCallback}.
      *
      * @throws InterruptedException upon interruption
      */
@@ -170,9 +165,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
     }
 
     /**
-     * Tests that
-     * {@link AsyncTaskCodeLoader#startLoadInBackground(String, String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)}
-     * works as expected.
+     * Tests that {@link AsyncTaskCodeLoader#startLoadInBackground} works as expected.
      */
     public void testScheduleLoad() {
         final LatchedOnImageLoaded onImageLoaded = new LatchedOnImageLoaded(mTestKey1);

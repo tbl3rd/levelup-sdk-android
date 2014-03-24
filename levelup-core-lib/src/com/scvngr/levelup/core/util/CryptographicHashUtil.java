@@ -3,15 +3,15 @@
  */
 package com.scvngr.levelup.core.util;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+
+import net.jcip.annotations.ThreadSafe;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * This is a utility class to generate cryptographic hashes.
@@ -98,9 +98,11 @@ public final class CryptographicHashUtil {
         final char[] chars = new char[2 * length];
 
         for (int x = 0; x < length; x++) {
+            // CHECKSTYLE:OFF hex math, not really magic numbers.
             // Shift the masked bits into the lower positions so we can index the array.
             chars[2 * x] = HEXDIGITS[(data[x] & 0xF0) >>> 4];
             chars[2 * x + 1] = HEXDIGITS[data[x] & 0x0F];
+            // CHECKSTYLE:ON
         }
 
         return NullUtils.nonNullContract(String.valueOf(chars));

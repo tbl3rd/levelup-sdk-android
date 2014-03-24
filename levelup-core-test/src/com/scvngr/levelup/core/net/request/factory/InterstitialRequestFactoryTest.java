@@ -6,6 +6,7 @@ package com.scvngr.levelup.core.net.request.factory;
 import android.net.Uri;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.Interstitial;
 import com.scvngr.levelup.core.model.InterstitialFixture;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
@@ -23,7 +24,7 @@ import java.util.UUID;
  * Tests {@link InterstitialRequestFactory}.
  */
 public final class InterstitialRequestFactoryTest extends SupportAndroidTestCase {
-
+    @NonNull
     private static final String TEST_UUID = UUID.randomUUID().toString();
 
     @SmallTest
@@ -43,8 +44,10 @@ public final class InterstitialRequestFactoryTest extends SupportAndroidTestCase
                 String.format(Locale.US, "/v14/orders/%s/interstitial", TEST_UUID); //$NON-NLS-1$
         assertEquals(expectedUrl, url.getPath());
 
-        assertTrue("Request is authenticated", request.getRequestHeaders(getContext()).containsKey( //$NON-NLS-1$
-                LevelUpRequest.HEADER_AUTHORIZATION));
+        assertTrue(
+                "Request is authenticated",
+                request.getRequestHeaders(getContext()).containsKey(
+                        LevelUpRequest.HEADER_AUTHORIZATION));
     }
 
     @SmallTest

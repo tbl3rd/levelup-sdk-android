@@ -5,26 +5,25 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList;
 import com.scvngr.levelup.core.util.NullUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Parcelable list of {@link CreditCard}s.
  */
-@LevelUpApi(contract=Contract.DRAFT)
+@LevelUpApi(contract = Contract.DRAFT)
 public final class CreditCardsList extends ParcelableArrayList<CreditCard> {
-
     /**
      * Parcelable creator.
      */
     @NonNull
-    public static Creator<CreditCardsList> CREATOR = new Creator<CreditCardsList>() {
+    public static final Creator<CreditCardsList> CREATOR = new Creator<CreditCardsList>() {
         @Override
         public CreditCardsList createFromParcel(final Parcel source) {
             return new CreditCardsList(NullUtils.nonNullContract(source));

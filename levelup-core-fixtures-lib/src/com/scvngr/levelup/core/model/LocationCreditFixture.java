@@ -21,7 +21,7 @@ public final class LocationCreditFixture {
      * @return a fully populated {@link LocationCredit}.
      */
     @NonNull
-    public static final LocationCredit getFullModel(final long webServiceId) {
+    public static LocationCredit getFullModel(final long webServiceId) {
         try {
             return new LocationCreditJsonFactory().from(getFullJsonObject(webServiceId));
         } catch (final JSONException e) {
@@ -34,7 +34,7 @@ public final class LocationCreditFixture {
      * @return a valid minimal {@link LocationCredit}.
      */
     @NonNull
-    public static final LocationCredit getMinimalModel(final long webServiceId) {
+    public static LocationCredit getMinimalModel(final long webServiceId) {
         try {
             return new LocationCreditJsonFactory().from(getMinimalJsonObject(webServiceId));
         } catch (final JSONException e) {
@@ -48,7 +48,7 @@ public final class LocationCreditFixture {
      * @return a {@link JSONObject} with all the LocationCredit required fields.
      */
     @NonNull
-    public static JSONObject getMinimalJsonObject() throws JSONException {
+    public static JSONObject getMinimalJsonObject() {
         return getMinimalJsonObject(1);
     }
 
@@ -60,11 +60,16 @@ public final class LocationCreditFixture {
      * @return a {@link JSONObject} with all the LocationCredit required fields.
      */
     @NonNull
-    public static JSONObject getMinimalJsonObject(final long webServiceId) throws JSONException {
+    public static JSONObject getMinimalJsonObject(final long webServiceId) {
         final long amount = MonetaryValueFixture.getFullModel().getAmount() + webServiceId;
         final JSONObject object = new JSONObject();
-        object.put(LocationCreditJsonFactory.JsonKeys.MERCHANT_AMOUNT, amount);
-        object.put(LocationCreditJsonFactory.JsonKeys.TOTAL_AMOUNT, amount);
+
+        try {
+            object.put(LocationCreditJsonFactory.JsonKeys.MERCHANT_AMOUNT, amount);
+            object.put(LocationCreditJsonFactory.JsonKeys.TOTAL_AMOUNT, amount);
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
 
         return object;
     }
@@ -75,7 +80,7 @@ public final class LocationCreditFixture {
      * @return a {@link JSONObject} with all the LocationCredit fields.
      */
     @NonNull
-    public static JSONObject getFullJsonObject() throws JSONException {
+    public static JSONObject getFullJsonObject() {
         return getFullJsonObject(1);
     }
 
@@ -86,12 +91,12 @@ public final class LocationCreditFixture {
      * @return a {@link JSONObject} with all the LocationCredit fields.
      */
     @NonNull
-    public static JSONObject getFullJsonObject(final long webServiceId) throws JSONException {
+    public static JSONObject getFullJsonObject(final long webServiceId) {
         return getMinimalJsonObject(webServiceId);
     }
 
     /**
-     * Private constructor prevents instantiation
+     * Private constructor prevents instantiation.
      *
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */

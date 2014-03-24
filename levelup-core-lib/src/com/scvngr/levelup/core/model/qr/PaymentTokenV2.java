@@ -5,11 +5,11 @@ package com.scvngr.levelup.core.model.qr;
 
 import android.content.res.Resources;
 
-import net.jcip.annotations.Immutable;
-
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.tip.Tip;
 import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
 
 /**
  * <p>Class to encompass the logic to encode V2 payment tokens combined with
@@ -54,7 +54,7 @@ public final class PaymentTokenV2 extends LevelUpCode {
     @Override
     @NonNull
     String encodePaymentPreferences(final int color, final Tip<?> tip) {
-        return NullUtils.format("%s%s", mData, PaymentPreferences.getPreferenceVersion(mData)
-                .encode(color, tip));
+        return NullUtils.format("%s%s", mData, //$NON-NLS-1$
+                PaymentPreferences.getPreferenceVersion(mData).encode(color, tip));
     }
 }

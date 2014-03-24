@@ -15,13 +15,12 @@ import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.util.LogManager;
-import com.scvngr.levelup.core.util.WebLinkParser;
 
 import net.jcip.annotations.Immutable;
 
 /**
  * A summarized list of all LevelUp locations. This list is paged using the Link header. See
- * {@link WebLinkParser}.
+ * {@link com.scvngr.levelup.core.util.WebLinkParser}.
  */
 @Immutable
 @LevelUpApi(contract = Contract.INTERNAL)

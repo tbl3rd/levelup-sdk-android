@@ -5,17 +5,16 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList;
 import com.scvngr.levelup.core.util.NullUtils;
 
+import java.util.Collection;
+
 /**
- * An immutable {@link ArrayList} of {@link Location}s.
+ * An immutable {@link java.util.ArrayList} of {@link Location}s.
  */
 @LevelUpApi(contract = Contract.DRAFT)
 public final class LocationList extends ParcelableArrayList<Location> {

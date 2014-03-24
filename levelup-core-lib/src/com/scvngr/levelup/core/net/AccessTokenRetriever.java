@@ -24,5 +24,5 @@ public interface AccessTokenRetriever extends Parcelable {
      * @return the {@link AccessToken} for the {@link com.scvngr.levelup.core.model.User}.
      */
     @Nullable
-    public AccessToken getAccessToken(@NonNull final Context context);
+    AccessToken getAccessToken(@NonNull final Context context);
 }

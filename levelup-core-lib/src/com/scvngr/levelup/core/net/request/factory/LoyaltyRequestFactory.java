@@ -8,9 +8,6 @@ import android.content.Context;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.model.AccessToken;
-import com.scvngr.levelup.core.model.Loyalty;
-import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
@@ -20,8 +17,8 @@ import com.scvngr.levelup.core.util.NullUtils;
 import net.jcip.annotations.Immutable;
 
 /**
- * Factory for creating {@link AbstractRequest}s for interacting with {@link Loyalty} on the web
- * service.
+ * Factory for creating {@link AbstractRequest}s for interacting with
+ * {@link com.scvngr.levelup.core.model.Loyalty} on the web service.
  */
 @Immutable
 @LevelUpApi(contract = Contract.DRAFT)
@@ -30,7 +27,8 @@ public final class LoyaltyRequestFactory extends AbstractRequestFactory {
     /**
      * @param context the Application context.
      * @param retriever the implementation of {@link AccessTokenRetriever} to use to get the
-     *        {@link User}'s {@link AccessToken}.
+     *        {@link com.scvngr.levelup.core.model.User}'s
+     *        {@link com.scvngr.levelup.core.model.AccessToken}.
      */
     public LoyaltyRequestFactory(@NonNull final Context context,
             @NonNull final AccessTokenRetriever retriever) {
@@ -38,10 +36,10 @@ public final class LoyaltyRequestFactory extends AbstractRequestFactory {
     }
 
     /**
-     * @param merchantWebServiceId the web service ID of the merchant to load the {@link Loyalty}
-     *        for.
-     * @return an {@link AbstractRequest} to get the {@link Loyalty} for the current user at the
-     *         merchant.
+     * @param merchantWebServiceId the web service ID of the merchant to load the
+     *        {@link com.scvngr.levelup.core.model.Loyalty} for.
+     * @return an {@link AbstractRequest} to get the {@link com.scvngr.levelup.core.model.Loyalty}
+     *         for the current user at the merchant.
      */
     @NonNull
     public AbstractRequest buildGetLoyaltyForMerchantRequest(final long merchantWebServiceId) {

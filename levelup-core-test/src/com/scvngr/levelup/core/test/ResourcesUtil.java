@@ -8,8 +8,22 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
+
+/**
+ * Utility class for dealing with {@link Resources}.
+ */
 public final class ResourcesUtil {
-    public static Resources getAppResources(final Context context) {
+    /**
+     * Get the {@link Resources} for an app, returning null rather than throwing a
+     * {@link NameNotFoundException} if something goes wrong.
+     *
+     * @param context the context to get resources for.
+     * @return the resources, or null if there was a {@link NameNotFoundException}.
+     */
+    @Nullable
+    public static Resources getAppResources(@NonNull final Context context) {
         final PackageManager pm = context.getPackageManager();
         final String packageName = context.getApplicationContext().getPackageName();
         try {

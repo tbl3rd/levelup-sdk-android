@@ -205,7 +205,7 @@ public final class UserFixture {
      * @return The modified {@link JSONObject}.
      */
     @NonNull
-    public static final JSONObject setBornAt(@NonNull final JSONObject userJsonObject,
+    public static JSONObject setBornAt(@NonNull final JSONObject userJsonObject,
             @Nullable final String bornAt) {
         try {
             userJsonObject.put(UserJsonFactory.JsonKeys.BORN_AT, bornAt);
@@ -224,7 +224,7 @@ public final class UserFixture {
      * @return The modified {@link JSONObject}.
      */
     @NonNull
-    public static final JSONObject setEmail(@NonNull final JSONObject userJsonObject,
+    public static JSONObject setEmail(@NonNull final JSONObject userJsonObject,
             @Nullable final String email) {
         try {
             userJsonObject.put(UserJsonFactory.JsonKeys.EMAIL, email);
@@ -243,7 +243,7 @@ public final class UserFixture {
      * @return The modified {@link JSONObject}.
      */
     @NonNull
-    public static final JSONObject setFirstName(@NonNull final JSONObject userJsonObject,
+    public static JSONObject setFirstName(@NonNull final JSONObject userJsonObject,
             @Nullable final String firstName) {
         try {
             userJsonObject.put(UserJsonFactory.JsonKeys.FIRST_NAME, firstName);
@@ -262,7 +262,7 @@ public final class UserFixture {
      * @return The modified {@link JSONObject}.
      */
     @NonNull
-    public static final JSONObject setGender(@NonNull final JSONObject userJsonObject,
+    public static JSONObject setGender(@NonNull final JSONObject userJsonObject,
             @Nullable final String gender) {
         try {
             userJsonObject.put(UserJsonFactory.JsonKeys.GENDER, gender);
@@ -281,7 +281,7 @@ public final class UserFixture {
      * @return The modified {@link JSONObject}.
      */
     @NonNull
-    public static final JSONObject setLastName(@NonNull final JSONObject userJsonObject,
+    public static JSONObject setLastName(@NonNull final JSONObject userJsonObject,
             @Nullable final String lastName) {
         try {
             userJsonObject.put(UserJsonFactory.JsonKeys.LAST_NAME, lastName);

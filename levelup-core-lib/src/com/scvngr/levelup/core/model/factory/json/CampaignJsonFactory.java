@@ -3,11 +3,6 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
-import net.jcip.annotations.Immutable;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.annotation.JsonValueType;
 import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
@@ -18,6 +13,12 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.Campaign;
 import com.scvngr.levelup.core.model.Campaign.CampaignBuilder;
 import com.scvngr.levelup.core.model.util.JsonUtils;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Factory for creating {@link Campaign}s from JSON.
@@ -56,7 +57,8 @@ public final class CampaignJsonFactory extends AbstractJsonModelFactory<Campaign
         builder.type(JsonUtils.optString(json, JsonKeys.TYPE));
         builder.value(JsonUtils.getMonetaryValue(json, JsonKeys.VALUE));
 
-        return builder.build();
+        // Lombok's Builder.build() is an undocumented @NonNull.
+        return NullUtils.nonNullContract(builder.build());
     }
 
     /**
@@ -69,54 +71,71 @@ public final class CampaignJsonFactory extends AbstractJsonModelFactory<Campaign
         /**
          * The key under which this model can be nested.
          */
+        @NonNull
         @JsonValueType(JsonType.JSON_OBJECT)
         public static final String MODEL_ROOT = "campaign"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.BOOLEAN)
         public static final String APPLIES_TO_ALL_MERCHANTS = "applies_to_all_merchants"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String CONFIRMATION_HTML = "confirmation_html"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.LONG)
         public static final String ID = "id"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String MESSAGE_FOR_EMAIL_BODY = "message_for_email_body"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String MESSAGE_FOR_EMAIL_SUBJECT = "message_for_email_subject"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String MESSAGE_FOR_FACEBOOK = "message_for_facebook"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String MESSAGE_FOR_TWITTER = "message_for_twitter"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String NAME = "name"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String OFFER_HTML = "offer_html"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.BOOLEAN)
         public static final String SHAREABLE = "shareable"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String SHARE_URL_EMAIL = "share_url_email"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String SHARE_URL_FACEBOOK = "share_url_facebook"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String SHARE_URL_TWITTER = "share_url_twitter"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String SPONSOR = "sponsor"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.STRING)
         public static final String TYPE = "type"; //$NON-NLS-1$
 
+        @NonNull
         @JsonValueType(JsonType.LONG)
         public static final String VALUE = "value_amount"; //$NON-NLS-1$
 

@@ -9,11 +9,11 @@ import android.os.StrictMode;
 import android.os.StrictMode.ThreadPolicy;
 import android.os.StrictMode.VmPolicy;
 
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * This is a utility class to use {@link android.os.StrictMode} without worrying about backwards
@@ -36,6 +36,11 @@ public final class StrictModeUtil {
         }
     }
 
+    /**
+     * Note a slow call using APIs introduced in Android 3.0.
+     *
+     * @param name the name of the slow call to note.
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private static void noteSlowCallHoneycomb(@NonNull final String name) {
         StrictMode.noteSlowCall(name);

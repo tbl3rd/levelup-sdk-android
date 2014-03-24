@@ -40,11 +40,11 @@ public final class PaymentTokenTest extends SupportAndroidTestCase {
     @SmallTest
     public void testEqualsAndHashCode() throws JSONException {
         // Test similarities
-        final PaymentToken PaymentToken1 =
+        final PaymentToken paymentToken1 =
                 new PaymentTokenJsonFactory().from(PaymentTokenFixture.getFullJsonObject());
-        final PaymentToken PaymentToken2 =
+        final PaymentToken paymentToken2 =
                 new PaymentTokenJsonFactory().from(PaymentTokenFixture.getFullJsonObject());
-        MoreAsserts.checkEqualsAndHashCodeMethods(PaymentToken1, PaymentToken2, true);
+        MoreAsserts.checkEqualsAndHashCodeMethods(paymentToken1, paymentToken2, true);
 
         // Test differences across variations based on all JSON keys
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(PaymentTokenJsonFactory.JsonKeys.class,
@@ -59,9 +59,9 @@ public final class PaymentTokenTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testToString() throws JSONException {
-        final PaymentToken PaymentToken =
+        final PaymentToken paymentToken =
                 new PaymentTokenJsonFactory().from((PaymentTokenFixture.getFullJsonObject()));
-        final String string = PaymentToken.toString();
+        final String string = paymentToken.toString();
         assertTrue(string.length() > 0);
     }
 }

@@ -5,6 +5,13 @@ package com.scvngr.levelup.core.util;
 
 import android.net.Uri;
 
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
+
+import net.jcip.annotations.Immutable;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -12,13 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import net.jcip.annotations.Immutable;
-
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 
 /**
  * <p>
@@ -36,7 +36,8 @@ import com.scvngr.levelup.core.annotation.Nullable;
 public final class WebLinkParser {
 
     /**
-     * Relation. Value should be a single quoted or unquoted relation type, or a quoted list of space-separated relation types.
+     * Relation. Value should be a single quoted or unquoted relation type, or a quoted list of
+     * space-separated relation types.
      */
     public static final String PARAMETER_REL = "rel"; //$NON-NLS-1$
 
@@ -75,9 +76,8 @@ public final class WebLinkParser {
      */
     public static final String PARAMETER_TYPE = "type"; //$NON-NLS-1$
 
-
     /**
-     * the allowed characters below are from rfc5987 parmname
+     * the allowed characters below are from rfc5987 parmname.
      */
     private static final String REGEX_PARMNAME = "[\\w!#$&+-.^`|~]+"; //$NON-NLS-1$
 
@@ -118,7 +118,7 @@ public final class WebLinkParser {
      * @throws MalformedWebLinkException if the header could not be parsed.
      */
     @NonNull
-    public static final WebLink parseLinkHeader(@NonNull final String headerValue)
+    public static WebLink parseLinkHeader(@NonNull final String headerValue)
             throws MalformedWebLinkException {
         return parseLinkHeader(null, headerValue);
     }
@@ -136,7 +136,7 @@ public final class WebLinkParser {
      * @throws MalformedWebLinkException if the header could not be parsed.
      */
     @NonNull
-    public static final WebLink parseLinkHeader(@Nullable final Uri context,
+    public static WebLink parseLinkHeader(@Nullable final Uri context,
             @NonNull final String headerValue) throws MalformedWebLinkException {
         final Matcher linkMatcher = WEB_LINK.matcher(headerValue);
         if (!linkMatcher.matches()) {
@@ -179,7 +179,7 @@ public final class WebLinkParser {
      * @throws MalformedWebLinkException if there is a malformed URI.
      */
     @NonNull
-    private static final Uri resolveRelativeUri(@NonNull final Uri context,
+    private static Uri resolveRelativeUri(@NonNull final Uri context,
             @NonNull final String target) throws MalformedWebLinkException {
 
         Uri targetUri = Uri.parse(target);
@@ -220,7 +220,7 @@ public final class WebLinkParser {
          */
         public WebLink(@NonNull final Uri link, @NonNull final Map<String, String> parameters) {
             mLink = link;
-            mParameters = Collections.unmodifiableMap(parameters);
+            mParameters = NullUtils.nonNullContract(Collections.unmodifiableMap(parameters));
         }
 
         /**
@@ -244,10 +244,11 @@ public final class WebLinkParser {
          * @return the value of the given parameter or {@code null} if there is no such parameter.
          */
         @Nullable
-        public final String getParameter(@NonNull final String name){
+        public final String getParameter(@NonNull final String name) {
             return mParameters.get(name);
         }
 
+        @SuppressWarnings("null") // Generated method.
         @Override
         public int hashCode() {
             final int prime = 31;
@@ -257,25 +258,33 @@ public final class WebLinkParser {
             return result;
         }
 
+        @SuppressWarnings({ "null", "unused" }) // Generated method.
         @Override
         public boolean equals(final Object obj) {
-            if (this == obj)
+            if (this == obj) {
                 return true;
-            if (obj == null)
+            }
+            if (obj == null) {
                 return false;
-            if (getClass() != obj.getClass())
+            }
+            if (getClass() != obj.getClass()) {
                 return false;
+            }
             final WebLink other = (WebLink) obj;
             if (mLink == null) {
-                if (other.mLink != null)
+                if (other.mLink != null) {
                     return false;
-            } else if (!mLink.equals(other.mLink))
+                }
+            } else if (!mLink.equals(other.mLink)) {
                 return false;
+            }
             if (mParameters == null) {
-                if (other.mParameters != null)
+                if (other.mParameters != null) {
                     return false;
-            } else if (!mParameters.equals(other.mParameters))
+                }
+            } else if (!mParameters.equals(other.mParameters)) {
                 return false;
+            }
             return true;
         }
 

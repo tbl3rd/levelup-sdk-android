@@ -61,6 +61,29 @@ import com.scvngr.levelup.core.util.NullUtils;
  * </p>
  */
 public final class LevelUpCodeView extends View {
+
+    // Target coordinates are given as an arrary [left, top, right, bottom].
+
+    /**
+     * Target coordinate array index for the left position for a {@link LevelUpQrCodeImage}.
+     */
+    private static final int TARGET_LEFT_INDEX = 0;
+
+    /**
+     * Target coordinate array index for the top position for a {@link LevelUpQrCodeImage}.
+     */
+    private static final int TARGET_TOP_INDEX = 1;
+
+    /**
+     * Target coordinate array index for the right position for a {@link LevelUpQrCodeImage}.
+     */
+    private static final int TARGET_RIGHT_INDEX = 2;
+
+    /**
+     * Target coordinate array index for the bottom position for a {@link LevelUpQrCodeImage}.
+     */
+    private static final int TARGET_BOTTOM_INDEX = 3;
+
     /**
      * The duration of the color fade animation, in milliseconds.
      */
@@ -441,15 +464,18 @@ public final class LevelUpCodeView extends View {
         int[] target;
         target = codeBitmapWithTarget.getTargetTopRight();
         mTargetTopRightPaint.setAlpha(mColorAlpha);
-        canvas.drawRect(target[0], target[1], target[2], target[3], mTargetTopRightPaint);
+        canvas.drawRect(target[TARGET_LEFT_INDEX], target[TARGET_TOP_INDEX],
+                target[TARGET_RIGHT_INDEX], target[TARGET_BOTTOM_INDEX], mTargetTopRightPaint);
 
         target = codeBitmapWithTarget.getTargetBottomRight();
         mTargetBottomRightPaint.setAlpha(mColorAlpha);
-        canvas.drawRect(target[0], target[1], target[2], target[3], mTargetBottomRightPaint);
+        canvas.drawRect(target[TARGET_LEFT_INDEX], target[TARGET_TOP_INDEX],
+                target[TARGET_RIGHT_INDEX], target[TARGET_BOTTOM_INDEX], mTargetBottomRightPaint);
 
         target = codeBitmapWithTarget.getTargetBottomLeft();
         mTargetBottomLeftPaint.setAlpha(mColorAlpha);
-        canvas.drawRect(target[0], target[1], target[2], target[3], mTargetBottomLeftPaint);
+        canvas.drawRect(target[TARGET_LEFT_INDEX], target[TARGET_TOP_INDEX],
+                target[TARGET_RIGHT_INDEX], target[TARGET_BOTTOM_INDEX], mTargetBottomLeftPaint);
     }
 
     /**
@@ -551,7 +577,7 @@ public final class LevelUpCodeView extends View {
          * @param isCodeLoading {@code true} if the displayed code is currently loading.
          *        {@code false} when the code has loaded.
          */
-        public void onCodeLoad(final boolean isCodeLoading);
+        void onCodeLoad(final boolean isCodeLoading);
     }
 
     /**

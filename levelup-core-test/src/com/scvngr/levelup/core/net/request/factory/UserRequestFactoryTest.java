@@ -31,7 +31,6 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Locale;
 import java.util.Map;
 
@@ -61,8 +60,8 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
      * Tests the {@link AbstractRequest} return from
      * {@link UserRequestFactory#buildForgotPasswordRequest}.
      *
-     * @throws BadRequestException from {@link AbstractRequest#getUrl}
-     * @throws UnsupportedEncodingException from {@link URLEncoder#encode(String, String)}
+     * @throws BadRequestException from {@link AbstractRequest#getUrl}.
+     * @throws UnsupportedEncodingException from {@link java.net.URLEncoder#encode(String, String)}.
      */
     @SmallTest
     public void testBuildForgotPasswordRequest_withValidArgument() throws BadRequestException,
@@ -176,11 +175,11 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         validateAccessTokenHeader(request);
 
         assertTrue(request instanceof LevelUpRequestWithCurrentUser);
-        final LevelUpRequestWithCurrentUser LevelUpV13Request =
+        final LevelUpRequestWithCurrentUser levelUpRequest =
                 (LevelUpRequestWithCurrentUser) request;
 
         final JSONObject postParams =
-                new JSONObject(LevelUpV13Request.getBody(getContext()))
+                new JSONObject(levelUpRequest.getBody(getContext()))
                         .getJSONObject(UserRequestFactory.OUTER_PARAM_USER);
         assertEquals(7, postParams.length());
 
@@ -268,8 +267,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
      * Validates the presence of the access token query parameter in the {@link AbstractRequest}.
      *
      * @param request The {@link AbstractRequest} to validate.
-     * @throws {@link BadRequestException} Thrown by
-     *         {@link AbstractRequest#getUrl(android.content.Context)}.
+     * @throws BadRequestException thrown by {@link AbstractRequest#getUrl(Context)}.
      */
     private void validateAccessTokenHeader(@NonNull final AbstractRequest request)
             throws BadRequestException {
@@ -303,9 +301,9 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
             throws BadRequestException {
         final Context context = getContext();
         final LevelUpRequest request =
-                (LevelUpRequest) new UserRequestFactory(context, null)
-                        .buildRegisterRequest("first_name", "last_name", "email@example.com", //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-                                "password123", location); //$NON-NLS-1$
+                (LevelUpRequest) new UserRequestFactory(context, null).buildRegisterRequest(
+                        "first_name", "last_name", //$NON-NLS-1$ //$NON-NLS-2$
+                        "email@example.com", "password123", location); //$NON-NLS-1$ //$NON-NLS-2$
 
         assertEquals(HttpMethod.POST, request.getMethod());
         final URL url = request.getUrl(context);

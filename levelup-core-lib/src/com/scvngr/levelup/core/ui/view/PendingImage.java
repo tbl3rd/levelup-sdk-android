@@ -3,11 +3,11 @@
  */
 package com.scvngr.levelup.core.ui.view;
 
-import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
-
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * An image that can be loaded later. This contains a reference to an image of an arbitrary type
@@ -104,7 +104,7 @@ public final class PendingImage<T> {
          *
          * @param loadKey the key.
          */
-        public void cancelLoad(@NonNull final String loadKey);
+        void cancelLoad(@NonNull final String loadKey);
     }
 
     /**
@@ -119,6 +119,6 @@ public final class PendingImage<T> {
          * @param loadKey the key by which the image was loaded.
          * @param image the loaded image.
          */
-        public void onImageLoaded(@NonNull final String loadKey, @NonNull final T2 image);
+        void onImageLoaded(@NonNull final String loadKey, @NonNull final T2 image);
     }
 }

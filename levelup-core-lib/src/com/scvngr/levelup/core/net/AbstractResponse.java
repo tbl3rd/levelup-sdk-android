@@ -3,19 +3,18 @@
  */
 package com.scvngr.levelup.core.net;
 
-import java.net.HttpURLConnection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import net.jcip.annotations.NotThreadSafe;
-
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+
+import net.jcip.annotations.NotThreadSafe;
+
+import java.net.HttpURLConnection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Object which represents an HTTP response.
@@ -91,7 +90,7 @@ public abstract class AbstractResponse<T> {
     /**
      * @param statusCode the HTTP status code of the response.
      * @param httpHeaders the HTTP headers included in the response. This must be an unmodifiable
-     *        map, for example one wrapped using {@link Collections#unmodifiableMap(Map)}.
+     *        map, for example one wrapped using {@link java.util.Collections#unmodifiableMap(Map)}.
      * @param error the {@link Exception} that was thrown during the request or {@code null} if
      *        there was no error.
      */
@@ -154,7 +153,9 @@ public abstract class AbstractResponse<T> {
 
     @Override
     public String toString() {
+        // CHECKSTYLE:OFF long format string
         return String.format("AbstractResponse [mHttpStatusCode=%s, mError=%s]", mHttpStatusCode, //$NON-NLS-1$
                 mError);
+        // CHECKSTYLE:ON
     }
 }

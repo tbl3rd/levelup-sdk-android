@@ -22,7 +22,8 @@ public final class CauseAffiliationJsonFactoryTest extends SupportAndroidTestCas
         assertEquals(
                 new CauseAffiliationJsonFactory().from(CauseAffiliationFixture.getFullJsonObject()),
                 causeAffiliation);
-        assertEquals(CauseAffiliationFixture.getFullModel().getCauseWebServiceId(), causeAffiliation.getCauseWebServiceId());
+        assertEquals(CauseAffiliationFixture.getFullModel().getCauseWebServiceId(),
+                causeAffiliation.getCauseWebServiceId());
         assertEquals(CauseAffiliationFixture.getFullModel().getPercentDonation(),
                 causeAffiliation.getPercentDonation());
     }
@@ -34,7 +35,8 @@ public final class CauseAffiliationJsonFactoryTest extends SupportAndroidTestCas
         assertEquals(
                 new CauseAffiliationJsonFactory().from(CauseAffiliationFixture.getFullJsonObject(null)),
                 causeAffiliation);
-        assertEquals(CauseAffiliationFixture.getFullModel(null).getCauseWebServiceId(), causeAffiliation.getCauseWebServiceId());
+        assertEquals(CauseAffiliationFixture.getFullModel(null).getCauseWebServiceId(),
+                causeAffiliation.getCauseWebServiceId());
         assertEquals(CauseAffiliationFixture.getFullModel(null).getPercentDonation(),
                 causeAffiliation.getPercentDonation());
     }

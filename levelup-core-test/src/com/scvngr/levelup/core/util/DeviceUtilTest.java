@@ -38,7 +38,7 @@ public final class DeviceUtilTest extends TestCase {
 
         {
             // We should return the medium density for anything less than high.
-            context.resources.metrics.densityDpi = DisplayMetrics.DENSITY_HIGH - 1 ;
+            context.resources.metrics.densityDpi = DisplayMetrics.DENSITY_HIGH - 1;
             assertEquals(DeviceUtil.DENSITY_1X, DeviceUtil.getDeviceDensityString(context));
         }
 

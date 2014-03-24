@@ -7,8 +7,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.test.AndroidTestCase;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.model.Category;
@@ -19,6 +17,9 @@ import com.scvngr.levelup.core.model.OrderFixture;
 import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.model.UserFixture;
 import com.scvngr.levelup.core.util.NullUtils;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import net.jcip.annotations.Immutable;
 
@@ -101,7 +102,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
         assertEquals(123, product.getId());
         assertEquals(50, product.getInventoryCount());
         assertEquals("widget", product.getName()); //$NON-NLS-1$
-        assertEquals("Product", product.DB_KEY);
+        assertEquals("Product", Product.DB_KEY);
     }
 
     /**
@@ -119,7 +120,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
         assertEquals(123, product.getId());
         assertEquals(50, product.getInventoryCount());
         assertEquals("widget", product.getName()); //$NON-NLS-1$
-        assertEquals("Product", product.DB_KEY);
+        assertEquals("Product", Product.DB_KEY);
 
     }
 
@@ -137,7 +138,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
         assertEquals(123, product.getId());
         assertEquals(50, product.getInventoryCount());
         assertEquals("widget", product.getName()); //$NON-NLS-1$
-        assertEquals("Product", product.DB_KEY);
+        assertEquals("Product", Product.DB_KEY);
     }
 
     /**
@@ -183,7 +184,6 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
     /**
      * A test model.
      */
-    @SuppressWarnings("javadoc")
     @Immutable
     public static final class Product implements Parcelable {
 
@@ -224,8 +224,10 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
         /**
          * A test model that's not part of our core models. This includes some common edge cases.
          */
+        //CHECKSTYLE:OFF don't warn about field hiding for this sample model constructor.
         public Product(@NonNull final MonetaryValue cost, @Nullable final String description,
                 final long id, final long inventoryCount, @NonNull final String name) {
+            //CHECKSTYLE:ON
             this.cost = cost;
             this.description = description;
             this.id = id;
