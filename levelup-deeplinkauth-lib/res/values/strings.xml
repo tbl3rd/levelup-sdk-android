@@ -1,0 +1,7 @@
+<resources>
+
+    <string name="library_name">levelup-deeplinkauth-lib</string>
+
+    <string name="levelup_app_url_scheme" formatted="false" translatable="false">thelevelup</string>
+    <string name="levelup_app_url_host_authorization" formatted="false" translatable="false">authorization</string>
+</resources>

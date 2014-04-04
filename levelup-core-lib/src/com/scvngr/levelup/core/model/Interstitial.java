@@ -226,7 +226,7 @@ public final class Interstitial implements Parcelable {
         @Override
         @SuppressWarnings("all")
         public int hashCode() {
-            final int PRIME = 59;
+            final int PRIME = 277;
             int result = 1;
             final Object $code = this.getCode();
             result = result * PRIME + ($code == null ? 0 : $code.hashCode());
@@ -313,7 +313,7 @@ public final class Interstitial implements Parcelable {
         @Override
         @SuppressWarnings("all")
         public int hashCode() {
-            final int PRIME = 59;
+            final int PRIME = 277;
             int result = 1;
             final Object $questionText = this.getQuestionText();
             result = result * PRIME + ($questionText == null ? 0 : $questionText.hashCode());
@@ -595,7 +595,7 @@ public final class Interstitial implements Parcelable {
         @Override
         @SuppressWarnings("all")
         public int hashCode() {
-            final int PRIME = 59;
+            final int PRIME = 277;
             int result = 1;
             final Object $messageForEmailBody = this.getMessageForEmailBody();
             result = result * PRIME + ($messageForEmailBody == null ? 0 : $messageForEmailBody.hashCode());
@@ -715,7 +715,7 @@ public final class Interstitial implements Parcelable {
         @Override
         @SuppressWarnings("all")
         public int hashCode() {
-            final int PRIME = 59;
+            final int PRIME = 277;
             int result = 1;
             final Object $url = this.getUrl();
             result = result * PRIME + ($url == null ? 0 : $url.hashCode());
@@ -832,7 +832,7 @@ public final class Interstitial implements Parcelable {
     @Override
     @SuppressWarnings("all")
     public int hashCode() {
-        final int PRIME = 59;
+        final int PRIME = 277;
         int result = 1;
         final Object $action = this.getAction();
         result = result * PRIME + ($action == null ? 0 : $action.hashCode());

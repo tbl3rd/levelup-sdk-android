@@ -11,5 +11,6 @@
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/levelup-core-fixtures-lib"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/levelup-core-test-lib"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/levelup-deeplinkauth-lib"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
