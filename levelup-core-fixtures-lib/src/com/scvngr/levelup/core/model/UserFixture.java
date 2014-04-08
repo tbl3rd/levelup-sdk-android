@@ -134,10 +134,11 @@ public final class UserFixture {
         try {
             return getMinimalJsonObject(id)
                     .put(UserJsonFactory.JsonKeys.BORN_AT, "1911-12-26T00:00:00-0200") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.CONNECTED_TO_FACEBOOK, true)
                     .put(UserJsonFactory.JsonKeys.CUSTOM_ATTRIBUTES,
                             new JSONObject(customAttributesMap))
+                    .put(UserJsonFactory.JsonKeys.DEBIT_CARD_ONLY, true)
                     .put(UserJsonFactory.JsonKeys.EMAIL, "test@example.com") //$NON-NLS-1$
-                    .put(UserJsonFactory.JsonKeys.CONNECTED_TO_FACEBOOK, true)
                     .put(UserJsonFactory.JsonKeys.FIRST_NAME, "John") //$NON-NLS-1$
                     .put(UserJsonFactory.JsonKeys.GENDER, "male") //$NON-NLS-1$
                     .put(UserJsonFactory.JsonKeys.GLOBAL_CREDIT_AMOUNT, 1000)
@@ -165,10 +166,11 @@ public final class UserFixture {
         try {
             return getMinimalJsonObject(1)
                     .put(UserJsonFactory.JsonKeys.BORN_AT, "1911-12-26T00:00:00-0200") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.CONNECTED_TO_FACEBOOK, true)
                     .put(UserJsonFactory.JsonKeys.CUSTOM_ATTRIBUTES,
                             new JSONObject(customAttributesMap))
+                    .put(UserJsonFactory.JsonKeys.DEBIT_CARD_ONLY, true)
                     .put(UserJsonFactory.JsonKeys.EMAIL, "test@example.com") //$NON-NLS-1$
-                    .put(UserJsonFactory.JsonKeys.CONNECTED_TO_FACEBOOK, true)
                     .put(UserJsonFactory.JsonKeys.FIRST_NAME, "John") //$NON-NLS-1$
                     .put(UserJsonFactory.JsonKeys.GENDER, "male") //$NON-NLS-1$
                     .put(UserJsonFactory.JsonKeys.GLOBAL_CREDIT_AMOUNT, 1000)

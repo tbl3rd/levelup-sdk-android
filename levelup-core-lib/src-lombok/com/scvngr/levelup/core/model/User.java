@@ -89,10 +89,22 @@ public final class User implements Parcelable {
     private final String bornAt;
 
     /**
+     * Determines whether the user is connected to Facebook.
+     */
+    @LevelUpApi(contract = Contract.INTERNAL)
+    private final boolean isConnectedToFacebook;
+
+    /**
      * A map of custom attributes for the user.
      */
     @Nullable
     private final Map<String, String> customAttributes;
+
+    /**
+     * Determines whether the user is only allowed to link debit cards.
+     */
+    @LevelUpApi(contract = Contract.INTERNAL)
+    private final boolean isDebitCardOnly;
 
     /**
      * The user's email address.
@@ -124,12 +136,6 @@ public final class User implements Parcelable {
     private final long id;
 
     /**
-     * True if the user is connected to Facebook. False if the user is not connected to Facebook.
-     */
-    @LevelUpApi(contract = Contract.INTERNAL)
-    private final boolean isConnectedToFacebook;
-
-    /**
      * The user's last name.
      */
     @Nullable
@@ -159,29 +165,49 @@ public final class User implements Parcelable {
     private final MonetaryValue totalSavings;
 
     /**
+     * @deprecated Provided for SDK backwards compatibility only. Newer code should use {@link
+     * com.scvngr.levelup.core.model.User#User(String, boolean, Map, boolean, String, String,
+     * Gender, MonetaryValue, long, String, int, int, String, MonetaryValue)} instead. This
+     * constructor omits the {@link #isDebitCardOnly} field.
+     */
+    @Deprecated
+    @SuppressWarnings("all")
+    public User(@Nullable final String bornAt, @Nullable final Map<String, String> customAttributes,
+            @Nullable final String email, @Nullable final String firstName,
+            @Nullable final Gender gender, @Nullable final MonetaryValue globalCredit,
+            final long id, final boolean isConnectedToFacebook, @Nullable final String lastName,
+            final int merchantsVisitedCount, final int ordersCount,
+            @Nullable final String termsAcceptedAt, @Nullable final MonetaryValue totalSavings) {
+        this(bornAt, isConnectedToFacebook, customAttributes, false, email, firstName, gender,
+                globalCredit, id, lastName, merchantsVisitedCount, ordersCount, termsAcceptedAt,
+                totalSavings);
+    }
+
+    /**
      * @param bornAt the timestamp when the user was born.
+     * @param isConnectedToFacebook determines whether the user is connected to Facebook.
      * @param customAttributes map of custom attributes for the user.
+     * @param isDebitCardOnly determines whether the user is only allowed to link debit cards.
      * @param email the user's email address.
      * @param firstName the user's first name.
      * @param gender the user's gender.
      * @param globalCredit the amount of global credit the user has.
      * @param id the user's web service ID.
-     * @param isConnectedToFacebook True if the user is connected to Facebook. False if the user is
-     *        not connected to Facebook.
      * @param lastName the user's last name.
      * @param merchantsVisitedCount the number of merchants the user has visited.
      * @param ordersCount the user's total number of orders placed on LevelUp.
      * @param termsAcceptedAt the time the user accepted the LevelUp terms and conditions.
      * @param totalSavings the total amount the user has saved by using LevelUp.
      */
-    public User(@Nullable final String bornAt,
-            @Nullable final Map<String, String> customAttributes, @Nullable final String email,
-            @Nullable final String firstName, @Nullable final Gender gender,
-            @Nullable final MonetaryValue globalCredit, final long id,
-            final boolean isConnectedToFacebook, @Nullable final String lastName,
-            final int merchantsVisitedCount, final int ordersCount,
-            @Nullable final String termsAcceptedAt, @Nullable final MonetaryValue totalSavings) {
+    public User(@Nullable final String bornAt, final boolean isConnectedToFacebook,
+            @Nullable final Map<String, String> customAttributes, final boolean isDebitCardOnly,
+            @Nullable final String email, @Nullable final String firstName,
+            @Nullable final Gender gender, @Nullable final MonetaryValue globalCredit,
+            final long id, @Nullable final String lastName, final int merchantsVisitedCount,
+            final int ordersCount, @Nullable final String termsAcceptedAt,
+            @Nullable final MonetaryValue totalSavings) {
         this.bornAt = bornAt;
+        this.isConnectedToFacebook = isConnectedToFacebook;
 
         if (null == customAttributes) {
             this.customAttributes = null;
@@ -190,8 +216,8 @@ public final class User implements Parcelable {
                     Collections.unmodifiableMap(new HashMap<String, String>(customAttributes));
         }
 
+        this.isDebitCardOnly = isDebitCardOnly;
         this.email = email;
-        this.isConnectedToFacebook = isConnectedToFacebook;
         this.firstName = firstName;
         this.gender = gender;
         this.globalCredit = globalCredit;
@@ -225,11 +251,14 @@ public final class User implements Parcelable {
             final UserBuilder user = new UserBuilder();
 
             user.bornAt(source.readString());
+            user.isConnectedToFacebook(1 == source.readInt());
+
             @SuppressWarnings("unchecked")
             final Map<String, String> customAttributes = (Map<String, String>) source.readSerializable();
             user.customAttributes(customAttributes);
+
+            user.isDebitCardOnly(1 == source.readInt());
             user.email(source.readString());
-            user.isConnectedToFacebook(1 == source.readInt());
             user.firstName(source.readString());
             user.gender(Gender.forString(source.readString()));
             user.globalCredit(source.<MonetaryValue>readParcelable(MonetaryValue.class.getClassLoader()));
@@ -251,9 +280,10 @@ public final class User implements Parcelable {
         private void writeToParcel(@NonNull final Parcel dest, final int flags,
                 @NonNull final User user) {
             dest.writeString(user.getBornAt());
-            dest.writeSerializable((Serializable) user.getCustomAttributes());
-            dest.writeString(user.getEmail());
             dest.writeInt(user.isConnectedToFacebook() ? 1 : 0);
+            dest.writeSerializable((Serializable) user.getCustomAttributes());
+            dest.writeInt(user.isDebitCardOnly() ? 1 : 0);
+            dest.writeString(user.getEmail());
             dest.writeString(user.getFirstName());
             final Gender gender = user.getGender();
             dest.writeString(null != gender ? gender.toString() : null);

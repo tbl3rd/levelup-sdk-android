@@ -42,7 +42,8 @@ public final class UserJsonFactory extends AbstractJsonModelFactory<User> {
     @NonNull
     protected User createFrom(@NonNull final JSONObject json) throws JSONException {
         final String bornAt = JsonUtils.optString(json, JsonKeys.BORN_AT);
-
+        final boolean isConnectedToFacebook =
+                json.optBoolean(JsonKeys.CONNECTED_TO_FACEBOOK, false);
         final JSONObject customAttributesJson = json.optJSONObject(JsonKeys.CUSTOM_ATTRIBUTES);
 
         Map<String, String> customAttributes = null;
@@ -55,9 +56,8 @@ public final class UserJsonFactory extends AbstractJsonModelFactory<User> {
             }
         }
 
+        final boolean isDebitCardOnly = json.optBoolean(JsonKeys.DEBIT_CARD_ONLY, false);
         final String email = JsonUtils.optString(json, JsonKeys.EMAIL);
-        final boolean isConnectedToFacebook =
-                json.optBoolean(JsonKeys.CONNECTED_TO_FACEBOOK, false);
         final String firstName = JsonUtils.optString(json, JsonKeys.FIRST_NAME);
         final Gender gender = Gender.forString(JsonUtils.optString(json, JsonKeys.GENDER));
         final MonetaryValue globalCredit =
@@ -71,8 +71,8 @@ public final class UserJsonFactory extends AbstractJsonModelFactory<User> {
         final MonetaryValue totalSavings =
                 JsonUtils.optMonetaryValue(json, JsonKeys.TOTAL_SAVINGS_AMOUNT);
 
-        return new User(bornAt, customAttributes, email, firstName, gender, globalCredit, id,
-                isConnectedToFacebook, lastName, merchantsVisitedCount, ordersCount,
+        return new User(bornAt, isConnectedToFacebook, customAttributes, isDebitCardOnly, email,
+                firstName, gender, globalCredit, id, lastName, merchantsVisitedCount, ordersCount,
                 termsAcceptedAt, totalSavings);
     }
 
@@ -94,12 +94,16 @@ public final class UserJsonFactory extends AbstractJsonModelFactory<User> {
         public static final String BORN_AT = "born_at"; //$NON-NLS-1$
 
         @SuppressWarnings("javadoc")
+        @JsonValueType(JsonType.BOOLEAN)
+        public static final String CONNECTED_TO_FACEBOOK = "connected_to_facebook"; //$NON-NLS-1$
+
+        @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.JSON_OBJECT)
         public static final String CUSTOM_ATTRIBUTES = "custom_attributes"; //$NON-NLS-1$
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String CONNECTED_TO_FACEBOOK = "connected_to_facebook"; //$NON-NLS-1$
+        public static final String DEBIT_CARD_ONLY = "debit_card_only"; //$NON-NLS-1$
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.STRING)
