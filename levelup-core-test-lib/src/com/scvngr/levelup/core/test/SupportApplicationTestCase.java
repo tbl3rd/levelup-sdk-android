@@ -35,4 +35,9 @@ public class SupportApplicationTestCase<T extends Application> extends Applicati
 
         SupportTestCaseUtils.waitForApplicationContext(context);
     }
+
+    @Override
+    protected void scrubClass(final Class<?> testCaseClass) throws IllegalAccessException {
+        SupportTestCaseUtils.scrubClass(this);
+    }
 }

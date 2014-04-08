@@ -3,15 +3,12 @@
  */
 package com.scvngr.levelup.core.model;
 
-import android.os.Parcel;
-import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.model.factory.json.ErrorJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
+import com.scvngr.levelup.core.test.ParcelTestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
-
-import org.json.JSONException;
 
 /**
  * Tests {@link Error}.
@@ -19,66 +16,49 @@ import org.json.JSONException;
 public final class ErrorTest extends SupportAndroidTestCase {
 
     /**
-     * Tests the constructor parameter validation.
+     * Tests the deprecated constructor.
      */
     @SmallTest
+    @SuppressWarnings("deprecation")
     public void testConstructor() {
-        new Error("message", "object", "property"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        new Error("message", null, "property"); //$NON-NLS-1$ //$NON-NLS-2$
-        new Error("message", "object", null); //$NON-NLS-1$ //$NON-NLS-2$
+        final Error expected = new Error(null, ErrorFixture.MESSAGE_VALUE, ErrorFixture
+                .OBJECT_VALUE, ErrorFixture.PROPERTY_VALUE);
+        final Error deprecated = new Error(ErrorFixture.MESSAGE_VALUE, ErrorFixture.OBJECT_VALUE,
+                ErrorFixture.PROPERTY_VALUE);
+
+        assertEquals(expected, deprecated);
     }
 
     /**
-     * Tests basic parceling.
+     * Tests parceling.
      */
     @SmallTest
-    public void testParcelable_basic() {
-        final Error error = new Error("message", "object", "property"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        final Parcel parcel = Parcel.obtain();
-        error.writeToParcel(parcel, 0);
-        parcel.setDataPosition(0);
-        final byte[] bytes = parcel.marshall();
-        parcel.recycle();
-
-        final Parcel readParcel = Parcel.obtain();
-        readParcel.unmarshall(bytes, 0, bytes.length);
-        readParcel.setDataPosition(0);
-        final Error newError = Error.CREATOR.createFromParcel(readParcel);
-
-        assertEquals(error, newError);
-        assertEquals("message", newError.getMessage()); //$NON-NLS-1$
-        assertEquals("object", newError.getObject()); //$NON-NLS-1$
-        assertEquals("property", newError.getProperty()); //$NON-NLS-1$
+    public void testParcelable() {
+        ParcelTestUtils.assertParcelableRoundtrips(ErrorFixture.getFullModel());
     }
 
     /**
-     * Tests {@link #equals(Object)} and {@link #hashCode()} methods.
-     *
-     * @throws JSONException for JSON parsing errors.
+     * Tests {@link Error#equals} and {@link Error#hashCode}.
      */
     @SmallTest
-    public void testEqualsAndHashCode() throws JSONException {
-        // Test similarities
-        final Error error1 = new Error("message", "object", "property"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        final Error error2 = new Error("message", "object", "property"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-        MoreAsserts.checkEqualsAndHashCodeMethods(error1, error2, true);
-
-        // Test differences
+    public void testEqualsAndHashCode() {
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(ErrorJsonFactory.JsonKeys.class,
                 new ErrorJsonFactory(), ErrorFixture.getFullJsonObject(),
                 new String[] { "MODEL_ROOT" }); //$NON-NLS-1$
     }
 
     /**
-     * Tests {@link Error#toString()}.
+     * Tests {@link Error#toString}.
      */
     @SmallTest
     public void testToString() {
-        final Error error = new Error("message", "object", "property"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        final Error error = new Error(ErrorFixture.CODE_VALUE, ErrorFixture.MESSAGE_VALUE,
+                ErrorFixture.OBJECT_VALUE, ErrorFixture.PROPERTY_VALUE);
         final String errorString = error.toString();
 
-        assertTrue(errorString.contains("message")); //$NON-NLS-1$
-        assertTrue(errorString.contains("object")); //$NON-NLS-1$
-        assertTrue(errorString.contains("property")); //$NON-NLS-1$
+        assertTrue(errorString.contains(ErrorFixture.CODE_VALUE));
+        assertTrue(errorString.contains(ErrorFixture.MESSAGE_VALUE));
+        assertTrue(errorString.contains(ErrorFixture.OBJECT_VALUE));
+        assertTrue(errorString.contains(ErrorFixture.PROPERTY_VALUE));
     }
 }

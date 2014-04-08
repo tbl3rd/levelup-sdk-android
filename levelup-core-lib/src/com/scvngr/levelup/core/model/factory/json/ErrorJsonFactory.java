@@ -34,11 +34,12 @@ public final class ErrorJsonFactory extends AbstractJsonModelFactory<Error> {
     @Override
     @NonNull
     protected Error createFrom(@NonNull final JSONObject json) throws JSONException {
+        final String code = JsonUtils.optString(json, JsonKeys.CODE);
         final String message = json.getString(JsonKeys.MESSAGE);
         final String object = JsonUtils.optString(json, JsonKeys.OBJECT);
         final String property = JsonUtils.optString(json, JsonKeys.PROPERTY);
 
-        return new Error(message, object, property);
+        return new Error(code, message, object, property);
     }
 
     /**
@@ -51,24 +52,35 @@ public final class ErrorJsonFactory extends AbstractJsonModelFactory<Error> {
          * The key under which this model can be nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
+        @NonNull
         public static final String MODEL_ROOT = "error"; //$NON-NLS-1$
+
+        /**
+         * The key in JSON where the error code can be parsed.
+         */
+        @JsonValueType(JsonType.STRING)
+        @NonNull
+        public static final String CODE = "code"; //$NON-NLS-1$
 
         /**
          * The key in JSON where the error message can be parsed.
          */
         @JsonValueType(JsonType.STRING)
+        @NonNull
         public static final String MESSAGE = "message"; //$NON-NLS-1$
 
         /**
          * The key in JSON where the error object can be parsed.
          */
         @JsonValueType(JsonType.STRING)
+        @NonNull
         public static final String OBJECT = "object"; //$NON-NLS-1$
 
         /**
          * The key in JSON where the error object property can be parsed.
          */
         @JsonValueType(JsonType.STRING)
+        @NonNull
         public static final String PROPERTY = "property"; //$NON-NLS-1$
 
         /**

@@ -21,6 +21,30 @@ import java.util.List;
 public final class ErrorFixture {
 
     /**
+     * Test value for {@link ErrorJsonFactory.JsonKeys#CODE}.
+     */
+    @NonNull
+    public static final String CODE_VALUE = "homework_not_submitted"; //$NON-NLS-1$
+
+    /**
+     * Test value for {@link ErrorJsonFactory.JsonKeys#MESSAGE}.
+     */
+    @NonNull
+    public static final String MESSAGE_VALUE = "The dog ate my homework."; //$NON-NLS-1$
+
+    /**
+     * Test value for {@link ErrorJsonFactory.JsonKeys#OBJECT}.
+     */
+    @NonNull
+    public static final String OBJECT_VALUE = "access_token"; //$NON-NLS-1$
+
+    /**
+     * Test value for {@link ErrorJsonFactory.JsonKeys#PROPERTY}.
+     */
+    @NonNull
+    public static final String PROPERTY_VALUE = "base"; //$NON-NLS-1$
+
+    /**
      * @return valid, fully populated {@link Error}.
      */
     @NonNull
@@ -81,8 +105,9 @@ public final class ErrorFixture {
     @NonNull
     public static JSONObject getFullJsonObject() {
         try {
-            return getMinimalJsonObject().put(ErrorJsonFactory.JsonKeys.OBJECT, "object") //$NON-NLS-1$
-                    .put(ErrorJsonFactory.JsonKeys.PROPERTY, "property"); //$NON-NLS-1$
+            return getMinimalJsonObject().put(ErrorJsonFactory.JsonKeys.CODE, CODE_VALUE)
+                    .put(ErrorJsonFactory.JsonKeys.OBJECT, OBJECT_VALUE)
+                    .put(ErrorJsonFactory.JsonKeys.PROPERTY, PROPERTY_VALUE);
         } catch (final JSONException e) {
             throw new AssertionError();
         }
@@ -96,7 +121,7 @@ public final class ErrorFixture {
     @NonNull
     private static JSONObject getMinimalJsonObject() {
         try {
-            return new JSONObject().put(ErrorJsonFactory.JsonKeys.MESSAGE, "message"); //$NON-NLS-1$
+            return new JSONObject().put(ErrorJsonFactory.JsonKeys.MESSAGE, MESSAGE_VALUE);
         } catch (final JSONException e) {
             throw new AssertionError();
         }

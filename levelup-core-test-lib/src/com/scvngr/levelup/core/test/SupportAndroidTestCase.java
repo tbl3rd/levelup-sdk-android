@@ -31,4 +31,9 @@ public class SupportAndroidTestCase extends AndroidTestCase {
 
         SupportTestCaseUtils.waitForApplicationContext(context);
     }
+
+    @Override
+    protected void scrubClass(final Class<?> testCaseClass) throws IllegalAccessException {
+        SupportTestCaseUtils.scrubClass(this);
+    }
 }

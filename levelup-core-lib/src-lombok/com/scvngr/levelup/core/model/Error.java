@@ -35,6 +35,12 @@ public final class Error implements Parcelable {
     public static final Creator<Error> CREATOR = new ErrorCreator();
 
     /**
+     * A machine-readable description of the error.
+     */
+    @Nullable
+    private final String code;
+
+    /**
      * The message for the error that occurred.
      */
     @NonNull
@@ -52,6 +58,18 @@ public final class Error implements Parcelable {
      */
     @Nullable
     private final String property;
+
+    /**
+     * @deprecated Provided for SDK backwards compatibility only. Newer code should use {@link
+     * com.scvngr.levelup.core.model.Error#Error(String, String, String, String)} instead. This
+     * constructor omits the {@link #code} field.
+     */
+    @Deprecated
+    @SuppressWarnings("all")
+    public Error(@NonNull final String message, @Nullable final String object,
+            @Nullable final String property) {
+        this(null, message, object, property);
+    }
 
     @Override
     public int describeContents() {
@@ -78,15 +96,17 @@ public final class Error implements Parcelable {
         @NonNull
         @Override
         public Error createFromParcel(final Parcel in) {
-            final String message = in.readString();
+            final String code = in.readString();
+            final String message = NullUtils.nonNullContract(in.readString());
             final String object = in.readString();
             final String property = in.readString();
 
-            return new Error(NullUtils.nonNullContract(message), object, property);
+            return new Error(code, message, object, property);
         }
 
         private void writeToParcel(@NonNull final Parcel dest, final int flags,
                 @NonNull final Error error) {
+            dest.writeString(error.getCode());
             dest.writeString(error.getMessage());
             dest.writeString(error.getObject());
             dest.writeString(error.getProperty());
