@@ -52,7 +52,7 @@ public final class ErrorFixture {
         try {
             return new ErrorJsonFactory().from(getFullJsonObject());
         } catch (final JSONException e) {
-            throw new AssertionError(e.getMessage());
+            throw new AssertionError(e);
         }
     }
 
@@ -65,7 +65,7 @@ public final class ErrorFixture {
         try {
             return factory.fromList(getListOfFullJsonObjects());
         } catch (final JSONException e) {
-            throw new AssertionError(e.getMessage());
+            throw new AssertionError(e);
         }
     }
 
@@ -93,7 +93,7 @@ public final class ErrorFixture {
             return new JSONObject().put(ErrorJsonFactory.JsonKeys.MODEL_ROOT,
                     getMinimalJsonObject());
         } catch (final JSONException e) {
-            throw new AssertionError();
+            throw new AssertionError(e);
         }
     }
 
@@ -104,12 +104,43 @@ public final class ErrorFixture {
      */
     @NonNull
     public static JSONObject getFullJsonObject() {
+        return getJsonObjectFromModel(new Error(CODE_VALUE, MESSAGE_VALUE, OBJECT_VALUE,
+                PROPERTY_VALUE));
+    }
+
+    /**
+     * Create an unnested JSON representation of the model without {@code null} fields.
+     *
+     * @param error the {@link Error} to convert to JSON
+     * @return valid JSON representation of the error
+     */
+    @NonNull
+    public static JSONObject getJsonObjectFromModel(@NonNull final Error error) {
         try {
-            return getMinimalJsonObject().put(ErrorJsonFactory.JsonKeys.CODE, CODE_VALUE)
-                    .put(ErrorJsonFactory.JsonKeys.OBJECT, OBJECT_VALUE)
-                    .put(ErrorJsonFactory.JsonKeys.PROPERTY, PROPERTY_VALUE);
+            final JSONObject jsonObject = new JSONObject();
+            final String code = error.getCode();
+
+            if (null != code) {
+                jsonObject.put(ErrorJsonFactory.JsonKeys.CODE, code);
+            }
+
+            jsonObject.put(ErrorJsonFactory.JsonKeys.MESSAGE, error.getMessage());
+
+            final String object = error.getObject();
+
+            if (null != object) {
+                jsonObject.put(ErrorJsonFactory.JsonKeys.OBJECT, object);
+            }
+
+            final String property = error.getProperty();
+
+            if (null != property) {
+                jsonObject.put(ErrorJsonFactory.JsonKeys.PROPERTY, property);
+            }
+
+            return jsonObject;
         } catch (final JSONException e) {
-            throw new AssertionError();
+            throw new AssertionError(e);
         }
     }
 
@@ -123,7 +154,7 @@ public final class ErrorFixture {
         try {
             return new JSONObject().put(ErrorJsonFactory.JsonKeys.MESSAGE, MESSAGE_VALUE);
         } catch (final JSONException e) {
-            throw new AssertionError();
+            throw new AssertionError(e);
         }
     }
 

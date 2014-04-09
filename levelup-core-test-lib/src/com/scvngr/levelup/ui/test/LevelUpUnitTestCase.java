@@ -80,6 +80,16 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
         return NullUtils.nonNullContract(super.getInstrumentation());
     }
 
+    /**
+     * NonNull-contract-enforced shorthand for <code>getInstrumentation().getTargetContext()</code>.
+     *
+     * @return the {@link Instrumentation}'s target {@link Context}.
+     */
+    @NonNull
+    public Context getInstrumentationTargetContext() {
+        return NullUtils.nonNullContract(getInstrumentation().getTargetContext());
+    }
+
     @Override
     @NonNull
     public T getActivity() {
