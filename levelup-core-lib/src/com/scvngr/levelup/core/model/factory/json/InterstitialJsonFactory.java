@@ -72,7 +72,8 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
 
             if (Interstitial.TYPE_CLAIM.equals(type)) {
                 action = new ClaimAction(actionHelper.getString(ClaimActionJsonKeys.CODE));
-            } else if (Interstitial.TYPE_FEEDBACK.equals(type)) {
+            // TODO the string below is temporary and should be removed once no longer relevant
+            } else if (Interstitial.TYPE_FEEDBACK.equals(type) || "collect_feedback".equals(type)) { //$NON-NLS-1$
                 action = new FeedbackAction(
                         actionHelper.getString(FeedbackActionJsonKeys.QUESTION_TEXT));
             } else if (Interstitial.TYPE_SHARE.equals(type)) {

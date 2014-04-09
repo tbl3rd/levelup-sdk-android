@@ -45,7 +45,7 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
     public void testJsonParse_feedbackAction() throws JSONException {
         final Interstitial interstitial =
                 mFactory.from(InterstitialFixture.getFeedbackActionJsonObject());
-        assertEquals("collect_feedback", interstitial.getType()); //$NON-NLS-1$
+        assertEquals("feedback", interstitial.getType()); //$NON-NLS-1$
         assertTrue(interstitial.getAction() instanceof FeedbackAction);
     }
 
