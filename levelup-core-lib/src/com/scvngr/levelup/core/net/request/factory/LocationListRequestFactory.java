@@ -14,6 +14,7 @@ import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.storage.CorePreferenceUtil;
 import com.scvngr.levelup.core.util.LogManager;
 
 import net.jcip.annotations.Immutable;
@@ -33,13 +34,6 @@ public final class LocationListRequestFactory extends AbstractPagingRequestFacto
     public static final String ENDPOINT_LOCATIONS = "locations"; //$NON-NLS-1$
 
     /**
-     * The key in the cache that the last page that we retrieved will be stored.
-     */
-    @NonNull
-    public static final String CACHE_PAGE_KEY_LOCATIONS = LocationListRequestFactory.class
-            .getName() + ".page_cache.locations"; //$NON-NLS-1$
-
-    /**
      * Constructor.
      *
      * @param context the context.
@@ -49,7 +43,8 @@ public final class LocationListRequestFactory extends AbstractPagingRequestFacto
     public LocationListRequestFactory(@NonNull final Context context,
             @NonNull final AccessTokenRetriever retriever,
             @NonNull final PageCacheRetriever pageCacheRetriever) {
-        super(context, retriever, pageCacheRetriever, CACHE_PAGE_KEY_LOCATIONS);
+        super(context, retriever, pageCacheRetriever, CorePreferenceUtil
+                .KEY_STRING_LAST_LOCATION_PAGE);
     }
 
     @Override
