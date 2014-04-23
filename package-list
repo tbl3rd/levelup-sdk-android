@@ -5,7 +5,6 @@ com.scvngr.levelup.core.model.factory.json
 com.scvngr.levelup.core.model.qr
 com.scvngr.levelup.core.model.util
 com.scvngr.levelup.core.net
-com.scvngr.levelup.core.net.request
 com.scvngr.levelup.core.net.request.factory
 com.scvngr.levelup.core.service
 com.scvngr.levelup.core.util
