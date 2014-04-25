@@ -62,8 +62,8 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
                 token.has(AccessTokenRequestFactory.PARAM_PASSWORD));
         assertTrue("Params include device id", //$NON-NLS-1$
                 token.has(RequestUtils.PARAM_DEVICE_IDENTIFIER));
-        assertTrue("Params include client_id", //$NON-NLS-1$
-                token.has(RequestUtils.PARAM_CLIENT_ID));
+        assertTrue("Params include api_key", //$NON-NLS-1$
+                token.has(RequestUtils.PARAM_API_KEY));
 
         assertEquals("email", token.getString(AccessTokenRequestFactory.PARAM_USERNAME)); //$NON-NLS-1$
         assertEquals("password", token.getString(AccessTokenRequestFactory.PARAM_PASSWORD)); //$NON-NLS-1$
@@ -77,7 +77,7 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
         }
 
         assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
-                token.getString(RequestUtils.PARAM_CLIENT_ID));
+                token.getString(RequestUtils.PARAM_API_KEY));
     }
 
     /**
@@ -109,8 +109,8 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
                 token.has(AccessTokenRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
         assertTrue("Params include device id", //$NON-NLS-1$
                 token.has(RequestUtils.PARAM_DEVICE_IDENTIFIER));
-        assertTrue("Params include client_id", //$NON-NLS-1$
-                token.has(RequestUtils.PARAM_CLIENT_ID));
+        assertTrue("Params include api_key", //$NON-NLS-1$
+                token.has(RequestUtils.PARAM_API_KEY));
 
         assertEquals("facebook_access_token", //$NON-NLS-1$
                 token.getString(AccessTokenRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
@@ -125,6 +125,6 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
         }
 
         assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
-                token.getString(RequestUtils.PARAM_CLIENT_ID));
+                token.getString(RequestUtils.PARAM_API_KEY));
     }
 }

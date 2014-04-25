@@ -88,7 +88,7 @@ public final class RequestUtilsTest extends SupportAndroidTestCase {
         final Map<String, String> params = new HashMap<String, String>();
         final Context context = NullUtils.nonNullContract(getContext());
 
-        expected.put(RequestUtils.PARAM_CLIENT_ID, context.getString(R.string.levelup_api_key));
+        expected.put(RequestUtils.PARAM_API_KEY, context.getString(R.string.levelup_api_key));
 
         RequestUtils.addApiKeyToRequestQueryParams(context, params);
         assertEquals(expected.toString(), params.toString());
@@ -105,7 +105,7 @@ public final class RequestUtilsTest extends SupportAndroidTestCase {
         final JSONObject expected = new JSONObject();
         final Context context = NullUtils.nonNullContract(getContext());
 
-        expected.put(RequestUtils.PARAM_CLIENT_ID, context.getString(R.string.levelup_api_key));
+        expected.put(RequestUtils.PARAM_API_KEY, context.getString(R.string.levelup_api_key));
 
         RequestUtils.addApiKeyToRequestBody(context, object);
         assertEquals(expected.toString(), object.toString());

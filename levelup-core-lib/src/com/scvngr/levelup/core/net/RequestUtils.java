@@ -69,10 +69,18 @@ public final class RequestUtils {
             "%s/%s", Build.BRAND, Build.PRODUCT); //$NON-NLS-1$
 
     /**
-     * Parameter for the client identifier.
+     * Parameter for the app's LevelUp API key.
      */
     @NonNull
-    public static final String PARAM_CLIENT_ID = "client_id"; //$NON-NLS-1$
+    public static final String PARAM_API_KEY = "api_key"; //$NON-NLS-1$
+
+    /**
+     * Parameter for the client identifier. This is a deprecated alias for {@link #PARAM_API_KEY}
+     * and will be removed in the next major release of the SDK.
+     */
+    @NonNull
+    @Deprecated
+    public static final String PARAM_CLIENT_ID = PARAM_API_KEY;
 
     /**
      * Parameter for the device identifier.
@@ -160,7 +168,7 @@ public final class RequestUtils {
      */
     public static void addApiKeyToRequestQueryParams(@NonNull final Context context,
             @NonNull final Map<String, String> params) {
-        params.put(PARAM_CLIENT_ID, getApiKey(context));
+        params.put(PARAM_API_KEY, getApiKey(context));
     }
 
     /**
@@ -172,7 +180,7 @@ public final class RequestUtils {
     public static void addApiKeyToRequestBody(@NonNull final Context context,
             @NonNull final JSONObject body) {
         try {
-            body.put(PARAM_CLIENT_ID, getApiKey(context));
+            body.put(PARAM_API_KEY, getApiKey(context));
         } catch (final JSONException e) {
             throw new AssertionError(e);
         }
