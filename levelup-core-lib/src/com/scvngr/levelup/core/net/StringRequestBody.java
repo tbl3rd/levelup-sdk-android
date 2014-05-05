@@ -16,6 +16,7 @@ import net.jcip.annotations.ThreadSafe;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 /**
  * <p>
@@ -73,7 +74,12 @@ public abstract class StringRequestBody implements RequestBody {
 
     @Override
     public int getContentLength() {
-        return mBody.length();
+        try {
+            return mBody.getBytes("UTF-8").length; //$NON-NLS-1$
+        } catch (final UnsupportedEncodingException e) {
+         // This is pretty much impossible.
+            throw new RuntimeException("The unthinkable happened: there is no UTF-8", e); //$NON-NLS-1$
+        }
     }
 
     @SuppressWarnings("null") // Generated code.

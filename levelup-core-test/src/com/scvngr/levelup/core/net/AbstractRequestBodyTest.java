@@ -36,7 +36,7 @@ public abstract class AbstractRequestBodyTest<T extends RequestBody> extends And
     public void testContentLength() {
         final T body = getFixture();
 
-        assertEquals(body.getContentLength(), getBodyAsString(body).length());
+        assertEquals(body.getContentLength(), getBodyLength(body));
     }
 
     /**
@@ -84,5 +84,24 @@ public abstract class AbstractRequestBodyTest<T extends RequestBody> extends And
         }
 
         return bodyAsString;
+    }
+
+    /**
+     * @param body the content to get length.
+     * @return the byte array length of the body
+     */
+    private int getBodyLength(@NonNull final T body) {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        int result = 0;
+
+        try {
+            body.writeToOutputStream(NullUtils.nonNullContract(getContext()), baos);
+            result =  baos.size();
+            baos.close();
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return result;
     }
 }

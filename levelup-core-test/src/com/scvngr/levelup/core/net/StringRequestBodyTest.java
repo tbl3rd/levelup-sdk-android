@@ -16,7 +16,7 @@ public final class StringRequestBodyTest extends AbstractRequestBodyTest<StringR
      */
     @NonNull
     public static final String FIXTURE_BODY =
-            "A crowd of people, and at the center, a popular misconception."; //$NON-NLS-1$
+            "A crowd of people, and at the center, a popular misconception.भा𠜎"; //$NON-NLS-1$
 
     /**
      * Content type fixture.
