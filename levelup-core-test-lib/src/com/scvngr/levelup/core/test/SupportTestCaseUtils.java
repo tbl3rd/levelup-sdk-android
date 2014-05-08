@@ -27,6 +27,8 @@ import android.test.AndroidTestCase;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.util.LogManager;
 
+import junit.framework.TestCase;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.concurrent.TimeUnit;
@@ -52,7 +54,7 @@ import java.util.concurrent.TimeUnit;
      * @see <a href="http://goo.gl/YVFAM0">Update scrubClass() to match CoreTestRunner.</a>
      */
     @SuppressWarnings("unused")
-    public static void scrubClass(@NonNull final AndroidTestCase testCase) throws
+    public static void scrubClass(@NonNull final TestCase testCase) throws
             IllegalAccessException {
         final Field[] fields = testCase.getClass().getDeclaredFields();
 
