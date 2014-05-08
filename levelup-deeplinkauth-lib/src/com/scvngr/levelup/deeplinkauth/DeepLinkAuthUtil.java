@@ -97,17 +97,17 @@ public final class DeepLinkAuthUtil {
 
         final PackageManager pm = context.getPackageManager();
 
-        if (null == pm) {
+        if (pm == null) {
             throw new IllegalArgumentException("Provided context does not have a package manager");
         }
 
         final ActivityInfo activityInfo =
                 request.resolveActivityInfo(pm, PackageManager.GET_SIGNATURES);
 
-        if (null != activityInfo) {
+        if (activityInfo != null) {
             final String packageName = activityInfo.packageName;
 
-            if (null != packageName) {
+            if (packageName != null) {
                 signature = getPackageSignature(context, packageName);
             }
         }
@@ -131,7 +131,7 @@ public final class DeepLinkAuthUtil {
             throws IllegalArgumentException {
         final PackageManager pm = context.getPackageManager();
 
-        if (null == pm) {
+        if (pm == null) {
             throw new IllegalArgumentException("Provided context does not have a package manager");
         }
 
@@ -140,7 +140,7 @@ public final class DeepLinkAuthUtil {
                     pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
             final Signature[] signatures = packageInfo.signatures;
 
-            if (null == signatures || 0 == signatures.length) {
+            if (signatures == null || signatures.length == 0) {
                 throw new IllegalArgumentException("Provided package does not have any signatures");
             }
 
@@ -248,14 +248,14 @@ public final class DeepLinkAuthUtil {
         boolean needsSeparator = false;
 
         for (final byte datum : data) {
-            if (needsSeparator && null != byteDelimiter) {
+            if (needsSeparator && byteDelimiter != null) {
                 sb.append(byteDelimiter);
             }
 
             // get the unsigned portion
             final int v = datum & 0xFF;
 
-            if (0x10 > v) {
+            if (v < 0x10) {
                 sb.append('0');
             }
             sb.append(Integer.toHexString(v));

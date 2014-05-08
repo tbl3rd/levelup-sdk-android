@@ -16,6 +16,15 @@
         android:allowBackup="false"
         android:icon="@drawable/levelup_ic_launcher"
         android:label="@string/app_name" >
+        <activity android:name="com.scvngr.levelup.ui.activity.PermissionsRequestTestActivity">
+            <intent-filter>
+                <action android:name="com.scvngr.levelup.core.ACTION_REQUEST_PERMISSIONS" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data
+                    android:host="authorization"
+                    android:scheme="lutest" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -1,10 +1,17 @@
 package com.scvngr.levelup.deeplinkauth;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
+import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Toast;
+import android.util.Log;
+
+import com.scvngr.levelup.core.deeplinkauth.R;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -91,14 +98,14 @@ public final class LevelUpDeepLinkIntegrator {
      */
     public static PermissionsRequestResult parseActivityResult(final int requestCode,
             final int resultCode, final Intent data) {
-        if (REQUEST_CODE != requestCode) {
+        if (requestCode != REQUEST_CODE) {
             return null;
         }
 
         String accessToken = null;
         Uri requestUri = null;
 
-        if (null != data) {
+        if (data != null) {
             switch (resultCode) {
                 case Activity.RESULT_OK:
                     // user accepted request
@@ -119,7 +126,45 @@ public final class LevelUpDeepLinkIntegrator {
 
     private final WeakReference<Activity> mActivityWeakReference;
     private final int mAppId;
+    private volatile OnDismissListener mDismissListener;
+
+    /**
+     * The last launched intent; for testing purposes.
+     */
+    private Intent mLastIntent;
+    private final OnClickListener mListener = new OnClickListener() {
+
+        @Override
+        public void onClick(final DialogInterface dialog, final int which) {
+            switch (which) {
+                case DialogInterface.BUTTON_POSITIVE:
+                    onPositiveButton(dialog);
+                    break;
+
+                case DialogInterface.BUTTON_NEGATIVE:
+                    onNegativeButton(dialog);
+                    break;
+
+                default:
+                    throw new UnsupportedOperationException("Unhandled button");
+            }
+
+        }
+    };
+    /**
+     * The install dialog message.
+     */
+    private CharSequence mMessage;
+
+    /**
+     * Allow the acceptable LevelUp signatures to be overridden, for testing purposes.
+     */
     private String[] mSignatureOverride;
+
+    /**
+     * The install dialog title.
+     */
+    private CharSequence mTitle;
 
     /**
      * This can be instantiated in {@link android.app.Activity#onCreate}. This class keeps a weak
@@ -140,14 +185,14 @@ public final class LevelUpDeepLinkIntegrator {
      *
      * @param permissionKeys the set of permissions that you wish to request. See {@link
      * DeepLinkAuthUtil.Permissions}.
-     * @return true if the activity was successfully started. False if a version of LevelUp that
-     * supports deep link auth isn't installed or there was a validation issue making the request.
+     * @return the dialog box that was shown to the user with a link to download LevelUp if one was
+     *         shown, otherwise null.
      */
-    public boolean requestPermissions(final Collection<String> permissionKeys) {
-        boolean success = false;
+    public final AlertDialog requestPermissions(final Collection<String> permissionKeys) {
+        AlertDialog installDialog = null;
         final Activity activity = mActivityWeakReference.get();
 
-        if (null != activity) {
+        if (activity != null) {
             try {
                 final Intent startIntent;
                 if (mSignatureOverride != null) {
@@ -158,16 +203,13 @@ public final class LevelUpDeepLinkIntegrator {
                     startIntent = DeepLinkAuthUtil
                             .getRequestPermissionsIntent(activity, mAppId, permissionKeys);
                 }
-                activity.startActivityForResult(startIntent, REQUEST_CODE);
-                success = true;
+                startActivityForResult(activity, startIntent, REQUEST_CODE);
             } catch (final DeepLinkAuthUtil.LevelUpNotInstalledException e) {
-                Toast.makeText(activity,
-                        "Sorry, it appears that you don't have a compatible version of LevelUp installed.",
-                        Toast.LENGTH_LONG).show();
+                installDialog = onLevelUpNotInstalled(activity);
             }
         }
 
-        return success;
+        return installDialog;
     }
 
     /**
@@ -177,11 +219,136 @@ public final class LevelUpDeepLinkIntegrator {
      *
      * @param permissionKeys the set of permissions that you wish to request. See {@link
      * DeepLinkAuthUtil.Permissions}.
-     * @return true if the activity was successfully started. False if a version of LevelUp that
-     * supports deep link auth isn't installed or there was a validation issue making the request.
+     * @return the dialog box that was shown to the user with a link to download LevelUp if one was
+     *         shown, otherwise null.
      */
-    public boolean requestPermissions(final String... permissionKeys) {
+    public final AlertDialog requestPermissions(final String... permissionKeys) {
         return requestPermissions(Arrays.asList(permissionKeys));
+    }
+
+    /**
+     * Sets the message that's displayed when the LevelUp app isn't installed on the device.
+     *
+     * @param message the body text.
+     * @see com.scvngr.levelup.core.deeplinkauth.R.string#levelup_deep_link_auth_install_message
+     */
+    public final void setInstallDialogMessage(final CharSequence message) {
+        mMessage = message;
+    }
+
+    /**
+     * Sets the title of the dialog box that's displayed when the LevelUp app isn't installed on the device.
+     *
+     * @param title the dialog box's title.
+     * @see com.scvngr.levelup.core.deeplinkauth.R.string#levelup_deep_link_auth_install_title
+     */
+    public final void setInstallDialogTitle(final CharSequence title) {
+        mTitle = title;
+    }
+
+    /**
+     * Constructs an {@link AlertDialog} which prompts the user to download LevelUp. Alternative
+     * text can be set using {@link #setInstallDialogMessage} and {@link #setInstallDialogTitle} or
+     * by overlaying the associated strings resources.
+     *
+     * @param activity the activity that is responsible for the dialog (your activity).
+     * @return a created, but not shown dialog with two buttons.
+     */
+    protected AlertDialog getInstallDialog(final Activity activity) {
+        final AlertDialog.Builder ab = new Builder(activity);
+
+        ab.setCancelable(true);
+
+        if (mTitle != null) {
+            ab.setTitle(mTitle);
+        } else {
+            ab.setTitle(R.string.levelup_deep_link_auth_install_title);
+        }
+
+        if (mMessage != null) {
+            ab.setMessage(mMessage);
+        } else {
+            ab.setMessage(R.string.levelup_deep_link_auth_install_message);
+        }
+
+        ab.setIcon(R.drawable.levelup_ic_levelup);
+
+        ab.setPositiveButton(R.string.levelup_deep_link_auth_install_positive_button, mListener);
+        ab.setNegativeButton(R.string.levelup_deep_link_auth_install_negative_button, mListener);
+
+        return ab.create();
+    }
+
+    /**
+     * Retrieves the Google Play link for the given package name.
+     *
+     * @param context application context.
+     * @param packageName the package to display.
+     * @return a URL that can be resolved on an Android device to show the given Google Play details
+     *         page.
+     */
+    protected Uri getPlayLink(final Context context, final String packageName) {
+        return Uri.parse("market://details").buildUpon().appendQueryParameter("id", packageName)
+                .build();
+    }
+
+    /**
+     * Called when LevelUp is not installed.
+     *
+     * @param activity
+     * @return the {@link AlertDialog} that was shown to the user.
+     */
+    protected AlertDialog onLevelUpNotInstalled(final Activity activity) {
+        final AlertDialog installDialog = getInstallDialog(activity);
+        installDialog.setOnDismissListener(mDismissListener);
+        installDialog.show();
+
+        return installDialog;
+    }
+
+    /**
+     * Called when the negative action button (Cancel) is pressed on the install dialog.
+     *
+     * @param dialog
+     */
+    protected void onNegativeButton(final DialogInterface dialog) {
+        dialog.cancel();
+    }
+
+    /**
+     * Called when the positive action button (install LevelUp) is pressed in the install dialog.
+     *
+     * @param dialog
+     */
+    protected void onPositiveButton(final DialogInterface dialog) {
+        Activity activity = mActivityWeakReference.get();
+
+        if (activity == null) {
+            final AlertDialog d2 = (AlertDialog) dialog;
+            activity = d2.getOwnerActivity();
+        }
+
+        if (activity != null) {
+            final Uri playLink =
+                    getPlayLink(activity,
+                            activity.getString(R.string.levelup_deep_link_auth_install_package));
+
+            startActivity(activity, new Intent(Intent.ACTION_VIEW, playLink));
+        } else {
+            Log.d("LevelUpDeepLinkIntegrator", "Lost reference to Activity");
+        }
+
+        dialog.dismiss();
+    }
+
+    /**
+     * This is intended for testing only.
+     *
+     * @return the last intent that this class started with either startActivity or
+     *         startActivityForResult.
+     */
+    /* package */Intent getLastStartedIntent() {
+        return mLastIntent;
     }
 
     /**
@@ -191,6 +358,41 @@ public final class LevelUpDeepLinkIntegrator {
      */
     /* package */void setLevelUpAppSignatures(final String[] signatureOverride) {
         mSignatureOverride = signatureOverride;
+    }
+
+    /**
+     * Allows adding an on dismiss listener to the install prompt dialog, for testing.
+     *
+     * @param dismissListener
+     */
+    /* package */void setOnDismissListener(final OnDismissListener dismissListener) {
+        mDismissListener = dismissListener;
+    }
+
+    /**
+     * Broken out to capture the intent for testing.
+     *
+     * @param activity
+     * @param intent
+     * @see Activity#startActivity(Intent)
+     */
+    private void startActivity(final Activity activity, final Intent intent) {
+        mLastIntent = intent;
+        activity.startActivity(intent);
+    }
+
+    /**
+     * Broken out to capture the intent for testing.
+     *
+     * @param activity
+     * @param intent
+     * @param requestCode
+     * @see Activity#startActivityForResult(Intent, int)
+     */
+    private void startActivityForResult(final Activity activity, final Intent intent,
+            final int requestCode) {
+        mLastIntent = intent;
+        activity.startActivityForResult(intent, requestCode);
     }
 
     /**
@@ -230,7 +432,7 @@ public final class LevelUpDeepLinkIntegrator {
          * @return true if the permissions request was accepted by the user.
          */
         public boolean isSuccessful() {
-            return Activity.RESULT_OK == mResultCode;
+            return mResultCode == Activity.RESULT_OK;
         }
     }
 }

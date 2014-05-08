@@ -4,4 +4,9 @@
 
     <string name="levelup_app_url_scheme" formatted="false" translatable="false">thelevelup</string>
     <string name="levelup_app_url_host_authorization" formatted="false" translatable="false">authorization</string>
+	<string name="levelup_deep_link_auth_install_title">Get LevelUp</string>
+	<string name="levelup_deep_link_auth_install_message">It looks like you don’t have the LevelUp app installed, but that’s an easy fix! It’s easy to set up and free.</string>
+	<string name="levelup_deep_link_auth_install_positive_button">Get LevelUp</string>
+	<string name="levelup_deep_link_auth_install_negative_button">No Thanks</string>
+	<string name="levelup_deep_link_auth_install_package">com.scvngr.levelup.app</string>
 </resources>

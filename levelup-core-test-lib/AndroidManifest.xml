@@ -22,16 +22,6 @@
             android:name="com.scvngr.levelup.ui.activity.IntentTestActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
-
-        <activity android:name="com.scvngr.levelup.ui.activity.PermissionsRequestTestActivity">
-            <intent-filter>
-                <action android:name="com.scvngr.levelup.core.ACTION_REQUEST_PERMISSIONS" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <data
-                    android:host="authorization"
-                    android:scheme="lutest" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
