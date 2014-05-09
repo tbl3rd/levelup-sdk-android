@@ -50,7 +50,7 @@ public final class Interstitial implements Parcelable {
      * The type returned from {@link #getType()} if this is a customer feedback Interstitial.
      */
     @NonNull
-    public static final String TYPE_FEEDBACK = "collect_feedback"; //$NON-NLS-1$
+    public static final String TYPE_FEEDBACK = "feedback"; //$NON-NLS-1$
 
     /**
      * The type returned from {@link #getType()} if this is a no_action Interstitial. A No_Action
