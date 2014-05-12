@@ -5,23 +5,36 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
+import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.model.Permission;
 import com.scvngr.levelup.core.net.AbstractRequest;
+import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.JSONObjectRequestBody;
+import com.scvngr.levelup.core.net.JsonElementRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.RequestUtils;
 import com.scvngr.levelup.core.util.LogManager;
+import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.core.util.PreconditionUtil;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import net.jcip.annotations.Immutable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * Class to build requests to interact with the endpoints that deal with
@@ -32,7 +45,10 @@ import org.json.JSONObject;
 public final class AccessTokenRequestFactory extends AbstractRequestFactory {
 
     @NonNull
-    private static final String ENDPOINT = "access_tokens"; //$NON-NLS-1$
+    /* package */static final String ENDPOINT = "access_tokens"; //$NON-NLS-1$
+
+    @NonNull
+    /* package */static final String ENDPOINT_DOWNGRADES = "access_tokens/downgrades"; //$NON-NLS-1$
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static final String PARAM_OUTER_ACCESS_TOKEN = "access_token"; //$NON-NLS-1$
@@ -47,6 +63,8 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static final String PARAM_USERNAME = "username"; //$NON-NLS-1$
 
+    /* package */static final String PARAM_PERMISSION_KEYNAMES = "permission_keynames"; //$NON-NLS-1$
+
     /**
      * Constructor.
      *
@@ -54,6 +72,17 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
      */
     public AccessTokenRequestFactory(@NonNull final Context context) {
         super(context, null);
+    }
+
+    /**
+     * Constructor with access token retriever.
+     *
+     * @param context the Application context.
+     * @param retriever the AccessTokenRetriever.
+     */
+    public AccessTokenRequestFactory(@NonNull final Context context,
+            final AccessTokenRetriever retriever) {
+        super(context, retriever);
     }
 
     /**
@@ -87,8 +116,8 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null,
-                new JSONObjectRequestBody(object));
+                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null, new JSONObjectRequestBody(
+                        object));
     }
 
     /**
@@ -119,7 +148,64 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null,
-                new JSONObjectRequestBody(object));
+                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null, new JSONObjectRequestBody(
+                        object));
+    }
+
+    /**
+     * Build a request for a downgraded scoped access token.
+     *
+     * @param permissions The permissions for the access token you want.
+     * @return an {@link AbstractRequest} to retrieve an access token scoped to the provided
+     *         permissions.
+     */
+    @NonNull
+    @AccessTokenRequired
+    public AbstractRequest buildDowngradeRequest(@NonNull final Collection<Permission> permissions) {
+        final JsonObject body = new JsonObject();
+        final JsonObject accessToken = new JsonObject();
+        final JsonArray permissionsKeyNames = new JsonArray();
+
+        for (final Permission permission : permissions) {
+            permissionsKeyNames.add(new JsonPrimitive(permission.getKeyname()));
+        }
+
+        accessToken.add(PARAM_PERMISSION_KEYNAMES, permissionsKeyNames);
+        body.add(PARAM_OUTER_ACCESS_TOKEN, accessToken);
+
+        return new LevelUpRequest(getContext(), HttpMethod.POST,
+                LevelUpRequest.API_VERSION_CODE_V15, ENDPOINT_DOWNGRADES, null,
+                new JsonElementRequestBody(body), getAccessTokenRetriever());
+    }
+
+    /**
+     * Build a request for a downgraded scoped access token.
+     *
+     * @param permissionKeyNames The key names for permissions on the access token you want.
+     * @return an {@link AbstractRequest} to retrieve an access token scoped to the provided
+     *         permissions.
+     */
+    @NonNull
+    @AccessTokenRequired
+    public AbstractRequest buildDowngradeRequest(@NonNull final String... permissionKeyNames) {
+        final ArrayList<Permission> permissions =
+                new ArrayList<Permission>(permissionKeyNames.length);
+        for (final String keyName : permissionKeyNames) {
+            permissions.add(new Permission("", NullUtils.nonNullContract(keyName))); //$NON-NLS-1$
+        }
+        return buildDowngradeRequest(permissions);
+    }
+
+    /**
+     * Build a request for a downgraded scoped access token.
+     *
+     * @param permissions The permissions for the access token you want.
+     * @return an {@link AbstractRequest} to retrieve an access token scoped to the provided
+     *         permissions.
+     */
+    @NonNull
+    @AccessTokenRequired
+    public AbstractRequest buildDowngradeRequest(@NonNull final Permission... permissions) {
+        return buildDowngradeRequest(NullUtils.nonNullContract(Arrays.asList(permissions)));
     }
 }
