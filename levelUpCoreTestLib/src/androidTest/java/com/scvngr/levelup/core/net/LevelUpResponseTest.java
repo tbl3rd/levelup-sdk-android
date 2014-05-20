@@ -6,6 +6,7 @@ package com.scvngr.levelup.core.net;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.BufferedResponse.ResponseTooLargeException;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
@@ -21,6 +22,11 @@ import java.net.URL;
  * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse}.
  */
 public final class LevelUpResponseTest extends SupportAndroidTestCase {
+    @NonNull
+    private static final String SERVER_LEVELUP_PLATFORM = "LevelUp";
+
+    @NonNull
+    private static final String SERVER_NOT_LEVELUP_PLATFORM = "LevelUp/Failover";
 
     /**
      * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse} parceling.
@@ -33,65 +39,138 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int)}.
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}.
      */
     @SmallTest
     public void testMapStatusHttp_okCode() {
-        assertEquals(LevelUpStatus.OK, LevelUpResponse.mapStatus(HttpURLConnection.HTTP_OK));
+        assertEquals(LevelUpStatus.OK,
+                LevelUpResponse.mapStatus(HttpURLConnection.HTTP_OK, SERVER_LEVELUP_PLATFORM));
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int)}.
+     * Tests {@link LevelUpResponse#mapStatus(int, String)} with a sub-200 response code.
+     */
+    @SmallTest
+    public void testMapStatusHttp_okCode_notFromPlatform() {
+        assertEquals(LevelUpStatus.OK,
+                LevelUpResponse.mapStatus(HttpURLConnection.HTTP_OK, SERVER_NOT_LEVELUP_PLATFORM));
+    }
+
+    /**
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)} with a
+     * sub-200 response code.
      */
     @SmallTest
     public void testMapStatusHttp_errorCodeLow() {
-        // CHECKSTYLE:OFF 100 status code is continue
-        assertEquals(LevelUpStatus.ERROR_SERVER, LevelUpResponse.mapStatus(100));
-        // CHECKSTYLE:ON
+        assertEquals(LevelUpStatus.ERROR_SERVER,
+                LevelUpResponse.mapStatus(100, SERVER_LEVELUP_PLATFORM));
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int)}.
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}.
+     */
+    @SmallTest
+    public void testMapStatusHttp_errorCodeLow_notFromPlatform() {
+        assertEquals(LevelUpStatus.ERROR_SERVER,
+                LevelUpResponse.mapStatus(100, SERVER_NOT_LEVELUP_PLATFORM));
+    }
+
+
+    /**
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)} with an
+     * unknown code above the 2xx range.
+     *
+     */
+    @SmallTest
+    public void testMapStatusHttp_errorCodeUnknown() {
+        assertEquals(LevelUpStatus.ERROR_SERVER,
+                LevelUpResponse.mapStatus(300, SERVER_LEVELUP_PLATFORM));
+    }
+
+    /**
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)} with an
+     * unknown code above the 2xx range.
+     */
+    @SmallTest
+    public void testMapStatusHttp_errorCodeUnknown_notFromPlatform() {
+        assertEquals(LevelUpStatus.ERROR_SERVER,
+                LevelUpResponse.mapStatus(300, SERVER_NOT_LEVELUP_PLATFORM));
+    }
+
+    /**
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}.
      */
     @SmallTest
     public void testMapStatusHttp_errorCodeNotFound() {
-        assertEquals(LevelUpStatus.ERROR_NOT_FOUND, LevelUpResponse.mapStatus(404));
+        assertEquals(LevelUpStatus.ERROR_NOT_FOUND, LevelUpResponse.mapStatus(
+                HttpURLConnection.HTTP_NOT_FOUND, SERVER_LEVELUP_PLATFORM));
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int)}.
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}. 404s should
+     * be treated as generic server failures if the response is coming from a server other than
+     * LevelUp Platform.
+     */
+    @SmallTest
+    public void testMapStatusHttp_errorCodeNotFound_notFromPlatform() {
+        assertEquals(LevelUpStatus.ERROR_SERVER, LevelUpResponse.mapStatus(
+                HttpURLConnection.HTTP_NOT_FOUND, SERVER_NOT_LEVELUP_PLATFORM));
+    }
+
+    /**
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}.
      */
     @SmallTest
     public void testMapStatusHttp_errorCodeRedirection() {
-        assertEquals(LevelUpStatus.ERROR_SERVER,
-                LevelUpResponse.mapStatus(HttpURLConnection.HTTP_MULT_CHOICE));
+        assertEquals(LevelUpStatus.ERROR_SERVER, LevelUpResponse.mapStatus(
+                HttpURLConnection.HTTP_MULT_CHOICE, SERVER_LEVELUP_PLATFORM));
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int)}.
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}.
      */
     @SmallTest
     public void testMapStatusHttp_errorCodeClientError() {
-        assertEquals(LevelUpStatus.ERROR_SERVER,
-                LevelUpResponse.mapStatus(HttpURLConnection.HTTP_BAD_REQUEST));
+        assertEquals(LevelUpStatus.ERROR_SERVER, LevelUpResponse.mapStatus(
+                HttpURLConnection.HTTP_BAD_REQUEST, SERVER_LEVELUP_PLATFORM));
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int)}.
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}.
      */
     @SmallTest
     public void testMapStatusHttp_errorCodeMaintenenace() {
-        assertEquals(LevelUpStatus.ERROR_MAINTENANCE,
-                LevelUpResponse.mapStatus(HttpURLConnection.HTTP_UNAVAILABLE));
+        assertEquals(LevelUpStatus.ERROR_MAINTENANCE, LevelUpResponse.mapStatus(
+                HttpURLConnection.HTTP_UNAVAILABLE, SERVER_LEVELUP_PLATFORM));
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int)}.
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}. Maintenance
+     * mode applies even for responses not coming directly from LevelUp Platform.
+     */
+    @SmallTest
+    public void testMapStatusHttp_errorCodeMaintenenace_notFromPlatform() {
+        assertEquals(LevelUpStatus.ERROR_MAINTENANCE, LevelUpResponse.mapStatus(
+                HttpURLConnection.HTTP_UNAVAILABLE, SERVER_NOT_LEVELUP_PLATFORM));
+    }
+
+    /**
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int, String)}.
      */
     @SmallTest
     public void testMapStatusHttp_errorCodeUpgrade() {
-        assertEquals(LevelUpStatus.UPGRADE,
-                LevelUpResponse.mapStatus(HttpURLConnection.HTTP_NOT_IMPLEMENTED));
+        assertEquals(LevelUpStatus.UPGRADE, LevelUpResponse
+                .mapStatus(HttpURLConnection.HTTP_NOT_IMPLEMENTED, SERVER_LEVELUP_PLATFORM));
+    }
+
+    /**
+     * Tests {@link LevelUpResponse#mapStatus(int, String)}. Responses not coming from LevelUp
+     * Platform should be treated as generic errors rather than upgrade-required messages.
+     */
+    @SmallTest
+    public void testMapStatusHttp_errorCodeUpgrade_notFromLevelUp() {
+        assertEquals(LevelUpStatus.ERROR_SERVER, LevelUpResponse.mapStatus(
+                HttpURLConnection.HTTP_NOT_IMPLEMENTED, SERVER_NOT_LEVELUP_PLATFORM));
     }
 
     /**
@@ -113,7 +192,7 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(int)}.
+     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(Exception)}.
      */
     @SmallTest
     public void testMapStatusException_ioException() {
@@ -134,9 +213,9 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse#mapStatus(com.scvngr.levelup.core.net.StreamingResponse)}. Tests that a response with an
-     * error doesn't use the status code to determine the status, but uses the exception in the
-     * response object.
+     * Tests {@link LevelUpResponse#mapStatus(com.scvngr.levelup.core.net.StreamingResponse)}.
+     * Tests that a response with an error doesn't use the status code to determine the status, but
+     * uses the exception in the response object.
      */
     @SmallTest
     public void testMapStatusResponse_responseWithError() {
@@ -190,7 +269,8 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
      * Tests the {@link com.scvngr.levelup.core.net.LevelUpResponse#equals(Object)} and
      * {@link com.scvngr.levelup.core.net.LevelUpResponse#hashCode()} methods.
      *
-     * @throws Exception if {@link com.scvngr.levelup.core.net.LevelUpResponseTest.MockHttpUrlConnection} throws
+     * @throws Exception if {@link com.scvngr.levelup.core.net.LevelUpResponseTest.MockHttpUrlConnection}
+     * throws
      */
     @SmallTest
     public void testEqualsAndHashCode() throws Exception {
@@ -252,7 +332,8 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Wrapped {@link java.net.HttpURLConnection} to return {@link java.net.HttpURLConnection#HTTP_OK} for
+     * Wrapped {@link java.net.HttpURLConnection} to return
+     * {@link java.net.HttpURLConnection#HTTP_OK} for
      * {@link java.net.HttpURLConnection#getResponseCode()}.
      */
     private static class MockHttpUrlConnection extends HttpURLConnection {

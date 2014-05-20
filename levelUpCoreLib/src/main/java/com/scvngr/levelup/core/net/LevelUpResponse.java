@@ -29,6 +29,18 @@ import java.util.Map;
 @ThreadSafe
 @LevelUpApi(contract = Contract.DRAFT)
 public final class LevelUpResponse extends BufferedResponse implements Parcelable {
+    /**
+     * The name of the Server HTTP header.
+     */
+    @NonNull
+    private static final String HTTP_HEADER_SERVER = "Server"; //$NON-NLS-1$
+
+    /**
+     * The expected value for the Server header for us to know it's coming from LevelUp Platform
+     * (and not a reverse-proxy or failover server).
+     */
+    @NonNull
+    private static final String HTTP_HEADER_VALUE_SERVER = "LevelUp"; //$NON-NLS-1$
 
     /**
      * Creator for parceling.
@@ -99,7 +111,18 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
     /* package */LevelUpResponse(@NonNull final String data, final int statusCode,
             @Nullable final Map<String, List<String>> headers, @Nullable final Exception error) {
         super(data, statusCode, headers, error);
-        mStatus = mapStatus(statusCode);
+
+        String serverHeader = null;
+
+        if (null != headers) {
+            final List<String> serverHeaders = headers.get(HTTP_HEADER_SERVER);
+
+            if (null != serverHeaders && serverHeaders.size() > 0) {
+                serverHeader = serverHeaders.get(0);
+            }
+        }
+
+        mStatus = mapStatus(statusCode, serverHeader);
     }
 
     /**
@@ -171,7 +194,8 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
         LevelUpStatus status = LevelUpStatus.ERROR_UNKNOWN;
 
         if (AbstractResponse.HTTP_STATUS_CODE_UNUSED != response.getHttpStatusCode()) {
-            status = mapStatus(response.getHttpStatusCode());
+            status = mapStatus(response.getHttpStatusCode(),
+                    response.getHttpHeader(HTTP_HEADER_SERVER));
         }
 
         if (null != response.getError()) {
@@ -185,30 +209,46 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
      * Maps an {@link LevelUpStatus} to an HTTP status code from the response.
      *
      * @param statusCode the HTTP status code from the response.
+     * @param serverHeader the value of the Server HTTP header; this is used to validate whether the
+     *        response is coming from the LevelUp Platform server or a backup/reverse-proxy.
      * @return {@link LevelUpStatus} describing the status code.
      */
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static LevelUpStatus mapStatus(final int statusCode) {
-        LevelUpStatus status = LevelUpStatus.ERROR_UNKNOWN;
+    /* package */static LevelUpStatus mapStatus(final int statusCode,
+            @Nullable final String serverHeader) {
+        final boolean fromLevelUpPlatform = HTTP_HEADER_VALUE_SERVER.equals(serverHeader);
+        final LevelUpStatus status;
 
         if (statusCode >= AbstractResponse.STATUS_CODE_SUCCESS_MIN_INCLUSIVE
                 && statusCode < AbstractResponse.STATUS_CODE_SUCCESS_MAX_EXCLUSIVE) {
             // A 2xx status code is OK.
             status = LevelUpStatus.OK;
-        } else if (HttpURLConnection.HTTP_NOT_IMPLEMENTED == statusCode) {
-            // The API treats a 501 response as a requirement for the client to
-            // be upgraded.
+        } else if (HttpURLConnection.HTTP_NOT_IMPLEMENTED == statusCode && fromLevelUpPlatform) {
+            /*
+             * The API treats a 501 response as a requirement for the client to be upgraded.
+             * However, in failover etc. this response should be ignored since it may have a
+             * different meaning coming from other servers.
+             */
             status = LevelUpStatus.UPGRADE;
-        } else if (HttpURLConnection.HTTP_UNAUTHORIZED == statusCode) {
-            // The user needs to login before completing this request.
+        } else if (HttpURLConnection.HTTP_UNAUTHORIZED == statusCode && fromLevelUpPlatform) {
+            /*
+             * The API treats a 401 response as a notice that the user needs a new access token, and
+             * should be logged out. However, if a reverse-proxy or backup server is sending the
+             * response, this should be ignored since it may have a different meaning coming from
+             * other servers.
+             */
             status = LevelUpStatus.LOGIN_REQUIRED;
-        } else if (HttpURLConnection.HTTP_UNAVAILABLE == statusCode) {
-            // LevelUp is down for maintenance.
-            status = LevelUpStatus.ERROR_MAINTENANCE;
-        } else if (HttpURLConnection.HTTP_NOT_FOUND == statusCode) {
-            // LevelUp couldn't find the resource requested.
+        } else if (HttpURLConnection.HTTP_NOT_FOUND == statusCode && fromLevelUpPlatform) {
+            /*
+             * Some endpoints (like PaymentToken) have special meanings for 404s, but in failover
+             * they may just indicate a partially-functioning service and should be treated as
+             * generic network errors.
+             */
             status = LevelUpStatus.ERROR_NOT_FOUND;
+        } else if (HttpURLConnection.HTTP_UNAVAILABLE == statusCode) {
+            // LevelUp is down for maintenance (applicable even if the Server header differs).
+            status = LevelUpStatus.ERROR_MAINTENANCE;
         } else {
             // All other response codes are server errors.
             status = LevelUpStatus.ERROR_SERVER;
