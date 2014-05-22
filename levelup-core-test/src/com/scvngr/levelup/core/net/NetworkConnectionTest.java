@@ -17,6 +17,7 @@ import com.google.mockwebserver.MockWebServer;
 import com.google.mockwebserver.RecordedRequest;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -371,18 +372,91 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Tests {@link NetworkConnection#send} with a request that throws a {@link BadRequestException}
-     * .
+     * Tests {@link NetworkConnection#send} with a request that throws one
+     * {@link BadRequestException}.
      */
     @SmallTest
-    public void testSend_withRequestThatThrowsException() throws InterruptedException, IOException {
-        final ExceptionThrowingRequest request =
-                new ExceptionThrowingRequest(HttpMethod.GET, getMockServerUrl(),
+    public void testSend_withBadRequestException() throws IOException {
+        final BadRequestExceptionThrowingRequest request =
+                new BadRequestExceptionThrowingRequest(HttpMethod.GET, getMockServerUrl(),
                         new HashMap<String, String>(), new HashMap<String, String>(), null);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
+        final Exception exception = response.getError();
 
-        assertNotNull(response.getError());
-        assertTrue(response.getError() instanceof BadRequestException);
+        assertNotNull("Does not retry when a BadRequestException is thrown", exception);
+        assertTrue(exception instanceof BadRequestException);
+    }
+
+    /**
+     * Tests {@link NetworkConnection#send} with a request that throws one {@link IOException}.
+     */
+    @SmallTest
+    public void testSend_withIOException() throws IOException {
+        final IOExceptionThrowingRequest request =
+                new IOExceptionThrowingRequest(HttpMethod.POST, getMockServerUrl(),
+                        new HashMap<String, String>(), new HashMap<String, String>(), "test body");
+        final StreamingResponse response = NetworkConnection.send(getContext(), request);
+        final Exception exception = response.getError();
+
+        assertNotNull("Does not retry when an IOException is thrown", exception);
+        assertTrue(exception instanceof IOException);
+    }
+
+    /**
+     * Tests {@link NetworkConnection#send} with a request that throws two {@link EOFException}s.
+     */
+    @SmallTest
+    public void testSend_withTwoEOFExceptions() throws IOException {
+        final StreamingResponse response = getResponseFromEOFExceptionThrowingRequest(2);
+
+        assertNull("Retries at least 2 times to close stale sockets when an EOFException is thrown",
+                response.getError());
+    }
+
+    /**
+     * Tests {@link NetworkConnection#send} with a request that throws one more than
+     * {@link NetworkConnection#MAX_POOLED_CONNECTIONS} {@link EOFException}s.
+     */
+    @SmallTest
+    public void testSend_withMaxPlusOneEOFExceptions() throws IOException {
+        final StreamingResponse response = getResponseFromEOFExceptionThrowingRequest(
+                NetworkConnection.MAX_POOLED_CONNECTIONS + 1);
+        final Exception exception = response.getError();
+
+        assertNull(NullUtils.format(
+                "Retries at least MAX_POOLED_CONNECTIONS(%d) + 1 times to close stale sockets when"
+                + " EOFExceptions are thrown", NetworkConnection.MAX_POOLED_CONNECTIONS),
+                exception);
+    }
+
+    /**
+     * Tests {@link NetworkConnection#send} with a request that throws two more than
+     * {@link NetworkConnection#MAX_POOLED_CONNECTIONS} {@link EOFException}s.
+     */
+    @SmallTest
+    public void testSend_withMaxPlusTwoEOFExceptions() throws IOException {
+        final StreamingResponse response = getResponseFromEOFExceptionThrowingRequest(
+                NetworkConnection.MAX_POOLED_CONNECTIONS + 2);
+        final Exception exception = response.getError();
+
+        assertNotNull(NullUtils.format(
+                "Fails if more than MAX_POOLED_CONNECTIONS(%d) + 2 EOFExceptions are thrown",
+                NetworkConnection.MAX_POOLED_CONNECTIONS), exception);
+        assertTrue(exception instanceof EOFException);
+    }
+
+    /**
+     * @param numExceptions the number of {@link EOFException}s to throw.
+     * @return the {@link StreamingResponse} from the send.
+     */
+    private StreamingResponse getResponseFromEOFExceptionThrowingRequest(final int numExceptions)
+            throws IOException {
+        final EOFExceptionThrowingRequest request =
+                new EOFExceptionThrowingRequest(HttpMethod.POST, getMockServerUrl(),
+                        new HashMap<String, String>(), new HashMap<String, String>(), "test body",
+                        numExceptions);
+
+        return NetworkConnection.send(getContext(), request);
     }
 
     /**
@@ -397,12 +471,14 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Test implementation of {@link AbstractRequest} that throws a {@link BadRequestException} when
-     * {@link AbstractRequest#getUrlString} is called.
+     * Test implementation of {@link AbstractRequest} that throws a {@link BadRequestException} the
+     * first time {@link AbstractRequest#getUrlString} is called.
      */
-    private static final class ExceptionThrowingRequest extends RequestStub {
+    private static final class BadRequestExceptionThrowingRequest extends RequestStub {
 
-        public ExceptionThrowingRequest(@NonNull final HttpMethod method,
+        private int mNumExceptions = 1;
+
+        public BadRequestExceptionThrowingRequest(@NonNull final HttpMethod method,
                 @NonNull final String url, @Nullable final Map<String, String> requestHeaders,
                 @Nullable final Map<String, String> queryParams, @Nullable final String body) {
             super(method, url, requestHeaders, queryParams, body);
@@ -411,7 +487,70 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         @Override
         @NonNull
         public String getUrlString(@NonNull final Context context) throws BadRequestException {
-            throw new BadRequestException("bad request"); //$NON-NLS-1$
+            if (0 < mNumExceptions) {
+                mNumExceptions--;
+
+                throw new BadRequestException("bad request"); //$NON-NLS-1$
+            }
+
+            return super.getUrlString(context);
+        }
+    }
+
+    /**
+     * Test implementation of {@link AbstractRequest} that throws up to {@code numExceptions}
+     * {@link EOFException}s when {@link AbstractRequest#writeBodyToStream} is called.
+     */
+    private static final class EOFExceptionThrowingRequest extends RequestStub {
+
+        private int mNumExceptions;
+
+        public EOFExceptionThrowingRequest(@NonNull final HttpMethod method,
+                @NonNull final String url, @Nullable final Map<String, String> requestHeaders,
+                @Nullable final Map<String, String> queryParams, @Nullable final String body,
+                final int numExceptions) {
+            super(method, url, requestHeaders, queryParams, body);
+
+            mNumExceptions = numExceptions;
+        }
+
+        @Override
+        public void writeBodyToStream(@NonNull final Context context,
+                @NonNull final OutputStream stream) throws IOException {
+            if (0 < mNumExceptions) {
+                mNumExceptions--;
+
+                throw new EOFException("stale connection"); //$NON-NLS-1$
+            }
+
+            super.writeBodyToStream(context, stream);
+        }
+    }
+
+    /**
+     * Test implementation of {@link AbstractRequest} that throws an {@link IOException} the first
+     * time {@link AbstractRequest#writeBodyToStream} is called.
+     */
+    private static final class IOExceptionThrowingRequest extends RequestStub {
+
+        private int mNumExceptions = 1;
+
+        public IOExceptionThrowingRequest(@NonNull final HttpMethod method,
+                @NonNull final String url, @Nullable final Map<String, String> requestHeaders,
+                @Nullable final Map<String, String> queryParams, @Nullable final String body) {
+            super(method, url, requestHeaders, queryParams, body);
+        }
+
+        @Override
+        public void writeBodyToStream(@NonNull final Context context,
+                @NonNull final OutputStream stream) throws IOException {
+            if (0 < mNumExceptions) {
+                mNumExceptions--;
+
+                throw new IOException("broken pipe"); //$NON-NLS-1$
+            }
+
+            super.writeBodyToStream(context, stream);
         }
     }
 

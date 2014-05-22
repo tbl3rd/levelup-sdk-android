@@ -17,6 +17,7 @@ import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.ThreadSafe;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
@@ -33,13 +34,25 @@ import java.util.Map;
 @LevelUpApi(contract = Contract.INTERNAL)
 public final class NetworkConnection {
 
+    /**
+     * The maximum number of simultaneous connections on each server.
+     * <p>
+     * The connection pool's implementation relies on reading the {@code http.maxConnections} system
+     * property during static initialization. The best we can be do is assume that the property's
+     * current value was also observed by the connection pool. When the property is not set, a
+     * default value of 5 is used on all supported devices up to and including
+     * {@link android.os.Build.VERSION_CODES#KITKAT}. The default value is an internal
+     * implementation detail that may change when newer versions of Android become available.
+     * </p>
+     */
+    @VisibleForTesting(visibility = Visibility.PRIVATE)
+    /* package */static final int MAX_POOLED_CONNECTIONS =
+            Integer.valueOf(System.getProperty("http.maxConnections", "5")); //$NON-NLS-1$ //$NON-NLS-2$
+
     /*
      * The static fields stored by this class are not necessarily thread-safe. They operate on a
      * best-effort basis to improve testing.
      */
-
-    @Nullable
-    private static volatile AbstractRequest sLastRequest = null;
 
     @Nullable
     private static volatile StreamingResponse sNextResponse = null;
@@ -57,7 +70,7 @@ public final class NetworkConnection {
         StreamingResponse response;
 
         try {
-            response = doSend(context, request);
+            response = doSend(context, request, 0);
         } catch (final IOException e) {
             LogManager.v("Error during send", e); //$NON-NLS-1$
             response = new StreamingResponse(e);
@@ -71,29 +84,82 @@ public final class NetworkConnection {
 
     /**
      * Performs the send to the server.
+     * <p>
+     * The implementation of this method includes a workaround for {@link EOFException}s caused by
+     * the reuse of stale connections. Send may be attempted multiple times in order to close these
+     * connections. See <a href=http://stackoverflow.com/a/23795099/204480>Stack Overflow</a> for
+     * more details.
+     * </p>
      *
      * @param context Application Context.
      * @param request the request to send.
+     * @param failures the number of failed attempts to send this request.
      * @return {@link StreamingResponse} containing information regarding the outcome of the send.
      * @throws IOException if network operations fail.
      * @throws BadRequestException if the request is invalid.
      */
     @NonNull
     private static StreamingResponse doSend(@NonNull final Context context,
-            @NonNull final AbstractRequest request) throws IOException, BadRequestException {
-        // Store the last request for testing purposes.
-        sLastRequest = request;
-
-        // Configure the connection based on the request passed
-        final HttpURLConnection connection = configureConnection(context, request);
-
+            @NonNull final AbstractRequest request, final int failures)
+            throws IOException, BadRequestException {
         LogManager.v("HTTP request headers: %s", request.getRequestHeaders(context)); //$NON-NLS-1$
 
-        // Write the post body if necessary
-        doOutput(context, connection, request);
+        HttpURLConnection connection = null;
+        StreamingResponse response = null;
 
-        // Get the response from the server
-        return getResponse(connection, request);
+        try {
+            // Configure the connection based on the request passed
+            connection = configureConnection(context, request);
+
+            // Close the connection if this is a retry and additional attempts may be necessary.
+            if (0 < failures && shouldRetryAfterEOFException(failures)) {
+                connection.setRequestProperty("Connection", "close"); //$NON-NLS-1$ //$NON-NLS-2$
+            }
+
+            // Write the post body if necessary
+            doOutput(context, connection, request);
+
+            // Get the response from the server
+            response = getResponse(connection);
+        } catch (final EOFException e) {
+            LogManager.e(NullUtils.format("Unable to send request: failures(%d)", //$NON-NLS-1$
+                            failures), e);
+
+            if (shouldRetryAfterEOFException(failures)) {
+                disconnect(connection);
+                connection = null;
+
+                return doSend(context, request, failures + 1);
+            }
+
+            throw e;
+        } finally {
+            if (null == response) {
+                disconnect(connection);
+            }
+        }
+
+        return response;
+    }
+
+    /**
+     * Calls {@link HttpURLConnection#disconnect} if {@code connection} is non-null.
+     *
+     * @param connection the connection to disconnect or null.
+     */
+    private static void disconnect(@Nullable final HttpURLConnection connection) {
+        if (null != connection) {
+            connection.disconnect();
+        }
+    }
+
+    /**
+     * @param failures the number of failed attempts to send this request.
+     * @return true if the send should be attempted again if it fails with an {@link EOFException},
+     * false otherwise.
+     */
+    private static boolean shouldRetryAfterEOFException(final int failures) {
+        return 0 < MAX_POOLED_CONNECTIONS && MAX_POOLED_CONNECTIONS + 1 > failures;
     }
 
     /**
@@ -120,7 +186,10 @@ public final class NetworkConnection {
             connection.setRequestProperty(headerKey, headers.get(headerKey));
         }
 
-        if (0 != request.getBodyLength(context)) {
+        final int bodyLength = request.getBodyLength(context);
+
+        if (0 != bodyLength) {
+            connection.setFixedLengthStreamingMode(bodyLength);
             connection.setDoOutput(true);
         }
 
@@ -139,20 +208,28 @@ public final class NetworkConnection {
     /* package */static void doOutput(@NonNull final Context context,
             @NonNull final HttpURLConnection connection, @NonNull final AbstractRequest request)
             throws IOException {
-
-        final int bodyLength = request.getBodyLength(context);
-
-        if (0 != bodyLength) {
-            connection.setFixedLengthStreamingMode(bodyLength);
+        if (connection.getDoOutput()) {
             OutputStream stream = null;
 
             try {
                 stream = NullUtils.nonNullContract(connection.getOutputStream());
-                request.writeBodyToStream(context, stream);
+
+                try {
+                    request.writeBodyToStream(context, stream);
+                } catch (final IOException e) {
+                    // Close the stream quietly.
+                    try {
+                        stream.close();
+                    } catch (final IOException f) {
+                        // OutputStream expected more output.
+                    }
+
+                    stream = null;
+                    throw e;
+                }
             } finally {
                 if (null != stream) {
                     stream.close();
-                    stream = null;
                 }
             }
         }
@@ -162,14 +239,13 @@ public final class NetworkConnection {
      * Gets the response from the server.
      *
      * @param connection the connection to use to make the request to the server
-     * @param request the request to send to the server
      * @return {@link StreamingResponse} containing information regarding the outcome of the send
      * @throws IOException if network operations fail
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
-    /* package */static StreamingResponse getResponse(@NonNull final HttpURLConnection connection,
-            @NonNull final AbstractRequest request) throws IOException {
+    /* package */static StreamingResponse getResponse(@NonNull final HttpURLConnection connection)
+            throws IOException {
         StreamingResponse response;
 
         // Pull it out to a local variable for static analysis
@@ -196,17 +272,6 @@ public final class NetworkConnection {
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static void setNextResponse(@Nullable final StreamingResponse nextResponse) {
         sNextResponse = nextResponse;
-    }
-
-    /**
-     * Method to use for testing to get the last request.
-     *
-     * @return {@link AbstractRequest} the last request from any client.
-     */
-    @VisibleForTesting(visibility = Visibility.PRIVATE)
-    @Nullable
-    /* package */static AbstractRequest getLastRequest() {
-        return sLastRequest;
     }
 
     /**
