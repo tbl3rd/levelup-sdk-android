@@ -16,6 +16,7 @@ import android.widget.LinearLayout.LayoutParams;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.test.LatchRunnable;
 import com.scvngr.levelup.core.test.R;
 import com.scvngr.levelup.core.test.TestThreadingUtils;
 import com.scvngr.levelup.core.ui.view.LevelUpCodeView.OnCodeLoadListener;
@@ -377,17 +378,19 @@ public final class LevelUpCodeViewTest extends
 
         final long timeoutMillis = LevelUpCodeView.ANIM_FADE_START_DELAY_MILLIS
                 + LevelUpCodeView.ANIM_FADE_DURATION_MILLIS + TimeUnit.SECONDS.toMillis(4);
-        final CountDownLatch latch = new CountDownLatch(1);
+
+        final LatchRunnable latchRunnable = new LatchRunnable() {
+            @Override
+            public void run() {
+                if (LevelUpCodeView.ANIM_FADE_COLOR_ALPHA_END
+                        == mLevelUpCodeView.mColorAlpha) {
+                    countDown();
+                }
+            }
+        };
+
         assertTrue(TestThreadingUtils.waitForAction(getInstrumentation(), getActivity(),
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        if (LevelUpCodeView.ANIM_FADE_COLOR_ALPHA_END
-                                == mLevelUpCodeView.mColorAlpha) {
-                            latch.countDown();
-                        }
-                    }
-                }, latch, timeoutMillis, true));
+                latchRunnable, timeoutMillis, true));
     }
 
     /**
@@ -477,21 +480,23 @@ public final class LevelUpCodeViewTest extends
     private void assertOnCodeLoaded(@NonNull final LatchingOnCodeLoadListener listener,
             final boolean expectedIsCodeLoading, final int expectedCount) {
         final int expectedLatchCount = expectedCount == 0 ? 1 : 0;
-        final CountDownLatch latch = new CountDownLatch(1);
-        assertTrue(TestThreadingUtils.waitForAction(getInstrumentation(), getActivity(), new Runnable() {
+        final LatchRunnable latchRunnable = new LatchRunnable() {
             @Override
             public void run() {
                 if (expectedIsCodeLoading) {
                     if (expectedLatchCount == listener.isCodeLoadingTrueLatch.getCount()) {
-                        latch.countDown();
+                        countDown();
                     }
                 } else {
                     if (expectedLatchCount == listener.isCodeLoadingFalseLatch.getCount()) {
-                        latch.countDown();
+                        countDown();
                     }
                 }
             }
-        }, latch, false));
+        };
+
+        assertTrue(TestThreadingUtils.waitForAction(getInstrumentation(), getActivity(),
+                latchRunnable, false));
 
         if (expectedIsCodeLoading) {
             assertEquals(expectedCount, listener.isCodeLoadingTrueCount);

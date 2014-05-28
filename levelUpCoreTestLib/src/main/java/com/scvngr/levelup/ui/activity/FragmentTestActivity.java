@@ -3,12 +3,14 @@
  */
 package com.scvngr.levelup.ui.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Window;
 
 import com.scvngr.levelup.core.test.R;
+import com.scvngr.levelup.core.util.ContextInstrumenter;
 
 /**
  * Activity to host fragments for testing. Gross.
@@ -26,6 +28,11 @@ public class FragmentTestActivity extends SherlockFragmentActivity {
      * the super classes do not expose a getter.
      */
     public boolean mIsProgressBarIndeterminateVisible = false;
+
+    @Override
+    protected void attachBaseContext(final Context newBase) {
+        super.attachBaseContext(ContextInstrumenter.from(newBase));
+    }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

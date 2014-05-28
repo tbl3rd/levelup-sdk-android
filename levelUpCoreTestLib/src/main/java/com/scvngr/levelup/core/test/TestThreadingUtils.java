@@ -19,8 +19,8 @@ import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Methods to help with some of the intricacies of threading in the test cases.
@@ -76,7 +76,7 @@ public final class TestThreadingUtils {
             public void run() {
                 if (!inView) {
                     activity.getSupportFragmentManager().beginTransaction()
-                            .add(fragment, fragment.getClass().getName()).commit();
+                            .add(fragment, tag).commit();
                 } else {
                     activity.getSupportFragmentManager().beginTransaction()
                             .add(R.id.levelup_activity_content, fragment, tag).commit();
@@ -130,37 +130,43 @@ public final class TestThreadingUtils {
      */
     public static void validateActivityFinished(@NonNull final Instrumentation instrumentation,
             @NonNull final Activity activity) {
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        AndroidTestCase.assertTrue(waitForAction(instrumentation, activity, new Runnable() {
-
+        final LatchRunnable latchRunnable = new LatchRunnable() {
             @Override
             public void run() {
                 if (activity.isFinishing()) {
-                    countDownLatch.countDown();
+                    countDown();
                 }
             }
-        }, countDownLatch, true));
+        };
+
+        AndroidTestCase.assertTrue(waitForAction(instrumentation, activity, latchRunnable, true));
     }
 
     /**
      * Validates that a fragment was added successfully. Does not validate the container it was
      * added to.
      *
+     * @param <V> the type of Fragment.
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the activity for the test being run (null will fail validation).
      * @param fragmentManager the fragment manager the fragment was added to (null will fail
      *        validation).
      * @param tag the tag to check for (null will fail validation).
+     * @return the Fragment that is added.
      */
-    public static void validateFragmentAdded(@NonNull final Instrumentation instrumentation,
-            final Activity activity, final FragmentManager fragmentManager, final String tag) {
-        validateFragmentAdded(instrumentation, activity, fragmentManager, tag, PARENT_ID_UNDEFINED);
+    @NonNull
+    public static <V extends Fragment> V validateFragmentAdded(
+            @NonNull final Instrumentation instrumentation, final Activity activity,
+            final FragmentManager fragmentManager, final String tag) {
+        return validateFragmentAdded(instrumentation, activity, fragmentManager, tag,
+                PARENT_ID_UNDEFINED);
     }
 
     /**
      * Validates that a fragment was added successfully and validates the ID of the container it was
      * added to.
      *
+     * @param <V> the type of Fragment.
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the activity for the test being run (null will fail validation).
      * @param fragmentManager the fragment manager the fragment was added to (null will fail
@@ -168,32 +174,43 @@ public final class TestThreadingUtils {
      * @param tag the tag to check for (null will fail validation).
      * @param parentId the id of the parent container the fragment is expected to be in or pass
      *        {@link #PARENT_ID_UNDEFINED} if no parent id should be validated.
+     * @return the Fragment that is added.
      */
-    public static void validateFragmentAdded(@NonNull final Instrumentation instrumentation,
-            final Activity activity, final FragmentManager fragmentManager, final String tag,
-            final int parentId) {
+    @NonNull
+    @SuppressWarnings("unchecked")
+    public static <V extends Fragment> V validateFragmentAdded(
+            @NonNull final Instrumentation instrumentation, final Activity activity,
+            final FragmentManager fragmentManager, final String tag, final int parentId) {
         AndroidTestCase.assertNotNull(tag);
         AndroidTestCase.assertNotNull(activity);
         AndroidTestCase.assertNotNull(fragmentManager);
-        final CountDownLatch latch = new CountDownLatch(1);
-        AndroidTestCase.assertTrue(String.format(Locale.US, "%s added", tag),
-                waitForAction(instrumentation, NullUtils.nonNullContract(activity), new Runnable() {
-                    @Override
-                    public void run() {
-                        final Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
-                        if (null != fragment) {
-                            if (PARENT_ID_UNDEFINED != parentId) {
-                                final View parent = (View) fragment.getView().getParent();
-                                AndroidTestCase.assertEquals(
-                                        "In the proper container", parentId,
-                                        parent.getId());
-                            }
+        final AtomicReference<Fragment> reference = new AtomicReference<Fragment>();
+        final LatchRunnable latchRunnable = new LatchRunnable() {
+            @Override
+            public void run() {
+                final Fragment fragment = fragmentManager.findFragmentByTag(tag);
 
-                            latch.countDown();
+                if (null != fragment) {
+                    if (fragment.isAdded()) {
+                        if (PARENT_ID_UNDEFINED != parentId) {
+                            final View parent = (View) fragment.getView().getParent();
+                            AndroidTestCase.assertEquals("In the proper container",
+                                    parentId, parent.getId());
                         }
+
+                        reference.set(fragment);
+                        countDown();
                     }
-                }, latch, true));
+                }
+            }
+        };
+
+        AndroidTestCase.assertTrue(String.format(Locale.US, "%s added", tag),
+                waitForAction(instrumentation, NullUtils.nonNullContract(activity), latchRunnable,
+                true));
+
+        return (V) reference.get();
     }
 
     /**
@@ -210,17 +227,101 @@ public final class TestThreadingUtils {
         AndroidTestCase.assertNotNull(tag);
         AndroidTestCase.assertNotNull(activity);
         AndroidTestCase.assertNotNull(fragmentManager);
-        final CountDownLatch latch = new CountDownLatch(1);
+
+        final LatchRunnable latchRunnable = new LatchRunnable() {
+            @Override
+            public void run() {
+                final Fragment fragment = fragmentManager.findFragmentByTag(tag);
+                if (null == fragment) {
+                    countDown();
+                }
+            }
+        };
+
         AndroidTestCase.assertTrue(String.format(Locale.US, "%s removed", tag),
-                waitForAction(instrumentation, NullUtils.nonNullContract(activity), new Runnable() {
-                    @Override
-                    public void run() {
-                        final Fragment fragment = fragmentManager.findFragmentByTag(tag);
-                        if (null == fragment) {
-                            latch.countDown();
-                        }
+                waitForAction(instrumentation, NullUtils.nonNullContract(activity), latchRunnable,
+                true));
+    }
+
+    /**
+     * Validates that a fragment is visible to the user.
+     *
+     * @param <V> the type of Fragment.
+     * @param instrumentation the test {@link Instrumentation}.
+     * @param activity the activity for the test being run (null will fail validation).
+     * @param fragmentManager the fragment manager the fragment was added to (null will fail
+     *        validation).
+     * @param tag the tag to check for (null will fail validation).
+     * @return the Fragment that is visible to the user.
+     */
+    @NonNull
+    @SuppressWarnings("unchecked")
+    public static <V extends Fragment> V validateFragmentIsVisible(
+            @NonNull final Instrumentation instrumentation, final Activity activity,
+            final FragmentManager fragmentManager, final String tag) {
+        AndroidTestCase.assertNotNull(tag);
+        AndroidTestCase.assertNotNull(activity);
+        AndroidTestCase.assertNotNull(fragmentManager);
+
+        final AtomicReference<Fragment> reference = new AtomicReference<Fragment>();
+        final LatchRunnable latchRunnable = new LatchRunnable() {
+            @Override
+            public void run() {
+                final Fragment fragment = fragmentManager.findFragmentByTag(tag);
+
+                if (null != fragment) {
+                    if (fragment.isVisible()) {
+                        reference.set(fragment);
+                        countDown();
                     }
-                }, latch, true));
+                }
+            }
+        };
+
+        AndroidTestCase.assertTrue(String.format(Locale.US, "%s is visible", tag),
+                waitForAction(instrumentation, activity, latchRunnable, true));
+
+        return (V) reference.get();
+    }
+
+    /**
+     * Validates that a fragment is either not managed by the fragment manager or is not visible to
+     * the user.
+     *
+     * @param <V> the type of Fragment.
+     * @param instrumentation the test {@link Instrumentation}.
+     * @param activity the activity for the test being run (null will fail validation).
+     * @param fragmentManager the fragment manager the fragment was added to (null will fail
+     *        validation).
+     * @param tag the tag to check for (null will fail validation).
+     * @return the Fragment that is not visible to the user.
+     */
+    @NonNull
+    @SuppressWarnings("unchecked")
+    public static <V extends Fragment> V validateFragmentIsNotVisible(
+            @NonNull final Instrumentation instrumentation, final Activity activity,
+            final FragmentManager fragmentManager, final String tag) {
+        AndroidTestCase.assertNotNull(tag);
+        AndroidTestCase.assertNotNull(activity);
+        AndroidTestCase.assertNotNull(fragmentManager);
+
+        final AtomicReference<Fragment> reference = new AtomicReference<Fragment>();
+        final LatchRunnable latchRunnable = new LatchRunnable() {
+            @Override
+            public void run() {
+                final Fragment fragment = fragmentManager.findFragmentByTag(tag);
+
+                if (null == fragment || !fragment.isVisible()) {
+                    reference.set(fragment);
+                    countDown();
+                }
+            }
+        };
+
+        AndroidTestCase.assertTrue(String.format(Locale.US, "%s is not visible", tag),
+                waitForAction(instrumentation, activity, latchRunnable, true));
+
+        return (V) reference.get();
     }
 
     /**
@@ -228,17 +329,16 @@ public final class TestThreadingUtils {
      *
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the activity for the test being run.
-     * @param runnable the runnable that will check the condition and signal success via the
-     *        {@link CountDownLatch} passed.
-     * @param latch the {@link CountDownLatch} to check for success.
+     * @param latchRunnable the runnable that will check the condition and signal success via its
+     * {@link java.util.concurrent.CountDownLatch}.
      * @param isMainThreadRunnable Determine whether or not the runnable must be invoked on the main
-     *        thread.
+     * thread.
      * @return true if the action happened before the timeout, false otherwise.
      */
     public static boolean waitForAction(@NonNull final Instrumentation instrumentation,
-            @NonNull final Activity activity, @NonNull final Runnable runnable,
-            @NonNull final CountDownLatch latch, final boolean isMainThreadRunnable) {
-        return waitForAction(instrumentation, activity, runnable, latch, WAIT_TIMEOUT_MILLIS,
+            @NonNull final Activity activity, @NonNull final LatchRunnable latchRunnable,
+            final boolean isMainThreadRunnable) {
+        return waitForAction(instrumentation, activity, latchRunnable, WAIT_TIMEOUT_MILLIS,
                 isMainThreadRunnable);
     }
 
@@ -247,30 +347,28 @@ public final class TestThreadingUtils {
      *
      * @param instrumentation the test {@link Instrumentation}.
      * @param activity the activity for the test being run.
-     * @param runnable the runnable that will check the condition and signal success via the
-     *        {@link CountDownLatch} passed.
-     * @param latch the {@link CountDownLatch} to check for success.
+     * @param latchRunnable the runnable that will check the condition and signal success via its
+     * {@link java.util.concurrent.CountDownLatch}.
      * @param timeoutMillis the timeout duration in milliseconds.
      * @param isMainThreadRunnable Determine whether or not the runnable must be invoked on the main
-     *        thread.
+     * thread.
      * @return true if the action happened before the timeout, false otherwise.
      */
     public static boolean waitForAction(@NonNull final Instrumentation instrumentation,
-            @NonNull final Activity activity, @NonNull final Runnable runnable,
-            @NonNull final CountDownLatch latch, final long timeoutMillis,
-            final boolean isMainThreadRunnable) {
+            @NonNull final Activity activity, @NonNull final LatchRunnable latchRunnable,
+            final long timeoutMillis, final boolean isMainThreadRunnable) {
         final long endTime = SystemClock.elapsedRealtime() + timeoutMillis;
         boolean result = true;
 
         while (true) {
             if (isMainThreadRunnable) {
-                runOnMainSync(instrumentation, activity, runnable);
+                runOnMainSync(instrumentation, activity, latchRunnable);
             } else {
-                runnable.run();
+                latchRunnable.run();
                 instrumentation.waitForIdleSync();
             }
 
-            if (latch.getCount() == 0) {
+            if (latchRunnable.getCount() == 0) {
                 break;
             }
 

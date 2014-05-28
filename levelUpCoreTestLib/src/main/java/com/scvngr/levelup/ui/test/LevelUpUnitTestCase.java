@@ -15,11 +15,11 @@ import android.test.ActivityUnitTestCase;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.net.LevelUpConnectionHelper;
+import com.scvngr.levelup.core.test.LatchRunnable;
 import com.scvngr.levelup.core.test.R;
 import com.scvngr.levelup.core.test.TestThreadingUtils;
 import com.scvngr.levelup.core.util.NullUtils;
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -43,7 +43,7 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      * properly destroy the activity.
      */
     @Nullable
-    /* package */ AtomicReference<FragmentActivity> mActivityReference;
+    /* package */ AtomicReference<T> mActivityReference;
 
     /**
      * Create a new instance of the test case.
@@ -206,16 +206,16 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      *         ready to go.
      */
     @NonNull
-    protected final FragmentActivity startActivitySync() {
-        mActivityReference = new AtomicReference<FragmentActivity>(null);
-        @NonNull final AtomicReference<FragmentActivity> activityReference = mActivityReference;
+    protected final T startActivitySync() {
+        mActivityReference = new AtomicReference<T>(null);
+        @NonNull final AtomicReference<T> activityReference = mActivityReference;
 
         // Cannot use autosyncrunnable because the activity is not created yet.
         getInstrumentation().runOnMainSync(new Runnable() {
 
             @Override
             public void run() {
-                final FragmentActivity activity = startActivity(new Intent(), null);
+                final T activity = startActivity(new Intent(), null);
 
                 getInstrumentation().callActivityOnStart(activity);
                 getInstrumentation().callActivityOnPostCreate(activity, null);
@@ -233,12 +233,13 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      * Stops the activity and calls its lifecycle pause/stop/destroy methods.
      */
     private void stopActivitySync() {
+        // Cannot use autosyncrunnable because the activity is not created yet.
         getInstrumentation().runOnMainSync(new Runnable() {
 
             @Override
             public void run() {
                 @SuppressWarnings("null")
-                final FragmentActivity activity = mActivityReference.get();
+                final T activity = mActivityReference.get();
 
                 getInstrumentation().callActivityOnPause(activity);
                 getInstrumentation().callActivityOnStop(activity);
@@ -254,31 +255,29 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      * @param mgr the {@link LoaderManager} to check for running loaders.
      */
     public void validateLoadersFinished(@NonNull final LoaderManager mgr) {
-        final CountDownLatch latch = new CountDownLatch(1);
-        assertTrue("All loaders should have finished", TestThreadingUtils
-                .waitForAction(getInstrumentation(), getActivity(), new Runnable() {
+        assertTrue("All loaders should have finished", TestThreadingUtils.waitForAction(
+                getInstrumentation(), getActivity(), new LatchRunnable() {
 
                     @Override
                     public void run() {
                         if (!mgr.hasRunningLoaders()) {
-                            latch.countDown();
+                            countDown();
                         }
                     }
-                }, latch, true));
+                }, true));
     }
 
     /**
      * Helper method to wait for an action to occur (but that action must be checked on the main
      * thread).
      *
-     * @param mainThreadRunnable the runnable that will check the condition and signal success via
-     *        the {@link CountDownLatch} passed.
-     * @param latch the {@link CountDownLatch} to check for success.
+     * @param latchRunnable the runnable that will check the condition and signal success via its
+     * {@link java.util.concurrent.CountDownLatch}.
      * @return true if the action happened before the timeout, false otherwise.
      */
-    protected boolean waitForActionOnMainThread(@NonNull final Runnable mainThreadRunnable,
-            @NonNull final CountDownLatch latch) {
-        return TestThreadingUtils.waitForAction(getInstrumentation(), getActivity(),
-                mainThreadRunnable, latch, true);
+    protected boolean waitForActionOnMainThread(
+            @NonNull final LatchRunnable latchRunnable) {
+        return TestThreadingUtils.waitForAction(getInstrumentation(), getActivity(), latchRunnable,
+                true);
     }
 }
