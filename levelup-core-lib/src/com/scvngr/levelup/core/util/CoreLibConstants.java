@@ -37,7 +37,7 @@ public final class CoreLibConstants {
      * Version of the SDK, as per <a href="http://semver.org">Semantic Versioning</a>.
      */
     @NonNull
-    public static final String SDK_VERSION = "1.2.0.SNAPSHOT"; //$NON-NLS-1$
+    public static final String SDK_VERSION = "1.3.0"; //$NON-NLS-1$
 
     /**
      * Delay in milliseconds when slow async operations are enabled.
