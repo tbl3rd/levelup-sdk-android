@@ -17,7 +17,7 @@ The first generic HTTP layer provides a base AbstractRequest class and both a st
 Response class that encapsulate generic HTTP communication.
 
 The second layer is a set of LevelUp web service API calls, helpers, and tools, which makes it
-easier to work specifically with the LevelUp API platform for authentication, RESTful request
+easier to work specifically with the LevelUp API web service for authentication, RESTful request
 building, and JSON response parsing.
 
 ## RequestFactories
@@ -116,42 +116,16 @@ If your app registered the user and they have no cards on file yet (or your app 
 ## Error Handling
 
 `LevelUpResponse.getStatus()` gives indications of what (if anything) went wrong with a request.
-If there was a server response, you can try to parse human-readable error messages out of the
-response. Typically the LevelUp platform will respond with a JSON array describing the errors that
-occurred. To parse these errors:
+If there was a web service response error, you can retrieve a list of `Error` objects with 
+`LevelUpResponse.getServerErrors()`. This object contains fields corresponding to the LevelUp 
+web service JSON array response. The code and object fields matches up with the `ErrorCode` and 
+`ErrorObject` enumerations respectfully. A specific `Error` object can also be retrieved using 
+`LevelUpResponse.getServerError(ErrorObject, ErrorCode)`.
 
-1. Use `ErrorJsonFactory.fromList(new JSONArray(response.getData()))`.
-2. If a `JSONException` is thrown, then there were no parseable error messages from the server and
-  you should generate an appropriate general error message (depending on the value of
-  `LevelUpResponse.getStatus()`).
-
-
- ```java
- LevelUpStatus status = response.getStatus();
- if (status != LevelUpStatus.OK) {
-     String errorMessage = null;
-
-     try {
-         List<Error> errorList = new ErrorJsonFactory().fromList(new JSONArray(response.getData());
-
-         if (!errors.isEmpty()) {
-             // There may be multiple errors; the first is usually a high-level user-renderable one.
-             errorMessage = errors.get(0).getMessage();
-         }
-
-    } catch (final JSONException e) {
-        Log.d("client", "No parseable error messages.")
-    }
-
-    if (status == LevelUpStatus.LOGIN_REQUIRED) {
-        if (errorMessage == null) {
-          errorMessage = "Please reconnect with LevelUp."
-        }
-        // Make the user authorize against LevelUp - their session has expired
-        …
-    } else if (status == LevelUpStatus.ERROR_NETWORK)…
-}
-```
+Typically the LevelUp web service will respond with a JSON array describing the errors that 
+occurred. In the case the web service responses in a different format, the raw message is 
+available in `LevelUpResponse.getData()`. Any network or parsing exception can be found in 
+`LevelUpResponse.getError()`.
 
 <a name="enterprise-flows" />
 # Additional Enterprise-Only Flows

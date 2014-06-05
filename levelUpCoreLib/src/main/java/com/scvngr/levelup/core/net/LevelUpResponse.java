@@ -7,18 +7,31 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.model.Error;
+import com.scvngr.levelup.core.model.factory.json.ErrorJsonFactory;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
+import com.scvngr.levelup.core.net.error.ErrorCode;
+import com.scvngr.levelup.core.net.error.ErrorObject;
+import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
+import net.jcip.annotations.Immutable;
 import net.jcip.annotations.ThreadSafe;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -27,6 +40,7 @@ import java.util.Map;
  * Class to encompass a response from the LevelUp Web Service.
  */
 @ThreadSafe
+@Immutable
 @LevelUpApi(contract = Contract.DRAFT)
 public final class LevelUpResponse extends BufferedResponse implements Parcelable {
     /**
@@ -41,6 +55,12 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
      */
     @NonNull
     private static final String HTTP_HEADER_VALUE_SERVER = "LevelUp";
+
+    @NonNull
+    private final List<Error> mServerErrors;
+
+    @Nullable
+    private final Exception mServerErrorReadError;
 
     /**
      * Creator for parceling.
@@ -71,6 +91,35 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
     public LevelUpResponse(@NonNull final String data, @NonNull final LevelUpStatus status) {
         super(data);
         mStatus = status;
+
+        Exception serverErrorReadError = null;
+        List<Error> serverErrors = Collections.emptyList();
+
+        try {
+            serverErrors = parseServerError(status);
+        } catch (final IOException e) {
+            serverErrorReadError = e;
+        }
+
+        mServerErrorReadError = serverErrorReadError;
+        mServerErrors = serverErrors;
+    }
+
+    private List<Error> parseServerError(@NonNull final LevelUpStatus status) throws IOException {
+        List<Error> serverErrors = Collections.emptyList();
+        if (LevelUpStatus.OK != status) {
+            try {
+                serverErrors = Collections.unmodifiableList(
+                        new ErrorJsonFactory().fromList(new JSONArray(getData())));
+            } catch (final JSONException e) {
+                // No error could be parsed; log the issue.
+                LogManager.e("Error parsing error JSON response: " + getData(), e);
+                throw new IOException(
+                        "Response is in unrecognizable format to parse into Error objects.", e);
+            }
+        }
+
+        return serverErrors;
     }
 
     /**
@@ -81,6 +130,11 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
     public LevelUpResponse(@NonNull final Parcel in) {
         super(in);
         mStatus = LevelUpStatus.valueOf(in.readString());
+
+        mServerErrors = new ArrayList<>();
+        in.readTypedList(mServerErrors, Error.CREATOR);
+        mServerErrorReadError = (Exception) in.readSerializable();
+
         checkRep();
     }
 
@@ -97,6 +151,18 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
             @Nullable final Map<String, List<String>> headers, @Nullable final Exception error) {
         super(data, HTTP_STATUS_CODE_UNUSED, headers, error);
         mStatus = status;
+
+        Exception serverErrorReadError = null;
+        List<Error> serverErrors = Collections.emptyList();
+
+        try {
+            serverErrors = parseServerError(status);
+        } catch (final IOException e) {
+            serverErrorReadError = e;
+        }
+
+        mServerErrorReadError = serverErrorReadError;
+        mServerErrors = serverErrors;
     }
 
     /**
@@ -123,6 +189,18 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
         }
 
         mStatus = mapStatus(statusCode, serverHeader);
+
+        Exception serverErrorReadError = null;
+        List<Error> serverErrors = Collections.emptyList();
+
+        try {
+            serverErrors = parseServerError(mStatus);
+        } catch (final IOException e) {
+            serverErrorReadError = e;
+        }
+
+        mServerErrorReadError = serverErrorReadError;
+        mServerErrors = serverErrors;
     }
 
     /**
@@ -134,6 +212,19 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
             @NonNull final LevelUpStatus status) {
         super(data);
         mStatus = mapStatus(null, getError());
+
+        Exception serverErrorReadError = null;
+        List<Error> serverErrors = Collections.emptyList();
+
+        try {
+            serverErrors = parseServerError(mStatus);
+        } catch (final IOException e) {
+            serverErrorReadError = e;
+        }
+
+        mServerErrorReadError = serverErrorReadError;
+        mServerErrors = serverErrors;
+
         checkRep();
     }
 
@@ -147,6 +238,19 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
     /* package */LevelUpResponse(@NonNull final StreamingResponse response) {
         super(response);
         mStatus = mapStatus(response, getError());
+
+        Exception serverErrorReadError = null;
+        List<Error> serverErrors = Collections.emptyList();
+
+        try {
+            serverErrors = parseServerError(mStatus);
+        } catch (final IOException e) {
+            serverErrorReadError = e;
+        }
+
+        mServerErrorReadError = serverErrorReadError;
+        mServerErrors = serverErrors;
+
         checkRep();
     }
 
@@ -288,6 +392,58 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
         return mStatus;
     }
 
+    /**
+     * @return A list of {@link Error}s on this server response. Will attempt to parse the
+     *         {@link Error}s from the {@link #getData()} if the errors are not already populated.
+     */
+    @NonNull
+    public List<Error> getServerErrors() {
+        return mServerErrors;
+    }
+
+    /**
+     * @return True if there are any server errors that was parsed on this response.
+     */
+    public boolean hasServerErrors() {
+        return 0 < mServerErrors.size();
+    }
+
+    /**
+     * Get a specific {@link Error} from the {@link LevelUpResponse} which contains specific values
+     * for {@link Error#getObject} and {@link Error#getCode}.
+     *
+     * @param object the {@link ErrorObject} of the desired error. This object is scoped to the
+     * context of the web service.
+     * @param code the {@link ErrorCode} of the desired error.
+     * @return the {@link Error} or null if the error is not found.
+     */
+    @Nullable
+    public Error getServerError(@NonNull final ErrorObject object, @NonNull final ErrorCode code) {
+        Error filteredError = null;
+
+        for (final Error error : mServerErrors) {
+            if (TextUtils.equals(object.toString(), error.getObject())) {
+                if (TextUtils.equals(code.toString(), error.getCode())) {
+                    filteredError = error;
+                    break;
+                }
+            }
+        }
+
+        return filteredError;
+    }
+
+    @Nullable
+    @Override
+    public Exception getError() {
+        Exception error = mServerErrorReadError;
+        if (null == error) {
+            error = super.getError();
+        }
+
+        return error;
+    }
+
     @SuppressWarnings("null") // Generated code.
     @Override
     public int hashCode() {
@@ -295,6 +451,7 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
         int result = 1;
         result = prime * result + ((mStatus == null) ? 0 : mStatus.hashCode());
         result = prime * result + ((getData() == null) ? 0 : getData().hashCode());
+        result = prime * result + ((mServerErrors == null) ? 0 : mServerErrors.hashCode());
         return result;
     }
 
@@ -328,6 +485,10 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
             return false;
         }
 
+        if (!mServerErrors.equals(other.mServerErrors)) {
+            return false;
+        }
+
         return true;
     }
 
@@ -338,13 +499,10 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
     public void writeToParcel(final Parcel dest, final int flags) {
         super.writeToParcel(dest, flags);
         dest.writeString(mStatus.name());
+        dest.writeTypedList(mServerErrors);
+        dest.writeSerializable(mServerErrorReadError);
     }
 }

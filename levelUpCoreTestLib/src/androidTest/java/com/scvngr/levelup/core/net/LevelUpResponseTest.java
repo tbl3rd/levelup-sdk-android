@@ -7,16 +7,27 @@ import android.support.annotation.NonNull;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import static com.scvngr.levelup.core.util.NullUtils.nonNullContract;
+
+import com.scvngr.levelup.core.model.ErrorFixture;
+import com.scvngr.levelup.core.model.Error;
+import com.scvngr.levelup.core.model.factory.json.ErrorJsonFactory;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.BufferedResponse.ResponseTooLargeException;
+import com.scvngr.levelup.core.net.error.ErrorCode;
+import com.scvngr.levelup.core.net.error.ErrorObject;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
+import org.json.JSONArray;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse}.
@@ -28,14 +39,41 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     @NonNull
     private static final String SERVER_NOT_LEVELUP_PLATFORM = "LevelUp/Failover";
 
+    @NonNull
+    private static final String EMPTY = "";
+
+    @NonNull
+    private static final Error mError1 =
+            new Error("debit_card_only", "message1", "credit_card", "property1");
+
+    @NonNull
+    private static final Error mError2 =
+            new Error("delinquent_bundle", "message2", "payment_token", "property2");
+
     /**
      * Tests {@link com.scvngr.levelup.core.net.LevelUpResponse} parceling.
      */
     @SmallTest
     public void testParcelable() {
+        final JSONArray errorArray = new JSONArray();
+        errorArray.put(ErrorFixture.getJsonObjectFromModel(mError1));
         final LevelUpResponse response =
+                new LevelUpResponse(errorArray.toString(), LevelUpStatus.ERROR_SERVER);
+        final LevelUpResponse parceledResponse = ParcelTestUtils.feedThroughParceling(response);
+        assertEquals("resulting Parcelable differs. ", response, parceledResponse);
+
+        final LevelUpResponse exceptionResponse =
                 new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER);
-        ParcelTestUtils.assertParcelableRoundtrips(response);
+        final LevelUpResponse parceledExceptionResponse =
+                ParcelTestUtils.feedThroughParceling(exceptionResponse);
+        assertEquals("resulting Parcelable differs. ", exceptionResponse,
+                parceledExceptionResponse);
+        assertEquals(exceptionResponse.getError().getMessage(),
+                parceledExceptionResponse.getError().getMessage());
+
+        final LevelUpResponse okResponse = new LevelUpResponse("test", LevelUpStatus.OK);
+        final LevelUpResponse parceledOkResponse = ParcelTestUtils.feedThroughParceling(okResponse);
+        assertEquals("resulting Parcelable differs. ", okResponse, parceledOkResponse);
     }
 
     /**
@@ -323,12 +361,67 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
 
         response2 = null;
         MoreAsserts.checkEqualsAndHashCodeMethods(response1, response2, false);
+    }
 
-        response2 = new LevelUpResponse((String) null, LevelUpStatus.ERROR_PARSING);
-        MoreAsserts.checkEqualsAndHashCodeMethods(response1, response2, false);
+    @SmallTest
+    public void testGetError() {
 
-        response1 = new LevelUpResponse((String) null, LevelUpStatus.ERROR_PARSING);
-        MoreAsserts.checkEqualsAndHashCodeMethods(response1, response2, true);
+        final JSONArray errorList = new JSONArray();
+
+        errorList.put(ErrorFixture.getJsonObjectFromModel(mError1));
+        errorList.put(ErrorFixture.getJsonObjectFromModel(mError2));
+
+        final LevelUpResponse response =
+                new LevelUpResponse(nonNullContract(errorList.toString()),
+                        LevelUpStatus.ERROR_NETWORK);
+
+        assertEquals(mError1, response.getServerError(
+                nonNullContract(ErrorObject.fromString(mError1.getObject())),
+                nonNullContract(ErrorCode.fromString(mError1.getCode()))));
+        assertEquals(mError2, response.getServerError(
+                nonNullContract(ErrorObject.fromString(mError2.getObject())),
+                nonNullContract(ErrorCode.fromString(mError2.getCode()))));
+
+        assertNull(response.getServerError(
+                nonNullContract(ErrorObject.fromString(mError1.getObject())),
+                nonNullContract(ErrorCode.fromString(mError2.getCode()))));
+        assertNull(response.getServerError(
+                nonNullContract(ErrorObject.fromString(mError2.getObject())),
+                nonNullContract(ErrorCode.fromString(mError1.getCode()))));
+    }
+
+    @SmallTest
+    public void testGetErrorList() {
+        final List<Error> expectedErrorList = new LinkedList<Error>();
+
+        expectedErrorList.add(mError1);
+        expectedErrorList.add(mError2);
+
+        final JSONArray errorList = new JSONArray();
+
+        errorList.put(ErrorFixture.getJsonObjectFromModel(mError1));
+        errorList.put(ErrorFixture.getJsonObjectFromModel(mError2));
+
+        final LevelUpResponse response =
+                new LevelUpResponse(nonNullContract(errorList.toString()),
+                        LevelUpStatus.ERROR_NETWORK);
+
+        assertEquals(expectedErrorList, response.getServerErrors());
+
+        // Invalid errors should not throw exceptions.
+        final LevelUpResponse responseNoErrors = new LevelUpResponse(EMPTY, LevelUpStatus.ERROR_SERVER);
+        final List<Error> emptyList = responseNoErrors.getServerErrors();
+
+        assertTrue(emptyList.isEmpty());
+    }
+
+    @SmallTest
+    public void testParsingInvalidError_containsErrorException() {
+        final LevelUpResponse response =
+                new LevelUpResponse(nonNullContract("<html />"),
+                        LevelUpStatus.ERROR_NETWORK);
+
+        assertTrue(response.getError() instanceof IOException);
     }
 
     /**
