@@ -16,7 +16,7 @@ import com.scvngr.levelup.core.net.AccessTokenRetriever;
 /**
  * <p>
  * A request factory that can page through requests. This is used with endpoints that support the
- * Link header, as noted in {@link com.scvngr.levelup.core.util.WebLinkParser}. This will save the
+ * Link header, as noted in {@link com.scvngr.levelup.core.util.LinkHeaderParser}. This will save the
  * next page URL in a shared preference so that it can be resumed from that point forward.
  * </p>
  *

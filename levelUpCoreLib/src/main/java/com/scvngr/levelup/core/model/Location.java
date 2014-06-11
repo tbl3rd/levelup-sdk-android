@@ -118,9 +118,12 @@ public final class Location implements Parcelable {
     private final String streetAddress;
 
     /**
-     * A map of URLs associated with this {@link Location}.
+     * A map of URLs associated with this {@link Location}. URLs are now returned as a {@link
+     * WebLink} through the {@link com.scvngr.levelup.core.net.request.factory
+     * .WebLinkRequestFactory}.
      */
     @NonNull
+    @Deprecated
     private final Map<String, String> urls;
 
     /**
@@ -193,6 +196,7 @@ public final class Location implements Parcelable {
      * @param urls a map of URLs associated with this {@link Location}. This map will be made
      *        unmodifiable.
      */
+    @Deprecated
     public Location(@Nullable final Set<Integer> categories,
             @Nullable final String extendedAddress, @Nullable final String hours, final long id,
             final double latitude, final double longitude, @Nullable final String locality,
@@ -233,10 +237,44 @@ public final class Location implements Parcelable {
     }
 
     /**
+     * @param categories the categories that this {@link Location} is classified under. {@code null}
+     *        will turn into an empty set.
+     * @param extendedAddress the {@link Location}'s extended address.
+     * @param hours the hours of operation for this {@link Location}.
+     * @param id the ID on the web service of this {@link Location}.
+     * @param latitude the latitude of this {@link Location}.
+     * @param longitude the longitude of this {@link Location}.
+     * @param locality the locality (city) of this {@link Location}.
+     * @param merchantId the ID number of the location's merchant.
+     * @param merchantName The name of the location's merchant.
+     * @param name The name of the location, if different from the merchant name.
+     * @param phone the phone number for this {@link Location}.
+     * @param postalCode the postal code for this {@link Location}.
+     * @param region the region (state in the US) for this {@link Location}.
+     * @param shown whether or not this location is to be shown to the user.
+     * @param streetAddress the address of this {@link Location}.
+     */
+    public Location(@Nullable final Set<Integer> categories,
+            @Nullable final String extendedAddress, @Nullable final String hours, final long id,
+            final double latitude, final double longitude, @Nullable final String locality,
+            final long merchantId, @Nullable final String merchantName,
+            @Nullable final String name, @Nullable final String phone,
+            @Nullable final String postalCode, @Nullable final String region, final boolean shown,
+            @Nullable final String streetAddress) {
+
+        this(categories, extendedAddress, hours, id, latitude, longitude, locality, merchantId,
+                merchantName, name, phone, postalCode, region, shown, streetAddress, null);
+    }
+
+    /**
+     * Get a specific URL by key. URLs are now returned as a {@link WebLink} through the {@link
+     * com.scvngr.levelup.core.net.request.factory.WebLinkRequestFactory}.
+     *
      * @param key the name of the given URL.
      * @return a URL with the given key or {@code null} if there is no such mapping.
      */
     @Nullable
+    @Deprecated
     public String getUrl(@NonNull final String key) {
         return urls.get(key);
     }

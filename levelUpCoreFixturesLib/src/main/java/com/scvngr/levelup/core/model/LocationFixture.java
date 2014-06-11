@@ -103,29 +103,15 @@ public final class LocationFixture {
     @NonNull
     public static JSONObject getFullJsonObject(final int webServiceId) {
         try {
-            final JSONObject object = getMinimalJsonObject(webServiceId);
-            object.put(LocationJsonFactory.JsonKeys.CATEGORIES,
-                    new JSONArray(Arrays.asList(2, 3, 5, 23)));
-            object.put(LocationJsonFactory.JsonKeys.EXTENDED_ADDRESS, "extended_address");
+            final JSONObject object = getFullLocationWithNoUrls(webServiceId);
             object.put(LocationJsonFactory.JsonKeys.FACEBOOK_URL, "facebook_url");
             object.put(LocationJsonFactory.JsonKeys.FOODLER_URL, "foodler_url");
-            object.put(LocationJsonFactory.JsonKeys.HOURS, "hours");
-            object.put(LocationJsonFactory.JsonKeys.LATITUDE, LOCATION_LATITUDE);
-            object.put(LocationJsonFactory.JsonKeys.LONGITUDE, LOCATION_LONGITUDE);
-            object.put(LocationJsonFactory.JsonKeys.LOCALITY, "locality");
-            object.put(LocationJsonFactory.JsonKeys.MERCHANT_ID, MERCHANT_ID);
-            object.put(LocationJsonFactory.JsonKeys.MERCHANT_NAME, MERCHANT_NAME);
             object.put(LocationJsonFactory.JsonKeys.MENU_URL, "menu_url");
-            object.put(LocationJsonFactory.JsonKeys.NAME, "name");
             object.put(LocationJsonFactory.JsonKeys.NEWSLETTER_URL, "newsletter_url");
             object.put(LocationJsonFactory.JsonKeys.OPENTABLE_URL, "opentable_url");
-            object.put(LocationJsonFactory.JsonKeys.PHONE, "phone");
-            object.put(LocationJsonFactory.JsonKeys.POSTAL_CODE, "postal_code");
-            object.put(LocationJsonFactory.JsonKeys.REGION, "region");
-            object.put(LocationJsonFactory.JsonKeys.SHOWN, true);
-            object.put(LocationJsonFactory.JsonKeys.STREET_ADDRESS, "street_address");
             object.put(LocationJsonFactory.JsonKeys.TWITTER_URL, "twitter_url");
             object.put(LocationJsonFactory.JsonKeys.YELP_URL, "yelp_url");
+
             return object;
         } catch (final JSONException e) {
             throw new AssertionError(e);
@@ -145,5 +131,30 @@ public final class LocationFixture {
 
     private LocationFixture() {
         throw new UnsupportedOperationException("this class is non-instantiable");
+    }
+
+    @NonNull
+    public static JSONObject getFullLocationWithNoUrls(int locationId) throws JSONException {
+        try {
+            final JSONObject object = getMinimalJsonObject(locationId);
+            object.put(LocationJsonFactory.JsonKeys.CATEGORIES,
+                    new JSONArray(Arrays.asList(2, 3, 5, 23)));
+            object.put(LocationJsonFactory.JsonKeys.EXTENDED_ADDRESS, "extended_address");
+            object.put(LocationJsonFactory.JsonKeys.HOURS, "hours");
+            object.put(LocationJsonFactory.JsonKeys.LATITUDE, LOCATION_LATITUDE);
+            object.put(LocationJsonFactory.JsonKeys.LONGITUDE, LOCATION_LONGITUDE);
+            object.put(LocationJsonFactory.JsonKeys.LOCALITY, "locality");
+            object.put(LocationJsonFactory.JsonKeys.MERCHANT_ID, MERCHANT_ID);
+            object.put(LocationJsonFactory.JsonKeys.MERCHANT_NAME, MERCHANT_NAME);
+            object.put(LocationJsonFactory.JsonKeys.NAME, "name");
+            object.put(LocationJsonFactory.JsonKeys.PHONE, "phone");
+            object.put(LocationJsonFactory.JsonKeys.POSTAL_CODE, "postal_code");
+            object.put(LocationJsonFactory.JsonKeys.REGION, "region");
+            object.put(LocationJsonFactory.JsonKeys.SHOWN, true);
+            object.put(LocationJsonFactory.JsonKeys.STREET_ADDRESS, "street_address");
+            return object;
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
     }
 }

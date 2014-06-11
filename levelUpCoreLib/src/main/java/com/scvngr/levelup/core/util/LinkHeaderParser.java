@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * @see <a href="http://www.ietf.org/rfc/rfc5988.txt">RFC5988</a>
  */
 @LevelUpApi(contract = Contract.INTERNAL)
-public final class WebLinkParser {
+public final class LinkHeaderParser {
 
     /**
      * Relation. Value should be a single quoted or unquoted relation type, or a quoted list of
@@ -114,12 +114,13 @@ public final class WebLinkParser {
      *
      * @param headerValue the input header value. This is the portion after "Link:".
      *
-     * @return a {@link WebLink} representing the results of the parse.
-     * @throws MalformedWebLinkException if the header could not be parsed.
+     * @return a {@link LinkHeaderParser.LinkHeader} representing the results of the parse.
+     * @throws com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException if the
+     * header could not be parsed.
      */
     @NonNull
-    public static WebLink parseLinkHeader(@NonNull final String headerValue)
-            throws MalformedWebLinkException {
+    public static LinkHeader parseLinkHeader(@NonNull final String headerValue)
+            throws MalformedLinkHeaderException {
         return parseLinkHeader(null, headerValue);
     }
 
@@ -132,15 +133,15 @@ public final class WebLinkParser {
      *
      * @param headerValue the input header value. This is the portion after "Link:".
      *
-     * @return a {@link WebLink} representing the results of the parse.
-     * @throws MalformedWebLinkException if the header could not be parsed.
+     * @return a {@link LinkHeaderParser.LinkHeader} representing the results of the parse.
+     * @throws com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException if the header could not be parsed.
      */
     @NonNull
-    public static WebLink parseLinkHeader(@Nullable final Uri context,
-            @NonNull final String headerValue) throws MalformedWebLinkException {
+    public static LinkHeader parseLinkHeader(@Nullable final Uri context,
+            @NonNull final String headerValue) throws MalformedLinkHeaderException {
         final Matcher linkMatcher = WEB_LINK.matcher(headerValue);
         if (!linkMatcher.matches()) {
-            throw new MalformedWebLinkException("could not parse web link header");
+            throw new MalformedLinkHeaderException("could not parse web link header");
         }
 
         final Uri link;
@@ -159,7 +160,7 @@ public final class WebLinkParser {
             parameters.put(parameterMatcher.group(1), parameterMatcher.group(2));
         }
 
-        return new WebLink(link, parameters);
+        return new LinkHeader(link, parameters);
     }
 
     /**
@@ -176,11 +177,11 @@ public final class WebLinkParser {
      * @param target the target URI, which can be either relative or absolute.
      * @return the target URI made relative to the context, or the original target URI if it is
      *         already absolute.
-     * @throws MalformedWebLinkException if there is a malformed URI.
+     * @throws com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException if there is a malformed URI.
      */
     @NonNull
     private static Uri resolveRelativeUri(@NonNull final Uri context,
-            @NonNull final String target) throws MalformedWebLinkException {
+            @NonNull final String target) throws MalformedLinkHeaderException {
 
         Uri targetUri = Uri.parse(target);
         if (!targetUri.isAbsolute()) {
@@ -190,8 +191,8 @@ public final class WebLinkParser {
                 targetUri = Uri.parse(contextURI.resolve(target).toASCIIString());
 
             } catch (final URISyntaxException e) {
-                final MalformedWebLinkException mwle =
-                        new MalformedWebLinkException("malformed URI");
+                final MalformedLinkHeaderException mwle =
+                        new MalformedLinkHeaderException("malformed URI");
                 mwle.initCause(e);
                 throw mwle;
             }
@@ -203,10 +204,10 @@ public final class WebLinkParser {
     /**
      * An immutable representation of a "Link:" header.
      *
-     * @see WebLinkParser
+     * @see LinkHeaderParser
      */
     @Immutable
-    public static class WebLink {
+    public static class LinkHeader {
 
         @NonNull
         private final Uri mLink;
@@ -218,7 +219,7 @@ public final class WebLinkParser {
          * @param link the URI of the link
          * @param parameters the parameters that describe the link. This will be made immutable.
          */
-        public WebLink(@NonNull final Uri link, @NonNull final Map<String, String> parameters) {
+        public LinkHeader(@NonNull final Uri link, @NonNull final Map<String, String> parameters) {
             mLink = link;
             mParameters = NullUtils.nonNullContract(Collections.unmodifiableMap(parameters));
         }
@@ -270,7 +271,7 @@ public final class WebLinkParser {
             if (getClass() != obj.getClass()) {
                 return false;
             }
-            final WebLink other = (WebLink) obj;
+            final LinkHeader other = (LinkHeader) obj;
             if (mLink == null) {
                 if (other.mLink != null) {
                     return false;
@@ -294,17 +295,17 @@ public final class WebLinkParser {
         }
     }
 
-    private WebLinkParser() {
+    private LinkHeaderParser() {
         throw new UnsupportedOperationException("this class cannot be instantiated");
     }
 
     /**
      * This is thrown if there is an error parsing the link.
      *
-     * @see WebLinkParser
+     * @see LinkHeaderParser
      *
      */
-    public static class MalformedWebLinkException extends Exception {
+    public static class MalformedLinkHeaderException extends Exception {
         /**
          *
          */
@@ -313,7 +314,7 @@ public final class WebLinkParser {
         /**
          * @param message exception message
          */
-        public MalformedWebLinkException(final String message) {
+        public MalformedLinkHeaderException(final String message) {
             super(message);
         }
     }

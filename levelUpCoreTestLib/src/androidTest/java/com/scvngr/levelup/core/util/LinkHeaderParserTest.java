@@ -7,15 +7,12 @@ import android.net.Uri;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
-import com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException;
-import com.scvngr.levelup.core.util.WebLinkParser.WebLink;
 
 /**
- * Tests {@link com.scvngr.levelup.core.util.WebLinkParser}.
+ * Tests {@link LinkHeaderParser}.
  *
  */
-@SuppressWarnings("nls")
-public final class WebLinkParserTest extends SupportAndroidTestCase {
+public final class LinkHeaderParserTest extends SupportAndroidTestCase {
 
     @NonNull
     public static final String RFC5988_EXAMPLE_1 =
@@ -31,10 +28,11 @@ public final class WebLinkParserTest extends SupportAndroidTestCase {
     /**
      * Tests the parser against the known-good example 1 from RFC5988.
      *
-     * @throws com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException if parsing fails.
+     * @throws com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException if parsing fails.
      */
-    public void testRFC5988Example1() throws MalformedWebLinkException {
-        final WebLink example1 = WebLinkParser.parseLinkHeader(RFC5988_EXAMPLE_1);
+    public void testRFC5988Example1() throws LinkHeaderParser.MalformedLinkHeaderException {
+        final LinkHeaderParser.LinkHeader example1 = LinkHeaderParser
+                .parseLinkHeader(RFC5988_EXAMPLE_1);
 
         assertNotNull(example1);
 
@@ -50,10 +48,11 @@ public final class WebLinkParserTest extends SupportAndroidTestCase {
     /**
      * Tests the parser against the known-good example 2 from RFC5988.
      *
-     * @throws com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException if parsing fails.
+     * @throws com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException if parsing fails.
      */
-    public void testRFC5988Example2() throws MalformedWebLinkException {
-        final WebLink example2 = WebLinkParser.parseLinkHeader(RFC5988_EXAMPLE_2);
+    public void testRFC5988Example2() throws LinkHeaderParser.MalformedLinkHeaderException {
+        final LinkHeaderParser.LinkHeader example2 = LinkHeaderParser
+                .parseLinkHeader(RFC5988_EXAMPLE_2);
 
         assertNotNull(example2);
 
@@ -67,11 +66,12 @@ public final class WebLinkParserTest extends SupportAndroidTestCase {
     /**
      * Tests the parser against the known-good example 2 from RFC5988 using the context URL.
      *
-     * @throws com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException if parsing fails.
+     * @throws com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException if parsing fails.
      */
-    public void testRFC5988Example2Relative() throws MalformedWebLinkException {
-        final WebLink example2 =
-                WebLinkParser.parseLinkHeader(Uri.parse("http://example.org/"), RFC5988_EXAMPLE_2);
+    public void testRFC5988Example2Relative() throws LinkHeaderParser.MalformedLinkHeaderException {
+        final LinkHeaderParser.LinkHeader example2 =
+                LinkHeaderParser
+                        .parseLinkHeader(Uri.parse("http://example.org/"), RFC5988_EXAMPLE_2);
 
         assertNotNull(example2);
 
@@ -85,10 +85,11 @@ public final class WebLinkParserTest extends SupportAndroidTestCase {
     /**
      * Tests the parser against the known-good example 3 from RFC5988.
      *
-     * @throws com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException if parsing fails.
+     * @throws com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException if parsing fails.
      */
-    public void testRFC5988Example3() throws MalformedWebLinkException {
-        final WebLink example3 = WebLinkParser.parseLinkHeader(RFC5988_EXAMPLE_3);
+    public void testRFC5988Example3() throws LinkHeaderParser.MalformedLinkHeaderException {
+        final LinkHeaderParser.LinkHeader example3 = LinkHeaderParser
+                .parseLinkHeader(RFC5988_EXAMPLE_3);
 
         assertNotNull(example3);
 
@@ -102,11 +103,12 @@ public final class WebLinkParserTest extends SupportAndroidTestCase {
     /**
      * Tests the parser against the known-good example 3 from RFC5988 using the context URL.
      *
-     * @throws com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException if parsing fails.
+     * @throws com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException if parsing fails.
      */
-    public void testRFC5988Example3Relative() throws MalformedWebLinkException {
-        final WebLink example3 =
-                WebLinkParser.parseLinkHeader(Uri.parse("http://example.com/"), RFC5988_EXAMPLE_3);
+    public void testRFC5988Example3Relative() throws LinkHeaderParser.MalformedLinkHeaderException {
+        final LinkHeaderParser.LinkHeader example3 =
+                LinkHeaderParser
+                        .parseLinkHeader(Uri.parse("http://example.com/"), RFC5988_EXAMPLE_3);
 
         assertNotNull(example3);
 
@@ -149,15 +151,15 @@ public final class WebLinkParserTest extends SupportAndroidTestCase {
     }
 
     /**
-     * Asserts that the given link header, when parsed, throws a {@link com.scvngr.levelup.core.util.WebLinkParser.MalformedWebLinkException}.
+     * Asserts that the given link header, when parsed, throws a {@link com.scvngr.levelup.core.util.LinkHeaderParser.MalformedLinkHeaderException}.
      *
      * @param link the link to parse.
      */
     private void assertThrowsMalformedWebLinkException(@NonNull final String link) {
         boolean caught = false;
         try {
-            WebLinkParser.parseLinkHeader(link);
-        } catch (final MalformedWebLinkException e) {
+            LinkHeaderParser.parseLinkHeader(link);
+        } catch (final LinkHeaderParser.MalformedLinkHeaderException e) {
             caught = true;
         }
 

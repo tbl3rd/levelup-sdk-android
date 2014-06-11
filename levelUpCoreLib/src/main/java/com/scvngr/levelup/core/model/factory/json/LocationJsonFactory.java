@@ -55,16 +55,24 @@ public final class LocationJsonFactory extends AbstractJsonModelFactory<Location
 
         final HashMap<String, String> urls = new HashMap<String, String>();
 
-        urls.put(Location.URL_FACEBOOK, JsonUtils.optString(json, JsonKeys.FACEBOOK_URL));
-        urls.put(Location.URL_FOODLER, JsonUtils.optString(json, JsonKeys.FOODLER_URL));
-        urls.put(Location.URL_MENU, JsonUtils.optString(json, JsonKeys.MENU_URL));
-        urls.put(Location.URL_NEWSLETTER, JsonUtils.optString(json, JsonKeys.NEWSLETTER_URL));
-        urls.put(Location.URL_OPENTABLE, JsonUtils.optString(json, JsonKeys.OPENTABLE_URL));
-        urls.put(Location.URL_TWITTER, JsonUtils.optString(json, JsonKeys.TWITTER_URL));
-        urls.put(Location.URL_YELP, JsonUtils.optString(json, JsonKeys.YELP_URL));
+        putValueIfKeyExists(urls, json, Location.URL_FACEBOOK, JsonKeys.FACEBOOK_URL);
+        putValueIfKeyExists(urls, json, Location.URL_FOODLER, JsonKeys.FOODLER_URL);
+        putValueIfKeyExists(urls, json, Location.URL_MENU, JsonKeys.MENU_URL);
+        putValueIfKeyExists(urls, json, Location.URL_NEWSLETTER, JsonKeys.NEWSLETTER_URL);
+        putValueIfKeyExists(urls, json, Location.URL_OPENTABLE, JsonKeys.OPENTABLE_URL);
+        putValueIfKeyExists(urls, json, Location.URL_TWITTER, JsonKeys.TWITTER_URL);
+        putValueIfKeyExists(urls, json, Location.URL_YELP, JsonKeys.YELP_URL);
 
         return new Location(categories, extendedAddress, hours, id, lat, lng, locality, merchantId,
                 merchantName, name, phone, postalCode, region, shown, streetAddress, urls);
+    }
+
+    private void putValueIfKeyExists(@NonNull final HashMap<String, String> urls,
+            @NonNull final JSONObject json, @NonNull final String hashMapKey,
+            @NonNull final String jsonKey) {
+        if(json.has(jsonKey)) {
+            urls.put(hashMapKey, JsonUtils.optString(json, jsonKey));
+        }
     }
 
     /**

@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * A list of locations for a specific application ID. This list is paged using the Link header. See
- * {@link com.scvngr.levelup.core.util.WebLinkParser}.
+ * {@link com.scvngr.levelup.core.util.LinkHeaderParser}.
  */
 @Immutable
 @LevelUpApi(contract = Contract.PUBLIC)
