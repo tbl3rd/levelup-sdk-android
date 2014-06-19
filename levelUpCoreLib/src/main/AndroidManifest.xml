@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.scvngr.levelup.core"
+    android:versionCode="1"
+    android:versionName="0.11.1" >
+
+    <!-- Internet access is required for all LevelUp API requests. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application android:allowBackup="false" >
+        <service
+            android:name="com.scvngr.levelup.core.service.SilentNetworkRequestService"
+            android:exported="false" />
+    </application>
+
+</manifest>

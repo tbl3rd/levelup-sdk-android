@@ -1,0 +1,36 @@
+/*
+ * NOTE: To avoid a circular dependency, this library's tests live in levelupCoreTestLib instead of
+ * inside this project where they would normally go.
+ */
+apply plugin: 'android-library'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        minSdkVersion 10
+        targetSdkVersion 19
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        release {
+            description 'Library-release build with packaged proguard configuration'
+            runProguard false
+            consumerProguardFiles 'proguard-project.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:+'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'net.jcip:jcip-annotations:1.0'
+    provided 'org.projectlombok:lombok:1.12.6'
+    compile files('libs/braintree-android-encryption-1.0.0.jar')
+}

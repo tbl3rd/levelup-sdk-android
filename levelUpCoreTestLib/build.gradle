@@ -1,0 +1,51 @@
+apply plugin: 'android-library'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1.0"
+
+    defaultConfig {
+        applicationId "com.scvngr.levelup.core.test"
+        minSdkVersion 10
+        targetSdkVersion 19
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('../../tools/debug.keystore')
+        }
+    }
+
+        compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    defaultConfig {
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt' // Avoid duplicate errors from Hamcrest test dependencies
+    }
+}
+
+dependencies {
+    compile project(':levelUpCoreLib')
+    compile project(':actionBarSherlockLib')
+    androidTestCompile project(':levelUpCoreFixturesLib')
+    androidTestCompile project(':levelUpDeeplinkAuthLib')
+    androidTestCompile 'com.google.mockwebserver:mockwebserver:20130201'
+    androidTestCompile 'com.jakewharton.espresso:espresso:1.1-r3'
+    androidTestCompile('com.jakewharton.espresso:espresso-support-v4:1.1-r3') {
+        // TODO workaround for http://b.android.com/65445
+        exclude group:'com.android.support', module:'support-v4'
+    }
+}

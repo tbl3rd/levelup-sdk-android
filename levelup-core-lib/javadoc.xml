@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" additionalparam="-encoding UTF-8 -charset UTF-8 -docencoding UTF-8 " author="false" classpath="libs/jcip-annotations.jar:libs/android-support-v4.jar:libs/braintree-android-encryption-1.0.0.jar" destdir="bin/doc" doctitle="LevelUp Android Core SDK (levelup-core-lib)" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="com.scvngr.levelup.core.service,com.scvngr.levelup.core.net.request,com.scvngr.levelup.core.model.factory.json,com.scvngr.levelup.core.model.util,com.scvngr.levelup.core.util.bundle,com.scvngr.levelup.core.net,com.scvngr.levelup.core.model,com.scvngr.levelup.core.model.qr,com.scvngr.levelup.core.util,com.scvngr.levelup.core.net.request.factory,com.scvngr.levelup.core.annotation" source="1.6" sourcefiles="gen/com/scvngr/levelup/core/BuildConfig.java,gen/com/scvngr/levelup/core/R.java" sourcepath="src:gen" splitindex="true" use="true" version="true"/>
-    </target>
-</project>

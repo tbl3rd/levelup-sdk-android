@@ -1,0 +1,22 @@
+/*
+ * Example settings.gradle to include the LevelUp SDK as a project via submodule (rather than using
+ * artifacts). Include the following code in your project's settings.gradle, either by `apply`ing
+ * this file or by copying the contents. This is required for the inter-module dependencies to
+ * resolve properly.
+ */
+
+// LevelUp Core SDK projects
+include 'actionBarSherlockLib',
+        'levelUpCoreLib',
+        'levelUpDeeplinkAuthLib'
+
+project(':actionBarSherlockLib').projectDir = new File('levelup-sdk-android/actionBarSherlockLib')
+project(':levelUpCoreLib').projectDir = new File('levelup-sdk-android/levelUpCoreLib')
+project(':levelUpDeeplinkAuthLib').projectDir = new File('levelup-sdk-android/levelUpDeeplinkAuthLib')
+
+// LevelUp Core SDK projects required to run tests
+include 'levelUpCoreTestLib',
+        'levelUpCoreFixturesLib'
+
+project(':levelUpCoreTestLib').projectDir = new File('levelup-sdk-android/levelUpCoreTestLib')
+project(':levelUpCoreFixturesLib').projectDir = new File('levelup-sdk-android/levelUpCoreFixturesLib')
