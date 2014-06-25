@@ -24,7 +24,7 @@ public @interface LevelUpApi {
          * This API is unlikely to change in future versions of the SDK.
          */
         @NonNull
-        FINAL,
+        PUBLIC,
 
         /**
          * This is a draft public API that may change.
@@ -37,7 +37,14 @@ public @interface LevelUpApi {
          * SDK should not use APIs annotated with this.
          */
         @NonNull
-        INTERNAL
+        INTERNAL,
+
+        /**
+         * This is an API that is only available to clients in the <a href="http://developer
+         * .thelevelup.com/enterprise-sdk/">LevelUp Enterprise Program</a>.
+         */
+        @NonNull
+        ENTERPRISE
     }
 
     /**

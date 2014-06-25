@@ -290,8 +290,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     @NonNull
     @AccessTokenRequired
     public AbstractRequest buildGetUserInfoRequest() {
-        return new LevelUpRequestWithCurrentUser(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, "users/%d", null, null, //$NON-NLS-1$
+        return new LevelUpRequest(getContext(), HttpMethod.GET,
+                LevelUpRequest.API_VERSION_CODE_V15, "users", null, null, //$NON-NLS-1$
                 NullUtils.nonNullContract(getAccessTokenRetriever()));
     }
 
