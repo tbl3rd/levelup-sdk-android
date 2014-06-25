@@ -97,6 +97,10 @@ public final class LevelUpRequestWithCurrentUser extends LevelUpRequest {
             throw new BadRequestException("user is not logged in, cannot format URL string"); //$NON-NLS-1$
         }
 
+        if (-1 == token.getUserId()) {
+            throw new BadRequestException("AccessToken must be a non-enterprise version."); //$NON-NLS-1$
+        }
+
         return NullUtils.format(super.getUrlString(context), token.getUserId());
     }
 }

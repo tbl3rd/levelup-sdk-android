@@ -9,6 +9,7 @@ import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.model.AccessToken;
 import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.model.UserFixture;
 import com.scvngr.levelup.core.net.AbstractRequest;
@@ -138,6 +139,17 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
                 .getString(UserRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
     }
 
+    @SmallTest
+    public void testBuildBuildGetUserInfoRequest() throws BadRequestException, JSONException {
+        final LevelUpRequest request =
+                (LevelUpRequest) new UserRequestFactory(getContext(),
+                        new MockAccessTokenRetriever()).buildGetUserInfoRequest();
+        assertEquals(HttpMethod.GET, request.getMethod());
+        assertTrue(request.getUrl(getContext()).getPath()
+                .contains(LevelUpRequest.API_VERSION_CODE_V15));
+        assertTrue(request.getUrl(getContext()).getPath().endsWith("users")); //$NON-NLS-1$
+    }
+
     /**
      * Validates the {@link AbstractRequest} returned by {@link UserInfoRequestBuilder#build()}
      * after adding all of the possible parameters.
@@ -197,6 +209,48 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         }
 
         assertEquals(newPassword, postParams.get(UserRequestFactory.PARAM_NEW_PASSWORD));
+    }
+
+    /**
+     * Validates the {@link AbstractRequest} returned by {@link UserInfoRequestBuilder#build()}
+     * after adding all of the possible parameters.
+     *
+     * @throws BadRequestException Thrown from
+     *         {@link AbstractRequest#getUrl(android.content.Context)}.
+     * @throws JSONException
+     */
+    @SmallTest
+    public void testUserInfoRequestBuilder_withEnterpiseToken() throws BadRequestException,
+            JSONException {
+        final UserInfoRequestBuilder builder =
+                new UserInfoRequestBuilder(getContext(), new MockAccessTokenRetriever(
+                        new AccessToken("test_access_token")));
+        final User user = UserFixture.getFullModel();
+
+        builder.withBornAt(user.getBornAt());
+        builder.withEmail(user.getEmail());
+        builder.withFirstName(user.getFirstName());
+        builder.withGender(user.getGender().toString());
+        builder.withLastName(user.getLastName());
+
+        final Map<String, String> customAttributes = user.getCustomAttributes();
+        for (final String key : customAttributes.keySet()) {
+            builder.withCustomAttribute(key, customAttributes.get(key));
+        }
+
+        final String newPassword = "password123"; //$NON-NLS-1$
+        builder.withNewPassword(newPassword);
+
+        final AbstractRequest request = builder.build();
+
+        assertEquals(HttpMethod.PUT, request.getMethod());
+        try {
+            assertTrue("hits users/<id> endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                    .endsWith(String.format(Locale.US, "users/%d", 1))); //$NON-NLS-1$
+            fail("Exception expected");
+        } catch (final BadRequestException ex) {
+            // Expected exception
+        }
     }
 
     @SmallTest

@@ -7,7 +7,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
+
 import net.jcip.annotations.Immutable;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
@@ -22,7 +24,12 @@ import com.scvngr.levelup.core.util.NullUtils;
  * Represents the LevelUp access token.
  */
 @Immutable
-@AllArgsConstructor(suppressConstructorProperties = true)
+/*
+ * The constructor that includes ID is deprecated and should be avoided. It's still needed for user
+ * PUTs for a limited time (enterprise-only) but won't be necessary soon.
+ */
+@AllArgsConstructor(suppressConstructorProperties = true, onConstructor = @__({
+    @LevelUpApi(contract = Contract.ENTERPRISE) }))
 @Value
 @LevelUpApi(contract = Contract.DRAFT)
 public final class AccessToken implements Parcelable {
@@ -79,5 +86,16 @@ public final class AccessToken implements Parcelable {
             dest.writeString(token.getAccessToken());
             dest.writeLong(token.getUserId());
         }
+    }
+
+    /**
+     * Public representation of an AccessToken.
+     *
+     * @param accessToken the access token.
+     */
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @SuppressWarnings("all")
+    public AccessToken(@NonNull final String accessToken) {
+        this(accessToken, -1L);
     }
 }
