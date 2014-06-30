@@ -556,9 +556,10 @@ public final class LevelUpCodeView extends View {
             mIsColorizeSet =
                     attributes.getBoolean(R.styleable.LevelUpCodeView_colorize, COLORIZE_DEFAULT);
             mIsFadeColorsSet =
-                    attributes.getBoolean(R.styleable.LevelUpCodeView_fade_colors,
-                            FADE_COLORS_DEFAULT);
-
+                attributes.getBoolean(R.styleable.LevelUpCodeView_fade_colors, FADE_COLORS_DEFAULT);
+            if (!mIsFadeColorsSet) {
+                mColorAlpha = ANIM_FADE_COLOR_ALPHA_END;
+            }
         } finally {
             attributes.recycle();
         }
