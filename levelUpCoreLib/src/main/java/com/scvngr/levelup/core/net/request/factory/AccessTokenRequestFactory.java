@@ -41,7 +41,7 @@ import java.util.Collection;
  * {@link com.scvngr.levelup.core.model.AccessToken}s.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.ENTERPRISE)
 public final class AccessTokenRequestFactory extends AbstractRequestFactory {
 
     @NonNull
@@ -93,6 +93,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} representing a login request.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.ENTERPRISE)
     public AbstractRequest buildLoginRequest(@NonNull final String email,
             @NonNull final String password) {
         PreconditionUtil.assertNotNull(email, "email"); //$NON-NLS-1$
@@ -161,6 +162,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
      */
     @NonNull
     @AccessTokenRequired
+    @LevelUpApi(contract = Contract.ENTERPRISE)
     public AbstractRequest buildDowngradeRequest(@NonNull final Collection<Permission> permissions) {
         final JsonObject body = new JsonObject();
         final JsonObject accessToken = new JsonObject();
@@ -187,6 +189,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
      */
     @NonNull
     @AccessTokenRequired
+    @LevelUpApi(contract = Contract.ENTERPRISE)
     public AbstractRequest buildDowngradeRequest(@NonNull final String... permissionKeyNames) {
         final ArrayList<Permission> permissions =
                 new ArrayList<Permission>(permissionKeyNames.length);
@@ -205,6 +208,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
      */
     @NonNull
     @AccessTokenRequired
+    @LevelUpApi(contract = Contract.ENTERPRISE)
     public AbstractRequest buildDowngradeRequest(@NonNull final Permission... permissions) {
         return buildDowngradeRequest(NullUtils.nonNullContract(Arrays.asList(permissions)));
     }

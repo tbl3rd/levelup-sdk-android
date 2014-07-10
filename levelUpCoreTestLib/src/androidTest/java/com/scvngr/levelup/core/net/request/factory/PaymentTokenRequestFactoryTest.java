@@ -38,7 +38,7 @@ public final class PaymentTokenRequestFactoryTest extends SupportAndroidTestCase
                         .buildGetPaymentTokenRequest();
 
         assertEquals(String.format(Locale.US, "/%s/payment_token", //$NON-NLS-1$
-                LevelUpRequest.API_VERSION_CODE_V14), request.getUrl(getContext())
+                LevelUpRequest.API_VERSION_CODE_V15), request.getUrl(getContext())
                 .getPath());
         final Map<String, String> headers = request.getRequestHeaders(getContext());
         assertTrue(headers.containsKey(LevelUpRequest.HEADER_AUTHORIZATION));

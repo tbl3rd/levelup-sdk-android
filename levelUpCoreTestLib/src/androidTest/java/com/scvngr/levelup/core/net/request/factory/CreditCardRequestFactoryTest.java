@@ -113,6 +113,8 @@ public final class CreditCardRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(HttpMethod.POST, request.getMethod());
         assertTrue("hits credit_cards endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
                 .endsWith(EXPECTED_CREDIT_CARDS_ENDPOINT));
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V15));
 
         /*
          * assertFalse is used because the request parameters are encrypted, so they *shouldn't* be
@@ -141,6 +143,8 @@ public final class CreditCardRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(HttpMethod.GET, request.getMethod());
         assertTrue("hits credit_cards endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
                 .endsWith(EXPECTED_CREDIT_CARDS_ENDPOINT));
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V14));
     }
 
     /**
@@ -162,6 +166,8 @@ public final class CreditCardRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(HttpMethod.PUT, request.getMethod());
         assertTrue("hits credit_cards/%d endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
                 .endsWith(String.format(Locale.US, "%s/%d", EXPECTED_CREDIT_CARDS_ENDPOINT, 1))); //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V14));
     }
 
     /**
@@ -183,5 +189,7 @@ public final class CreditCardRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(HttpMethod.DELETE, request.getMethod());
         assertTrue("hits credit_cards/%d endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
                 .endsWith(String.format(Locale.US, "%s/%d", EXPECTED_CREDIT_CARDS_ENDPOINT, 1))); //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V14));
     }
 }

@@ -23,7 +23,7 @@ import java.util.HashMap;
  * Builds requests that interact with the Campaigns endpoint.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class CampaignRequestFactory extends AbstractRequestFactory {
 
     /**

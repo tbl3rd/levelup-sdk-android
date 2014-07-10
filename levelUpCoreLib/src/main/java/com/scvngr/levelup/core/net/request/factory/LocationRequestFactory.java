@@ -26,7 +26,7 @@ import java.util.HashMap;
  * related web service endpoints.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class LocationRequestFactory extends AbstractRequestFactory {
 
     /**

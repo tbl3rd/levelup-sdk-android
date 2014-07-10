@@ -40,6 +40,9 @@ public final class FeedbackRequestFactoryTest extends SupportAndroidTestCase {
                                 String.format(Locale.US,
                                         "orders/%s/feedback", OrderFixture.UUID_FIXTURE_1))); //$NON-NLS-1$
 
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V15));
+
         @NonNull
         final String body =
                 NullUtils.nonNullContract(((LevelUpRequest) request).getBody(getContext()));
@@ -69,6 +72,9 @@ public final class FeedbackRequestFactoryTest extends SupportAndroidTestCase {
                         .contains(
                                 String.format(Locale.US,
                                         "orders/%s/feedback", OrderFixture.UUID_FIXTURE_1))); //$NON-NLS-1$
+
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V15));
 
         @NonNull
         final String body =

@@ -6,15 +6,18 @@ package com.scvngr.levelup.core.net.request.factory;
 import android.content.Context;
 
 import com.scvngr.levelup.core.R;
+import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.RequiresPermission;
 import com.scvngr.levelup.core.model.CreditCard;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.JSONObjectRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.Permissions;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.core.util.PreconditionUtil;
@@ -30,7 +33,7 @@ import org.json.JSONObject;
  * AbstractRequest builder for requests to the Credit Cards endpoint.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class CreditCardRequestFactory extends AbstractRequestFactory {
     @NonNull
     private static final String CREDIT_CARDS_ENDPOINT = "credit_cards"; //$NON-NLS-1$
@@ -93,6 +96,9 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} to create a card on the server.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @RequiresPermission(Permissions.PERMISSION_CREATE_FIRST_CREDIT_CARD)
+    @AccessTokenRequired
     public AbstractRequest buildCreateCardRequest(@NonNull final String cardNumber,
             @NonNull final String cvv, @NonNull final String expirationMonth,
             @NonNull final String expirationYear, @NonNull final String postalCode) {
@@ -123,7 +129,7 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, CREDIT_CARDS_ENDPOINT, null,
+                LevelUpRequest.API_VERSION_CODE_V15, CREDIT_CARDS_ENDPOINT, null,
                 new JSONObjectRequestBody(parameters), getAccessTokenRetriever());
     }
 
@@ -133,6 +139,8 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} to use to get the credit cards for the current user.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.ENTERPRISE)
+    @AccessTokenRequired
     public AbstractRequest buildGetCardsRequest() {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
                 LevelUpRequest.API_VERSION_CODE_V14, CREDIT_CARDS_ENDPOINT, null, null,
@@ -146,6 +154,8 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} to use to promote a credit card.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.ENTERPRISE)
+    @AccessTokenRequired
     public AbstractRequest buildPromoteCardRequest(@NonNull final CreditCard card) {
         return new LevelUpRequest(getContext(), HttpMethod.PUT,
                 LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
@@ -160,6 +170,8 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} to use to delete a credit card.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.ENTERPRISE)
+    @AccessTokenRequired
     public AbstractRequest buildDeleteCardRequest(@NonNull final CreditCard card) {
         return new LevelUpRequest(getContext(), HttpMethod.DELETE,
                 LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(

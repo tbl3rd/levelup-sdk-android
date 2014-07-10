@@ -25,7 +25,7 @@ import java.util.Collection;
  * is accepted.</p>
  *
  * <p>A request includes a list of permissions, such as the ability to create orders for the user
- * or to access their transaction history. {@link DeepLinkAuthUtil.Permissions} has definitions for
+ * or to access their transaction history. {@link Permissions} has definitions for
  * some of <a href="http://developer.thelevelup.com/getting-started/permissions-list/">the full
  * list of available permissions</a>.</p>
  *
@@ -184,7 +184,7 @@ public final class LevelUpDeepLinkIntegrator {
      * android.app.Activity#onActivityResult} in order to get the response from LevelUp.
      *
      * @param permissionKeys the set of permissions that you wish to request. See {@link
-     * DeepLinkAuthUtil.Permissions}.
+     * Permissions}.
      * @return the dialog box that was shown to the user with a link to download LevelUp if one was
      *         shown, otherwise null.
      */
@@ -218,7 +218,7 @@ public final class LevelUpDeepLinkIntegrator {
      * android.app.Activity#onActivityResult} in order to get the response from LevelUp.
      *
      * @param permissionKeys the set of permissions that you wish to request. See {@link
-     * DeepLinkAuthUtil.Permissions}.
+     * Permissions}.
      * @return the dialog box that was shown to the user with a link to download LevelUp if one was
      *         shown, otherwise null.
      */

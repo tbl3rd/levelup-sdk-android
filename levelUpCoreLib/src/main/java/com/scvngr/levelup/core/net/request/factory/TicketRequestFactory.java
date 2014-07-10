@@ -22,7 +22,7 @@ import net.jcip.annotations.Immutable;
  * Class to build requests to interact with the endpoint that deals with support tickets.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.ENTERPRISE)
 public final class TicketRequestFactory extends AbstractRequestFactory {
 
     /**
@@ -50,6 +50,7 @@ public final class TicketRequestFactory extends AbstractRequestFactory {
      */
     @NonNull
     @AccessTokenRequired
+    @LevelUpApi(contract = Contract.ENTERPRISE)
     public AbstractRequest buildSupportRequest(@NonNull final String messageBody) {
         return new LevelUpRequest(getContext(), HttpMethod.POST,
                 LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null,

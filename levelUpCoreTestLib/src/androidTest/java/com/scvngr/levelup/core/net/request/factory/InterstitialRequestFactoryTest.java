@@ -41,7 +41,7 @@ public final class InterstitialRequestFactoryTest extends SupportAndroidTestCase
         assertNotNull(url);
 
         final String expectedUrl =
-                String.format(Locale.US, "/v14/orders/%s/interstitial", TEST_UUID); //$NON-NLS-1$
+                String.format(Locale.US, "/v15/orders/%s/interstitial", TEST_UUID); //$NON-NLS-1$
         assertEquals(expectedUrl, url.getPath());
 
         assertTrue(

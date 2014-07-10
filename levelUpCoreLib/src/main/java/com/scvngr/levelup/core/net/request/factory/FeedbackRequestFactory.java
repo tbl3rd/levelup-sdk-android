@@ -5,9 +5,11 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
+import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.RequiresPermission;
 import com.scvngr.levelup.core.model.Feedback;
 import com.scvngr.levelup.core.model.factory.json.FeedbackJsonFactory;
 import com.scvngr.levelup.core.net.AbstractRequest;
@@ -15,6 +17,7 @@ import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.JsonElementRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.Permissions;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.Immutable;
@@ -25,7 +28,7 @@ import java.util.Locale;
  * Class to build requests to interact with the feedback endpoint.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class FeedbackRequestFactory extends AbstractRequestFactory {
 
     /**
@@ -55,10 +58,13 @@ public final class FeedbackRequestFactory extends AbstractRequestFactory {
      * @return Request to post the feedback for an order.
      */
     @NonNull
+    @LevelUpApi(contract = LevelUpApi.Contract.PUBLIC)
+    @RequiresPermission({Permissions.PERMISSION_CREATE_ORDERS, Permissions.PERMISSION_READ_QR_CODE})
+    @AccessTokenRequired
     public AbstractRequest buildFeedbackRequest(@NonNull final String orderUuid,
             @NonNull final Feedback feedback) {
         return new LevelUpRequest(getContext(), NullUtils.nonNullContract(HttpMethod.POST),
-                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.nonNullContract(String.format(
+                LevelUpRequest.API_VERSION_CODE_V15, NullUtils.nonNullContract(String.format(
                         Locale.US, ENDPOINT_FEEDBACK_FORMAT, orderUuid)), null,
                 new JsonElementRequestBody(new FeedbackJsonFactory().toJsonElement(feedback)),
                 getAccessTokenRetriever());

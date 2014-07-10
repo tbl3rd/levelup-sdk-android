@@ -11,6 +11,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.annotation.RequiresPermission;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest;
@@ -26,11 +27,15 @@ import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
 import com.google.gson.JsonObject;
+import com.scvngr.levelup.core.net.Permissions;
 
 import net.jcip.annotations.Immutable;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 /**
  * <p>
@@ -42,7 +47,7 @@ import org.json.JSONObject;
  * </p>
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class UserRequestFactory extends AbstractRequestFactory {
 
     @LevelUpApi(contract = Contract.INTERNAL)
@@ -58,6 +63,12 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      */
     @NonNull
     public static final String OUTER_PARAM_USER = "user"; //$NON-NLS-1$
+
+    /**
+     * Outer parameter name for permission keynames parameters.
+     */
+    @NonNull
+    public static final String OUTER_PARAM_PERMISSION_KEYNAMES = "permission_keynames"; //$NON-NLS-1$
 
     /**
      * User Parameter for longitude, represented as a floating point number.
@@ -156,7 +167,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} to use to reset the password for the user.
      */
     @NonNull
-    @LevelUpApi(contract = Contract.INTERNAL)
+    @LevelUpApi(contract = Contract.ENTERPRISE)
     public AbstractRequest buildForgotPasswordRequest(@NonNull final String email) {
         final JsonObject resetRequest = new JsonObject();
         resetRequest.addProperty("email", email); //$NON-NLS-1$
@@ -219,7 +230,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      * @return {@link AbstractRequest} representing the register request.
      */
     @NonNull
-    public AbstractRequest buildRegisterRequest(@NonNull final String firstName,
+    @LevelUpApi(contract = Contract.ENTERPRISE)
+    public final AbstractRequest buildRegisterRequest(@NonNull final String firstName,
             @NonNull final String lastName, @NonNull final String email,
             @NonNull final String password, @Nullable final Location location) {
         PreconditionUtil.assertNotNull(firstName, "firstName"); //$NON-NLS-1$
@@ -257,6 +269,51 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     }
 
     /**
+     * Build a request to create a new user.
+     *
+     * @param firstName user's first name.
+     * @param lastName user's last name.
+     * @param email user's email address.
+     * @param permissions array of permissions to grant the new user
+     * @return {@link AbstractRequest} representing the register request.
+     */
+    @NonNull
+    @LevelUpApi(contract = Contract.PUBLIC)
+    public final AbstractRequest buildRegisterRequest(@NonNull final String firstName,
+            @NonNull final String lastName, @NonNull final String email,
+            @NonNull List<String> permissions) {
+        PreconditionUtil.assertNotNull(firstName, "firstName"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(lastName, "lastName"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(email, "email"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(permissions, "permissions"); //$NON-NLS-1$
+
+        final JSONObject object = new JSONObject();
+        final JSONObject userObject = new JSONObject();
+        final JSONArray permissionArray = new JSONArray();
+
+        try {
+            RequestUtils.addApiKeyToRequestBody(getContext(), object);
+            userObject.put(PARAM_FIRST_NAME, firstName);
+            userObject.put(PARAM_LAST_NAME, lastName);
+            userObject.put(PARAM_EMAIL, email);
+            userObject.put(PARAM_TERMS_ACCEPTED, true);
+
+            for (final String permission : permissions) {
+                permissionArray.put(permission);
+            }
+
+            object.put(OUTER_PARAM_USER, userObject);
+            object.put(OUTER_PARAM_PERMISSION_KEYNAMES, permissionArray);
+        } catch (final JSONException e) {
+            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+        }
+
+        return new LevelUpRequest(getContext(), HttpMethod.POST,
+                LevelUpRequest.API_VERSION_CODE_V15, USERS_ENDPOINT, null,
+                new JSONObjectRequestBody(object));
+    }
+
+    /**
      * Build a request to register a new User via a facebook access token.
      *
      * @param facebookAccessToken the facebook access token to use to register the new user.
@@ -289,6 +346,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
      */
     @NonNull
     @AccessTokenRequired
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @RequiresPermission({Permissions.PERMISSION_READ_USER_BASIC_INFO})
     public AbstractRequest buildGetUserInfoRequest() {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
                 LevelUpRequest.API_VERSION_CODE_V15, "users", null, null, //$NON-NLS-1$
@@ -298,6 +357,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     /**
      * Builder to create a request that updates the User's information.
      */
+    @LevelUpApi(contract = Contract.ENTERPRISE)
     public static final class UserInfoRequestBuilder {
 
         @NonNull
@@ -348,6 +408,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
          */
         @NonNull
         @AccessTokenRequired
+        @LevelUpApi(contract = Contract.ENTERPRISE)
         public AbstractRequest build() {
             return new LevelUpRequestWithCurrentUser(mContext, HttpMethod.PUT,
                     LevelUpRequest.API_VERSION_CODE_V14, USERS_ID_ENDPOINT, null,

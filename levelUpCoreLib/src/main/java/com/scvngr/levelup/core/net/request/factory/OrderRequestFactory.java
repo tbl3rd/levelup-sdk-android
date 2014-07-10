@@ -5,15 +5,18 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
+import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.RequiresPermission;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.Permissions;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.Immutable;
@@ -25,7 +28,7 @@ import java.util.Map;
  * Class to build requests to interact with the order endpoint.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class OrderRequestFactory extends AbstractRequestFactory {
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
@@ -39,6 +42,11 @@ public final class OrderRequestFactory extends AbstractRequestFactory {
      * The endpoint for the app-centric view of orders.
      */
     @NonNull
+    private static final String ENDPOINT_APPS_ORDERS = "apps/orders"; //$NON-NLS-1$
+
+    /**
+     * The v14 endpoint for the app-centric view of orders.
+     */
     private static final String ENDPOINT_APPS_ID_ORDERS_FORMAT = "apps/%d/orders"; //$NON-NLS-1$
 
     /**
@@ -63,21 +71,21 @@ public final class OrderRequestFactory extends AbstractRequestFactory {
     /**
      * Builds a request to get a list of orders for the current user.
      *
-     * @param appId the ID of the app whose orders will be displayed.
      * @param page the "page" of results to get because the endpoint supports pagination. The
      *        expected first page from the web service starts at 1. The web service will return an
      *        empty set if there are no more results to show
      * @return Request to get a list of orders for the current user.
      */
     @NonNull
-    public AbstractRequest newGetAppOrdersRequest(final long appId, final int page) {
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @RequiresPermission(Permissions.PERMISSION_READ_USER_ORDERS)
+    @AccessTokenRequired
+    public AbstractRequest newGetAppOrdersRequest(final int page) {
         final Map<String, String> params = new HashMap<String, String>();
         params.put(PARAM_PAGE, Integer.toString(page));
 
-        return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
-                        ENDPOINT_APPS_ID_ORDERS_FORMAT, appId), params, null,
-                getAccessTokenRetriever());
+        return new LevelUpRequest(getContext(), HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V15,
+                ENDPOINT_APPS_ORDERS, params, null, getAccessTokenRetriever());
     }
 
     /**
@@ -87,9 +95,35 @@ public final class OrderRequestFactory extends AbstractRequestFactory {
      * @return Request to get a single order.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @RequiresPermission(Permissions.PERMISSION_READ_USER_ORDERS)
+    @AccessTokenRequired
     public AbstractRequest newGetOrderRequest(@NonNull final String orderUuid) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(ENDPOINT_ORDERS_UUID_FORMAT,
+                LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format(ENDPOINT_ORDERS_UUID_FORMAT,
                         orderUuid), null, null, getAccessTokenRetriever());
+    }
+
+    /**
+     * Builds a request to get a list of orders for the current user. Replaced by {@link
+     * #newGetAppOrdersRequest(int)}.
+     *
+     * @param appId the ID of the app whose orders will be displayed.
+     * @param page the "page" of results to get because the endpoint supports pagination. The
+     *        expected first page from the web service starts at 1. The web service will return an
+     *        empty set if there are no more results to show
+     * @return Request to get a list of orders for the current user.
+     */
+    @NonNull
+    @AccessTokenRequired
+    @Deprecated
+    @LevelUpApi(contract = Contract.INTERNAL)
+    public AbstractRequest newGetAppOrdersRequest(final long appId, final int page) {
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put(PARAM_PAGE, Integer.toString(page));
+
+        return new LevelUpRequest(getContext(), HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
+                NullUtils.format(ENDPOINT_APPS_ID_ORDERS_FORMAT, appId), params, null,
+                getAccessTokenRetriever());
     }
 }

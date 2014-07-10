@@ -309,50 +309,6 @@ public final class DeepLinkAuthUtil {
     }
 
     /**
-     * A list of permissions known to be supported by LevelUp's web service.
-     */
-    @SuppressWarnings("unused")
-    public static final class Permissions {
-
-        /**
-         * Charge a user on behalf of a merchant.
-         */
-        public static final String PERMISSION_CREATE_ORDERS = "create_orders";
-
-        /**
-         * Display a user’s QR code.
-         */
-        public static final String PERMISSION_DISPLAY_USER_QR_CODE = "display_user_qr_code";
-
-        /**
-         * Read a user’s addresses and add new ones.
-         */
-        public static final String PERMISSION_MANAGE_USER_ADDRESSES = "manage_user_addresses";
-
-        /**
-         * View credit for a user and claim campaigns.
-         */
-        public static final String PERMISSION_MANAGE_USER_CAMPAIGNS = "manage_user_campaigns";
-
-        /**
-         * Read a user’s name, email, birthday and gender.
-         */
-        public static final String PERMISSION_READ_USER_BASIC_INFO = "read_user_basic_info";
-
-        /**
-         * Read a users transaction history, with item level detail.
-         */
-        public static final String PERMISSION_READ_USER_ORDERS = "read_user_orders";
-
-        /**
-         * This is a utility class and cannot be instantiated.
-         */
-        private Permissions() {
-            throw new UnsupportedOperationException("This class is non-instantiable");
-        }
-    }
-
-    /**
      * This is a utility class and cannot be instantiated.
      */
     private DeepLinkAuthUtil() {

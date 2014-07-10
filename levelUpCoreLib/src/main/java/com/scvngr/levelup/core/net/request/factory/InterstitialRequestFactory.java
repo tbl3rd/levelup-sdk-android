@@ -7,19 +7,23 @@ import android.content.Context;
 import android.net.Uri;
 
 import com.scvngr.levelup.core.annotation.AccessTokenRequired;
+import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.annotation.RequiresPermission;
 import com.scvngr.levelup.core.model.Interstitial;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.Permissions;
 import com.scvngr.levelup.core.util.DeviceUtil;
 import com.scvngr.levelup.core.util.NullUtils;
 
 /**
  * Request factory for dealing with {@link Interstitial}s.
  */
+@LevelUpApi(contract = LevelUpApi.Contract.PUBLIC)
 public final class InterstitialRequestFactory extends AbstractRequestFactory {
 
     /**
@@ -42,9 +46,11 @@ public final class InterstitialRequestFactory extends AbstractRequestFactory {
      */
     @NonNull
     @AccessTokenRequired
+    @LevelUpApi(contract = LevelUpApi.Contract.PUBLIC)
+    @RequiresPermission({Permissions.PERMISSION_CREATE_ORDERS, Permissions.PERMISSION_READ_QR_CODE})
     public AbstractRequest buildInterstitialForOrderRequest(@NonNull final String orderUuid) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format(
                         "orders/%s/interstitial", orderUuid), null, null, //$NON-NLS-1$
                 getAccessTokenRetriever());
     }
@@ -57,6 +63,7 @@ public final class InterstitialRequestFactory extends AbstractRequestFactory {
      *         passed.
      */
     @NonNull
+    @LevelUpApi(contract = LevelUpApi.Contract.PUBLIC)
     public AbstractRequest buildInterstitialImageRequest(@NonNull final Interstitial interstitial) {
         final String deviceDensity = DeviceUtil.getDeviceDensityString(getContext());
         final Uri.Builder builder = Uri.parse(interstitial.getImageUrl()).buildUpon();

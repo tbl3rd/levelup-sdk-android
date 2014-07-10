@@ -5,13 +5,16 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
+import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.RequiresPermission;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.Permissions;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.Immutable;
@@ -21,7 +24,7 @@ import net.jcip.annotations.Immutable;
  * {@link com.scvngr.levelup.core.model.Loyalty} on the web service.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class LoyaltyRequestFactory extends AbstractRequestFactory {
 
     /**
@@ -42,9 +45,12 @@ public final class LoyaltyRequestFactory extends AbstractRequestFactory {
      *         for the current user at the merchant.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @RequiresPermission(Permissions.PERMISSION_MANAGE_USER_CAMPAIGNS)
+    @AccessTokenRequired
     public AbstractRequest buildGetLoyaltyForMerchantRequest(final long merchantWebServiceId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format(
                         "merchants/%d/loyalty", merchantWebServiceId), null, null, //$NON-NLS-1$
                 getAccessTokenRetriever());
     }

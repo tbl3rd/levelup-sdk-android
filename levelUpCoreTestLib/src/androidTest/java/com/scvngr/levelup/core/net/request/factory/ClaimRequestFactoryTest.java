@@ -56,7 +56,7 @@ public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
         final URL url = request.getUrl(getContext());
         assertNotNull(url);
         // Make sure we hit the proper API version and url.
-        assertEquals("/v14/loyalties/legacy/1/claims", url.getPath()); //$NON-NLS-1$
+        assertEquals("/v15/loyalties/legacy/1/claims", url.getPath()); //$NON-NLS-1$
     }
 
     @SmallTest
@@ -71,7 +71,7 @@ public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
         assertNotNull(url);
         // Make sure we hit the proper API version and url.
         final String expectedUrl =
-                String.format(Locale.US, "/v14/codes/%s/claims", SAMPLE_CODE); //$NON-NLS-1$
+                String.format(Locale.US, "/v15/codes/%s/claims", SAMPLE_CODE); //$NON-NLS-1$
         assertEquals(expectedUrl, url.getPath());
     }
 
@@ -89,7 +89,7 @@ public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
         final String encodedCode = URLEncoder.encode(SAMPLE_URL_CODE, "UTF-8"); //$NON-NLS-1$
         // Make sure we hit the proper API version and url.
         final String expectedUrl =
-                String.format(Locale.US, "/v14/codes/%s/claims", encodedCode); //$NON-NLS-1$
+                String.format(Locale.US, "/v15/codes/%s/claims", encodedCode); //$NON-NLS-1$
         assertEquals(expectedUrl, url.getPath());
     }
 }

@@ -27,11 +27,14 @@ import com.scvngr.levelup.core.util.NullUtils;
 import com.google.gson.JsonObject;
 
 import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -220,7 +223,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
      * @throws JSONException
      */
     @SmallTest
-    public void testUserInfoRequestBuilder_withEnterpiseToken() throws BadRequestException,
+    public void testUserInfoRequestBuilder_withEnterpriseToken() throws BadRequestException,
             JSONException {
         final UserInfoRequestBuilder builder =
                 new UserInfoRequestBuilder(getContext(), new MockAccessTokenRetriever(
@@ -369,6 +372,27 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(getExpectedRegisterJson(location), body);
     }
 
+    public void testBuildRegisterRequest_withPermissions() throws BadRequestException {
+        final List<String> expectedPermissions = new ArrayList<String>();
+        expectedPermissions.add("permission1");
+        expectedPermissions.add("permission2");
+
+        final Context context = getContext();
+        final LevelUpRequest request =
+                (LevelUpRequest) new UserRequestFactory(context, null).buildRegisterRequest(
+                        "first_name", "last_name", //$NON-NLS-1$ //$NON-NLS-2$
+                        "email@example.com", expectedPermissions); //$NON-NLS-1$
+
+        assertEquals(HttpMethod.POST, request.getMethod());
+        final URL url = request.getUrl(context);
+        assertTrue("proper URL/api version", url.getPath().endsWith("v15/users")); //$NON-NLS-1$ //$NON-NLS-2$
+        final String body = request.getBody(context);
+        assertNotNull(body);
+        assertFalse(request.getRequestHeaders(context).containsKey(
+                LevelUpRequest.HEADER_AUTHORIZATION));
+        assertEquals(getExpectedRegisterJsonWithPermissions(), body);
+    }
+
     /**
      * Helper to get the String representation of the JSON that we are expecting in the request.
      *
@@ -397,6 +421,38 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
             }
 
             object.put(UserRequestFactory.OUTER_PARAM_USER, userObject);
+        } catch (final JSONException e) {
+            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+        }
+
+        return object.toString();
+    }
+
+    /**
+     * Helper to get the String representation of the JSON that we are expecting in the request.
+     *
+     * @return the json that we are expecting the request to create.
+     */
+    @NonNull
+    private String getExpectedRegisterJsonWithPermissions() {
+        final JSONObject object = new JSONObject();
+        final JSONObject userObject = new JSONObject();
+        final JSONArray permissionObject = new JSONArray();
+
+        try {
+            final Context context = NullUtils.nonNullContract(getContext());
+
+            RequestUtils.addApiKeyToRequestBody(context, object);
+            userObject.put(UserRequestFactory.PARAM_FIRST_NAME, "first_name"); //$NON-NLS-1$
+            userObject.put(UserRequestFactory.PARAM_LAST_NAME, "last_name"); //$NON-NLS-1$
+            userObject.put(UserRequestFactory.PARAM_EMAIL, "email@example.com"); //$NON-NLS-1$
+            userObject.put(UserRequestFactory.PARAM_TERMS_ACCEPTED, true);
+
+            permissionObject.put("permission1");
+            permissionObject.put("permission2");
+
+            object.put(UserRequestFactory.OUTER_PARAM_USER, userObject);
+            object.put(UserRequestFactory.OUTER_PARAM_PERMISSION_KEYNAMES, permissionObject);
         } catch (final JSONException e) {
             LogManager.e("JSONException building register request", e); //$NON-NLS-1$
         }

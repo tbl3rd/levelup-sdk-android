@@ -9,10 +9,12 @@ import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.RequiresPermission;
 import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.Permissions;
 
 import net.jcip.annotations.Immutable;
 
@@ -21,7 +23,7 @@ import net.jcip.annotations.Immutable;
  * {@link com.scvngr.levelup.core.model.PaymentToken}s on the web service.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class PaymentTokenRequestFactory extends AbstractRequestFactory {
 
     @NonNull
@@ -45,9 +47,11 @@ public final class PaymentTokenRequestFactory extends AbstractRequestFactory {
      */
     @NonNull
     @AccessTokenRequired
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @RequiresPermission(Permissions.PERMISSION_READ_QR_CODE)
     public AbstractRequest buildGetPaymentTokenRequest() {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V14, ENDPOINT, null, null,
+                LevelUpRequest.API_VERSION_CODE_V15, ENDPOINT, null, null,
                 getAccessTokenRetriever());
     }
 }

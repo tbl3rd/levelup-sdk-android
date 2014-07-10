@@ -5,9 +5,11 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 
+import com.scvngr.levelup.core.annotation.AccessTokenRequired;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.RequiresPermission;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest;
@@ -15,6 +17,7 @@ import com.scvngr.levelup.core.net.AccessTokenRetriever;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.JSONObjectRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
+import com.scvngr.levelup.core.net.Permissions;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.NullUtils;
 
@@ -30,7 +33,7 @@ import java.net.URLEncoder;
  * Builds requests to claim {@link com.scvngr.levelup.core.model.Campaign}s.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class ClaimRequestFactory extends AbstractRequestFactory {
 
     /**
@@ -67,6 +70,9 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
      * @return the {@link AbstractRequest} to use to claim the legacy loyalty campaign.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @RequiresPermission(Permissions.PERMISSION_MANAGE_USER_CAMPAIGNS)
+    @AccessTokenRequired
     public AbstractRequest buildClaimLegacyLoyaltyRequest(final int loyaltyCampaignId,
             @NonNull final String loyaltyId) {
         final JSONObject object = new JSONObject();
@@ -80,7 +86,7 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format("loyalties/legacy/%d/claims", //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format("loyalties/legacy/%d/claims", //$NON-NLS-1$
                         loyaltyCampaignId), null, new JSONObjectRequestBody(object),
                 getAccessTokenRetriever());
     }
@@ -93,6 +99,9 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
      *         {@link com.scvngr.levelup.core.model.Campaign}.
      */
     @NonNull
+    @LevelUpApi(contract = Contract.PUBLIC)
+    @RequiresPermission(Permissions.PERMISSION_MANAGE_USER_CAMPAIGNS)
+    @AccessTokenRequired
     public AbstractRequest buildClaimCampaignRequest(@NonNull final String code) {
         String codeToClaim = code;
 
@@ -103,7 +112,7 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
+                LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format(
                         "codes/%s/claims", codeToClaim), null, null, //$NON-NLS-1$
                 getAccessTokenRetriever());
     }

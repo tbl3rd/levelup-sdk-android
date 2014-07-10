@@ -40,12 +40,31 @@ public final class OrderRequestFactoryTest extends SupportAndroidTestCase {
     public void testNewGetAppOrdersRequest() throws BadRequestException {
         final OrderRequestFactory builder =
                 new OrderRequestFactory(getContext(), new MockAccessTokenRetriever());
+        final AbstractRequest request = builder.newGetAppOrdersRequest(2);
+        assertTrue(request instanceof LevelUpRequest);
+
+        assertEquals(HttpMethod.GET, request.getMethod());
+        assertTrue("hits apps/<id>/orders endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
+                .endsWith("apps/orders")); //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V15));
+
+        assertTrue(request.getQueryParams(getContext()).containsKey(OrderRequestFactory.PARAM_PAGE));
+        assertEquals("2", request.getQueryParams(getContext()).get(OrderRequestFactory.PARAM_PAGE)); //$NON-NLS-1$
+    }
+
+    @SmallTest
+    public void testNewGetAppOrdersRequest_v14Version() throws BadRequestException {
+        final OrderRequestFactory builder =
+                new OrderRequestFactory(getContext(), new MockAccessTokenRetriever());
         final AbstractRequest request = builder.newGetAppOrdersRequest(APP_ID_23, 2);
         assertTrue(request instanceof LevelUpRequest);
 
         assertEquals(HttpMethod.GET, request.getMethod());
         assertTrue("hits apps/<id>/orders endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
                 .endsWith(String.format(Locale.US, "apps/%d/orders", APP_ID_23))); //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V14));
 
         assertTrue(request.getQueryParams(getContext()).containsKey(OrderRequestFactory.PARAM_PAGE));
         assertEquals("2", request.getQueryParams(getContext()).get(OrderRequestFactory.PARAM_PAGE)); //$NON-NLS-1$
@@ -61,5 +80,7 @@ public final class OrderRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(HttpMethod.GET, request.getMethod());
         assertTrue("hits orders/<id> endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
                 .endsWith(String.format(Locale.US, "orders/%s", OrderFixture.UUID_FIXTURE_1))); //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V15));
     }
 }

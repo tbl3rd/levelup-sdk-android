@@ -27,7 +27,7 @@ import java.util.Map;
  * {@link com.scvngr.levelup.core.util.WebLinkParser}.
  */
 @Immutable
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class AppLocationListRequestFactory extends AbstractPagingRequestFactory {
 
     @NonNull

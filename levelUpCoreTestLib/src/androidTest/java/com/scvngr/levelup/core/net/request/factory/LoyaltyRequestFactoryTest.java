@@ -44,7 +44,7 @@ public final class LoyaltyRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(HttpMethod.GET, request.getMethod());
         final String path = request.getUrl(getContext()).getPath();
         assertNotNull(path);
-        assertTrue(path.contains(LevelUpRequest.API_VERSION_CODE_V14));
+        assertTrue(path.contains(LevelUpRequest.API_VERSION_CODE_V15));
         assertTrue(path.endsWith(String.format(Locale.US, "merchants/%d/loyalty", 1))); //$NON-NLS-1$
     }
 }
