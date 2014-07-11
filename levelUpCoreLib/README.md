@@ -1,211 +1,193 @@
 # Core SDK
 
-The levelup-core-lib provides client-server communication with the LevelUp web
-service.  This library is divided into four different broad components:
-networking, request factories, JSON factories, and model objects.  The
-networking component handles the actual client-server communication.  The
-request factories generate requests to send to the LevelUp web service (via the
-networking component).  The JSON factories parse the responses from the LevelUp
-web service into Java model objects.
+The LevelUpCoreLib provides client-server communication with the LevelUp web service.
 
-## Network Component
+Most usage of the SDK consists of generating a request with an appropriate `RequestFactory`, using
+`LevelUpConnection` to get `LevelUpResponse`s for those requests, and then using an appropriate
+`AbstractJsonModelFactory` subclass to turn the result into an instance of a particular model.
 
-The networking component wraps the full power of the standard Android HTTP
-libraries with a set of classes that offer a significantly simplified
-interface.  As is a common theme in the LevelUp SDK design, the networking
-component is built in layers.  The hierarchy of these layers can be seen in the
-following diagram:  ![LevelUp Networking Class
-Hierarchy](../docs/network_layer.png "LevelUp Networking Class Hierarchy")
+## Networking Library
 
-### HTTP Layer
+The networking component wraps the full power of the standard Android HTTP libraries with a set of
+classes that offer a simplified interface. The LevelUp-specific classes are built on top of a
+generalized set of HTTP components:
+![LevelUp Networking Class Hierarchy](docs/network_layer.png)
 
-The first layer is the generic HTTP layer, which provides generic Request and
-Response objects that encapsulate generic HTTP communication with both the
-streaming and buffered implementations.  There are two ways to think about
-networking: streaming and buffered.  Because data is not generally delivered
-from the network all at once, the low-level Android HTTP library operates on a
-streaming interface.  A buffered interface could be built on top of a streaming
-interface, waiting to deliver data to a client until all of the data has been
-streamed over the network.
+The first generic HTTP layer provides a base AbstractRequest class and both a streaming and buffered
+Response class that encapsulate generic HTTP communication.
 
-A streaming interface has performance and memory benefits.  For example, if a
-client is downloading a large image from a server, it might write the stream to
-disk as it comes in.  The entire image won't be kept in RAM and it is already
-mostly on disk once the network connection finishes.  On the other hand, a
-stream can be interrupted at any time and a client would need to be written to
-handle various errors that could occur throughout the streaming process.
+The second layer is a set of LevelUp web service API calls, helpers, and tools, which makes it
+easier to work specifically with the LevelUp API platform for authentication, RESTful request
+building, and JSON response parsing.
 
-A buffered interface has limitations on the total size of data that can be
-transmitted or received, as the entire network message must fit in memory.  On
-the other hand, a buffered interface is much simpler from an error handling
-standpoint since error handling occurs up front when the buffering occurs.
+## RequestFactories
 
-### LevelUp web service API Layer
+Each of the LevelUp web service endpoints offers a different API.  To simplify interaction with
+these endpoints, LevelUpCoreLib provides factory classes to build AbstractRequest objects to send to
+the LevelUp web service.
 
-The second layer is a set of LevelUp web service API layer, which abstract away
-authentication and other aspects of communication with the LevelUp web service.
-LevelUp client apps and the LevelUp web service communicate over a RESTful API
-composed of small JSON messages.  Because these messages are small, they don't
-require a streaming interface.  Therefore, the web service API layer is fully
-buffered.
+## JsonFactories
 
-## RequestFactory Component
+An AbstractRequest created by a RequestFactory is sent via the Network component, resulting in an
+`LevelUpResponse` object.  Requests are associated with a corresponding `AbstractJsonFactory`
+instance object that parses the response into a model object.
 
-Each of the LevelUp web service endpoints offers a different API.  To simplify
-interaction with these endpoints, levelup-core-lib provides factory classes to
-build Request objects to send to the LevelUp web service.
+## Models
 
-## JsonFactory Component
+The responses from the LevelUp web service can be parsed via an `AbstractJsonFactory` subclass into
+a Java model object. By convention, these Model objects are immutable and Parcelable.
 
-A Request created by a RequestFactory is sent via the Network component,
-resulting in an ``LevelUpResponse`` object.  Requests are associated
-with a corresponding `JsonFactory` object that parses the response into a model
-object.
+## Use of Lombok
 
-## Model Component
+To make it easier to maintain our Java model objects, we use
+[Project Lombok][project-lombok]. This tool automatically generates constructors,
+getters, builders, etc. based on annotations.
 
-The responses from the LevelUp web service can be parsed via a JsonFactory into
-a Java model object.  By convention, these Model objects are immutable and
-Parcelable.
-
-### Use of Lombok
-
-To make it easier to maintain our Java model objects, we use Project Lombok.
-This tool automatically generates constructors, getters, builders, etc. based
-on annotations.
-
-Instead of editing the generated models in `src/com/scvngr/levelup/core/model/`
-directly, please edit the Lombok'd versions, which are located in
-`src-lombok/com/scvngr/levelup/core/model/`.
-
-Then, from this project, run:
-
-    ant delombok
-
-This will generate the models' classes, including their getters, constructors,
-and builders. As we don't want to mandate the use of Lombok in all SDK users'
-IDEs, the delombok'd files (generated with the aforementioned ant task and
-commingled with the rest of the source) are the ones that should be used
-directly.
+This processing is handled automatically by the build scripts; you may want to use the
+[IntelliJ Lombok plugin][intellij-lombok-plugin] if you're using Android Studio or
+IntelliJ IDEA to make working with Lombok code easier.
 
 # Using the SDK
 
-##Overview
+## Overview
 
-A typical flow for using levelup-core-lib is as follows:
+A typical flow using the LevelUp Core Library is:
 
-1. Construct a `RequestFactory`.
-2. Call one of the factory methods on the `RequestFactory` to get an
-   `AbstractRequest` object.
-3. Call `ApiConnection.send()` to transmit the `AbstractRequest` object receive
-   an `LevelUpResponse` object.
-4. Construct the appropriate `JsonFactory` object to parse the
-   `LevelUpResponse` object into a Model object.
+1. Obtain an access token (usually only needed once, then can be cached unless expired). See the
+  documentation on the [Deeplink Auth library][deeplink-auth-docs] for details.
+  - Enterprise-licensed apps can also use [Enterprise login][enterprise-flows] to get an access
+    token.
+2. Construct a `RequestFactory`, using an `AccessTokenRetriever` [as described below]
+  [access-token-retriever] for authenticated requests.
+3. Call one of the factory methods on the `RequestFactory` to get an  `AbstractRequest` object.
+4. Call `LevelUpConnection.send()` to transmit the `AbstractRequest` object and receive a
+  `LevelUpResponse` object.
+5. If the returned response's `LevelUpResponse.getStatus()` is not `LevelUpStatus.OK`, [handle the
+   error][error-parsing]
+6. Construct the appropriate `AbstractJsonFactory` object to parse the `LevelUpResponse` object into
+  a Model object.
 
-Specific example flows are documented in more detail below:
+<a name="access-token-retriever" />
+## Authenticating requests to the LevelUp web service
 
-##Registering
+**NOTE:** `AccessToken`s should be considered as sensitive user data and should be protected
+accordingly.
 
-### Via LevelUp
+1. Once you have obtained an `AccessToken` for a user, you should persist it however you typically
+  persist secure data in your app.
+2. You will need to write a `Parcelable` class that implements `AccessTokenRetriever` which
+  will retrieve the cached `AccessToken`.
+3. For every `RequestFactory` that requires an authorized user, pass an instance of your class that
+  implements `AccessTokenRetriever` to the constructor.
 
-1. Call `UserRequestFactory.buildRegisterRequest()`, to obtain an
-   `AbstractRequest` to register a new user.
-2. Send the Request.
-3. Parse the resulting `LevelUpResponse` object with the
-   `UserJsonFactory`.
-4. Use the same credentials used to register the `User` to then Log them in
-   using the steps below.
+A few specific example flows:
 
-##Logging In
+## Obtaining a Payment Token
 
-### Via LevelUp
+1. Call `PaymentTokenRequestFactory.buildGetPaymentTokenRequest()` to obtain an `AbstractRequest` to
+  get LevelUp payment code information for the current user.
+2. Send the `AbstractRequest` with `LevelUpConnection.send()`.
+3. If the request returns `LevelUpStatus.OK`, then parse the resulting `LevelUpResponse` object with
+  `PaymentTokenJsonFactory`, which results in a `PaymentToken` model object.
+4. The QR code used for payment can be generated using `PaymentToken.getData()`. To easily generate
+  the proper QR code, see the [`LevelUpCodeView`](levelup-code-view) class.
+5. If the request returns `LevelUpStatus.ERROR_NOT_FOUND`, then the user is not payment eligible,
+  usually due to a problem with a credit card on file. The returned [error message][error-parsing]
+  should have more information on how the user can resolve the issue; they'll generally need to be
+  redirected to the LevelUp app to resolve the issue.
+  - If your app registered the user and they have no cards on file yet (or your app is
+    [Enterprise-licensed][enterprise-sdk-docs]) you may be able to prompt the user to add a credit
+    card directly to resolve the issue, depending on the `Error.code`.
 
-1. Call `AccessTokenRequestFactory.buildLoginRequest()`, to obtain an
-   `AbstractRequest` to login an existing user.
+## Adding a Credit Card
+
+If your app registered the user and they have no cards on file yet (or your app is
+  [Enterprise-licensed][enterprise-sdk-docs]) you can add a credit card on behalf of the user.
+  The request builder will automatically encrypt the credit card number clientside before
+  transmitting it to LevelUp so that only LevelUp's vault provider can read the value.
+
+1. Call `CreditCardRequestFactory.buildCreateCardRequest()` to obtain an `AbstractRequest` to add a
+  new credit card to the user's account.
 2. Send the `AbstractRequest`.
-3. Parse the resulting `LevelUpResponse` object with
-   `AccessTokenJsonFactory`, which results in a `AccessToken` model object.
-4. Persist the `AccessToken` model object to authenticate other requests to the
-   LevelUp web service.
+3. Parse the resulting `LevelUpResponse` object with `CreditCardJsonFactory`, which results in a
+  `CreditCard` model object.
 
-##Authenticating further requests to the LevelUp web service
+<a name="error-parsing" />
+## Error Handling
 
-NOTE: `AccessToken`s should be considered as sensitive user data and should be
-protected accordingly.
-
-1. Once you have obtained your `AccessToken` by logging in as described above,
-   you should persist it however you typically persist data in your app.
-2. You will need to write a class that implements `AccessTokenRetriever` (and
-   `Parcelable`) which will retrieve the cached `AccessToken`.
-3. For every `RequestFactory` that you wish to use the cached `AccessToken` in,
-   pass an instance of your class that implements `AccessTokenRetriever` to the
-   constructor.
-
-##Obtaining a Payment Token
-
-1. After logging in or registering, the user ID and access token are available
-   to authenticate future requests to the LevelUp web service.
-2. Call `PaymentTokenRequestFactory.buildGetPaymentTokenRequest()` to obtain an
-   `AbstractRequest` to get information for the current user.
-3. Send the `AbstractRequest`.
-4. If the request returns `LevelUpStatus.ERROR_NOT_FOUND`, then the user is not
-   payment eligible and a new credit/debit card must be added to their account
-   with the steps below.
-5. If the request returns `LevelUpStatus.OK`, then parse the resulting
-   `LevelUpResponse` object with `PaymentTokenJsonFactory`, which
-results in a `PaymentToken` model object.
-6. The QR code used for payment can be generated using the
-   `PaymentToken.getData()`. For more information on how to generate the proper QR
-   code, see [Generating QR Code][qr_code]
-
-##Adding a Credit Card
-
-1. After logging in or registering, the user ID and access token are available
-   to authenticate future requests to the LevelUp web service.
-2. Call `CreditCardRequestFactory.buildCreateCardRequest()` to obtain a
-   `AbstractRequest` to add a new credit card to the user's account.
-3. Send the `AbstractRequest`.
-4. Parse the resulting `LevelUpResponse` object with
-   `CreditCardJsonFactory`, which results in a `CreditCard` model object.
-
-##Parsing Errors from responses
-
-If the web service receives a request that it cannot process, it will typically
-respond with a JSON array describing the errors that occurred. To parse these
-errors:
+`LevelUpResponse.getStatus()` gives indications of what (if anything) went wrong with a request.
+If there was a server response, you can try to parse human-readable error messages out of the
+response. Typically the LevelUp platform will respond with a JSON array describing the errors that
+occurred. To parse these errors:
 
 1. Use `ErrorJsonFactory.fromList(new JSONArray(response.getData()))`.
-2. If a `JSONException` is thrown, then there were no well formed errors from
-   the server and you should use fallback generic error messages.
+2. If a `JSONException` is thrown, then there were no parseable error messages from the server and
+  you should generate an appropriate general error message (depending on the value of
+  `LevelUpResponse.getStatus()`).
 
-[qr_code]: #qr_code
 
-<h2 id="qr_code">Generating QR Code</h2>
+ ```java
+ LevelUpStatus status = response.getStatus();
+ if (status != LevelUpStatus.OK) {
+     String errorMessage = null;
 
-We Use Zebra Crossing (zxing v2.1) to generate the QR Codes in our app. While
-we use a slightly more complicated process to generate our QR codes, here is
-some sample code to generate a bitmap to display to the user.
+     try {
+         List<Error> errorList = new ErrorJsonFactory().fromList(new JSONArray(response.getData());
 
-    // Default the code to no tip and no color.
-    final String qrCodeDataString = LevelUpCode.encodeLevelUpCode(paymentToken.getData(), 0, 0));
-    final MultiFormatWriter writer = new MultiFormatWriter();
-    final BitMatrix result =
-          writer.encode(qrCodeDataString, BarcodeFormat.QR_CODE,
-                        CODE_HEIGHT, CODE_WIDTH, null);
-    final int width = result.getWidth();
-    final int height = result.getHeight();
-    final int[] pixels = new int[width * height];
-    // All are 0, or black, by default
-    for (int y = 0; y < height; y++) {
-        final int offset = y * width;
-        for (int x = 0; x < width; x++) {
-            if (result.get(x, y)) {
-                pixels[offset + x] = Color.BLACK;
-            } else {
-                pixels[offset + x] = Color.WHITE;
-            }
-        }
+         if (!errors.isEmpty()) {
+             // There may be multiple errors; the first is usually a high-level user-renderable one.
+             errorMessage = errors.get(0).getMessage();
+         }
+
+    } catch (final JSONException e) {
+        Log.d("client", "No parseable error messages.")
     }
-    
-    return Bitmap.createBitmap(pixels, width, height, Bitmap.Config.RGB_565);
 
+    if (status == LevelUpStatus.LOGIN_REQUIRED) {
+        if (errorMessage == null) {
+          errorMessage = "Please reconnect with LevelUp."
+        }
+        // Make the user authorize against LevelUp - their session has expired
+        …
+    } else if (status == LevelUpStatus.ERROR_NETWORK)…
+}
+```
+
+<a name="enterprise-flows" />
+# Additional Enterprise-Only Flows
+
+## User Creation (Enterprise Flow)
+
+This flow allows [Enterprise-licensed apps][enterprise-sdk-docs] to create a user
+with an email address and password. Most apps should use the [deeplink flow][deeplink-auth-docs]
+from `levelUpDeeplinkAuthLib` instead of this to get an access token.
+
+1. Call `UserRequestFactory.buildRegisterRequest()` to obtain an `AbstractRequest` to register a
+new user.
+2. Send the request.
+3. Parse the resulting `LevelUpResponse` object with the
+`UserJsonFactory`.
+4. Use the same credentials used to register the `User` to then Log them in
+using the steps below.
+
+## Logging In (Enterprise Flow)
+
+This flow allows [Enterprise-licensed apps][enterprise-sdk-docs] to get an access
+token directly with a user's credentials. Most apps should use the [deeplink flow]
+[deeplink-auth-docs] from `levelUpDeeplinkAuthLib` instead of this to get an access token.
+
+1. Call `AccessTokenRequestFactory.buildLoginRequest()` to obtain an `AbstractRequest` to log in
+an existing user.
+2. Send the `AbstractRequest`.
+3. Parse the resulting `LevelUpResponse` object with `AccessTokenJsonFactory`, which results in an
+`AccessToken` model object.
+4. Persist the `AccessToken` model object to authenticate other requests to the LevelUp web service.
+
+[access-token-retriever]: #access-token-retriever
+[deeplink-auth-docs]: ../deeplinkAuthLib/README.md
+[enterprise-flows]: #enterprise-flows
+[enterprise-sdk-docs]: http://developer.thelevelup.com/enterprise-sdk/
+[error-parsing]: #error-parsing
+[intellij-lombok-plugin]: http://plugins.jetbrains.com/plugin/6317
+[levelup-code-view]: src/main/java/com/scvngr/levelup/core/ui/view/LevelUpCodeView.java
+[project-lombok]: http://projectlombok.org/
