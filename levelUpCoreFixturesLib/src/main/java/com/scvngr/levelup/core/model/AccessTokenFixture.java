@@ -23,7 +23,8 @@ public final class AccessTokenFixture {
      *
      * @see <a href="http://xkcd.com/221/">xkcd #221 - Random Number</a>
      */
-    public static final long USER_ID_FIXTURE_1 = 4;
+    @NonNull
+    public static final Long USER_ID_FIXTURE_1 = 4L;
 
     /**
      * @return A full {@link AccessToken} model.
@@ -39,7 +40,7 @@ public final class AccessTokenFixture {
      * @return A full {@link AccessToken} model.
      */
     @NonNull
-    public static AccessToken getFullModel(@NonNull final String accessToken, final long userId) {
+    public static AccessToken getFullModel(@NonNull final String accessToken, final Long userId) {
         return new AccessToken(accessToken, userId);
     }
 
@@ -53,6 +54,15 @@ public final class AccessTokenFixture {
     }
 
     /**
+     * @return a minimal JSON representation of an {@link AccessToken}, as would typically be
+     * returned from the web service.
+     */
+    @NonNull
+    public static JSONObject getMinimalJsonObject() {
+        return getMinimalJsonObject(ACCESS_TOKEN_FIXTURE_1);
+    }
+
+    /**
      * @param accessToken access token string.
      * @param userId web service user ID.
      * @return a full JSON representation of an {@link AccessToken}, as would typically be returned
@@ -60,11 +70,26 @@ public final class AccessTokenFixture {
      */
     @NonNull
     public static JSONObject
-            getFullJsonObject(@NonNull final String accessToken, final long userId) {
+            getFullJsonObject(@NonNull final String accessToken, @NonNull final Long userId) {
         try {
             final JSONObject object = new JSONObject();
             object.put(AccessTokenJsonFactory.JsonKeys.TOKEN, accessToken);
             object.put(AccessTokenJsonFactory.JsonKeys.USER_ID, userId);
+            return object;
+        } catch (final JSONException e) {
+            throw new AssertionError(e);
+        }
+    }
+
+    /**
+     * @param accessToken access token string.
+     * @return a minimal JSON representation of an {@link AccessToken},
+     * as would typically be returned from the web service.
+     */
+    public static JSONObject getMinimalJsonObject(@NonNull final String accessToken) {
+        try {
+            final JSONObject object = new JSONObject();
+            object.put(AccessTokenJsonFactory.JsonKeys.TOKEN, accessToken);
             return object;
         } catch (final JSONException e) {
             throw new AssertionError(e);

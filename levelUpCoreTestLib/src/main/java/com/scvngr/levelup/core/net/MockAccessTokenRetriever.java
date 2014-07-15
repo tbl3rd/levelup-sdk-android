@@ -41,7 +41,7 @@ public final class MockAccessTokenRetriever implements AccessTokenRetriever {
      * Constructor which uses a basic {@link AccessToken}.
      */
     public MockAccessTokenRetriever() {
-        this(new AccessToken("test_access_token", 1)); //$NON-NLS-1$
+        this(new AccessToken("test_access_token", 1L)); //$NON-NLS-1$
     }
 
     /**

@@ -16,7 +16,6 @@ import com.scvngr.levelup.core.net.AbstractRequest;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
-import com.scvngr.levelup.core.net.LevelUpRequestWithCurrentUser;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
 import com.scvngr.levelup.core.net.RequestUtils;
 import com.scvngr.levelup.core.net.request.factory.UserRequestFactory.UserInfoRequestBuilder;
@@ -182,19 +181,17 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final String newPassword = "password123"; //$NON-NLS-1$
         builder.withNewPassword(newPassword);
 
-        final AbstractRequest request = builder.build();
+        final LevelUpRequest request = (LevelUpRequest) builder.build();
 
         assertEquals(HttpMethod.PUT, request.getMethod());
-        assertTrue("hits users/<id> endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
-                .endsWith(String.format(Locale.US, "users/%d", 1))); //$NON-NLS-1$
+        assertTrue("hits users/ endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .endsWith("users")); //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .contains(LevelUpRequest.API_VERSION_CODE_V15));
         validateAccessTokenHeader(request);
 
-        assertTrue(request instanceof LevelUpRequestWithCurrentUser);
-        final LevelUpRequestWithCurrentUser levelUpRequest =
-                (LevelUpRequestWithCurrentUser) request;
-
         final JSONObject postParams =
-                new JSONObject(levelUpRequest.getBody(getContext()))
+                new JSONObject(request.getBody(getContext()))
                         .getJSONObject(UserRequestFactory.OUTER_PARAM_USER);
         assertEquals(7, postParams.length());
 
@@ -247,13 +244,8 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final AbstractRequest request = builder.build();
 
         assertEquals(HttpMethod.PUT, request.getMethod());
-        try {
-            assertTrue("hits users/:id endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
-                    .endsWith(String.format(Locale.US, "users/%d", 1))); //$NON-NLS-1$
-            fail("Exception expected");
-        } catch (final BadRequestException ex) {
-            // Expected exception
-        }
+        assertTrue("hits users/ endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .endsWith("users")); //$NON-NLS-1$
     }
 
     @SmallTest
@@ -290,8 +282,8 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
 
         final AbstractRequest expected =
                 new UserInfoRequestBuilder(getContext(), new MockAccessTokenRetriever()).build();
-        final LevelUpRequestWithCurrentUser request =
-                (LevelUpRequestWithCurrentUser) builder.build();
+        final LevelUpRequest request =
+                (LevelUpRequest) builder.build();
         assertNotSame(expected, request);
         final JSONObject postParams =
                 new JSONObject(request.getBody(getContext()))
@@ -315,8 +307,8 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final AbstractRequest request =
                 new UserInfoRequestBuilder(getContext(), new MockAccessTokenRetriever()).build();
 
-        assertTrue("hits users/<id> endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
-                .endsWith(String.format(Locale.US, "users/%d", 1))); //$NON-NLS-1$
+        assertTrue("hits users endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                .endsWith("users")); //$NON-NLS-1$
         validateAccessTokenHeader(request);
     }
 

@@ -34,8 +34,10 @@ public final class AccessTokenJsonFactory extends AbstractJsonModelFactory<Acces
     @NonNull
     @Override
     protected AccessToken createFrom(@NonNull final JSONObject json) throws JSONException {
-        final String accessToken = json.getString(JsonKeys.TOKEN);
-        final long userId = json.getLong(JsonKeys.USER_ID);
+        final JsonModelHelper helper = new JsonModelHelper(json);
+
+        final String accessToken = helper.getString(JsonKeys.TOKEN);
+        final Long userId = helper.optLongNullable(JsonKeys.USER_ID);
 
         return new AccessToken(accessToken, userId);
     }

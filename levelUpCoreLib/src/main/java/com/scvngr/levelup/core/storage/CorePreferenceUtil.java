@@ -43,6 +43,15 @@ public final class CorePreferenceUtil {
             + ".string_last_app_id_location_page"; //$NON-NLS-1$
 
     /**
+     * Type: {@code Long}.
+     * <p/>
+     * The key used to cache the current user's ID.
+     */
+    @NonNull
+    public static final String KEY_STRING_USER_ID = KEY_PREFIX
+            + ".long_user_id"; //$NON-NLS-1$
+
+    /**
      * Private constructor prevents instantiation.
      *
      * @throws UnsupportedOperationException because this class cannot be instantiated.

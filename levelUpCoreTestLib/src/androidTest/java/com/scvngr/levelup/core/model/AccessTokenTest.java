@@ -27,9 +27,18 @@ public final class AccessTokenTest extends TestCase {
     }
 
     @SmallTest
+    public void testConstructor_goodNoUserId() {
+        final AccessToken model =
+                AccessTokenFixture.getFullModel(AccessTokenFixture.ACCESS_TOKEN_FIXTURE_1, null);
+
+        assertEquals(AccessTokenFixture.ACCESS_TOKEN_FIXTURE_1, model.getAccessToken());
+        assertNull(model.getUserId());
+    }
+
+    @SmallTest
     public void testConstructor_bad_missing_access_token() {
         try {
-            new AccessToken(null, 0);
+            new AccessToken(null, 0L);
             fail();
         } catch (final NullPointerException e) {
             // Expected exception

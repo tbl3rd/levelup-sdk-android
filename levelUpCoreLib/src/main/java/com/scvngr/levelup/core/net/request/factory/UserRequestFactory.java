@@ -20,7 +20,6 @@ import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.JSONObjectRequestBody;
 import com.scvngr.levelup.core.net.JsonElementRequestBody;
 import com.scvngr.levelup.core.net.LevelUpRequest;
-import com.scvngr.levelup.core.net.LevelUpRequestWithCurrentUser;
 import com.scvngr.levelup.core.net.RequestUtils;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.NullUtils;
@@ -361,7 +360,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     public static final class UserInfoRequestBuilder {
 
         @NonNull
-        private static final String USERS_ID_ENDPOINT = "users/%d"; //$NON-NLS-1$
+        private static final String USERS_ID_ENDPOINT = "users"; //$NON-NLS-1$
 
         /**
          * The Application context. A context is required to build any {@link LevelUpRequest}.
@@ -410,8 +409,8 @@ public final class UserRequestFactory extends AbstractRequestFactory {
         @AccessTokenRequired
         @LevelUpApi(contract = Contract.ENTERPRISE)
         public AbstractRequest build() {
-            return new LevelUpRequestWithCurrentUser(mContext, HttpMethod.PUT,
-                    LevelUpRequest.API_VERSION_CODE_V14, USERS_ID_ENDPOINT, null,
+            return new LevelUpRequest(mContext, HttpMethod.PUT,
+                    LevelUpRequest.API_VERSION_CODE_V15, USERS_ID_ENDPOINT, null,
                     new JSONObjectRequestBody(getParams()), mAccessTokenRetriever);
         }
 

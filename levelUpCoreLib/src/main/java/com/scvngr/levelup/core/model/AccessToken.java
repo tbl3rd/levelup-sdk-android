@@ -15,6 +15,7 @@ import net.jcip.annotations.Immutable;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
@@ -31,7 +32,7 @@ import com.scvngr.levelup.core.util.NullUtils;
 @AllArgsConstructor(suppressConstructorProperties = true, onConstructor = @__({
     @LevelUpApi(contract = Contract.ENTERPRISE) }))
 @Value
-@LevelUpApi(contract = Contract.DRAFT)
+@LevelUpApi(contract = Contract.PUBLIC)
 public final class AccessToken implements Parcelable {
 
     /**
@@ -49,7 +50,9 @@ public final class AccessToken implements Parcelable {
     /**
      * User's ID on the web service.
      */
-    private final long userId;
+    @Nullable
+    @LevelUpApi(contract = Contract.ENTERPRISE)
+    private final Long userId;
 
     @Override
     public int describeContents() {
@@ -76,7 +79,7 @@ public final class AccessToken implements Parcelable {
         @NonNull
         public AccessToken createFromParcel(final Parcel in) {
             final String accessToken = NullUtils.nonNullContract(in.readString());
-            final long userId = in.readLong();
+            final Long userId = (Long) in.readValue(Long.class.getClassLoader());
 
             return new AccessToken(accessToken, userId);
         }
@@ -84,7 +87,7 @@ public final class AccessToken implements Parcelable {
         private void writeToParcel(@NonNull final Parcel dest, final int flags,
                 @NonNull final AccessToken token) {
             dest.writeString(token.getAccessToken());
-            dest.writeLong(token.getUserId());
+            dest.writeValue(token.getUserId());
         }
     }
 
@@ -96,6 +99,6 @@ public final class AccessToken implements Parcelable {
     @LevelUpApi(contract = Contract.PUBLIC)
     @SuppressWarnings("all")
     public AccessToken(@NonNull final String accessToken) {
-        this(accessToken, -1L);
+        this(accessToken, null);
     }
 }

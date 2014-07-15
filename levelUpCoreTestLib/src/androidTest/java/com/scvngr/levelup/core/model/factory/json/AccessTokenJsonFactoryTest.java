@@ -26,7 +26,17 @@ public final class AccessTokenJsonFactoryTest extends SupportAndroidTestCase {
         final JSONObject object = AccessTokenFixture.getFullJsonObject();
         final AccessToken token = factory.from(object);
         assertEquals(object.get(AccessTokenJsonFactory.JsonKeys.TOKEN), token.getAccessToken());
-        assertEquals(object.getLong(AccessTokenJsonFactory.JsonKeys.USER_ID), token.getUserId());
+        assertEquals(Long.valueOf(object.getLong(AccessTokenJsonFactory.JsonKeys.USER_ID)),
+                token.getUserId());
+    }
+
+    @SmallTest
+    public void testJsonParse_singleObjectMinimalModel() throws JSONException {
+        final AccessTokenJsonFactory factory = new AccessTokenJsonFactory();
+        final JSONObject object = AccessTokenFixture.getMinimalJsonObject();
+        final AccessToken token = factory.from(object);
+        assertEquals(object.get(AccessTokenJsonFactory.JsonKeys.TOKEN), token.getAccessToken());
+        assertNull(token.getUserId());
     }
 
     @SmallTest
