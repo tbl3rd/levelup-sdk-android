@@ -122,6 +122,7 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
         final HashMap<String, String> expectedHeaders =
                 new HashMap<String, String>(RequestUtils.getDefaultRequestHeaders(mMockContext));
         expectedHeaders.put(HTTP.CONTENT_TYPE, RequestUtils.HEADER_CONTENT_TYPE_JSON);
+        expectedHeaders.put(LevelUpRequest.HEADER_LEVELUP_API_KEY, "test_api_key");
 
         final Map<String, String> actualHeaders = request.getRequestHeaders(mMockContext);
         assertFalse(actualHeaders.containsKey(LevelUpRequest.HEADER_AUTHORIZATION));
@@ -138,6 +139,7 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
         final HashMap<String, String> expectedHeaders =
                 new HashMap<String, String>(RequestUtils.getDefaultRequestHeaders(mMockContext));
         expectedHeaders.put(HTTP.CONTENT_TYPE, RequestUtils.HEADER_CONTENT_TYPE_JSON);
+        expectedHeaders.put(LevelUpRequest.HEADER_LEVELUP_API_KEY, "test_api_key");
         expectedHeaders
                 .put(LevelUpRequest.HEADER_AUTHORIZATION, String.format(Locale.US,
                         LevelUpRequest.AUTH_TOKEN_TYPE_FORMAT,

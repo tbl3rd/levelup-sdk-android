@@ -69,10 +69,16 @@ public class LevelUpRequest extends AbstractRequest {
     };
 
     /**
-     * Header key for the authentication.
+     * Header key for the authorized user's access token.
      */
     @NonNull
     public static final String HEADER_AUTHORIZATION = "Authorization"; //$NON-NLS-1$
+
+    /**
+     * Header key for sending the application's API key for LevelUp.
+     */
+    @NonNull
+    public static final String HEADER_LEVELUP_API_KEY = "X-LevelUp-API-Key"; //$NON-NLS-1$
 
     /**
      * Format string to use in the authorization header to format the access token in.
@@ -282,6 +288,7 @@ public class LevelUpRequest extends AbstractRequest {
             temp.put(HTTP.CONTENT_TYPE, RequestUtils.HEADER_CONTENT_TYPE_JSON);
         }
 
+        temp.put(HEADER_LEVELUP_API_KEY, context.getString(R.string.levelup_api_key));
         final AccessToken token = getAccessToken(context);
 
         if (null != token) {
