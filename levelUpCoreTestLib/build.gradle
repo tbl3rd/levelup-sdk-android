@@ -2,12 +2,12 @@ apply plugin: 'android-library'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "20.0.0"
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
-        applicationId "com.scvngr.levelup.core.test"
         minSdkVersion 10
         targetSdkVersion 19
+        testInstrumentationRunner 'com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner'
     }
 
     buildTypes {
@@ -23,29 +23,19 @@ android {
         }
     }
 
-        compileOptions {
+    compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
-    }
-
-    defaultConfig {
-        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
-    }
-
-    packagingOptions {
-        exclude 'LICENSE.txt' // Avoid duplicate errors from Hamcrest test dependencies
     }
 }
 
 dependencies {
-    compile project(':levelUpCoreLib')
     compile project(':actionBarSherlockLib')
-    androidTestCompile project(':levelUpCoreFixturesLib')
-    androidTestCompile project(':levelUpDeeplinkAuthLib')
-    androidTestCompile 'com.google.mockwebserver:mockwebserver:20130201'
-    androidTestCompile 'com.jakewharton.espresso:espresso:1.1-r3'
-    androidTestCompile('com.jakewharton.espresso:espresso-support-v4:1.1-r3') {
-        // TODO workaround for http://b.android.com/65445
-        exclude group:'com.android.support', module:'support-v4'
-    }
+    compile project(':levelUpCoreLib')
+    compile project(':levelUpCoreFixturesLib')
+    compile project(':levelUpDeeplinkAuthLib')
+
+    compile 'com.google.mockwebserver:mockwebserver:20130201'
+    compile 'com.jakewharton.espresso:espresso-runner-runtime:1.1-r3'
 }
+

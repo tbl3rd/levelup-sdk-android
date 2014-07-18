@@ -6,7 +6,7 @@ apply plugin: 'android-library'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "20.0.0"
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
         minSdkVersion 10
@@ -31,6 +31,7 @@ dependencies {
     compile 'com.android.support:support-v4:19.1.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.github.stephenc.jcip:jcip-annotations:1.0-1'
-    provided 'org.projectlombok:lombok:1.12.6'
     compile files('libs/braintree-android-encryption-1.0.0.jar')
+    provided 'org.projectlombok:lombok:1.12.6'
 }
+
