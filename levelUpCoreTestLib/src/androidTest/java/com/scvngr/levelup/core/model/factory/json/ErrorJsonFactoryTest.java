@@ -48,7 +48,7 @@ public final class ErrorJsonFactoryTest extends SupportAndroidTestCase {
     @SmallTest
     public void testJsonParse_listOfOne() throws JSONException {
         final String json = String.format(Locale.US,
-                "[{ 'error': { 'code': '%s', 'message': '%s', 'object': '%s', 'property': '%s' }}]", //$NON-NLS-1$
+                "[{ 'error': { 'code': '%s', 'message': '%s', 'object': '%s', 'property': '%s' }}]",
                 ErrorFixture.CODE_VALUE, ErrorFixture.MESSAGE_VALUE, ErrorFixture.OBJECT_VALUE,
                 ErrorFixture.PROPERTY_VALUE);
 

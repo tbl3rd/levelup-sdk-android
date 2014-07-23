@@ -51,7 +51,7 @@ public final class LoyaltyRequestFactory extends AbstractRequestFactory {
     public AbstractRequest buildGetLoyaltyForMerchantRequest(final long merchantWebServiceId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
                 LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format(
-                        "merchants/%d/loyalty", merchantWebServiceId), null, null, //$NON-NLS-1$
+                        "merchants/%d/loyalty", merchantWebServiceId), null, null,
                 getAccessTokenRetriever());
     }
 }

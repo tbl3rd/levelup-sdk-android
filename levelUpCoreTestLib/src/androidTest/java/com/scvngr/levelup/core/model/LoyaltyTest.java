@@ -60,7 +60,7 @@ public final class LoyaltyTest extends SupportAndroidTestCase {
                         new LoyaltyJsonFactory(),
                         LoyaltyFixture.getFullJsonObject(1),
                         new String[] {
-                                "MODEL_ROOT", "ORDERS_COUNT", "POTENTIAL_CREDIT", "SAVINGS", "SHOULD_SPEND", "SPEND_REMAINING", "TOTAL_VOLUME", "WILL_EARN" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
+                                "MODEL_ROOT", "ORDERS_COUNT", "POTENTIAL_CREDIT", "SAVINGS", "SHOULD_SPEND", "SPEND_REMAINING", "TOTAL_VOLUME", "WILL_EARN" });
 
         {
             final JSONObject object = LoyaltyFixture.getFullJsonObject(1);

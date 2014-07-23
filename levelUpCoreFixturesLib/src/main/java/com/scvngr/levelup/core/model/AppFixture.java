@@ -24,13 +24,13 @@ public final class AppFixture {
      * App description fixture #1.
      */
     @NonNull
-    public static final String APP_DESCRIPTION_FIXTURE_1 = "The Best Burgers in Town"; //$NON-NLS-1$
+    public static final String APP_DESCRIPTION_FIXTURE_1 = "The Best Burgers in Town";
 
     /**
      * App name fixture #1.
      */
     @NonNull
-    public static final String APP_NAME_FIXTURE_1 = "Ariburgers"; //$NON-NLS-1$
+    public static final String APP_NAME_FIXTURE_1 = "Ariburgers";
 
     /**
      * A random app ID.
@@ -43,7 +43,7 @@ public final class AppFixture {
      * App image URL fixture #1.
      */
     @NonNull
-    public static final String APP_IMAGE_URL_1 = "http://ariburgers.com/logo.jpg"; //$NON-NLS-1$
+    public static final String APP_IMAGE_URL_1 = "http://ariburgers.com/logo.jpg";
 
     /**
      * @param id the web service ID of the app
@@ -108,10 +108,10 @@ public final class AppFixture {
             @Nullable final String imageUrl, @NonNull final String name) {
         final JsonObject object = new JsonObject();
 
-        object.addProperty("description", description); //$NON-NLS-1$
-        object.addProperty("id", appId); //$NON-NLS-1$
-        object.addProperty("image_url", imageUrl); //$NON-NLS-1$
-        object.addProperty("name", name); //$NON-NLS-1$
+        object.addProperty("description", description);
+        object.addProperty("id", appId);
+        object.addProperty("image_url", imageUrl);
+        object.addProperty("name", name);
 
         final JsonObject container = new JsonObject();
         container.add(AppJsonFactory.MODEL_ROOT, object);
@@ -120,6 +120,6 @@ public final class AppFixture {
     }
 
     private AppFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

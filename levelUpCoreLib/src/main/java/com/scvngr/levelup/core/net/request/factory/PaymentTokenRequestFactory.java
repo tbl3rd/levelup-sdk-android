@@ -27,7 +27,7 @@ import net.jcip.annotations.Immutable;
 public final class PaymentTokenRequestFactory extends AbstractRequestFactory {
 
     @NonNull
-    private static final String ENDPOINT = "payment_token"; //$NON-NLS-1$
+    private static final String ENDPOINT = "payment_token";
 
     /**
      * @param context the Application context.

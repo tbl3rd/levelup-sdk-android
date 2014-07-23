@@ -56,38 +56,38 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
     public void testGetLoginRequest_withValidArguments() throws BadRequestException, JSONException {
         final AccessTokenRequestFactory builder = new AccessTokenRequestFactory(getContext());
         final LevelUpRequest request =
-                (LevelUpRequest) builder.buildLoginRequest("email", "password"); //$NON-NLS-1$ //$NON-NLS-2$
+                (LevelUpRequest) builder.buildLoginRequest("email", "password");
         assertEquals(0, request.getQueryParams(getContext()).size());
         assertFalse(request.getRequestHeaders(getContext()).containsKey(
                 LevelUpRequest.HEADER_AUTHORIZATION));
         final JSONObject params = new JSONObject(request.getBody(getContext()));
 
         assertEquals(HttpMethod.POST, request.getMethod());
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V14));
-        assertTrue("Url ends with the proper endpoint", //$NON-NLS-1$
-                request.getUrl(getContext()).getPath().endsWith("access_tokens")); //$NON-NLS-1$
+        assertTrue("Url ends with the proper endpoint",
+                request.getUrl(getContext()).getPath().endsWith("access_tokens"));
         assertTrue(params.has(AccessTokenRequestFactory.PARAM_OUTER_ACCESS_TOKEN));
         final JSONObject token =
                 params.getJSONObject(AccessTokenRequestFactory.PARAM_OUTER_ACCESS_TOKEN);
-        assertTrue("Params include username", //$NON-NLS-1$
+        assertTrue("Params include username",
                 token.has(AccessTokenRequestFactory.PARAM_USERNAME));
-        assertTrue("Params include password", //$NON-NLS-1$
+        assertTrue("Params include password",
                 token.has(AccessTokenRequestFactory.PARAM_PASSWORD));
-        assertTrue("Params include device id", //$NON-NLS-1$
+        assertTrue("Params include device id",
                 token.has(RequestUtils.PARAM_DEVICE_IDENTIFIER));
-        assertTrue("Params include api_key", //$NON-NLS-1$
+        assertTrue("Params include api_key",
                 token.has(RequestUtils.PARAM_API_KEY));
 
-        assertEquals("email", token.getString(AccessTokenRequestFactory.PARAM_USERNAME)); //$NON-NLS-1$
-        assertEquals("password", token.getString(AccessTokenRequestFactory.PARAM_PASSWORD)); //$NON-NLS-1$
+        assertEquals("email", token.getString(AccessTokenRequestFactory.PARAM_USERNAME));
+        assertEquals("password", token.getString(AccessTokenRequestFactory.PARAM_PASSWORD));
         final String deviceId = DeviceIdentifier.getDeviceId(getContext());
 
         if (null != deviceId) {
             assertEquals(CryptographicHashUtil.getHexHash(deviceId, Algorithms.SHA256),
                     token.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
         } else {
-            fail("Device ID was null"); //$NON-NLS-1$
+            fail("Device ID was null");
         }
 
         assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
@@ -105,28 +105,28 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
             JSONException {
         final AccessTokenRequestFactory builder = new AccessTokenRequestFactory(getContext());
         final LevelUpRequest request =
-                (LevelUpRequest) builder.buildFacebookLoginRequest("facebook_access_token"); //$NON-NLS-1$
+                (LevelUpRequest) builder.buildFacebookLoginRequest("facebook_access_token");
         assertEquals(0, request.getQueryParams(getContext()).size());
         assertFalse(request.getRequestHeaders(getContext()).containsKey(
                 LevelUpRequest.HEADER_AUTHORIZATION));
         final JSONObject params = new JSONObject(request.getBody(getContext()));
 
         assertEquals(HttpMethod.POST, request.getMethod());
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V14));
-        assertTrue("Url ends with the proper endpoint", //$NON-NLS-1$
-                request.getUrl(getContext()).getPath().endsWith("access_tokens")); //$NON-NLS-1$
+        assertTrue("Url ends with the proper endpoint",
+                request.getUrl(getContext()).getPath().endsWith("access_tokens"));
         assertTrue(params.has(AccessTokenRequestFactory.PARAM_OUTER_ACCESS_TOKEN));
         final JSONObject token =
                 params.getJSONObject(AccessTokenRequestFactory.PARAM_OUTER_ACCESS_TOKEN);
-        assertTrue("Params include facebook_access_token", //$NON-NLS-1$
+        assertTrue("Params include facebook_access_token",
                 token.has(AccessTokenRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
-        assertTrue("Params include device id", //$NON-NLS-1$
+        assertTrue("Params include device id",
                 token.has(RequestUtils.PARAM_DEVICE_IDENTIFIER));
-        assertTrue("Params include api_key", //$NON-NLS-1$
+        assertTrue("Params include api_key",
                 token.has(RequestUtils.PARAM_API_KEY));
 
-        assertEquals("facebook_access_token", //$NON-NLS-1$
+        assertEquals("facebook_access_token",
                 token.getString(AccessTokenRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
 
         final String deviceId = DeviceIdentifier.getDeviceId(getContext());
@@ -135,7 +135,7 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
             assertEquals(CryptographicHashUtil.getHexHash(deviceId, Algorithms.SHA256),
                     token.getString(RequestUtils.PARAM_DEVICE_IDENTIFIER));
         } else {
-            fail("Device ID was null"); //$NON-NLS-1$
+            fail("Device ID was null");
         }
 
         assertEquals(getContext().getString(com.scvngr.levelup.core.R.string.levelup_api_key),
@@ -161,10 +161,10 @@ public final class AccessTokenRequestFactoryTest extends SupportAndroidTestCase 
                         .buildDowngradeRequest("create_orders", "do_a_little_dance");
 
         assertEquals(HttpMethod.POST, request.getMethod());
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
-        assertTrue("Url ends with the proper endpoint", //$NON-NLS-1$
-                request.getUrl(getContext()).getPath().endsWith("access_tokens/downgrades")); //$NON-NLS-1$
+        assertTrue("Url ends with the proper endpoint",
+                request.getUrl(getContext()).getPath().endsWith("access_tokens/downgrades"));
 
         final JsonObject params =
                 (JsonObject) new JsonParser().parse(request.getBody(getContext()));

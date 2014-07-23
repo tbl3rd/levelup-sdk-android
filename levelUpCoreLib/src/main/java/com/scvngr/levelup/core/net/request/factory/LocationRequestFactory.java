@@ -86,7 +86,7 @@ public final class LocationRequestFactory extends AbstractRequestFactory {
     public AbstractRequest buildGetLocationDetailsRequest(final long locationWebServiceId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
                 LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
-                        "locations/%d", locationWebServiceId), null, null); //$NON-NLS-1$
+                        "locations/%d", locationWebServiceId), null, null);
     }
 
     /**
@@ -106,6 +106,6 @@ public final class LocationRequestFactory extends AbstractRequestFactory {
         queryParams.put(PARAM_WIDTH, DEFAULT_WIDTH);
         queryParams.put(PARAM_HEIGHT, DEFAULT_HEIGHT);
         return new LevelUpRequest(context, HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
-                NullUtils.format("locations/%d/image", locationWebServiceId), queryParams, null); //$NON-NLS-1$
+                NullUtils.format("locations/%d/image", locationWebServiceId), queryParams, null);
     }
 }

@@ -16,7 +16,7 @@ public final class AccessTokenFixture {
     /**
      * An arbitrary access token string.
      */
-    public static final String ACCESS_TOKEN_FIXTURE_1 = "sx82GslFAv8ZlHOhpftd"; //$NON-NLS-1$
+    public static final String ACCESS_TOKEN_FIXTURE_1 = "sx82GslFAv8ZlHOhpftd";
 
     /**
      * A random user ID.
@@ -100,6 +100,6 @@ public final class AccessTokenFixture {
      * Private constructor to prevent instantiation.
      */
     private AccessTokenFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

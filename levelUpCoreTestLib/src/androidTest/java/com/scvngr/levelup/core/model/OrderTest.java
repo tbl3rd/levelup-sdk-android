@@ -49,7 +49,7 @@ public final class OrderTest extends SupportAndroidTestCase {
 
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(OrderJsonFactory.JsonKeys.class,
                 new OrderJsonFactory(), OrderFixture.getFullJsonObject(), new String[] {
-                        "MODEL_ROOT"}); //$NON-NLS-1$
+                        "MODEL_ROOT"});
     }
 
     @SmallTest

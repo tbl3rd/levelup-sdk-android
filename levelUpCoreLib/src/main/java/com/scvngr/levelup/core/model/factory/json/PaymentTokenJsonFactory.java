@@ -50,19 +50,19 @@ public final class PaymentTokenJsonFactory extends AbstractJsonModelFactory<Paym
          * JSON object key that maps to the root object if it's nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "payment_token"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "payment_token";
 
         /**
          * Key in the JSON object to get the {@link PaymentToken}'s data.
          */
         @JsonValueType(JsonType.STRING)
-        public static final String DATA = "data"; //$NON-NLS-1$
+        public static final String DATA = "data";
 
         /**
          * Key in the JSON object to get the {@link PaymentToken}'s web service ID.
          */
         @JsonValueType(JsonType.LONG)
-        public static final String ID = "id"; //$NON-NLS-1$
+        public static final String ID = "id";
 
         /**
          * Private constructor prevents instantiation.
@@ -70,7 +70,7 @@ public final class PaymentTokenJsonFactory extends AbstractJsonModelFactory<Paym
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

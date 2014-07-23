@@ -49,22 +49,22 @@ public final class MockPagingRequestFactory extends AbstractPagingRequestFactory
      * The initial page URL. This has a Link header to page 2.
      */
     @NonNull
-    public static final String PAGE_1_URL = "http://example.com/"; //$NON-NLS-1$
+    public static final String PAGE_1_URL = "http://example.com/";
 
     /**
      * The second page URL. This has a Link header to page 3.
      */
     @NonNull
-    public static final String PAGE_2_URL = "http://example.com/?page=2"; //$NON-NLS-1$
+    public static final String PAGE_2_URL = "http://example.com/?page=2";
 
     /**
      * The third page URL. This has no Link header and is empty.
      */
     @NonNull
-    public static final String PAGE_3_URL = "http://example.com/?page=3"; //$NON-NLS-1$
+    public static final String PAGE_3_URL = "http://example.com/?page=3";
 
     @NonNull
-    private static final String EMPTY_DATA = ""; //$NON-NLS-1$
+    private static final String EMPTY_DATA = "";
 
     /**
      * @param context application context.
@@ -117,7 +117,7 @@ public final class MockPagingRequestFactory extends AbstractPagingRequestFactory
                     LevelUpConnectionHelper.setNextResponse(context, EMPTY_DATA,
                             HttpStatus.SC_NO_CONTENT, null);
         } else {
-            throw new IllegalArgumentException("URL is unknown"); //$NON-NLS-1$
+            throw new IllegalArgumentException("URL is unknown");
         }
 
         return connection;
@@ -135,7 +135,7 @@ public final class MockPagingRequestFactory extends AbstractPagingRequestFactory
             @NonNull final String nextPageUrl) {
         final HashMap<String, List<String>> headers = new HashMap<String, List<String>>();
         headers.put(
-                "Link", Arrays.asList(String.format(Locale.US, "<%s>;rel=\"next\"", nextPageUrl))); //$NON-NLS-1$//$NON-NLS-2$
+                "Link", Arrays.asList(String.format(Locale.US, "<%s>;rel=\"next\"", nextPageUrl)));
 
         return headers;
     }

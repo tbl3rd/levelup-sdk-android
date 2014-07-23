@@ -38,6 +38,6 @@ public final class ClaimTest extends SupportAndroidTestCase {
         // Test differences across variations based on all JSON keys
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(ClaimJsonFactory.JsonKeys.class,
                 new ClaimJsonFactory(), ClaimFixture.getFullJsonObject(),
-                new String[] { "MODEL_ROOT", }); //$NON-NLS-1$
+                new String[] { "MODEL_ROOT", });
     }
 }

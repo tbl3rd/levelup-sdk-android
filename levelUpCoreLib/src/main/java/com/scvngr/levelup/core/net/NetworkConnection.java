@@ -47,7 +47,7 @@ public final class NetworkConnection {
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */static final int MAX_POOLED_CONNECTIONS =
-            Integer.valueOf(System.getProperty("http.maxConnections", "5")); //$NON-NLS-1$ //$NON-NLS-2$
+            Integer.valueOf(System.getProperty("http.maxConnections", "5"));
 
     /*
      * The static fields stored by this class are not necessarily thread-safe. They operate on a
@@ -72,10 +72,10 @@ public final class NetworkConnection {
         try {
             response = doSend(context, request, 0);
         } catch (final IOException e) {
-            LogManager.v("Error during send", e); //$NON-NLS-1$
+            LogManager.v("Error during send", e);
             response = new StreamingResponse(e);
         } catch (final BadRequestException e) {
-            LogManager.v("Error during send", e); //$NON-NLS-1$
+            LogManager.v("Error during send", e);
             response = new StreamingResponse(e);
         }
 
@@ -102,7 +102,7 @@ public final class NetworkConnection {
     private static StreamingResponse doSend(@NonNull final Context context,
             @NonNull final AbstractRequest request, final int failures)
             throws IOException, BadRequestException {
-        LogManager.v("HTTP request headers: %s", request.getRequestHeaders(context)); //$NON-NLS-1$
+        LogManager.v("HTTP request headers: %s", request.getRequestHeaders(context));
 
         HttpURLConnection connection = null;
         StreamingResponse response = null;
@@ -113,7 +113,7 @@ public final class NetworkConnection {
 
             // Close the connection if this is a retry and additional attempts may be necessary.
             if (0 < failures && shouldRetryAfterEOFException(failures)) {
-                connection.setRequestProperty("Connection", "close"); //$NON-NLS-1$ //$NON-NLS-2$
+                connection.setRequestProperty("Connection", "close");
             }
 
             // Write the post body if necessary
@@ -122,7 +122,7 @@ public final class NetworkConnection {
             // Get the response from the server
             response = getResponse(connection);
         } catch (final EOFException e) {
-            LogManager.e(NullUtils.format("Unable to send request: failures(%d)", //$NON-NLS-1$
+            LogManager.e(NullUtils.format("Unable to send request: failures(%d)",
                             failures), e);
 
             if (shouldRetryAfterEOFException(failures)) {
@@ -280,6 +280,6 @@ public final class NetworkConnection {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private NetworkConnection() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

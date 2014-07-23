@@ -32,11 +32,11 @@ public final class AppLocationListRequestFactory extends AbstractPagingRequestFa
 
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /*package*/ static final String PARAM_LAT = "lat"; //$NON-NLS-1$
+    /*package*/ static final String PARAM_LAT = "lat";
 
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /*package*/ static final String PARAM_LNG = "lng"; //$NON-NLS-1$
+    /*package*/ static final String PARAM_LNG = "lng";
 
     @Nullable
     private final android.location.Location mLocation;
@@ -72,7 +72,7 @@ public final class AppLocationListRequestFactory extends AbstractPagingRequestFa
 
         return new LevelUpRequest(getContext(), HttpMethod.GET,
                 LevelUpRequest.API_VERSION_CODE_V14,
-                NullUtils.format("apps/%d/locations", mAppId), queryParams, null); //$NON-NLS-1$
+                NullUtils.format("apps/%d/locations", mAppId), queryParams, null);
     }
 
     @Override
@@ -82,7 +82,7 @@ public final class AppLocationListRequestFactory extends AbstractPagingRequestFa
             return new LevelUpRequest(getContext(), HttpMethod.GET, page, null,
                     getAccessTokenRetriever());
         } catch (final IllegalArgumentException e) {
-            LogManager.e("error parsing URL for next page", e); //$NON-NLS-1$
+            LogManager.e("error parsing URL for next page", e);
             return null;
         }
     }

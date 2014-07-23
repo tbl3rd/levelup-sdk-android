@@ -42,7 +42,7 @@ public final class CategoryFixture {
 
         try {
             object.put(CategoryJsonFactory.JsonKeys.ID, webServiceId);
-            object.put(CategoryJsonFactory.JsonKeys.NAME, "category name"); //$NON-NLS-1$
+            object.put(CategoryJsonFactory.JsonKeys.NAME, "category name");
         } catch (final JSONException e) {
             throw new AssertionError(e);
         }
@@ -62,6 +62,6 @@ public final class CategoryFixture {
      * Private constructor to prevent instantiation.
      */
     private CategoryFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

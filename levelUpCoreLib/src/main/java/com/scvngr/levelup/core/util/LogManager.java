@@ -38,12 +38,12 @@ public final class LogManager {
      * <p>
      * The format is: <Thread> <Class>.<method>(): <message>
      */
-    private static final String FORMAT = "%-30s%s.%s(): %s"; //$NON-NLS-1$
+    private static final String FORMAT = "%-30s%s.%s(): %s";
 
     /**
      * Log tag for use with {@link Log}.
      */
-    private static volatile String sLogTag = "LevelUp"; //$NON-NLS-1$
+    private static volatile String sLogTag = "LevelUp";
 
     /**
      * Initializes logging.
@@ -55,10 +55,10 @@ public final class LogManager {
      * @param context Application context.
      */
     public static void init(@NonNull final Context context) {
-        PreconditionUtil.assertNotNull(context, "context"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(context, "context");
 
         // Removing whitespace fixes issues with logcat filters
-        sLogTag = BuildUtil.getLabel(context).replace(" ", "");  //$NON-NLS-1$//$NON-NLS-2$
+        sLogTag = BuildUtil.getLabel(context).replace(" ", "");
 
         if (BuildConfig.DEBUG) {
             StrictModeUtil.setStrictMode(true);
@@ -290,6 +290,6 @@ public final class LogManager {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private LogManager() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

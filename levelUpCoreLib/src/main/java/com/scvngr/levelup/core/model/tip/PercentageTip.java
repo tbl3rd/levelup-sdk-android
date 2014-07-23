@@ -79,7 +79,7 @@ public final class PercentageTip extends Tip<PercentageTip> {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "PercentageTip(value=%s)", getValue()); //$NON-NLS-1$
+        return String.format(Locale.US, "PercentageTip(value=%s)", getValue());
     }
 
     /**

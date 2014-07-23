@@ -23,7 +23,7 @@ import com.scvngr.levelup.core.annotation.NonNull;
 @LevelUpApi(contract = Contract.INTERNAL)
 public final class IsoDateUtils {
 
-    private static final String ISO_DATETIME_TIME_ZONE_FORMAT_STRING = "yyyy-MM-dd'T'HH:mm:ssZZ"; //$NON-NLS-1$
+    private static final String ISO_DATETIME_TIME_ZONE_FORMAT_STRING = "yyyy-MM-dd'T'HH:mm:ssZZ";
 
     /**
      * Gets a new instance of {@link TimeZone} representing UTC.
@@ -32,7 +32,7 @@ public final class IsoDateUtils {
      */
     @NonNull
     public static TimeZone getTimeZoneUtc() {
-        return NullUtils.nonNullContract(TimeZone.getTimeZone("UTC")); //$NON-NLS-1$
+        return NullUtils.nonNullContract(TimeZone.getTimeZone("UTC"));
     }
 
     /**
@@ -75,6 +75,6 @@ public final class IsoDateUtils {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private IsoDateUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

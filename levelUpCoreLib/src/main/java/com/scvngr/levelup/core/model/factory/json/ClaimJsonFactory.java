@@ -55,22 +55,22 @@ public final class ClaimJsonFactory extends AbstractJsonModelFactory<Claim> {
          */
         @NonNull
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "claim"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "claim";
 
         @JsonValueType(JsonType.LONG)
-        public static final String CAMPAIGN_ID = "campaign_id"; //$NON-NLS-1$
+        public static final String CAMPAIGN_ID = "campaign_id";
 
         @JsonValueType(JsonType.STRING)
-        public static final String CODE = "code"; //$NON-NLS-1$
+        public static final String CODE = "code";
 
         @JsonValueType(JsonType.LONG)
-        public static final String ID = "id"; //$NON-NLS-1$
+        public static final String ID = "id";
 
         @JsonValueType(JsonType.LONG)
-        public static final String VALUE = "value_amount"; //$NON-NLS-1$
+        public static final String VALUE = "value_amount";
 
         @JsonValueType(JsonType.LONG)
-        public static final String VALUE_REMAINING = "value_remaining_amount"; //$NON-NLS-1$
+        public static final String VALUE_REMAINING = "value_remaining_amount";
 
         /**
          * Private constructor prevents instantiation.
@@ -78,7 +78,7 @@ public final class ClaimJsonFactory extends AbstractJsonModelFactory<Claim> {
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

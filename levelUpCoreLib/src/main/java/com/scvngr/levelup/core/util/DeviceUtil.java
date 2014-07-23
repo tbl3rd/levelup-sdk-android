@@ -19,13 +19,13 @@ import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 public final class DeviceUtil {
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String DENSITY_1X = "1"; //$NON-NLS-1$
+    /* package */static final String DENSITY_1X = "1";
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String DENSITY_1_5X = "1.5"; //$NON-NLS-1$
+    /* package */static final String DENSITY_1_5X = "1.5";
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String DENSITY_2X = "2"; //$NON-NLS-1$
+    /* package */static final String DENSITY_2X = "2";
 
     /**
      * Gets the string representing the device's screen density. This is mapped into the commonly
@@ -53,6 +53,6 @@ public final class DeviceUtil {
     }
 
     private DeviceUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable."); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable.");
     }
 }

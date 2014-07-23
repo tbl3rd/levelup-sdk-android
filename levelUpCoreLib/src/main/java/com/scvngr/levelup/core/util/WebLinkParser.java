@@ -39,69 +39,69 @@ public final class WebLinkParser {
      * Relation. Value should be a single quoted or unquoted relation type, or a quoted list of
      * space-separated relation types.
      */
-    public static final String PARAMETER_REL = "rel"; //$NON-NLS-1$
+    public static final String PARAMETER_REL = "rel";
 
     /**
      * Link anchor. Value should be a quoted URI reference.
      */
-    public static final String PARAMETER_ANCHOR = "anchor"; //$NON-NLS-1$
+    public static final String PARAMETER_ANCHOR = "anchor";
 
     /**
      * A reverse relation. The acceptable values are the same as {@link #PARAMETER_REL}.
      */
-    public static final String PARAMETER_REV = "rev"; //$NON-NLS-1$
+    public static final String PARAMETER_REV = "rev";
 
     /**
      * The language of the link.
      */
-    public static final String PARAMETER_HREFLANG = "hreflang"; //$NON-NLS-1$
+    public static final String PARAMETER_HREFLANG = "hreflang";
 
     /**
      * The media type, similar to \@media in CSS.
      */
-    public static final String PARAMETER_MEDIA = "media"; //$NON-NLS-1$
+    public static final String PARAMETER_MEDIA = "media";
 
     /**
      * The title of the resource.
      */
-    public static final String PARAMETER_TITLE = "title"; //$NON-NLS-1$
+    public static final String PARAMETER_TITLE = "title";
 
     /**
      * The extended title of the resource.
      */
-    public static final String PARAMETER_TITLE_STAR = "title*"; //$NON-NLS-1$
+    public static final String PARAMETER_TITLE_STAR = "title*";
 
     /**
      * The MIME type of the resource.
      */
-    public static final String PARAMETER_TYPE = "type"; //$NON-NLS-1$
+    public static final String PARAMETER_TYPE = "type";
 
     /**
      * the allowed characters below are from rfc5987 parmname.
      */
-    private static final String REGEX_PARMNAME = "[\\w!#$&+-.^`|~]+"; //$NON-NLS-1$
+    private static final String REGEX_PARMNAME = "[\\w!#$&+-.^`|~]+";
 
     /**
      * From RFC5988.
      */
-    private static final String REGEX_PTOKEN = "[\\w!#$%&'()*+-./:<=>?@\\[\\]^`{|}~]+"; //$NON-NLS-1$
+    private static final String REGEX_PTOKEN = "[\\w!#$%&'()*+-./:<=>?@\\[\\]^`{|}~]+";
 
     /**
      * A quoted string has one binding group in it.
      */
-    private static final String REGEX_QUOTED_STRING = "(?:\"([^\"]*)\")"; //$NON-NLS-1$
+    private static final String REGEX_QUOTED_STRING = "(?:\"([^\"]*)\")";
 
     /**
      * An individual link parameter.
      */
-    private static final String REGEX_PARAMETER = "\\s*;\\s*(" + REGEX_PARMNAME + ")\\s*=\\s*(?:" //$NON-NLS-1$ //$NON-NLS-2$
-            + REGEX_QUOTED_STRING + "|(" + REGEX_PTOKEN + "))"; //$NON-NLS-1$ //$NON-NLS-2$
+    private static final String REGEX_PARAMETER = "\\s*;\\s*(" + REGEX_PARMNAME + ")\\s*=\\s*(?:"
+            + REGEX_QUOTED_STRING + "|(" + REGEX_PTOKEN + "))";
 
     /**
      * Match the whole thing.
      */
     private static final Pattern WEB_LINK = Pattern
-            .compile("\\s*<\\s*([^>\\s]+)\\s*>((?:" + REGEX_PARAMETER + ")*)"); //$NON-NLS-1$ //$NON-NLS-2$
+            .compile("\\s*<\\s*([^>\\s]+)\\s*>((?:" + REGEX_PARAMETER + ")*)");
 
     /**
      * Matches an individual parameter.
@@ -140,7 +140,7 @@ public final class WebLinkParser {
             @NonNull final String headerValue) throws MalformedWebLinkException {
         final Matcher linkMatcher = WEB_LINK.matcher(headerValue);
         if (!linkMatcher.matches()) {
-            throw new MalformedWebLinkException("could not parse web link header"); //$NON-NLS-1$
+            throw new MalformedWebLinkException("could not parse web link header");
         }
 
         final Uri link;
@@ -191,7 +191,7 @@ public final class WebLinkParser {
 
             } catch (final URISyntaxException e) {
                 final MalformedWebLinkException mwle =
-                        new MalformedWebLinkException("malformed URI"); //$NON-NLS-1$
+                        new MalformedWebLinkException("malformed URI");
                 mwle.initCause(e);
                 throw mwle;
             }
@@ -290,12 +290,12 @@ public final class WebLinkParser {
 
         @Override
         public String toString() {
-            return String.format("WebLink [mLink=%s, mParameters=%s]", mLink, mParameters); //$NON-NLS-1$
+            return String.format("WebLink [mLink=%s, mParameters=%s]", mLink, mParameters);
         }
     }
 
     private WebLinkParser() {
-        throw new UnsupportedOperationException("this class cannot be instantiated"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("this class cannot be instantiated");
     }
 
     /**

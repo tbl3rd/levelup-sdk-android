@@ -42,7 +42,7 @@ public final class DistanceUtil {
                 break;
             default:
                 // If this is thrown, it's a programming error as all cases should be handled.
-                throw new IllegalArgumentException("unknown distance unit"); //$NON-NLS-1$
+                throw new IllegalArgumentException("unknown distance unit");
         }
 
         return result;
@@ -85,6 +85,6 @@ public final class DistanceUtil {
     }
 
     private DistanceUtil() {
-        throw new UnsupportedOperationException("this class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("this class is non-instantiable");
     }
 }

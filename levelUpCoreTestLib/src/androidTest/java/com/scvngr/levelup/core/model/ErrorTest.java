@@ -44,7 +44,7 @@ public final class ErrorTest extends SupportAndroidTestCase {
     public void testEqualsAndHashCode() {
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(ErrorJsonFactory.JsonKeys.class,
                 new ErrorJsonFactory(), ErrorFixture.getFullJsonObject(),
-                new String[] { "MODEL_ROOT" }); //$NON-NLS-1$
+                new String[] { "MODEL_ROOT" });
     }
 
     /**

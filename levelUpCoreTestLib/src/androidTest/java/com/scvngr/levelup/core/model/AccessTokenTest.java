@@ -67,7 +67,7 @@ public final class AccessTokenTest extends TestCase {
             // Different objects, different access tokens
             final AccessToken model1 = AccessTokenFixture.getFullModel(accessToken, userId);
             final AccessToken model2 =
-                    AccessTokenFixture.getFullModel(accessToken + "test", userId); //$NON-NLS-1$
+                    AccessTokenFixture.getFullModel(accessToken + "test", userId);
             MoreAsserts.checkEqualsAndHashCodeMethods(model1, model2, false);
         }
 
@@ -81,7 +81,7 @@ public final class AccessTokenTest extends TestCase {
         {
             // Different objects, different user ids and access tokens
             final AccessToken model1 = AccessTokenFixture.getFullModel(accessToken, userId);
-            final AccessToken model2 = AccessTokenFixture.getFullModel(accessToken + "test", //$NON-NLS-1$
+            final AccessToken model2 = AccessTokenFixture.getFullModel(accessToken + "test",
                     userId + 1);
             MoreAsserts.checkEqualsAndHashCodeMethods(model1, model2, false);
         }

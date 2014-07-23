@@ -25,7 +25,7 @@ import java.net.URL;
  */
 public final class TicketRequestFactoryTest extends SupportAndroidTestCase {
     @NonNull
-    private static final String MESSAGE_FIXTURE = "the tomato is an interesting fruit"; //$NON-NLS-1$
+    private static final String MESSAGE_FIXTURE = "the tomato is an interesting fruit";
 
     /**
      * Tests the constructor and expected invariants.
@@ -52,8 +52,8 @@ public final class TicketRequestFactoryTest extends SupportAndroidTestCase {
 
         assertNotNull(request);
         final URL url = request.getUrl(getContext());
-        assertTrue("hits /tickets endpoint", url.getPath() //$NON-NLS-1$
-                .endsWith("/tickets")); //$NON-NLS-1$
+        assertTrue("hits /tickets endpoint", url.getPath()
+                .endsWith("/tickets"));
         assertTrue(request.getRequestHeaders(getContext()).containsKey(
                 LevelUpRequest.HEADER_AUTHORIZATION));
 
@@ -61,12 +61,12 @@ public final class TicketRequestFactoryTest extends SupportAndroidTestCase {
                 .get(HTTP.CONTENT_TYPE));
 
         assertEquals(HttpMethod.POST, request.getMethod());
-        assertTrue(url.getPath().startsWith("/v14")); //$NON-NLS-1$
+        assertTrue(url.getPath().startsWith("/v14"));
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
             request.writeBodyToStream(getContext(), baos);
-            assertTrue("Has expected content", baos.toString().contains(MESSAGE_FIXTURE)); //$NON-NLS-1$
+            assertTrue("Has expected content", baos.toString().contains(MESSAGE_FIXTURE));
         } finally {
             baos.close();
         }

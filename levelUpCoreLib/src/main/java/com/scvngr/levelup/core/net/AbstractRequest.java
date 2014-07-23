@@ -95,8 +95,8 @@ public abstract class AbstractRequest implements Parcelable {
             @Nullable final Map<String, String> requestHeaders,
             @Nullable final Map<String, String> queryParams) {
 
-        PreconditionUtil.assertNotNull(method, "method"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(url, "url"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(method, "method");
+        PreconditionUtil.assertNotNull(url, "url");
 
         if (null != requestHeaders) {
             mRequestHeaders =
@@ -148,7 +148,7 @@ public abstract class AbstractRequest implements Parcelable {
 
         try {
             final List<NameValuePair> paramsList =
-                    URLEncodedUtils.parse(new URI(url.toString()), "utf-8"); //$NON-NLS-1$
+                    URLEncodedUtils.parse(new URI(url.toString()), "utf-8");
             params = new HashMap<String, String>(paramsList.size());
 
             for (final NameValuePair nvp : paramsList) {
@@ -156,8 +156,8 @@ public abstract class AbstractRequest implements Parcelable {
             }
         } catch (final URISyntaxException e) {
             // failsafe
-            LogManager.e(NullUtils.format("could not parse uri: '%s'. " //$NON-NLS-1$
-                    + "dropping query parameters.", url), e); //$NON-NLS-1$
+            LogManager.e(NullUtils.format("could not parse uri: '%s'. "
+                    + "dropping query parameters.", url), e);
         }
 
         return params;
@@ -174,7 +174,7 @@ public abstract class AbstractRequest implements Parcelable {
     @NonNull
     private static String stripQueryParameters(final Uri url) throws IllegalArgumentException {
         if (!url.isAbsolute() || !url.isHierarchical()) {
-            throw new IllegalArgumentException("Request URI must be an absolute URL"); //$NON-NLS-1$
+            throw new IllegalArgumentException("Request URI must be an absolute URL");
         }
 
         return NullUtils.nonNullContract(url.buildUpon().query(null).build().toString());
@@ -207,38 +207,38 @@ public abstract class AbstractRequest implements Parcelable {
     private void checkRep() {
         if (CoreLibConstants.IS_CHECKREP_ENABLED) {
             if (null == mMethod) {
-                throw new NullPointerException("mMethod cannot be null"); //$NON-NLS-1$
+                throw new NullPointerException("mMethod cannot be null");
             }
 
             if (null == mUrlString) {
-                throw new NullPointerException("mUrlString cannot be null"); //$NON-NLS-1$
+                throw new NullPointerException("mUrlString cannot be null");
             }
 
             if (null == mRequestHeaders) {
-                throw new NullPointerException("mUrlString cannot be null"); //$NON-NLS-1$
+                throw new NullPointerException("mUrlString cannot be null");
             }
 
             for (final Entry<String, String> entry : mRequestHeaders.entrySet()) {
                 if (null == entry.getKey()) {
-                    throw new NullPointerException("mRequestHeaders cannot contain null keys"); //$NON-NLS-1$
+                    throw new NullPointerException("mRequestHeaders cannot contain null keys");
                 }
 
                 if (null == entry.getValue()) {
-                    throw new NullPointerException("mRequestHeaders cannot contain null values"); //$NON-NLS-1$
+                    throw new NullPointerException("mRequestHeaders cannot contain null values");
                 }
             }
 
             if (null == mQueryParams) {
-                throw new NullPointerException("mQueryParams"); //$NON-NLS-1$
+                throw new NullPointerException("mQueryParams");
             }
 
             for (final Entry<String, String> entry : mQueryParams.entrySet()) {
                 if (null == entry.getKey()) {
-                    throw new NullPointerException("mQueryParams cannot contain null keys"); //$NON-NLS-1$
+                    throw new NullPointerException("mQueryParams cannot contain null keys");
                 }
 
                 if (null == entry.getValue()) {
-                    throw new NullPointerException("mQueryParams cannot contain null values"); //$NON-NLS-1$
+                    throw new NullPointerException("mQueryParams cannot contain null values");
                 }
             }
         }
@@ -297,9 +297,9 @@ public abstract class AbstractRequest implements Parcelable {
         try {
             url = new URL(builder.build().toString());
         } catch (final MalformedURLException e) {
-            LogManager.e("MalformedUrlException when getting request url", e); //$NON-NLS-1$
+            LogManager.e("MalformedUrlException when getting request url", e);
             final BadRequestException e2 =
-                    new BadRequestException("MalformedUrlException when getting request url"); //$NON-NLS-1$
+                    new BadRequestException("MalformedUrlException when getting request url");
             e2.initCause(e);
             throw e2;
         }
@@ -395,7 +395,7 @@ public abstract class AbstractRequest implements Parcelable {
     @Override
     public String toString() {
         return String.format(Locale.US,
-                "AbstractRequest [mMethod=%s, mUrlString=%s, mRequestHeaders=%s, mQueryParams=%s]", //$NON-NLS-1$
+                "AbstractRequest [mMethod=%s, mUrlString=%s, mRequestHeaders=%s, mQueryParams=%s]",
                 mMethod, mUrlString, mRequestHeaders, mQueryParams);
     }
 

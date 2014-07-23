@@ -49,7 +49,7 @@ public abstract class AbstractJsonModelFactory<T> {
      *        not be nested under a type key.
      */
     public AbstractJsonModelFactory(@NonNull final String typeKey) {
-        PreconditionUtil.assertNotNull(typeKey, "typeKey"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(typeKey, "typeKey");
         mTypeKey = typeKey;
     }
 
@@ -80,7 +80,7 @@ public abstract class AbstractJsonModelFactory<T> {
      */
     @NonNull
     public final List<T> fromList(@NonNull final JSONArray jsonArray) throws JSONException {
-        PreconditionUtil.assertNotNull(jsonArray, "jsonArray"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(jsonArray, "jsonArray");
 
         final int count = jsonArray.length();
         final List<T> objectList = new ArrayList<T>(count);
@@ -102,7 +102,7 @@ public abstract class AbstractJsonModelFactory<T> {
      */
     @NonNull
     public final T from(@NonNull final JSONObject jsonObject) throws JSONException {
-        PreconditionUtil.assertNotNull(jsonObject, "jsonObject"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(jsonObject, "jsonObject");
 
         JSONObject objectToParse = jsonObject;
 

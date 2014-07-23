@@ -55,10 +55,10 @@ public final class ParcelTestUtils {
     public static <T extends Parcelable> void
             assertParcelableRoundtrips(@NonNull final T parcelable) {
         final T result = feedThroughParceling(parcelable);
-        AndroidTestCase.assertNotNull("resulting Parcelable was null. ", result); //$NON-NLS-1$
-        AndroidTestCase.assertEquals("resulting Parcelable differs. ", parcelable, result); //$NON-NLS-1$
+        AndroidTestCase.assertNotNull("resulting Parcelable was null. ", result);
+        AndroidTestCase.assertEquals("resulting Parcelable differs. ", parcelable, result);
         AndroidTestCase.assertNotSame(
-                "Resulting Parcelable was the same object. ", parcelable, result); //$NON-NLS-1$
+                "Resulting Parcelable was the same object. ", parcelable, result);
     }
 
     private ParcelTestUtils() {

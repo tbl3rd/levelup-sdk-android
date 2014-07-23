@@ -87,6 +87,6 @@ public final class LoyaltyFixture {
      * Private constructor to prevent instantiation.
      */
     private LoyaltyFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

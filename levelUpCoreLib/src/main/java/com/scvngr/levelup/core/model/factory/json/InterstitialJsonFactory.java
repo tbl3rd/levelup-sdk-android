@@ -103,25 +103,25 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
          * The key under which this model can be nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "interstitial"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "interstitial";
 
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String ACTION = "action"; //$NON-NLS-1$
+        public static final String ACTION = "action";
 
         @JsonValueType(JsonType.STRING)
-        public static final String CALLOUT_TEXT = "callout_text"; //$NON-NLS-1$
+        public static final String CALLOUT_TEXT = "callout_text";
 
         @JsonValueType(JsonType.STRING)
-        public static final String DESCRIPTION_HTML = "description_html"; //$NON-NLS-1$
+        public static final String DESCRIPTION_HTML = "description_html";
 
         @JsonValueType(JsonType.STRING)
-        public static final String IMAGE_URL = "image_url"; //$NON-NLS-1$
+        public static final String IMAGE_URL = "image_url";
 
         @JsonValueType(JsonType.STRING)
-        public static final String TITLE = "title"; //$NON-NLS-1$
+        public static final String TITLE = "title";
 
         @JsonValueType(JsonType.STRING)
-        public static final String TYPE = "type"; //$NON-NLS-1$
+        public static final String TYPE = "type";
 
         /**
          * Private constructor prevents instantiation.
@@ -129,7 +129,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 
@@ -140,7 +140,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
     @SuppressWarnings("javadoc")
     public static final class ClaimActionJsonKeys {
         @JsonValueType(JsonType.STRING)
-        public static final String CODE = "code"; //$NON-NLS-1$
+        public static final String CODE = "code";
 
         /**
          * Private constructor prevents instantiation.
@@ -148,7 +148,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private ClaimActionJsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 
@@ -159,7 +159,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
     @SuppressWarnings("javadoc")
     public static final class FeedbackActionJsonKeys {
         @JsonValueType(JsonType.STRING)
-        public static final String QUESTION_TEXT = "question_text"; //$NON-NLS-1$
+        public static final String QUESTION_TEXT = "question_text";
 
         /**
          * Private constructor prevents instantiation.
@@ -167,7 +167,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private FeedbackActionJsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 
@@ -178,25 +178,25 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
     @SuppressWarnings("javadoc")
     public static final class ShareActionJsonKeys {
         @JsonValueType(JsonType.STRING)
-        public static final String MESSAGE_FOR_EMAIL_BODY = "message_for_email_body"; //$NON-NLS-1$
+        public static final String MESSAGE_FOR_EMAIL_BODY = "message_for_email_body";
 
         @JsonValueType(JsonType.STRING)
-        public static final String MESSAGE_FOR_EMAIL_SUBJECT = "message_for_email_subject"; //$NON-NLS-1$
+        public static final String MESSAGE_FOR_EMAIL_SUBJECT = "message_for_email_subject";
 
         @JsonValueType(JsonType.STRING)
-        public static final String MESSAGE_FOR_FACEBOOK = "message_for_facebook"; //$NON-NLS-1$
+        public static final String MESSAGE_FOR_FACEBOOK = "message_for_facebook";
 
         @JsonValueType(JsonType.STRING)
-        public static final String MESSAGE_FOR_TWITTER = "message_for_twitter"; //$NON-NLS-1$
+        public static final String MESSAGE_FOR_TWITTER = "message_for_twitter";
 
         @JsonValueType(JsonType.STRING)
-        public static final String SHARE_URL_EMAIL = "share_url_email"; //$NON-NLS-1$
+        public static final String SHARE_URL_EMAIL = "share_url_email";
 
         @JsonValueType(JsonType.STRING)
-        public static final String SHARE_URL_FACEBOOK = "share_url_facebook"; //$NON-NLS-1$
+        public static final String SHARE_URL_FACEBOOK = "share_url_facebook";
 
         @JsonValueType(JsonType.STRING)
-        public static final String SHARE_URL_TWITTER = "share_url_twitter"; //$NON-NLS-1$
+        public static final String SHARE_URL_TWITTER = "share_url_twitter";
 
         /**
          * Private constructor prevents instantiation.
@@ -204,7 +204,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private ShareActionJsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 
@@ -215,7 +215,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
     @SuppressWarnings("javadoc")
     public static final class UrlActionJsonKeys {
         @JsonValueType(JsonType.STRING)
-        public static final String URL = "url"; //$NON-NLS-1$
+        public static final String URL = "url";
 
         /**
          * Private constructor prevents instantiation.
@@ -223,7 +223,7 @@ public final class InterstitialJsonFactory extends AbstractJsonModelFactory<Inte
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private UrlActionJsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

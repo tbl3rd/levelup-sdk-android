@@ -28,7 +28,7 @@ public final class ThreadUtil {
      */
     @NonNull
     public static HandlerThread getHandlerThread(@NonNull final String name, final int priority) {
-        PreconditionUtil.assertNotNull(name, "name"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(name, "name");
 
         final HandlerThread thread = new HandlerThread(name, priority);
 
@@ -43,6 +43,6 @@ public final class ThreadUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private ThreadUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

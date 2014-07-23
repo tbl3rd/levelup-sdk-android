@@ -60,11 +60,11 @@ public final class CampaignFixture {
         try {
             object.put(CampaignJsonFactory.JsonKeys.ID, webServiceId);
             object.put(CampaignJsonFactory.JsonKeys.APPLIES_TO_ALL_MERCHANTS, true);
-            object.put(CampaignJsonFactory.JsonKeys.CONFIRMATION_HTML, "confirmation_html"); //$NON-NLS-1$
-            object.put(CampaignJsonFactory.JsonKeys.NAME, "name"); //$NON-NLS-1$
-            object.put(CampaignJsonFactory.JsonKeys.OFFER_HTML, "<h1>offer_html</h1>"); //$NON-NLS-1$
-            object.put(CampaignJsonFactory.JsonKeys.SPONSOR, "sponsor"); //$NON-NLS-1$
-            object.put(CampaignJsonFactory.JsonKeys.TYPE, "type"); //$NON-NLS-1$
+            object.put(CampaignJsonFactory.JsonKeys.CONFIRMATION_HTML, "confirmation_html");
+            object.put(CampaignJsonFactory.JsonKeys.NAME, "name");
+            object.put(CampaignJsonFactory.JsonKeys.OFFER_HTML, "<h1>offer_html</h1>");
+            object.put(CampaignJsonFactory.JsonKeys.SPONSOR, "sponsor");
+            object.put(CampaignJsonFactory.JsonKeys.TYPE, "type");
             object.put(CampaignJsonFactory.JsonKeys.VALUE, MonetaryValueFixture.getFullModel()
                     .getAmount());
         } catch (final JSONException e) {
@@ -104,15 +104,15 @@ public final class CampaignFixture {
         try {
             final JSONObject object = getMinimalJsonObject(webServiceId);
             object.put(CampaignJsonFactory.JsonKeys.MESSAGE_FOR_EMAIL_BODY,
-                    "message_for_email_body"); //$NON-NLS-1$
+                    "message_for_email_body");
             object.put(CampaignJsonFactory.JsonKeys.MESSAGE_FOR_EMAIL_SUBJECT,
-                    "message_for_email_subject"); //$NON-NLS-1$
-            object.put(CampaignJsonFactory.JsonKeys.MESSAGE_FOR_FACEBOOK, "message_for_facebook"); //$NON-NLS-1$
-            object.put(CampaignJsonFactory.JsonKeys.MESSAGE_FOR_TWITTER, "message_for_twitter"); //$NON-NLS-1$
+                    "message_for_email_subject");
+            object.put(CampaignJsonFactory.JsonKeys.MESSAGE_FOR_FACEBOOK, "message_for_facebook");
+            object.put(CampaignJsonFactory.JsonKeys.MESSAGE_FOR_TWITTER, "message_for_twitter");
             object.put(CampaignJsonFactory.JsonKeys.SHAREABLE, true);
-            object.put(CampaignJsonFactory.JsonKeys.SHARE_URL_EMAIL, "share_url_email"); //$NON-NLS-1$
-            object.put(CampaignJsonFactory.JsonKeys.SHARE_URL_FACEBOOK, "share_url_facebook"); //$NON-NLS-1$
-            object.put(CampaignJsonFactory.JsonKeys.SHARE_URL_TWITTER, "share_url_twitter"); //$NON-NLS-1$
+            object.put(CampaignJsonFactory.JsonKeys.SHARE_URL_EMAIL, "share_url_email");
+            object.put(CampaignJsonFactory.JsonKeys.SHARE_URL_FACEBOOK, "share_url_facebook");
+            object.put(CampaignJsonFactory.JsonKeys.SHARE_URL_TWITTER, "share_url_twitter");
             return object;
         } catch (final JSONException e) {
             throw new AssertionError(e);
@@ -123,6 +123,6 @@ public final class CampaignFixture {
      * Private constructor to prevent instantiation.
      */
     private CampaignFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

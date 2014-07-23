@@ -18,7 +18,7 @@ import com.scvngr.levelup.core.util.NullUtils;
 public final class RegistrationRequestFactoryTest extends SupportAndroidTestCase {
 
     @NonNull
-    private static final String TEST_EMAIL = "test@example.com"; //$NON-NLS-1$
+    private static final String TEST_EMAIL = "test@example.com";
 
     /**
      * Test {@link RegistrationRequestFactory#buildRegistrationRequest}.

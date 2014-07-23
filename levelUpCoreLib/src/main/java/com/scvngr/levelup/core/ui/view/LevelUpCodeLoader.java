@@ -90,7 +90,7 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
             @NonNull final String qrCodeContents,
             @Nullable final OnImageLoaded<LevelUpQrCodeImage> onImageLoaded) {
         if (Looper.getMainLooper() != Looper.myLooper()) {
-            throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
+            throw new AssertionError("Must be called from the main thread.");
         }
 
         final String key = getKey(qrCodeContents);
@@ -124,7 +124,7 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
      */
     public final void loadLevelUpCode(@NonNull final String codeData) {
         if (Looper.getMainLooper() != Looper.myLooper()) {
-            throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
+            throw new AssertionError("Must be called from the main thread.");
         }
 
         startLoadInBackground(codeData, getKey(codeData), null);

@@ -255,7 +255,7 @@ public abstract class LevelUpUnitTestCase<T extends FragmentActivity> extends
      */
     public void validateLoadersFinished(@NonNull final LoaderManager mgr) {
         final CountDownLatch latch = new CountDownLatch(1);
-        assertTrue("All loaders should have finished", TestThreadingUtils //$NON-NLS-1$
+        assertTrue("All loaders should have finished", TestThreadingUtils
                 .waitForAction(getInstrumentation(), getActivity(), new Runnable() {
 
                     @Override

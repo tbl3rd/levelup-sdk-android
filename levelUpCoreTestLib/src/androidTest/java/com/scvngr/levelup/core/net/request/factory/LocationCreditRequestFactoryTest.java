@@ -36,9 +36,9 @@ public final class LocationCreditRequestFactoryTest extends SupportAndroidTestCa
         assertNotNull(request);
         final URL url = request.getUrl(getContext());
         assertTrue("hits /locations/:id/credit endpoint",
-                url.getPath().contains("/locations/")); //$NON-NLS-1$
+                url.getPath().contains("/locations/"));
         assertTrue("hits /locations/:id/credit endpoint",
-                url.getPath().contains("/credit")); //$NON-NLS-1$
+                url.getPath().contains("/credit"));
         assertFalse(request.getRequestHeaders(getContext())
                 .containsKey(LevelUpRequest.HEADER_AUTHORIZATION));
 
@@ -46,7 +46,7 @@ public final class LocationCreditRequestFactoryTest extends SupportAndroidTestCa
                 request.getRequestHeaders(getContext()).get(HTTP.CONTENT_TYPE));
 
         assertEquals(HttpMethod.GET, request.getMethod());
-        assertTrue(url.getPath().startsWith("/v14")); //$NON-NLS-1$
+        assertTrue(url.getPath().startsWith("/v14"));
     }
 
     /**
@@ -63,9 +63,9 @@ public final class LocationCreditRequestFactoryTest extends SupportAndroidTestCa
         assertNotNull(request);
         final URL url = request.getUrl(getContext());
         assertTrue("hits /locations/:id/credit endpoint",
-                url.getPath().contains("/locations/")); //$NON-NLS-1$
+                url.getPath().contains("/locations/"));
         assertTrue("hits /locations/:id/credit endpoint",
-                url.getPath().contains("/credit")); //$NON-NLS-1$
+                url.getPath().contains("/credit"));
         assertTrue(request.getRequestHeaders(getContext())
                 .containsKey(LevelUpRequest.HEADER_AUTHORIZATION));
 
@@ -73,6 +73,6 @@ public final class LocationCreditRequestFactoryTest extends SupportAndroidTestCa
                 request.getRequestHeaders(getContext()).get(HTTP.CONTENT_TYPE));
 
         assertEquals(HttpMethod.GET, request.getMethod());
-        assertTrue(url.getPath().startsWith("/v15")); //$NON-NLS-1$
+        assertTrue(url.getPath().startsWith("/v15"));
     }
 }

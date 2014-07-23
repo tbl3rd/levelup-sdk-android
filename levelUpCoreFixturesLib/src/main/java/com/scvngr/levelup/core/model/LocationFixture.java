@@ -35,7 +35,7 @@ public final class LocationFixture {
     /**
      * Fixture merchant name.
      */
-    public static final String MERCHANT_NAME = "merchant_name"; //$NON-NLS-1$
+    public static final String MERCHANT_NAME = "merchant_name";
 
     /**
      * Gets a fully populated model.
@@ -106,26 +106,26 @@ public final class LocationFixture {
             final JSONObject object = getMinimalJsonObject(webServiceId);
             object.put(LocationJsonFactory.JsonKeys.CATEGORIES,
                     new JSONArray(Arrays.asList(2, 3, 5, 23)));
-            object.put(LocationJsonFactory.JsonKeys.EXTENDED_ADDRESS, "extended_address"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.FACEBOOK_URL, "facebook_url"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.FOODLER_URL, "foodler_url"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.HOURS, "hours"); //$NON-NLS-1$
+            object.put(LocationJsonFactory.JsonKeys.EXTENDED_ADDRESS, "extended_address");
+            object.put(LocationJsonFactory.JsonKeys.FACEBOOK_URL, "facebook_url");
+            object.put(LocationJsonFactory.JsonKeys.FOODLER_URL, "foodler_url");
+            object.put(LocationJsonFactory.JsonKeys.HOURS, "hours");
             object.put(LocationJsonFactory.JsonKeys.LATITUDE, LOCATION_LATITUDE);
             object.put(LocationJsonFactory.JsonKeys.LONGITUDE, LOCATION_LONGITUDE);
-            object.put(LocationJsonFactory.JsonKeys.LOCALITY, "locality"); //$NON-NLS-1$
+            object.put(LocationJsonFactory.JsonKeys.LOCALITY, "locality");
             object.put(LocationJsonFactory.JsonKeys.MERCHANT_ID, MERCHANT_ID);
             object.put(LocationJsonFactory.JsonKeys.MERCHANT_NAME, MERCHANT_NAME);
-            object.put(LocationJsonFactory.JsonKeys.MENU_URL, "menu_url"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.NAME, "name"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.NEWSLETTER_URL, "newsletter_url"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.OPENTABLE_URL, "opentable_url"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.PHONE, "phone"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.POSTAL_CODE, "postal_code"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.REGION, "region"); //$NON-NLS-1$
+            object.put(LocationJsonFactory.JsonKeys.MENU_URL, "menu_url");
+            object.put(LocationJsonFactory.JsonKeys.NAME, "name");
+            object.put(LocationJsonFactory.JsonKeys.NEWSLETTER_URL, "newsletter_url");
+            object.put(LocationJsonFactory.JsonKeys.OPENTABLE_URL, "opentable_url");
+            object.put(LocationJsonFactory.JsonKeys.PHONE, "phone");
+            object.put(LocationJsonFactory.JsonKeys.POSTAL_CODE, "postal_code");
+            object.put(LocationJsonFactory.JsonKeys.REGION, "region");
             object.put(LocationJsonFactory.JsonKeys.SHOWN, true);
-            object.put(LocationJsonFactory.JsonKeys.STREET_ADDRESS, "street_address"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.TWITTER_URL, "twitter_url"); //$NON-NLS-1$
-            object.put(LocationJsonFactory.JsonKeys.YELP_URL, "yelp_url"); //$NON-NLS-1$
+            object.put(LocationJsonFactory.JsonKeys.STREET_ADDRESS, "street_address");
+            object.put(LocationJsonFactory.JsonKeys.TWITTER_URL, "twitter_url");
+            object.put(LocationJsonFactory.JsonKeys.YELP_URL, "yelp_url");
             return object;
         } catch (final JSONException e) {
             throw new AssertionError(e);
@@ -144,6 +144,6 @@ public final class LocationFixture {
     }
 
     private LocationFixture() {
-        throw new UnsupportedOperationException("this class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("this class is non-instantiable");
     }
 }

@@ -69,7 +69,7 @@ public final class PaymentPreferencesV3 extends PaymentPreferences {
     /**
      * The sentinel string.
      */
-    private static final String SENTINEL = "LU"; //$NON-NLS-1$
+    private static final String SENTINEL = "LU";
 
     /**
      * The length of the sentinel when encoded.
@@ -112,7 +112,7 @@ public final class PaymentPreferencesV3 extends PaymentPreferences {
             try {
                 color = new BigInteger(colorCode, Character.MAX_RADIX).intValue();
             } catch (final NumberFormatException nfe) {
-                LogManager.i("Could not parse the color", nfe); //$NON-NLS-1$
+                LogManager.i("Could not parse the color", nfe);
             }
         }
 
@@ -130,7 +130,7 @@ public final class PaymentPreferencesV3 extends PaymentPreferences {
         final String tipStr = Integer.toString(tip.getEncodedValue(), Character.MAX_RADIX);
         if (tipStr.length() > TIP_LENGTH) {
             throw new IllegalArgumentException(String.format(Locale.US,
-                    "Tip can only be %d characters", TIP_LENGTH)); //$NON-NLS-1$
+                    "Tip can only be %d characters", TIP_LENGTH));
         }
 
         final StringBuilder builder = new StringBuilder(TOTAL_ENCODED_LENGTH);

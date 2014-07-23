@@ -22,7 +22,7 @@ public final class CorePreferenceUtil {
      */
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String KEY_PREFIX = "com.scvngr.levelup.core.storage.preference"; //$NON-NLS-1$
+    /* package */static final String KEY_PREFIX = "com.scvngr.levelup.core.storage.preference";
 
     /**
      * Type: {@code String}.
@@ -31,7 +31,7 @@ public final class CorePreferenceUtil {
      */
     @NonNull
     public static final String KEY_STRING_LAST_LOCATION_PAGE = KEY_PREFIX
-            + ".string_last_location_page"; //$NON-NLS-1$
+            + ".string_last_location_page";
 
     /**
      * Type: {@code String}.
@@ -40,7 +40,7 @@ public final class CorePreferenceUtil {
      */
     @NonNull
     public static final String KEY_STRING_LAST_APP_ID_LOCATION_PAGE = KEY_PREFIX
-            + ".string_last_app_id_location_page"; //$NON-NLS-1$
+            + ".string_last_app_id_location_page";
 
     /**
      * Type: {@code Long}.
@@ -49,7 +49,7 @@ public final class CorePreferenceUtil {
      */
     @NonNull
     public static final String KEY_STRING_USER_ID = KEY_PREFIX
-            + ".long_user_id"; //$NON-NLS-1$
+            + ".long_user_id";
 
     /**
      * Private constructor prevents instantiation.
@@ -57,6 +57,6 @@ public final class CorePreferenceUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private CorePreferenceUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

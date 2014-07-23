@@ -154,7 +154,7 @@ public abstract class AbstractResponse<T> {
     @Override
     public String toString() {
         // CHECKSTYLE:OFF long format string
-        return String.format("AbstractResponse [mHttpStatusCode=%s, mError=%s]", mHttpStatusCode, //$NON-NLS-1$
+        return String.format("AbstractResponse [mHttpStatusCode=%s, mError=%s]", mHttpStatusCode,
                 mError);
         // CHECKSTYLE:ON
     }

@@ -29,7 +29,7 @@ public final class StrictModeUtil {
      * @param name tag for the slow call.
      */
     public static void noteSlowCall(@NonNull final String name) {
-        PreconditionUtil.assertNotNull(name, "name"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(name, "name");
 
         if (EnvironmentUtil.isSdk11OrGreater()) {
             noteSlowCallHoneycomb(name);
@@ -67,6 +67,6 @@ public final class StrictModeUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private StrictModeUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

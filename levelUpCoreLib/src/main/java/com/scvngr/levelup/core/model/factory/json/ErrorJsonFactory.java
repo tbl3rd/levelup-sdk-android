@@ -53,35 +53,35 @@ public final class ErrorJsonFactory extends AbstractJsonModelFactory<Error> {
          */
         @JsonValueType(JsonType.JSON_OBJECT)
         @NonNull
-        public static final String MODEL_ROOT = "error"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "error";
 
         /**
          * The key in JSON where the error code can be parsed.
          */
         @JsonValueType(JsonType.STRING)
         @NonNull
-        public static final String CODE = "code"; //$NON-NLS-1$
+        public static final String CODE = "code";
 
         /**
          * The key in JSON where the error message can be parsed.
          */
         @JsonValueType(JsonType.STRING)
         @NonNull
-        public static final String MESSAGE = "message"; //$NON-NLS-1$
+        public static final String MESSAGE = "message";
 
         /**
          * The key in JSON where the error object can be parsed.
          */
         @JsonValueType(JsonType.STRING)
         @NonNull
-        public static final String OBJECT = "object"; //$NON-NLS-1$
+        public static final String OBJECT = "object";
 
         /**
          * The key in JSON where the error object property can be parsed.
          */
         @JsonValueType(JsonType.STRING)
         @NonNull
-        public static final String PROPERTY = "property"; //$NON-NLS-1$
+        public static final String PROPERTY = "property";
 
         /**
          * Private constructor prevents instantiation.
@@ -90,7 +90,7 @@ public final class ErrorJsonFactory extends AbstractJsonModelFactory<Error> {
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

@@ -29,7 +29,7 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
     public void testJsonParse_claimAction() throws JSONException {
         final Interstitial interstitial =
                 mFactory.from(InterstitialFixture.getClaimActionJsonObject());
-        assertEquals("claim", interstitial.getType()); //$NON-NLS-1$
+        assertEquals("claim", interstitial.getType());
         assertTrue(interstitial.getAction() instanceof ClaimAction);
     }
 
@@ -37,7 +37,7 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
     public void testJsonParse_shareAction() throws JSONException {
         final Interstitial interstitial =
                 mFactory.from(InterstitialFixture.getShareActionJsonObject());
-        assertEquals("share", interstitial.getType()); //$NON-NLS-1$
+        assertEquals("share", interstitial.getType());
         assertTrue(interstitial.getAction() instanceof ShareAction);
     }
 
@@ -45,7 +45,7 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
     public void testJsonParse_feedbackAction() throws JSONException {
         final Interstitial interstitial =
                 mFactory.from(InterstitialFixture.getFeedbackActionJsonObject());
-        assertEquals("feedback", interstitial.getType()); //$NON-NLS-1$
+        assertEquals("feedback", interstitial.getType());
         assertTrue(interstitial.getAction() instanceof FeedbackAction);
     }
 
@@ -53,17 +53,17 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
     public void testJsonParse_urlAction() throws JSONException {
         final Interstitial interstitial =
                 mFactory.from(InterstitialFixture.getUrlActionJsonObject());
-        assertEquals("url", interstitial.getType()); //$NON-NLS-1$
+        assertEquals("url", interstitial.getType());
         assertTrue(interstitial.getAction() instanceof UrlAction);
     }
 
     @SmallTest
     public void testJsonParse_minimal_object() throws JSONException {
         final Interstitial interstitial = mFactory.from(InterstitialFixture.getMinimalJsonObject());
-        assertEquals("description_html", interstitial.getDescriptionHtml()); //$NON-NLS-1$
+        assertEquals("description_html", interstitial.getDescriptionHtml());
         assertEquals(InterstitialFixture.TEST_IMAGE_URL, interstitial.getImageUrl());
-        assertEquals("title", interstitial.getTitle()); //$NON-NLS-1$
-        assertEquals("type", interstitial.getType()); //$NON-NLS-1$
+        assertEquals("title", interstitial.getTitle());
+        assertEquals("type", interstitial.getType());
         assertNull(interstitial.getAction());
     }
 
@@ -71,7 +71,7 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
     public void testParseAction_noActionKey() throws JSONException {
         final JsonModelHelper helper = new JsonModelHelper(new JSONObject());
 
-        assertNull(InterstitialJsonFactory.parseAction(helper, "type")); //$NON-NLS-1$
+        assertNull(InterstitialJsonFactory.parseAction(helper, "type"));
     }
 
     @SmallTest
@@ -81,13 +81,13 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
         final ShareAction action =
                 (ShareAction) InterstitialJsonFactory.parseAction(mh, Interstitial.TYPE_SHARE);
         assertNotNull(action);
-        assertEquals("message_for_email_body", action.getMessageForEmailBody()); //$NON-NLS-1$
-        assertEquals("message_for_email_subject", action.getMessageForEmailSubject()); //$NON-NLS-1$
-        assertEquals("message_for_facebook", action.getMessageForFacebook()); //$NON-NLS-1$
-        assertEquals("message_for_twitter", action.getMessageForTwitter()); //$NON-NLS-1$
-        assertEquals("share_url_email", action.getShareUrlEmail()); //$NON-NLS-1$
-        assertEquals("share_url_facebook", action.getShareUrlFacebook()); //$NON-NLS-1$
-        assertEquals("share_url_twitter", action.getShareUrlTwitter()); //$NON-NLS-1$
+        assertEquals("message_for_email_body", action.getMessageForEmailBody());
+        assertEquals("message_for_email_subject", action.getMessageForEmailSubject());
+        assertEquals("message_for_facebook", action.getMessageForFacebook());
+        assertEquals("message_for_twitter", action.getMessageForTwitter());
+        assertEquals("share_url_email", action.getShareUrlEmail());
+        assertEquals("share_url_facebook", action.getShareUrlFacebook());
+        assertEquals("share_url_twitter", action.getShareUrlTwitter());
     }
 
     @SmallTest
@@ -100,7 +100,7 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
                 NullUtils.nonNullContract((FeedbackAction) InterstitialJsonFactory.parseAction(mh,
                         Interstitial.TYPE_FEEDBACK));
         assertNotNull(action);
-        assertEquals("question_prompt", action.getQuestionText()); //$NON-NLS-1$
+        assertEquals("question_prompt", action.getQuestionText());
     }
 
     @SmallTest
@@ -110,7 +110,7 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
         final ClaimAction action =
                 (ClaimAction) InterstitialJsonFactory.parseAction(mh, Interstitial.TYPE_CLAIM);
         assertNotNull(action);
-        assertEquals("code", action.getCode()); //$NON-NLS-1$
+        assertEquals("code", action.getCode());
     }
 
     @SmallTest

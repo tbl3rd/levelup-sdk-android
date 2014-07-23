@@ -22,11 +22,11 @@ public final class LogManagerTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testLog_without_formatters() {
-        LogManager.v("Test message"); //$NON-NLS-1$
-        LogManager.d("Test message"); //$NON-NLS-1$
-        LogManager.i("Test message"); //$NON-NLS-1$
-        LogManager.w("Test message"); //$NON-NLS-1$
-        LogManager.e("Test message"); //$NON-NLS-1$
+        LogManager.v("Test message");
+        LogManager.d("Test message");
+        LogManager.i("Test message");
+        LogManager.w("Test message");
+        LogManager.e("Test message");
     }
 
     /**
@@ -34,11 +34,11 @@ public final class LogManagerTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testLog_with_formatters_int() {
-        LogManager.v("Test %d", 1); //$NON-NLS-1$
-        LogManager.d("Test %d", 1); //$NON-NLS-1$
-        LogManager.i("Test %d", 1); //$NON-NLS-1$
-        LogManager.w("Test %d", 1); //$NON-NLS-1$
-        LogManager.e("Test %d", 1); //$NON-NLS-1$
+        LogManager.v("Test %d", 1);
+        LogManager.d("Test %d", 1);
+        LogManager.i("Test %d", 1);
+        LogManager.w("Test %d", 1);
+        LogManager.e("Test %d", 1);
     }
 
     /**
@@ -46,11 +46,11 @@ public final class LogManagerTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testLog_with_formatters_string() {
-        LogManager.v("Test %s", "stringy"); //$NON-NLS-1$ //$NON-NLS-2$
-        LogManager.d("Test %s", "stringy"); //$NON-NLS-1$ //$NON-NLS-2$
-        LogManager.i("Test %s", "stringy"); //$NON-NLS-1$ //$NON-NLS-2$
-        LogManager.w("Test %s", "stringy"); //$NON-NLS-1$ //$NON-NLS-2$
-        LogManager.e("Test %s", "stringy"); //$NON-NLS-1$ //$NON-NLS-2$
+        LogManager.v("Test %s", "stringy");
+        LogManager.d("Test %s", "stringy");
+        LogManager.i("Test %s", "stringy");
+        LogManager.w("Test %s", "stringy");
+        LogManager.e("Test %s", "stringy");
     }
 
     /**
@@ -58,11 +58,11 @@ public final class LogManagerTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testLog_with_formatters_object() {
-        LogManager.v("Test %s", new Object()); //$NON-NLS-1$
-        LogManager.d("Test %s", new Object()); //$NON-NLS-1$
-        LogManager.i("Test %s", new Object()); //$NON-NLS-1$
-        LogManager.w("Test %s", new Object()); //$NON-NLS-1$
-        LogManager.e("Test %s", new Object()); //$NON-NLS-1$
+        LogManager.v("Test %s", new Object());
+        LogManager.d("Test %s", new Object());
+        LogManager.i("Test %s", new Object());
+        LogManager.w("Test %s", new Object());
+        LogManager.e("Test %s", new Object());
     }
 
     /**
@@ -70,11 +70,11 @@ public final class LogManagerTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testLog_with_formatters_null() {
-        LogManager.v("Test %s", (Object[]) null); //$NON-NLS-1$
-        LogManager.d("Test %s", (Object[]) null); //$NON-NLS-1$
-        LogManager.i("Test %s", (Object[]) null); //$NON-NLS-1$
-        LogManager.w("Test %s", (Object[]) null); //$NON-NLS-1$
-        LogManager.e("Test %s", (Object[]) null); //$NON-NLS-1$
+        LogManager.v("Test %s", (Object[]) null);
+        LogManager.d("Test %s", (Object[]) null);
+        LogManager.i("Test %s", (Object[]) null);
+        LogManager.w("Test %s", (Object[]) null);
+        LogManager.e("Test %s", (Object[]) null);
     }
 
     /**
@@ -82,12 +82,12 @@ public final class LogManagerTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testLog_with_exceptions() {
-        final Exception e = new RuntimeException("foo"); //$NON-NLS-1$
+        final Exception e = new RuntimeException("foo");
 
-        LogManager.v("Test", e); //$NON-NLS-1$
-        LogManager.d("Test", e); //$NON-NLS-1$
-        LogManager.i("Test", e); //$NON-NLS-1$
-        LogManager.w("Test", e); //$NON-NLS-1$
-        LogManager.e("Test", e); //$NON-NLS-1$
+        LogManager.v("Test", e);
+        LogManager.d("Test", e);
+        LogManager.i("Test", e);
+        LogManager.w("Test", e);
+        LogManager.e("Test", e);
     }
 }

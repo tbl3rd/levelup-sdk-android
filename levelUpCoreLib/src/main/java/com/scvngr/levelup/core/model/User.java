@@ -70,7 +70,7 @@ public final class User implements Parcelable {
                 return FEMALE;
             } else {
                 if (null != genderString) {
-                    LogManager.v("Gender string %s was not recognized", genderString); //$NON-NLS-1$
+                    LogManager.v("Gender string %s was not recognized", genderString);
                 }
                 return null;
             }

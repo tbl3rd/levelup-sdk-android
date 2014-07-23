@@ -63,9 +63,9 @@ public final class AppFactoryTest extends SupportAndroidTestCase {
         try {
             final AppJsonFactory factory = new AppJsonFactory();
             final JsonObject invalidApp = AppFixture.getMinimalJsonObject();
-            invalidApp.getAsJsonObject(AppJsonFactory.MODEL_ROOT).remove("name"); //$NON-NLS-1$
+            invalidApp.getAsJsonObject(AppJsonFactory.MODEL_ROOT).remove("name");
             factory.createFrom(invalidApp);
-            fail("Exception should have been thrown"); //$NON-NLS-1$
+            fail("Exception should have been thrown");
         } catch (final JsonParseException e) {
             // Expected exception
         }

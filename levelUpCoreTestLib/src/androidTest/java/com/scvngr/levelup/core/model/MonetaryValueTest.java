@@ -44,15 +44,15 @@ public final class MonetaryValueTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testGetFormattedMoney() {
-        assertEquals("$89.99", MonetaryValue.getFormattedMoney(getContext(), "$", 8999)); //$NON-NLS-1$ //$NON-NLS-2$
-        assertEquals("€10.00", MonetaryValue.getFormattedMoney(getContext(), "€", 1000)); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("$89.99", MonetaryValue.getFormattedMoney(getContext(), "$", 8999));
+        assertEquals("€10.00", MonetaryValue.getFormattedMoney(getContext(), "€", 1000));
     }
 
     @SmallTest
     public void getFormattedMoneyNoDecimal() {
-        assertEquals("$89", MonetaryValue.getFormattedMoneyNoDecimal(getContext(), "$", 8999)); //$NON-NLS-1$ //$NON-NLS-2$
-        assertEquals("€10", MonetaryValue.getFormattedMoneyNoDecimal(getContext(), "€", 1001)); //$NON-NLS-1$ //$NON-NLS-2$
-        assertEquals("€1", MonetaryValue.getFormattedMoneyNoDecimal(getContext(), "€", 999)); //$NON-NLS-1$ //$NON-NLS-2$
-        assertEquals("€1", MonetaryValue.getFormattedMoneyNoDecimal(getContext(), "€", 999)); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("$89", MonetaryValue.getFormattedMoneyNoDecimal(getContext(), "$", 8999));
+        assertEquals("€10", MonetaryValue.getFormattedMoneyNoDecimal(getContext(), "€", 1001));
+        assertEquals("€1", MonetaryValue.getFormattedMoneyNoDecimal(getContext(), "€", 999));
+        assertEquals("€1", MonetaryValue.getFormattedMoneyNoDecimal(getContext(), "€", 999));
     }
 }

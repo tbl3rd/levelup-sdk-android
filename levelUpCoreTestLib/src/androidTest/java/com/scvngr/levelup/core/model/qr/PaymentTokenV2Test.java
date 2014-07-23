@@ -17,18 +17,18 @@ import com.scvngr.levelup.core.test.SupportAndroidTestCase;
  */
 public class PaymentTokenV2Test extends SupportAndroidTestCase {
 
-    public static final String V2_CODE = "LU0201234671234567890123030012LU"; //$NON-NLS-1$
-    public static final String V2_CODE_WITHOUT_PREFERENCES = "LU0201234671234567890123"; //$NON-NLS-1$
+    public static final String V2_CODE = "LU0201234671234567890123030012LU";
+    public static final String V2_CODE_WITHOUT_PREFERENCES = "LU0201234671234567890123";
     /**
      * Keep in step with {@link #V2_CODE}
      */
     public static final int V2_CODE_CODE_COLOR_INDEX = 2;
-    public static final String V3_CODE = "LU0301234671234567890123030012LU"; //$NON-NLS-1$
-    public static final String V2_CODE_INVALID_COLOR = "LU020123467123456789012303001ALU"; //$NON-NLS-1$
-    public static final String V2_CODE_NEWER_PAYMENT_PREFERENCES_VERSION = "LU0201234671234567890123040012LU"; //$NON-NLS-1$
-    public static final String V2_CODE_INVALID_TOO_LONG = "LU020123467123456789012301001200000LU"; //$NON-NLS-1$
-    public static final String V2_CODE_INVALID_TOO_SHORT = "LU0201234671234589012LU"; //$NON-NLS-1$
-    public static final String V2_CODE_INVALID_UNRECOGNIZED_VERSION = "LU0001234671234567890123010012LU"; //$NON-NLS-1$
+    public static final String V3_CODE = "LU0301234671234567890123030012LU";
+    public static final String V2_CODE_INVALID_COLOR = "LU020123467123456789012303001ALU";
+    public static final String V2_CODE_NEWER_PAYMENT_PREFERENCES_VERSION = "LU0201234671234567890123040012LU";
+    public static final String V2_CODE_INVALID_TOO_LONG = "LU020123467123456789012301001200000LU";
+    public static final String V2_CODE_INVALID_TOO_SHORT = "LU0201234671234589012LU";
+    public static final String V2_CODE_INVALID_UNRECOGNIZED_VERSION = "LU0001234671234567890123010012LU";
 
     private static final int CODE_LENGTH = 32;
     private static final int CODE_VERSION = 2;
@@ -81,14 +81,14 @@ public class PaymentTokenV2Test extends SupportAndroidTestCase {
     @SmallTest
     public void testEncodePaymentPreferences_basic() {
         final PaymentTokenV2 code = new PaymentTokenV2(V2_CODE_WITHOUT_PREFERENCES);
-        assertEquals("LU0201234671234567890123030011LU", code.encodePaymentPreferences(1, //$NON-NLS-1$
+        assertEquals("LU0201234671234567890123030011LU", code.encodePaymentPreferences(1,
                 new PercentageTip(1)));
     }
 
     @SmallTest
     public void testEncodePaymentPreferences_basic2() {
         final PaymentTokenV2 code = new PaymentTokenV2(V2_CODE_WITHOUT_PREFERENCES);
-        assertEquals("LU02012346712345678901230300B2LU", code.encodePaymentPreferences(2, //$NON-NLS-1$
+        assertEquals("LU02012346712345678901230300B2LU", code.encodePaymentPreferences(2,
                 new PercentageTip(11)));
     }
 

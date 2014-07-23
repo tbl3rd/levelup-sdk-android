@@ -14,7 +14,7 @@ public final class Constants {
     /**
      * Example URL used for tests.
      */
-    public static final String URL_EXAMPLE = "http://www.example.com/"; //$NON-NLS-1$
+    public static final String URL_EXAMPLE = "http://www.example.com/";
 
     /**
      * Private constructor prevents instantiation.
@@ -22,6 +22,6 @@ public final class Constants {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private Constants() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

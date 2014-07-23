@@ -16,7 +16,7 @@ public final class TicketFixture {
      * The message for {@link Ticket#getBody}.
      */
     @NonNull
-    public static final String MESSAGE_FIXTURE = "How is babby formed?"; //$NON-NLS-1$
+    public static final String MESSAGE_FIXTURE = "How is babby formed?";
 
     /**
      * @return a fully-populated {@link Ticket}.
@@ -41,9 +41,9 @@ public final class TicketFixture {
     @NonNull
     public static JsonObject getJsonModel(@NonNull final String message) {
         final JsonObject ticket = new JsonObject();
-        ticket.addProperty("body", message); //$NON-NLS-1$
+        ticket.addProperty("body", message);
         final JsonObject expected = new JsonObject();
-        expected.add("ticket", ticket); //$NON-NLS-1$
+        expected.add("ticket", ticket);
 
         return expected;
     }
@@ -52,6 +52,6 @@ public final class TicketFixture {
      * Private constructor to prevent instantiation.
      */
     private TicketFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

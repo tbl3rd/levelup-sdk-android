@@ -31,8 +31,8 @@ public final class LocationListRequestFactoryTest extends SupportAndroidTestCase
         assertEquals(0, request.getBodyLength(getContext()));
         final String requestString = request.getUrlString(getContext());
         assertNotNull(requestString);
-        assertTrue(requestString.endsWith("/locations")); //$NON-NLS-1$
-        assertTrue("hits the v14 endpoints", requestString //$NON-NLS-1$
+        assertTrue(requestString.endsWith("/locations"));
+        assertTrue("hits the v14 endpoints", requestString
                 .contains(LevelUpRequest.API_VERSION_CODE_V14));
     }
 

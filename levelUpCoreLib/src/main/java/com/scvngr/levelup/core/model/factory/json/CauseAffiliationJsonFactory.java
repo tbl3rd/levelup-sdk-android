@@ -52,15 +52,15 @@ public final class CauseAffiliationJsonFactory extends AbstractJsonModelFactory<
          */
         @JsonValueType(JsonType.JSON_OBJECT)
         @NonNull
-        public static final String MODEL_ROOT = "cause_affiliation"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "cause_affiliation";
 
         @JsonValueType(JsonType.LONG)
         @NonNull
-        public static final String ID = "cause_id"; //$NON-NLS-1$
+        public static final String ID = "cause_id";
 
         @JsonValueType(JsonType.DOUBLE)
         @NonNull
-        public static final String PERCENT_DONATION = "percent_donation"; //$NON-NLS-1$
+        public static final String PERCENT_DONATION = "percent_donation";
 
         /**
          * Private constructor prevents instantiation.
@@ -68,7 +68,7 @@ public final class CauseAffiliationJsonFactory extends AbstractJsonModelFactory<
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

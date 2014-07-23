@@ -30,6 +30,6 @@ public final class StrictModeUtilTest extends SupportAndroidTestCase {
          * to check see if a slow call is noted within the test framework.
          */
 
-        StrictModeUtil.noteSlowCall("test"); //$NON-NLS-1$
+        StrictModeUtil.noteSlowCall("test");
     }
 }

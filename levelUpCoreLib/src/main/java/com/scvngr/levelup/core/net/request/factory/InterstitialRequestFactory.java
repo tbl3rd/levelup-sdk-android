@@ -51,7 +51,7 @@ public final class InterstitialRequestFactory extends AbstractRequestFactory {
     public AbstractRequest buildInterstitialForOrderRequest(@NonNull final String orderUuid) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
                 LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format(
-                        "orders/%s/interstitial", orderUuid), null, null, //$NON-NLS-1$
+                        "orders/%s/interstitial", orderUuid), null, null,
                 getAccessTokenRetriever());
     }
 

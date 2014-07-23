@@ -30,7 +30,7 @@ public final class DeviceIdentifier {
      */
     @Nullable
     public static String getDeviceId(@NonNull final Context context) {
-        PreconditionUtil.assertNotNull(context, "context"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(context, "context");
 
         /*
          * NOTE: In the past, some buggy API level 8 devices would all return the same ANDROID_ID.
@@ -40,7 +40,7 @@ public final class DeviceIdentifier {
         final String deviceId =
                 Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        LogManager.v("Device ID is %s", deviceId); //$NON-NLS-1$
+        LogManager.v("Device ID is %s", deviceId);
 
         return deviceId;
     }
@@ -51,6 +51,6 @@ public final class DeviceIdentifier {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private DeviceIdentifier() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

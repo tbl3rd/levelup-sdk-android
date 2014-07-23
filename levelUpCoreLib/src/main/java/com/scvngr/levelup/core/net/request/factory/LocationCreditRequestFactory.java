@@ -28,7 +28,7 @@ public final class LocationCreditRequestFactory extends AbstractRequestFactory {
      * Web service endpoint.
      */
     @NonNull
-    protected static final String ENDPOINT = "locations/%s/credit"; //$NON-NLS-1$
+    protected static final String ENDPOINT = "locations/%s/credit";
 
     /**
      * @param context the Application context.

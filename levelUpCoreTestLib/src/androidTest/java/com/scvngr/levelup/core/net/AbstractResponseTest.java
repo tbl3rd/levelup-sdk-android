@@ -36,37 +36,37 @@ public final class AbstractResponseTest extends SupportAndroidTestCase {
     @SmallTest
     public void testConstructor_withHttpHeaders() {
         final Map<String, List<String>> headers = new HashMap<String, List<String>>();
-        final String contentLength = "Content-Length"; //$NON-NLS-1$
-        final String contentType = "Content-Type"; //$NON-NLS-1$
-        final String emptyList = "Empty-List"; //$NON-NLS-1$
-        headers.put(contentLength, Arrays.asList(new String[] { "0" })); //$NON-NLS-1$
+        final String contentLength = "Content-Length";
+        final String contentType = "Content-Type";
+        final String emptyList = "Empty-List";
+        headers.put(contentLength, Arrays.asList(new String[] { "0" }));
 
         // Pretend that there are accidentally two headers.
-        headers.put(contentType, Arrays.asList(new String[] { "application/json", "text/plain" })); //$NON-NLS-1$ //$NON-NLS-2$
+        headers.put(contentType, Arrays.asList(new String[] { "application/json", "text/plain" }));
 
         // Empty list.
         headers.put(emptyList, Arrays.asList(new String[] {}));
 
-        headers.put("X-Foo", null); //$NON-NLS-1$
+        headers.put("X-Foo", null);
 
         final AbstractResponseUnderTest response =
                 new AbstractResponseUnderTest(HttpStatus.SC_OK, Collections
                         .unmodifiableMap(headers), null);
 
-        assertEquals("0", response.getHttpHeader(contentLength)); //$NON-NLS-1$
-        assertNull(response.getHttpHeader("content-length")); // does not normalize yet //$NON-NLS-1$
-        assertNull(response.getHttpHeader("X-Kitteh")); //$NON-NLS-1$
-        assertNull(response.getHttpHeader("X-Foo")); //$NON-NLS-1$
+        assertEquals("0", response.getHttpHeader(contentLength));
+        assertNull(response.getHttpHeader("content-length")); // does not normalize yet
+        assertNull(response.getHttpHeader("X-Kitteh"));
+        assertNull(response.getHttpHeader("X-Foo"));
         assertNull(response.getHttpHeader(emptyList));
 
-        assertEquals("application/json", response.getHttpHeader(contentType)); //$NON-NLS-1$
+        assertEquals("application/json", response.getHttpHeader(contentType));
     }
 
     @SmallTest
     public void testConstructor_nullHttpHeaders() {
         final AbstractResponseUnderTest response =
                 new AbstractResponseUnderTest(HttpStatus.SC_OK, null, null);
-        assertNull(response.getHttpHeader("X-Foo")); //$NON-NLS-1$
+        assertNull(response.getHttpHeader("X-Foo"));
     }
 
     private static final class AbstractResponseUnderTest extends AbstractResponse<Object> {

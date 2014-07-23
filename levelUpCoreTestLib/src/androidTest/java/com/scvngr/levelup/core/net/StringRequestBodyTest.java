@@ -16,13 +16,13 @@ public final class StringRequestBodyTest extends AbstractRequestBodyTest<StringR
      */
     @NonNull
     public static final String FIXTURE_BODY =
-            "A crowd of people, and at the center, a popular misconception.भा𠜎"; //$NON-NLS-1$
+            "A crowd of people, and at the center, a popular misconception.भा𠜎";
 
     /**
      * Content type fixture.
      */
     @NonNull
-    public static final String FIXTURE_CONTENT_TYPE = "text/rfk"; //$NON-NLS-1$
+    public static final String FIXTURE_CONTENT_TYPE = "text/rfk";
 
     /**
      * Concrete implementation of {@link com.scvngr.levelup.core.net.StringRequestBody}.

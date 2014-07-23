@@ -46,21 +46,21 @@ public final class LocationCreditJsonFactory extends AbstractJsonModelFactory<Lo
          */
         @JsonValueType(JsonType.JSON_OBJECT)
         @NonNull
-        public static final String MODEL_ROOT = "credit"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "credit";
 
         /**
          * The credit available from the merchant.
          */
         @JsonValueType(JsonType.LONG)
         @NonNull
-        public static final String MERCHANT_AMOUNT = "merchant_funded_credit_amount"; //$NON-NLS-1$
+        public static final String MERCHANT_AMOUNT = "merchant_funded_credit_amount";
 
         /**
          * The total credit availble.
          */
         @JsonValueType(JsonType.LONG)
         @NonNull
-        public static final String TOTAL_AMOUNT = "total_amount"; //$NON-NLS-1$
+        public static final String TOTAL_AMOUNT = "total_amount";
 
         /**
          * Private constructor prevents instantiation.
@@ -68,7 +68,7 @@ public final class LocationCreditJsonFactory extends AbstractJsonModelFactory<Lo
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

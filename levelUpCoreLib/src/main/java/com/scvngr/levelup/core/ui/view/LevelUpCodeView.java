@@ -346,7 +346,7 @@ public final class LevelUpCodeView extends View {
             @NonNull final LevelUpCodeLoader codeLoader) {
 
         if (Looper.getMainLooper() != Looper.myLooper()) {
-            throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
+            throw new AssertionError("Must be called from the main thread.");
         }
 
         if (null == mCurrentData && mIsFadeColorsSet) {

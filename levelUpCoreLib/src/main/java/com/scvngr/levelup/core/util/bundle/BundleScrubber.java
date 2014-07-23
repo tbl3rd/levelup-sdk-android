@@ -60,7 +60,7 @@ public final class BundleScrubber {
             // if a private serializable exists, this will throw an exception
             bundle.containsKey(null);
         } catch (final Exception e) {
-            LogManager.e("Private serializable attack detected; deleting all extras", e); //$NON-NLS-1$
+            LogManager.e("Private serializable attack detected; deleting all extras", e);
 
             bundle.clear();
             return true;
@@ -75,6 +75,6 @@ public final class BundleScrubber {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private BundleScrubber() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

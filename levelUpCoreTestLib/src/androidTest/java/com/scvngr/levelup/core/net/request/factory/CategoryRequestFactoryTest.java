@@ -45,6 +45,6 @@ public final class CategoryRequestFactoryTest extends SupportAndroidTestCase {
         final String path = request.getUrl(context).getPath();
         assertNotNull(path);
         assertTrue(path.contains(LevelUpRequest.API_VERSION_CODE_V14));
-        assertTrue(path.endsWith("categories")); //$NON-NLS-1$
+        assertTrue(path.endsWith("categories"));
     }
 }

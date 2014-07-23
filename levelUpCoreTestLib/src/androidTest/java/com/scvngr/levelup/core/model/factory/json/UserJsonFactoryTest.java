@@ -55,7 +55,7 @@ public final class UserJsonFactoryTest extends SupportAndroidTestCase {
             object.getJSONObject(UserJsonFactory.JsonKeys.MODEL_ROOT).remove(
                     UserJsonFactory.JsonKeys.ID);
             new UserJsonFactory().from(object);
-            fail("no ID field should throw error"); //$NON-NLS-1$
+            fail("no ID field should throw error");
         } catch (final JSONException e) {
             // Expected exception
         }

@@ -24,7 +24,7 @@ public final class CryptographicHashUtil {
      * Text encoding for UTF-8.
      */
     @NonNull
-    private static final String UTF8 = "UTF-8"; //$NON-NLS-1$
+    private static final String UTF8 = "UTF-8";
 
     /**
      * Sorted array of hex characters.
@@ -65,10 +65,10 @@ public final class CryptographicHashUtil {
     @NonNull
     public static String getHexHash(@NonNull final String toHash,
             @NonNull final Algorithms algorithm) {
-        PreconditionUtil.assertNotNull(toHash, "toHash"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(toHash, "algorithm"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(toHash, "toHash");
+        PreconditionUtil.assertNotNull(toHash, "algorithm");
 
-        String hash = ""; //$NON-NLS-1$
+        String hash = "";
         try {
             final byte[] data =
                     NullUtils.nonNullContract(MessageDigest.getInstance(algorithm.name()).digest(
@@ -112,6 +112,6 @@ public final class CryptographicHashUtil {
      * Private constructor to prevent instantiation.
      */
     private CryptographicHashUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

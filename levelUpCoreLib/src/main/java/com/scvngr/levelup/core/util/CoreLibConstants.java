@@ -58,7 +58,7 @@ public final class CoreLibConstants {
      * Version of the SDK, as per <a href="http://semver.org">Semantic Versioning</a>.
      */
     @NonNull
-    public static final String SDK_VERSION = "2.0.1.SNAPSHOT"; //$NON-NLS-1$
+    public static final String SDK_VERSION = "2.0.1.SNAPSHOT";
 
     /**
      * Delay in milliseconds when slow async operations are enabled.
@@ -68,7 +68,7 @@ public final class CoreLibConstants {
     public static final long SLOW_ASYNC_DELAY_MILLIS = 2 * DateUtils.SECOND_IN_MILLIS;
 
     private CoreLibConstants() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 
     /**

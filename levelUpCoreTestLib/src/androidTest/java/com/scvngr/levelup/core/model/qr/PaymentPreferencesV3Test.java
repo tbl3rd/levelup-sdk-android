@@ -19,10 +19,10 @@ public final class PaymentPreferencesV3Test extends SupportAndroidTestCase {
      * Keep in step with the color value in {@link #V3_PREFS}.
      */
     private static final int V3_PREFS_COLOR = 2;
-    private static final String V3_PREFS_TOO_SHORT = "0012LU"; //$NON-NLS-1$
-    private static final String V3_PREFS_TOO_LONG = "030AA12LU"; //$NON-NLS-1$
-    private static final String V3_PREFS = "030012LU"; //$NON-NLS-1$
-    private static final String V2_PREFS = "020012LU"; //$NON-NLS-1$
+    private static final String V3_PREFS_TOO_SHORT = "0012LU";
+    private static final String V3_PREFS_TOO_LONG = "030AA12LU";
+    private static final String V3_PREFS = "030012LU";
+    private static final String V2_PREFS = "020012LU";
 
     /**
      * Tests the fixture data with {@link com.scvngr.levelup.core.model.qr.CodeVersionUtils#isValidCode}.
@@ -49,7 +49,7 @@ public final class PaymentPreferencesV3Test extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testGetColorPreference_validPrefsLargeColor() {
-        assertEquals(35, PaymentPreferences.getColorPreference("02001ZLU")); //$NON-NLS-1$
+        assertEquals(35, PaymentPreferences.getColorPreference("02001ZLU"));
     }
 
     /**
@@ -66,8 +66,8 @@ public final class PaymentPreferencesV3Test extends SupportAndroidTestCase {
      */
     public void testEncode_basic() {
         final PaymentPreferencesV3 preferences = new PaymentPreferencesV3("");
-        assertEquals("030011LU", preferences.encode(1, new PercentageTip(1))); //$NON-NLS-1$
-        assertEquals("031011LU", preferences.encode(1, new USCentTip(1))); //$NON-NLS-1$
+        assertEquals("030011LU", preferences.encode(1, new PercentageTip(1)));
+        assertEquals("031011LU", preferences.encode(1, new USCentTip(1)));
     }
 
     /**
@@ -75,8 +75,8 @@ public final class PaymentPreferencesV3Test extends SupportAndroidTestCase {
      */
     public void testEncode_largeColor() {
         final PaymentPreferencesV3 preferences = new PaymentPreferencesV3("");
-        assertEquals("03001ZLU", preferences.encode(35, new PercentageTip(1))); //$NON-NLS-1$
-        assertEquals("03101ZLU", preferences.encode(35, new USCentTip(1))); //$NON-NLS-1$
+        assertEquals("03001ZLU", preferences.encode(35, new PercentageTip(1)));
+        assertEquals("03101ZLU", preferences.encode(35, new USCentTip(1)));
     }
 
     /**
@@ -84,8 +84,8 @@ public final class PaymentPreferencesV3Test extends SupportAndroidTestCase {
      */
     public void testEncode_invalidLargeColor() {
         final PaymentPreferencesV3 preferences = new PaymentPreferencesV3("");
-        assertEquals("030010LU", preferences.encode(36, new PercentageTip(1))); //$NON-NLS-1$
-        assertEquals("031010LU", preferences.encode(36, new USCentTip(1))); //$NON-NLS-1$
+        assertEquals("030010LU", preferences.encode(36, new PercentageTip(1)));
+        assertEquals("031010LU", preferences.encode(36, new USCentTip(1)));
     }
 
     /**
@@ -93,8 +93,8 @@ public final class PaymentPreferencesV3Test extends SupportAndroidTestCase {
      */
     public void testEncode_largeTip() {
         final PaymentPreferencesV3 preferences = new PaymentPreferencesV3("");
-        assertEquals("030ZZ2LU", preferences.encode(2, new PercentageTip(1295))); //$NON-NLS-1$
-        assertEquals("03ZZZ2LU", preferences.encode(2, new USCentTip(45359))); //$NON-NLS-1$
+        assertEquals("030ZZ2LU", preferences.encode(2, new PercentageTip(1295)));
+        assertEquals("03ZZZ2LU", preferences.encode(2, new USCentTip(45359)));
     }
 
     /**
@@ -123,8 +123,8 @@ public final class PaymentPreferencesV3Test extends SupportAndroidTestCase {
      */
     public void testEncode_invalidNegativeColor() {
         final PaymentPreferencesV3 preferences = new PaymentPreferencesV3("");
-        assertEquals("030000LU", preferences.encode(-1, new PercentageTip(0))); //$NON-NLS-1$
-        assertEquals("031000LU", preferences.encode(-1, new USCentTip(0))); //$NON-NLS-1$
+        assertEquals("030000LU", preferences.encode(-1, new PercentageTip(0)));
+        assertEquals("031000LU", preferences.encode(-1, new USCentTip(0)));
     }
 
     /**

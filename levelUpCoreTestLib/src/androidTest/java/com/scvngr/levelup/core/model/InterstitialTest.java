@@ -38,7 +38,7 @@ public final class InterstitialTest extends SupportAndroidTestCase {
         // Test differences across variations based on all JSON keys
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(InterstitialJsonFactory.JsonKeys.class,
                 new InterstitialJsonFactory(), InterstitialFixture.getMinimalJsonObject(),
-                new String[] { "MODEL_ROOT", "ACTION" }); //$NON-NLS-1$ //$NON-NLS-2$
+                new String[] { "MODEL_ROOT", "ACTION" });
 
         assertNotSame(InterstitialFixture.getClaimActionModel(), InterstitialFixture
                 .getMinimalModel());

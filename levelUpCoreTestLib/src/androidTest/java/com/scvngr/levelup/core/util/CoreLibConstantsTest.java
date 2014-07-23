@@ -14,6 +14,6 @@ public final class CoreLibConstantsTest extends SupportAndroidTestCase {
 
     @SmallTest
     public static void testSlowAccess() {
-        assertFalse("Slow async mode should be disabled", CoreLibConstants.IS_SLOW_ASYNC_ENABLED); //$NON-NLS-1$
+        assertFalse("Slow async mode should be disabled", CoreLibConstants.IS_SLOW_ASYNC_ENABLED);
     }
 }

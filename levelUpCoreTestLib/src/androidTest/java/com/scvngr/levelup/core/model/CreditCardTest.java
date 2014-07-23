@@ -53,6 +53,6 @@ public final class CreditCardTest extends SupportAndroidTestCase {
         // Test differences across variations based on all JSON keys
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(CreditCardJsonFactory.JsonKeys.class,
                 new CreditCardJsonFactory(), CreditCardFixture.getFullJsonObject(true),
-                new String[] { "MODEL_ROOT" }); //$NON-NLS-1$
+                new String[] { "MODEL_ROOT" });
     }
 }

@@ -9,7 +9,7 @@ import com.scvngr.levelup.core.model.Feedback;
 public class FeedbackJsonFactory extends GsonModelFactory<Feedback> {
 
     @NonNull
-    private static final String TYPE_KEY = "feedback"; //$NON-NLS-1$
+    private static final String TYPE_KEY = "feedback";
 
     /**
      * Constructor.

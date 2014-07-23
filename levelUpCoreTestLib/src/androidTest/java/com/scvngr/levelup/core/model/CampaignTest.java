@@ -38,6 +38,6 @@ public final class CampaignTest extends SupportAndroidTestCase {
         // Test differences across variations based on all JSON keys
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(CampaignJsonFactory.JsonKeys.class,
                 new CampaignJsonFactory(), CampaignFixture.getFullJsonObject(),
-                new String[] { "MODEL_ROOT" }); //$NON-NLS-1$
+                new String[] { "MODEL_ROOT" });
     }
 }

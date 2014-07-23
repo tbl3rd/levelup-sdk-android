@@ -35,14 +35,14 @@ public class AppLocationListRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(0, request.getBodyLength(getContext()));
         final String requestString = request.getUrlString(getContext());
         assertNotNull(requestString);
-        assertTrue(requestString.endsWith("apps/2/locations")); //$NON-NLS-1$
-        assertTrue("hits the v14 endpoints", requestString //$NON-NLS-1$
+        assertTrue(requestString.endsWith("apps/2/locations"));
+        assertTrue("hits the v14 endpoints", requestString
                 .contains(LevelUpRequest.API_VERSION_CODE_V14));
     }
 
     @SmallTest
     public void testBuildGetAppLocationsListRequest_withLocationPassed() throws BadRequestException {
-        final Location location = new Location("test"); //$NON-NLS-1$
+        final Location location = new Location("test");
         location.setLatitude(TEST_LATITUDE);
         location.setLongitude(TEST_LONGITUDE);
         final LevelUpRequest request =
@@ -61,13 +61,13 @@ public class AppLocationListRequestFactoryTest extends SupportAndroidTestCase {
         assertNotNull(query);
         final String expectedQuery =
                 String.format(Locale.US,
-                        "%s=%s&%s=%s", AppLocationListRequestFactory.PARAM_LAT, Double //$NON-NLS-1$
+                        "%s=%s&%s=%s", AppLocationListRequestFactory.PARAM_LAT, Double
                                 .toString(TEST_LATITUDE), AppLocationListRequestFactory.PARAM_LNG,
                         Double.toString(TEST_LONGITUDE));
         assertEquals(expectedQuery, query);
 
-        assertTrue(url.getPath().endsWith("apps/2/locations")); //$NON-NLS-1$
-        assertTrue("hits the v14 endpoints", url.getPath() //$NON-NLS-1$
+        assertTrue(url.getPath().endsWith("apps/2/locations"));
+        assertTrue("hits the v14 endpoints", url.getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V14));
     }
 

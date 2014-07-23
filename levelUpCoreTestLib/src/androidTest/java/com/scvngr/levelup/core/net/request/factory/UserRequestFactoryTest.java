@@ -42,7 +42,7 @@ import java.util.Map;
  */
 public final class UserRequestFactoryTest extends SupportAndroidTestCase {
     @NonNull
-    private static final String EMAIL_EXAMPLE_COM = "email@example.com"; //$NON-NLS-1$
+    private static final String EMAIL_EXAMPLE_COM = "email@example.com";
 
     /**
      * Tests the constructor to make sure the object performs parameter checking.
@@ -53,7 +53,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
 
         try {
             new UserRequestFactory(null, new MockAccessTokenRetriever());
-            fail("null context should throw exception"); //$NON-NLS-1$
+            fail("null context should throw exception");
         } catch (final AssertionError e) {
             // Expected exception
         }
@@ -76,11 +76,11 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
 
         assertEquals(HttpMethod.POST, request.getMethod());
         final String path = request.getUrl(getContext()).getPath();
-        assertTrue(path.endsWith("passwords")); //$NON-NLS-1$
-        assertTrue(path.startsWith("/v14")); //$NON-NLS-1$
+        assertTrue(path.endsWith("passwords"));
+        assertTrue(path.startsWith("/v14"));
 
         final JsonObject expectedRequest = new JsonObject();
-        expectedRequest.addProperty("email", EMAIL_EXAMPLE_COM); //$NON-NLS-1$
+        expectedRequest.addProperty("email", EMAIL_EXAMPLE_COM);
 
         assertEquals(expectedRequest.toString(), request.getBody(getContext()));
 
@@ -92,17 +92,17 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
     public void testBuildFacebookConnectRequest() throws Exception {
         final AbstractRequest request =
                 new UserRequestFactory(getContext(), new MockAccessTokenRetriever())
-                        .buildFacebookConnectRequest("facebook_access_token"); //$NON-NLS-1$
+                        .buildFacebookConnectRequest("facebook_access_token");
 
         assertEquals(HttpMethod.POST, request.getMethod());
-        assertTrue(request.getUrl(getContext()).getPath().endsWith("/facebook_connection")); //$NON-NLS-1$
+        assertTrue(request.getUrl(getContext()).getPath().endsWith("/facebook_connection"));
         final LevelUpRequest apiRequest = (LevelUpRequest) request;
         final JSONObject userObject =
                 new JSONObject(apiRequest.getBody(getContext()))
                         .getJSONObject(UserRequestFactory.OUTER_PARAM_USER);
 
         assertTrue(userObject.has(UserRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
-        assertEquals("facebook_access_token", userObject //$NON-NLS-1$
+        assertEquals("facebook_access_token", userObject
                 .getString(UserRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
 
         // Make sure we can get the access token.
@@ -117,7 +117,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final LevelUpRequest apiRequest = (LevelUpRequest) request;
 
         assertEquals(HttpMethod.DELETE, request.getMethod());
-        assertTrue(request.getUrl(getContext()).getPath().endsWith("/facebook_connection")); //$NON-NLS-1$
+        assertTrue(request.getUrl(getContext()).getPath().endsWith("/facebook_connection"));
 
         // Make sure we can get the access token.
         assertNotNull(apiRequest.getAccessToken(getContext()));
@@ -127,17 +127,17 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
     public void testBuildRegisterWithFacebookRequest() throws BadRequestException, JSONException {
         final LevelUpRequest request =
                 (LevelUpRequest) new UserRequestFactory(getContext(), null)
-                        .buildFacebookRegisterRequest("facebook_access_token"); //$NON-NLS-1$
+                        .buildFacebookRegisterRequest("facebook_access_token");
         assertEquals(HttpMethod.POST, request.getMethod());
         assertTrue(request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V14));
-        assertTrue(request.getUrl(getContext()).getPath().endsWith("users")); //$NON-NLS-1$
+        assertTrue(request.getUrl(getContext()).getPath().endsWith("users"));
         final JSONObject userObject =
                 new JSONObject(request.getBody(getContext()))
                         .getJSONObject(UserRequestFactory.OUTER_PARAM_USER);
 
         assertTrue(userObject.has(UserRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
-        assertEquals("facebook_access_token", userObject //$NON-NLS-1$
+        assertEquals("facebook_access_token", userObject
                 .getString(UserRequestFactory.PARAM_FACEBOOK_ACCESS_TOKEN));
     }
 
@@ -149,7 +149,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         assertEquals(HttpMethod.GET, request.getMethod());
         assertTrue(request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
-        assertTrue(request.getUrl(getContext()).getPath().endsWith("users")); //$NON-NLS-1$
+        assertTrue(request.getUrl(getContext()).getPath().endsWith("users"));
     }
 
     /**
@@ -178,15 +178,15 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
             builder.withCustomAttribute(key, customAttributes.get(key));
         }
 
-        final String newPassword = "password123"; //$NON-NLS-1$
+        final String newPassword = "password123";
         builder.withNewPassword(newPassword);
 
         final LevelUpRequest request = (LevelUpRequest) builder.build();
 
         assertEquals(HttpMethod.PUT, request.getMethod());
-        assertTrue("hits users/ endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
-                .endsWith("users")); //$NON-NLS-1$
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("hits users/ endpoint", request.getUrl(getContext()).getPath()
+                .endsWith("users"));
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
         validateAccessTokenHeader(request);
 
@@ -238,14 +238,14 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
             builder.withCustomAttribute(key, customAttributes.get(key));
         }
 
-        final String newPassword = "password123"; //$NON-NLS-1$
+        final String newPassword = "password123";
         builder.withNewPassword(newPassword);
 
         final AbstractRequest request = builder.build();
 
         assertEquals(HttpMethod.PUT, request.getMethod());
-        assertTrue("hits users/ endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
-                .endsWith("users")); //$NON-NLS-1$
+        assertTrue("hits users/ endpoint", request.getUrl(getContext()).getPath()
+                .endsWith("users"));
     }
 
     @SmallTest
@@ -259,7 +259,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         builder.withGender(null);
         builder.withLastName(null);
         builder.withNewPassword(null);
-        builder.withCustomAttribute("test", null); //$NON-NLS-1$
+        builder.withCustomAttribute("test", null);
 
         final AbstractRequest expected =
                 new UserInfoRequestBuilder(getContext(), new MockAccessTokenRetriever()).build();
@@ -272,13 +272,13 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
 
         final UserInfoRequestBuilder builder =
                 new UserInfoRequestBuilder(getContext(), new MockAccessTokenRetriever());
-        builder.withBornAt(""); //$NON-NLS-1$
-        builder.withEmail(""); //$NON-NLS-1$
-        builder.withFirstName(""); //$NON-NLS-1$
-        builder.withGender(""); //$NON-NLS-1$
-        builder.withLastName(""); //$NON-NLS-1$
-        builder.withNewPassword(""); //$NON-NLS-1$
-        builder.withCustomAttribute("test", ""); //$NON-NLS-1$ //$NON-NLS-2$
+        builder.withBornAt("");
+        builder.withEmail("");
+        builder.withFirstName("");
+        builder.withGender("");
+        builder.withLastName("");
+        builder.withNewPassword("");
+        builder.withCustomAttribute("test", "");
 
         final AbstractRequest expected =
                 new UserInfoRequestBuilder(getContext(), new MockAccessTokenRetriever()).build();
@@ -293,7 +293,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final JSONObject customAttributesJson =
                 postParams.getJSONObject(UserRequestFactory.PARAM_CUSTOM_ATTRIBUTES);
         assertEquals(1, customAttributesJson.length());
-        assertEquals("", customAttributesJson.getString("test")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertEquals("", customAttributesJson.getString("test"));
     }
 
     /**
@@ -307,8 +307,8 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final AbstractRequest request =
                 new UserInfoRequestBuilder(getContext(), new MockAccessTokenRetriever()).build();
 
-        assertTrue("hits users endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
-                .endsWith("users")); //$NON-NLS-1$
+        assertTrue("hits users endpoint", request.getUrl(getContext()).getPath()
+                .endsWith("users"));
         validateAccessTokenHeader(request);
     }
 
@@ -324,7 +324,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
 
         assertTrue(headers.containsKey(LevelUpRequest.HEADER_AUTHORIZATION));
         assertTrue(headers.get(LevelUpRequest.HEADER_AUTHORIZATION).contains(
-                "test_access_token")); //$NON-NLS-1$
+                "test_access_token"));
     }
 
     @SmallTest
@@ -334,7 +334,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testBuildRegisterRequest_withLocation() throws BadRequestException {
-        final Location location = new Location("test"); //$NON-NLS-1$
+        final Location location = new Location("test");
         location.setLatitude(10d);
         location.setLongitude(20d);
         validateRegisterRequest(location);
@@ -351,12 +351,12 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final Context context = getContext();
         final LevelUpRequest request =
                 (LevelUpRequest) new UserRequestFactory(context, null).buildRegisterRequest(
-                        "first_name", "last_name", //$NON-NLS-1$ //$NON-NLS-2$
-                        "email@example.com", "password123", location); //$NON-NLS-1$ //$NON-NLS-2$
+                        "first_name", "last_name",
+                        "email@example.com", "password123", location);
 
         assertEquals(HttpMethod.POST, request.getMethod());
         final URL url = request.getUrl(context);
-        assertTrue("proper URL/api version", url.getPath().endsWith("v14/users")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("proper URL/api version", url.getPath().endsWith("v14/users"));
         final String body = request.getBody(context);
         assertNotNull(body);
         assertFalse(request.getRequestHeaders(context).containsKey(
@@ -372,12 +372,12 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
         final Context context = getContext();
         final LevelUpRequest request =
                 (LevelUpRequest) new UserRequestFactory(context, null).buildRegisterRequest(
-                        "first_name", "last_name", //$NON-NLS-1$ //$NON-NLS-2$
-                        "email@example.com", expectedPermissions); //$NON-NLS-1$
+                        "first_name", "last_name",
+                        "email@example.com", expectedPermissions);
 
         assertEquals(HttpMethod.POST, request.getMethod());
         final URL url = request.getUrl(context);
-        assertTrue("proper URL/api version", url.getPath().endsWith("v15/users")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("proper URL/api version", url.getPath().endsWith("v15/users"));
         final String body = request.getBody(context);
         assertNotNull(body);
         assertFalse(request.getRequestHeaders(context).containsKey(
@@ -400,11 +400,11 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
             final Context context = NullUtils.nonNullContract(getContext());
 
             RequestUtils.addApiKeyToRequestBody(context, object);
-            userObject.put(UserRequestFactory.PARAM_FIRST_NAME, "first_name"); //$NON-NLS-1$
-            userObject.put(UserRequestFactory.PARAM_LAST_NAME, "last_name"); //$NON-NLS-1$
-            userObject.put(UserRequestFactory.PARAM_EMAIL, "email@example.com"); //$NON-NLS-1$
+            userObject.put(UserRequestFactory.PARAM_FIRST_NAME, "first_name");
+            userObject.put(UserRequestFactory.PARAM_LAST_NAME, "last_name");
+            userObject.put(UserRequestFactory.PARAM_EMAIL, "email@example.com");
             userObject.put(UserRequestFactory.PARAM_TERMS_ACCEPTED, true);
-            userObject.put(UserRequestFactory.PARAM_PASSWORD, "password123"); //$NON-NLS-1$
+            userObject.put(UserRequestFactory.PARAM_PASSWORD, "password123");
             RequestUtils.addDeviceIdToRequestBody(context, userObject);
 
             if (null != location) {
@@ -414,7 +414,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
 
             object.put(UserRequestFactory.OUTER_PARAM_USER, userObject);
         } catch (final JSONException e) {
-            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+            LogManager.e("JSONException building register request", e);
         }
 
         return object.toString();
@@ -435,9 +435,9 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
             final Context context = NullUtils.nonNullContract(getContext());
 
             RequestUtils.addApiKeyToRequestBody(context, object);
-            userObject.put(UserRequestFactory.PARAM_FIRST_NAME, "first_name"); //$NON-NLS-1$
-            userObject.put(UserRequestFactory.PARAM_LAST_NAME, "last_name"); //$NON-NLS-1$
-            userObject.put(UserRequestFactory.PARAM_EMAIL, "email@example.com"); //$NON-NLS-1$
+            userObject.put(UserRequestFactory.PARAM_FIRST_NAME, "first_name");
+            userObject.put(UserRequestFactory.PARAM_LAST_NAME, "last_name");
+            userObject.put(UserRequestFactory.PARAM_EMAIL, "email@example.com");
             userObject.put(UserRequestFactory.PARAM_TERMS_ACCEPTED, true);
 
             permissionObject.put("permission1");
@@ -446,7 +446,7 @@ public final class UserRequestFactoryTest extends SupportAndroidTestCase {
             object.put(UserRequestFactory.OUTER_PARAM_USER, userObject);
             object.put(UserRequestFactory.OUTER_PARAM_PERMISSION_KEYNAMES, permissionObject);
         } catch (final JSONException e) {
-            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+            LogManager.e("JSONException building register request", e);
         }
 
         return object.toString();

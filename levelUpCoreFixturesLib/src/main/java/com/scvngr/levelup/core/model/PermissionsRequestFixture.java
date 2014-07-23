@@ -30,7 +30,7 @@ public final class PermissionsRequestFixture {
      * A date.
      */
     @NonNull
-    public static final String DATE_FIXTURE_1 = "2014-01-01T00:04:00-10:00"; //$NON-NLS-1$
+    public static final String DATE_FIXTURE_1 = "2014-01-01T00:04:00-10:00";
 
     /**
      * A random permissions request ID.
@@ -48,7 +48,7 @@ public final class PermissionsRequestFixture {
      * {@link PermissionsRequest#getAcceptText} fixture.
      */
     @NonNull
-    public static final String ACCEPT_TEXT_FIXTURE_1 = "Sounds Great"; //$NON-NLS-1$
+    public static final String ACCEPT_TEXT_FIXTURE_1 = "Sounds Great";
 
     /**
      * {@link PermissionsRequest#getCreatedAt} fixture.
@@ -61,7 +61,7 @@ public final class PermissionsRequestFixture {
      */
     @NonNull
     public static final String DESCRIPTION_FIXTURE_1 =
-            "Ariburgers has requested to be added to your LevelUp account and would like the following permissions"; //$NON-NLS-1$
+            "Ariburgers has requested to be added to your LevelUp account and would like the following permissions";
 
     /**
      * {@link PermissionsRequest#getPermissions} fixture.
@@ -76,7 +76,7 @@ public final class PermissionsRequestFixture {
      * {@link PermissionsRequest#getRejectText} fixture.
      */
     @NonNull
-    public static final String REJECT_TEXT_FIXTURE_1 = "No Thanks"; //$NON-NLS-1$
+    public static final String REJECT_TEXT_FIXTURE_1 = "No Thanks";
 
     /**
      * {@link PermissionsRequest#getState} fixture.
@@ -88,7 +88,7 @@ public final class PermissionsRequestFixture {
      * {@link PermissionsRequest#getState} fixture's string representation.
      */
     @NonNull
-    public static final String STATE_FIXTURE_STRING_1 = "pending"; //$NON-NLS-1$
+    public static final String STATE_FIXTURE_STRING_1 = "pending";
 
     /**
      * {@link PermissionsRequest#getToken} fixture.
@@ -133,19 +133,19 @@ public final class PermissionsRequestFixture {
     public static JsonObject getJsonObject(final long id) {
         final JsonObject o = new JsonObject();
 
-        o.addProperty("accept_text", PermissionsRequestFixture.ACCEPT_TEXT_FIXTURE_1); //$NON-NLS-1$
-        o.addProperty("app_id", AppFixture.APP_ID_FIXTURE_1); //$NON-NLS-1$
-        o.addProperty("created_at", PermissionsRequestFixture.CREATED_AT_FIXTURE_1); //$NON-NLS-1$
-        o.addProperty("description", PermissionsRequestFixture.DESCRIPTION_FIXTURE_1); //$NON-NLS-1$
-        o.addProperty("id", id); //$NON-NLS-1$
+        o.addProperty("accept_text", PermissionsRequestFixture.ACCEPT_TEXT_FIXTURE_1);
+        o.addProperty("app_id", AppFixture.APP_ID_FIXTURE_1);
+        o.addProperty("created_at", PermissionsRequestFixture.CREATED_AT_FIXTURE_1);
+        o.addProperty("description", PermissionsRequestFixture.DESCRIPTION_FIXTURE_1);
+        o.addProperty("id", id);
 
         final JsonArray permissions = new JsonArray();
         permissions.add(PermissionFixture.getJsonObject1());
         permissions.add(PermissionFixture.getJsonObject2());
 
-        o.add("permissions", permissions); //$NON-NLS-1$
-        o.addProperty("reject_text", PermissionsRequestFixture.REJECT_TEXT_FIXTURE_1); //$NON-NLS-1$
-        o.addProperty("state", PermissionsRequestFixture.STATE_FIXTURE_STRING_1); //$NON-NLS-1$
+        o.add("permissions", permissions);
+        o.addProperty("reject_text", PermissionsRequestFixture.REJECT_TEXT_FIXTURE_1);
+        o.addProperty("state", PermissionsRequestFixture.STATE_FIXTURE_STRING_1);
         o.addProperty("token", PermissionsRequestFixture.ACCESS_TOKEN_FIXTURE_1);
 
         final JsonObject container = new JsonObject();
@@ -155,6 +155,6 @@ public final class PermissionsRequestFixture {
     }
 
     private PermissionsRequestFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

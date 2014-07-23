@@ -22,10 +22,10 @@ public final class BuildUtilTest extends SupportAndroidTestCase {
     private static final int VERSION_CODE_FIXTURE = 31415927;
 
     @NonNull
-    private static final String VERSION_NAME_FIXTURE = "pi"; //$NON-NLS-1$
+    private static final String VERSION_NAME_FIXTURE = "pi";
 
     @NonNull
-    private static final String LABEL_FIXTURE = "LevelUp"; //$NON-NLS-1$
+    private static final String LABEL_FIXTURE = "LevelUp";
 
     @SmallTest
     public void testGetLabel() {
@@ -76,7 +76,7 @@ public final class BuildUtilTest extends SupportAndroidTestCase {
 
         @Override
         public String getPackageName() {
-            return "com.example.test"; //$NON-NLS-1$
+            return "com.example.test";
         }
 
         /**

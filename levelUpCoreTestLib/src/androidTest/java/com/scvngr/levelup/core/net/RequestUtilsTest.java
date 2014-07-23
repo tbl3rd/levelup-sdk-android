@@ -53,30 +53,30 @@ public final class RequestUtilsTest extends SupportAndroidTestCase {
     @SmallTest
     public void testGetDefaultRequestHeaders() {
         final Map<String, String> headers = RequestUtils.getDefaultRequestHeaders(mMockContext);
-        assertTrue("Device model header is present",  //$NON-NLS-1$
-                headers.containsKey("X-Device-Model")); //$NON-NLS-1$
-        assertEquals("Accept header is set for JSON", ////$NON-NLS-1$
+        assertTrue("Device model header is present",
+                headers.containsKey("X-Device-Model"));
+        assertEquals("Accept header is set for JSON", //
                 RequestUtils.HEADER_CONTENT_TYPE_JSON, headers.get(RequestUtils.HEADER_ACCEPT));
-        assertEquals("User-Agent header matches RequestUtils.getUserAgent()", //$NON-NLS-1$
+        assertEquals("User-Agent header matches RequestUtils.getUserAgent()",
                 RequestUtils.getUserAgent(mMockContext),
-                headers.get("User-Agent")); //$NON-NLS-1$
+                headers.get("User-Agent"));
     }
 
     @SmallTest
     public void testGetUserAgent() {
         assertTrue(RequestUtils.getUserAgent(mMockContext).contains(
-                "com.example.testapp/2.3.8" + getDeviceSpecificUserAgentString())); //$NON-NLS-1$
+                "com.example.testapp/2.3.8" + getDeviceSpecificUserAgentString()));
         assertTrue(RequestUtils.getUserAgent(mMockContext).contains(
-                "LevelUpSdk/" + CoreLibConstants.SDK_VERSION)); //$NON-NLS-1$
+                "LevelUpSdk/" + CoreLibConstants.SDK_VERSION));
         /*
          * Ensure we're not using properties that come back null in our User-Agent (like
          * applicationInfo.name). This is a mocked context so it's not an ideal test, but there's
          * not a great way to unit-test real-world values.
          */
         assertFalse(
-                "User-Agent should not have 'null' for any of its properties", //$NON-NLS-1$
+                "User-Agent should not have 'null' for any of its properties",
                 RequestUtils.getUserAgent(mMockContext).contains(
-                "null")); //$NON-NLS-1$
+                "null"));
     }
 
     /**
@@ -133,7 +133,7 @@ public final class RequestUtilsTest extends SupportAndroidTestCase {
      * @return device specific part of the user agent string
      */
     private static String getDeviceSpecificUserAgentString() {
-        return String.format(Locale.US, " (Linux; U; Android %s; %s/%s; %s)", //$NON-NLS-1$
+        return String.format(Locale.US, " (Linux; U; Android %s; %s/%s; %s)",
                 Build.VERSION.RELEASE, Build.BRAND, Build.PRODUCT, Locale.getDefault().toString());
     }
 
@@ -167,7 +167,7 @@ public final class RequestUtilsTest extends SupportAndroidTestCase {
         @Override
         public ApplicationInfo getApplicationInfo() {
             final ApplicationInfo info = new ApplicationInfo();
-            info.name = "LevelUp-Core-Fallback"; //$NON-NLS-1$
+            info.name = "LevelUp-Core-Fallback";
             return info;
         }
 
@@ -200,10 +200,10 @@ public final class RequestUtilsTest extends SupportAndroidTestCase {
         public PackageInfo getPackageInfo(final String packageName, final int flags)
                 throws NameNotFoundException {
             final PackageInfo info = new PackageInfo();
-            info.versionName = "2.3.8"; //$NON-NLS-1$
+            info.versionName = "2.3.8";
             info.applicationInfo = new ApplicationInfo();
             info.applicationInfo.name = null; // This is the case for many apps.
-            info.applicationInfo.packageName = "com.example.testapp";  //$NON-NLS-1$
+            info.applicationInfo.packageName = "com.example.testapp";
 
             return info;
         }

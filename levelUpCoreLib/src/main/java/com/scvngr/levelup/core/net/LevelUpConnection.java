@@ -130,7 +130,7 @@ public final class LevelUpConnection {
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     /* package */AbstractRequest getLastRequest(@Nullable final String url) {
         synchronized (mRequestIntrinsicLock) {
-            LogManager.i("getLastRequest url=%s size=%d", url, mLastRequestMap.size()); //$NON-NLS-1$
+            LogManager.i("getLastRequest url=%s size=%d", url, mLastRequestMap.size());
             AbstractRequest request = null;
             String key = null;
             if (null != url) {
@@ -138,7 +138,7 @@ public final class LevelUpConnection {
             } else {
                 if (mLastRequestMap.size() > 1) {
                     throw new AssertionError(
-                            "This method of getting last request is not supported if there are multiple requests being made"); //$NON-NLS-1$
+                            "This method of getting last request is not supported if there are multiple requests being made");
                 }
 
                 if (mLastRequestMap.size() > 0) {
@@ -232,24 +232,24 @@ public final class LevelUpConnection {
             requestUrl = request.getUrlString(mContext);
             nextResponse = getNextResponse(requestUrl);
         } catch (final BadRequestException e) {
-            LogManager.e("BadRequestException", e); //$NON-NLS-1$
+            LogManager.e("BadRequestException", e);
             // Don't need to do anything, since this URL is just for logging.
         }
 
         // Set the last request for testing
         setLastRequest(requestUrl, request);
 
-        LogManager.v("Requesting URL: %s %s", request.getMethod(), requestUrl); //$NON-NLS-1$
+        LogManager.v("Requesting URL: %s %s", request.getMethod(), requestUrl);
 
         if (null != nextResponse) {
-            LogManager.d("Returning canned response instead of performing network operation"); //$NON-NLS-1$
+            LogManager.d("Returning canned response instead of performing network operation");
             // TESTING: If the client set a next response, use that instead.
             response = nextResponse;
             setNextResponse(requestUrl, null);
         } else {
             if (!sIsNetworkEnabled) {
                 throw new RuntimeException(String.format(Locale.US,
-                        "Network Activity detected when it was explicitly disabled: %s", requestUrl)); //$NON-NLS-1$
+                        "Network Activity detected when it was explicitly disabled: %s", requestUrl));
             }
 
             response = new LevelUpResponse(NetworkConnection.send(mContext, request));

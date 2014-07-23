@@ -101,6 +101,6 @@ public final class LocationCreditFixture {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private LocationCreditFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

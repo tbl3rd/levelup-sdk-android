@@ -14,7 +14,7 @@ import com.scvngr.levelup.core.model.Ticket;
 public final class TicketJsonFactory extends GsonModelFactory<Ticket> {
 
     @NonNull
-    private static final String TYPE_KEY = "ticket"; //$NON-NLS-1$
+    private static final String TYPE_KEY = "ticket";
 
     /**
      * Constructor.

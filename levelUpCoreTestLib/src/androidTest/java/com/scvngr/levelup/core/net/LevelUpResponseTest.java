@@ -34,7 +34,7 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     @SmallTest
     public void testParcelable() {
         final LevelUpResponse response =
-                new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
+                new LevelUpResponse("test", LevelUpStatus.ERROR_SERVER);
         ParcelTestUtils.assertParcelableRoundtrips(response);
     }
 
@@ -188,7 +188,7 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
     @SmallTest
     public void testMapStatusException_badRequest() {
         assertEquals(LevelUpStatus.ERROR_BAD_REQUEST,
-                LevelUpResponse.mapStatus(new BadRequestException(""))); //$NON-NLS-1$
+                LevelUpResponse.mapStatus(new BadRequestException("")));
     }
 
     /**
@@ -344,7 +344,7 @@ public final class LevelUpResponseTest extends SupportAndroidTestCase {
          * @throws java.net.MalformedURLException if the URL is malformed
          */
         public MockHttpUrlConnection() throws MalformedURLException {
-            super(new URL("http://www.example.com")); //$NON-NLS-1$
+            super(new URL("http://www.example.com"));
         }
 
         @Override

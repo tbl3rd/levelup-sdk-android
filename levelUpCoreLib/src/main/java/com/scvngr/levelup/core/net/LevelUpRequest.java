@@ -44,13 +44,13 @@ public class LevelUpRequest extends AbstractRequest {
      * API version code for v14.
      */
     @NonNull
-    public static final String API_VERSION_CODE_V14 = "v14"; //$NON-NLS-1$
+    public static final String API_VERSION_CODE_V14 = "v14";
 
     /**
      * API version code for v15.
      */
     @NonNull
-    public static final String API_VERSION_CODE_V15 = "v15"; //$NON-NLS-1$
+    public static final String API_VERSION_CODE_V15 = "v15";
 
     /**
      * Creator for parceling.
@@ -72,19 +72,19 @@ public class LevelUpRequest extends AbstractRequest {
      * Header key for the authorized user's access token.
      */
     @NonNull
-    public static final String HEADER_AUTHORIZATION = "Authorization"; //$NON-NLS-1$
+    public static final String HEADER_AUTHORIZATION = "Authorization";
 
     /**
      * Header key for sending the application's API key for LevelUp.
      */
     @NonNull
-    public static final String HEADER_LEVELUP_API_KEY = "X-LevelUp-API-Key"; //$NON-NLS-1$
+    public static final String HEADER_LEVELUP_API_KEY = "X-LevelUp-API-Key";
 
     /**
      * Format string to use in the authorization header to format the access token in.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String AUTH_TOKEN_TYPE_FORMAT = "token %s"; //$NON-NLS-1$
+    /* package */static final String AUTH_TOKEN_TYPE_FORMAT = "token %s";
 
     /**
      * Gets the full endpoint URL.
@@ -247,16 +247,16 @@ public class LevelUpRequest extends AbstractRequest {
 
                 try {
                     writeBodyToStream(context, outputStreamBuffer);
-                    result = outputStreamBuffer.toString("UTF-8"); //$NON-NLS-1$
+                    result = outputStreamBuffer.toString("UTF-8");
                 } finally {
                     outputStreamBuffer.close();
                 }
             }
         } catch (final UnsupportedEncodingException e) {
             // This is pretty much impossible.
-            throw new RuntimeException("The unthinkable happened: there is no UTF-8", e); //$NON-NLS-1$
+            throw new RuntimeException("The unthinkable happened: there is no UTF-8", e);
         } catch (final IOException e) {
-            throw new RuntimeException("Error writing body to String", e); //$NON-NLS-1$
+            throw new RuntimeException("Error writing body to String", e);
         }
 
         return result;
@@ -346,7 +346,7 @@ public class LevelUpRequest extends AbstractRequest {
     @Override
     public String toString() {
         return String.format(Locale.US,
-                "LevelUpRequest [mAccessTokenRetriever=%s, mBody=%s, super=%s]", //$NON-NLS-1$
+                "LevelUpRequest [mAccessTokenRetriever=%s, mBody=%s, super=%s]",
                 mAccessTokenRetriever, mBody, super.toString());
     }
 

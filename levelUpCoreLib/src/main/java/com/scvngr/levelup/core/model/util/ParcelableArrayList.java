@@ -196,7 +196,7 @@ public abstract class ParcelableArrayList<E extends Parcelable> extends ArrayLis
          * Default message.
          */
         public ImmutableClassException() {
-            super("This class is immutable, operation not permitted."); //$NON-NLS-1$
+            super("This class is immutable, operation not permitted.");
         }
     }
 }

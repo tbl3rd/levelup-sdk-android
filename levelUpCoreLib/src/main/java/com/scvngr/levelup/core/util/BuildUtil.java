@@ -30,7 +30,7 @@ public final class BuildUtil {
      */
     @NonNull
     /* package */static String getLabel(@NonNull final Context context) {
-        PreconditionUtil.assertNotNull(context, "context"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(context, "context");
 
         final CharSequence label =
                 context.getPackageManager().getApplicationLabel(context.getApplicationInfo());
@@ -76,7 +76,7 @@ public final class BuildUtil {
      */
     @NonNull
     public static PackageInfo getMyPackageInfo(@NonNull final Context context) {
-        PreconditionUtil.assertNotNull(context, "context"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(context, "context");
 
         final PackageManager pm = context.getPackageManager();
         final String packageName = context.getPackageName();
@@ -98,6 +98,6 @@ public final class BuildUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private BuildUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

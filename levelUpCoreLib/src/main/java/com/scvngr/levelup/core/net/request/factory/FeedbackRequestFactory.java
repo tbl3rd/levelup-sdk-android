@@ -35,7 +35,7 @@ public final class FeedbackRequestFactory extends AbstractRequestFactory {
      * The endpoint for a given order.
      */
     @NonNull
-    private static final String ENDPOINT_FEEDBACK_FORMAT = "orders/%s/feedback"; //$NON-NLS-1$
+    private static final String ENDPOINT_FEEDBACK_FORMAT = "orders/%s/feedback";
 
     /**
      * Constructor.

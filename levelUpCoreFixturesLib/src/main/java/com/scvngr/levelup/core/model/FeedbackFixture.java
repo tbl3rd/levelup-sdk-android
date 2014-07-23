@@ -19,7 +19,7 @@ public final class FeedbackFixture {
      */
     @NonNull
     public static Feedback getMinimalModel() {
-        return new Feedback(null, "question_text", 1); //$NON-NLS-1$
+        return new Feedback(null, "question_text", 1);
     }
 
     /**
@@ -27,7 +27,7 @@ public final class FeedbackFixture {
      */
     @NonNull
     public static Feedback getFullModel() {
-        return new Feedback("comment", "question_text", 1); //$NON-NLS-1$ //$NON-NLS-2$
+        return new Feedback("comment", "question_text", 1);
     }
 
     /**
@@ -45,6 +45,6 @@ public final class FeedbackFixture {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private FeedbackFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

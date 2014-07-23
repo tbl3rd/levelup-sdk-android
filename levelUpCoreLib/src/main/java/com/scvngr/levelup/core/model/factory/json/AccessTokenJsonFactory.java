@@ -53,19 +53,19 @@ public final class AccessTokenJsonFactory extends AbstractJsonModelFactory<Acces
          * The key under which this model can be nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "access_token"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "access_token";
 
         /**
          * Key in JSON where the token value can be parsed.
          */
         @JsonValueType(JsonType.STRING)
-        public static final String TOKEN = "token"; //$NON-NLS-1$
+        public static final String TOKEN = "token";
 
         /**
          * Key in JSON where the user ID for this token can be parsed.
          */
         @JsonValueType(JsonType.LONG)
-        public static final String USER_ID = "user_id"; //$NON-NLS-1$
+        public static final String USER_ID = "user_id";
 
         /**
          * Private constructor prevents instantiation.
@@ -73,7 +73,7 @@ public final class AccessTokenJsonFactory extends AbstractJsonModelFactory<Acces
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

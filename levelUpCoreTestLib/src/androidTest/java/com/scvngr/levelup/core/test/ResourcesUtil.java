@@ -39,6 +39,6 @@ public final class ResourcesUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private ResourcesUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

@@ -73,7 +73,7 @@ public final class StreamingResponseTest extends SupportAndroidTestCase {
          * @throws java.net.MalformedURLException if the URL is malformed
          */
         public MockHttpUrlConnection(final int responseCode) throws MalformedURLException {
-            super(new URL("http://www.example.com")); //$NON-NLS-1$
+            super(new URL("http://www.example.com"));
             this.mResponseCode = responseCode;
         }
 

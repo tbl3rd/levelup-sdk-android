@@ -39,7 +39,7 @@ public final class EnvironmentUtil {
 
         final boolean isOpenGlEs20Supported = configurationInfo.reqGlEsVersion >= OPENGL_V2;
 
-        LogManager.v("isOpenGlEs20Supported = %b", isOpenGlEs20Supported); //$NON-NLS-1$
+        LogManager.v("isOpenGlEs20Supported = %b", isOpenGlEs20Supported);
         return isOpenGlEs20Supported;
     }
 
@@ -99,6 +99,6 @@ public final class EnvironmentUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private EnvironmentUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

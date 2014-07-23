@@ -26,12 +26,12 @@ public final class PaymentTokenJsonFactoryTest extends SupportAndroidTestCase {
     public void testJsonParse_basic() throws JSONException {
         // Make sure required fields are parsed if set
         PaymentToken token = new PaymentTokenJsonFactory().from(PaymentTokenFixture.getFullJsonObject());
-        assertEquals("0123456789", token.getData()); //$NON-NLS-1$
+        assertEquals("0123456789", token.getData());
         assertEquals(1, token.getId());
 
         // Test nested parsing
         token = new PaymentTokenJsonFactory().from(PaymentTokenFixture.getFullJsonObject());
-        assertEquals("0123456789", token.getData()); //$NON-NLS-1$
+        assertEquals("0123456789", token.getData());
         assertEquals(1, token.getId());
     }
 
@@ -46,7 +46,7 @@ public final class PaymentTokenJsonFactoryTest extends SupportAndroidTestCase {
             final JSONObject object = PaymentTokenFixture.getFullJsonObject();
             object.remove(PaymentTokenJsonFactory.JsonKeys.DATA);
             new PaymentTokenJsonFactory().from(object);
-            fail("no data field should throw error"); //$NON-NLS-1$
+            fail("no data field should throw error");
         } catch (final JSONException e) {
             // Expected exception
         }
@@ -55,7 +55,7 @@ public final class PaymentTokenJsonFactoryTest extends SupportAndroidTestCase {
             final JSONObject object = PaymentTokenFixture.getFullJsonObject();
             object.remove(PaymentTokenJsonFactory.JsonKeys.ID);
             new PaymentTokenJsonFactory().from(object);
-            fail("no id field should throw error"); //$NON-NLS-1$
+            fail("no id field should throw error");
         } catch (final JSONException e) {
             // Expected exception
         }

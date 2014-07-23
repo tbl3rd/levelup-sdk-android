@@ -33,10 +33,10 @@ public final class UserTest extends SupportAndroidTestCase {
 
             final User parceled = User.CREATOR.createFromParcel(parcel);
             assertEquals(user, parceled);
-            assertTrue(user.getCustomAttributes().containsKey("test_attr")); //$NON-NLS-1$
-            assertTrue(user.getCustomAttributes().containsKey("test_attr2")); //$NON-NLS-1$
-            assertEquals("0", user.getCustomAttributes().get("test_attr")); //$NON-NLS-1$ //$NON-NLS-2$
-            assertEquals("1", user.getCustomAttributes().get("test_attr2")); //$NON-NLS-1$ //$NON-NLS-2$
+            assertTrue(user.getCustomAttributes().containsKey("test_attr"));
+            assertTrue(user.getCustomAttributes().containsKey("test_attr2"));
+            assertEquals("0", user.getCustomAttributes().get("test_attr"));
+            assertEquals("1", user.getCustomAttributes().get("test_attr2"));
         }
 
         {
@@ -105,13 +105,13 @@ public final class UserTest extends SupportAndroidTestCase {
          */
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(UserJsonFactory.JsonKeys.class,
                 new UserJsonFactory(), UserFixture.getFullJsonObject(), new String[] {
-                        "CUSTOM_ATTRIBUTES", "MODEL_ROOT" }); //$NON-NLS-1$ //$NON-NLS-2$
+                        "CUSTOM_ATTRIBUTES", "MODEL_ROOT" });
 
         // Modifying a single custom attribute should be unequal/give different hashcode
         final HashMap<String, String> customAttributesMap = new HashMap<String, String>();
         // Changed value
-        customAttributesMap.put("test_attr", "1"); //$NON-NLS-1$ //$NON-NLS-2$
-        customAttributesMap.put("test_attr2", "1"); //$NON-NLS-1$ //$NON-NLS-2$
+        customAttributesMap.put("test_attr", "1");
+        customAttributesMap.put("test_attr2", "1");
         final JSONObject customAttributesObject = new JSONObject(customAttributesMap);
         user2 =
                 new UserJsonFactory().from(UserFixture.getFullJsonObject().put(

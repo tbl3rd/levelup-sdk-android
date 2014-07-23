@@ -35,17 +35,17 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     private final MockWebServer mServer = new MockWebServer();
 
     @NonNull
-    private static final String RESPONSE_BODY = "This is a response body"; //$NON-NLS-1$
+    private static final String RESPONSE_BODY = "This is a response body";
 
     @NonNull
-    private static final String BASE_URL = "http://www.example.com"; //$NON-NLS-1$
+    private static final String BASE_URL = "http://www.example.com";
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         mServer.enqueue(new MockResponse().setResponseCode(HttpURLConnection.HTTP_OK)
                 .setBody(RESPONSE_BODY)
-                .setHeader("content-length", RESPONSE_BODY.getBytes("utf-8").length)); //$NON-NLS-1$ //$NON-NLS-2$
+                .setHeader("content-length", RESPONSE_BODY.getBytes("utf-8").length));
         mServer.play();
     }
 
@@ -69,7 +69,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         assertEquals(connection.getURL(), request.getUrl(getContext()));
         assertEquals(connection.getRequestMethod(), request.getMethod().name());
         assertEquals(connection.getURL().getQuery(), null);
-        assertTrue("Request headers are empty", connection.getRequestProperties().isEmpty()); //$NON-NLS-1$
+        assertTrue("Request headers are empty", connection.getRequestProperties().isEmpty());
     }
 
     /**
@@ -80,8 +80,8 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testConfigureConnection_withHeaders() throws IOException, BadRequestException {
         final Map<String, String> headers = new HashMap<String, String>();
-        headers.put("test_value", "test"); //$NON-NLS-1$ //$NON-NLS-2$
-        headers.put("header2", "header"); //$NON-NLS-1$ //$NON-NLS-2$
+        headers.put("test_value", "test");
+        headers.put("header2", "header");
         final RequestStub request = new RequestStub(HttpMethod.GET, BASE_URL, headers, null, null);
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
@@ -104,7 +104,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         assertEquals(connection.getURL(), request.getUrl(getContext()));
         assertEquals(connection.getRequestMethod(), request.getMethod().name());
         assertEquals(connection.getURL().getQuery(), null);
-        assertTrue("Request headers are empty", connection.getRequestProperties().isEmpty()); //$NON-NLS-1$
+        assertTrue("Request headers are empty", connection.getRequestProperties().isEmpty());
     }
 
     /**
@@ -117,17 +117,17 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     public void testConfigureConnection_withQueryParameters() throws IOException,
             BadRequestException {
         final Map<String, String> params = new HashMap<String, String>();
-        params.put("test_value", "test"); //$NON-NLS-1$ //$NON-NLS-2$
-        params.put("param2", "param"); //$NON-NLS-1$ //$NON-NLS-2$
+        params.put("test_value", "test");
+        params.put("param2", "param");
         final RequestStub request = new RequestStub(HttpMethod.GET, BASE_URL, null, params, null);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
-        final String expectedQueryString = "param2=param&test_value=test"; //$NON-NLS-1$
+        final String expectedQueryString = "param2=param&test_value=test";
         assertEquals(request.getUrl(getContext()).getQuery(), connection.getURL().getQuery());
         assertEquals(expectedQueryString, connection.getURL().getQuery());
 
-        assertTrue("Request headers are empty", connection.getRequestProperties().isEmpty()); //$NON-NLS-1$
+        assertTrue("Request headers are empty", connection.getRequestProperties().isEmpty());
     }
 
     /**
@@ -155,12 +155,12 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testConfigureConnection_withPostBody() throws IOException, BadRequestException {
-        final String body = "this is a test body"; //$NON-NLS-1$
+        final String body = "this is a test body";
         final RequestStub request = new RequestStub(HttpMethod.POST, BASE_URL, null, null, body);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
-        assertTrue("Connection is marked as output", connection.getDoOutput()); //$NON-NLS-1$
+        assertTrue("Connection is marked as output", connection.getDoOutput());
         assertEquals(HttpMethod.POST.name(), connection.getRequestMethod());
     }
 
@@ -173,14 +173,14 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testConfigureConnection_withPostBodyAndPutRequest() throws IOException,
             BadRequestException {
-        final String body = "this is a test body"; //$NON-NLS-1$
+        final String body = "this is a test body";
         final RequestStub request =
                 new RequestStub(HttpMethod.PUT, BASE_URL, new HashMap<String, String>(),
                         new HashMap<String, String>(), body);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
-        assertTrue("Connection is marked as output", connection.getDoOutput()); //$NON-NLS-1$
+        assertTrue("Connection is marked as output", connection.getDoOutput());
         assertEquals(HttpMethod.PUT.name(), connection.getRequestMethod());
     }
 
@@ -198,7 +198,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
-        assertFalse("Connection is not marked as output", connection.getDoOutput()); //$NON-NLS-1$
+        assertFalse("Connection is not marked as output", connection.getDoOutput());
         NetworkConnection.doOutput(getContext(), connection, request);
         assertEquals(HttpMethod.GET.name(), connection.getRequestMethod());
     }
@@ -211,14 +211,14 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testDoOutput_withPostBodyAndGetRequest() throws IOException, BadRequestException {
-        final String body = "this is a test body"; //$NON-NLS-1$
+        final String body = "this is a test body";
         final RequestStub request =
                 new RequestStub(HttpMethod.GET, getMockServerUrl(), new HashMap<String, String>(),
                         new HashMap<String, String>(), body);
 
         final HttpURLConnection connection =
                 NetworkConnection.configureConnection(getContext(), request);
-        assertTrue("Connection is marked as output", connection.getDoOutput()); //$NON-NLS-1$
+        assertTrue("Connection is marked as output", connection.getDoOutput());
         NetworkConnection.doOutput(getContext(), connection, request);
         assertEquals(HttpMethod.POST.name(), connection.getRequestMethod());
     }
@@ -237,7 +237,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
 
-        assertEquals("/", recorded.getPath()); //$NON-NLS-1$
+        assertEquals("/", recorded.getPath());
         assertEquals(request.getMethod().name(), recorded.getMethod());
         assertEquals(HttpURLConnection.HTTP_OK, response.getHttpStatusCode());
     }
@@ -251,14 +251,14 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testSend_getWithQueryParams() throws InterruptedException, IOException {
         final Map<String, String> query = new HashMap<String, String>();
-        query.put("test1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
+        query.put("test1", "value1");
         final RequestStub request =
                 new RequestStub(HttpMethod.GET, getMockServerUrl(), new HashMap<String, String>(),
                         query, null);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
 
-        assertEquals("/?test1=value1", recorded.getPath()); //$NON-NLS-1$
+        assertEquals("/?test1=value1", recorded.getPath());
         assertEquals(request.getMethod().name(), recorded.getMethod());
         assertEquals(HttpURLConnection.HTTP_OK, response.getHttpStatusCode());
     }
@@ -272,19 +272,19 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     @SmallTest
     public void testSend_getWithHeaders() throws InterruptedException, IOException {
         final Map<String, String> headers = new HashMap<String, String>();
-        headers.put("test1", "value1"); //$NON-NLS-1$ //$NON-NLS-2$
-        headers.put("testing_this", "more headers"); //$NON-NLS-1$ //$NON-NLS-2$
+        headers.put("test1", "value1");
+        headers.put("testing_this", "more headers");
         final RequestStub request =
                 new RequestStub(HttpMethod.GET, getMockServerUrl(), headers,
                         new HashMap<String, String>(), null);
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
 
-        assertEquals("/", recorded.getPath()); //$NON-NLS-1$
+        assertEquals("/", recorded.getPath());
 
-        assertTrue("First header was found", recorded.getHeaders().contains("test1: value1")); //$NON-NLS-1$ //$NON-NLS-2$
-        assertTrue("Second header was found", //$NON-NLS-1$
-                recorded.getHeaders().contains("testing_this: more headers")); //$NON-NLS-1$
+        assertTrue("First header was found", recorded.getHeaders().contains("test1: value1"));
+        assertTrue("Second header was found",
+                recorded.getHeaders().contains("testing_this: more headers"));
         assertEquals(request.getMethod().name(), recorded.getMethod());
         assertEquals(HttpURLConnection.HTTP_OK, response.getHttpStatusCode());
     }
@@ -304,11 +304,11 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final RecordedRequest recorded = mServer.takeRequest();
 
-        assertEquals("/", recorded.getPath()); //$NON-NLS-1$
+        assertEquals("/", recorded.getPath());
         assertEquals(request.getMethod().name(), recorded.getMethod());
         assertEquals(HttpURLConnection.HTTP_OK, response.getHttpStatusCode());
         final BufferedReader reader =
-                new BufferedReader(new InputStreamReader(response.getData(), "utf-8")); //$NON-NLS-1$
+                new BufferedReader(new InputStreamReader(response.getData(), "utf-8"));
         final String out = reader.readLine();
         assertEquals(RESPONSE_BODY, out);
     }
@@ -321,7 +321,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_post() throws InterruptedException, IOException {
-        final String body = "this is a test body"; //$NON-NLS-1$
+        final String body = "this is a test body";
         final RequestStub request =
                 new RequestStub(HttpMethod.POST, getMockServerUrl(), new HashMap<String, String>(),
                         new HashMap<String, String>(), body);
@@ -341,7 +341,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_put() throws InterruptedException, IOException {
-        final String body = "this is a test body"; //$NON-NLS-1$
+        final String body = "this is a test body";
         final RequestStub request =
                 new RequestStub(HttpMethod.PUT, getMockServerUrl(), new HashMap<String, String>(),
                         new HashMap<String, String>(), body);
@@ -467,7 +467,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @NonNull
     private String getMockServerUrl() throws IOException {
-        return NullUtils.nonNullContract(mServer.getUrl("/").toString()); //$NON-NLS-1$
+        return NullUtils.nonNullContract(mServer.getUrl("/").toString());
     }
 
     /**
@@ -490,7 +490,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
             if (0 < mNumExceptions) {
                 mNumExceptions--;
 
-                throw new BadRequestException("bad request"); //$NON-NLS-1$
+                throw new BadRequestException("bad request");
             }
 
             return super.getUrlString(context);
@@ -520,7 +520,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
             if (0 < mNumExceptions) {
                 mNumExceptions--;
 
-                throw new EOFException("stale connection"); //$NON-NLS-1$
+                throw new EOFException("stale connection");
             }
 
             super.writeBodyToStream(context, stream);
@@ -547,7 +547,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
             if (0 < mNumExceptions) {
                 mNumExceptions--;
 
-                throw new IOException("broken pipe"); //$NON-NLS-1$
+                throw new IOException("broken pipe");
             }
 
             super.writeBodyToStream(context, stream);
@@ -588,7 +588,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         @Override
         public void writeBodyToStream(@NonNull final Context context,
                 @NonNull final OutputStream stream) throws IOException {
-            final OutputStreamWriter writer = new OutputStreamWriter(stream, "utf-8"); //$NON-NLS-1$
+            final OutputStreamWriter writer = new OutputStreamWriter(stream, "utf-8");
 
             try {
                 writer.write(mBody);

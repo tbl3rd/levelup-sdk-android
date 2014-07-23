@@ -80,7 +80,7 @@ public final class USCentTip extends Tip<USCentTip> {
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "USCentTip(value=%s)", getValue()); //$NON-NLS-1$
+        return String.format(Locale.US, "USCentTip(value=%s)", getValue());
     }
 
     /**

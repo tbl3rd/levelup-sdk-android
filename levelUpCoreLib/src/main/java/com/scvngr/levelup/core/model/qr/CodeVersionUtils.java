@@ -58,7 +58,7 @@ public final class CodeVersionUtils {
 
         if (CoreLibConstants.IS_PARAMETER_CHECKING_ENABLED) {
             if (finalSize < 0) {
-                throw new IllegalArgumentException("finalSize cannot be negative"); //$NON-NLS-1$
+                throw new IllegalArgumentException("finalSize cannot be negative");
             }
         }
 
@@ -81,6 +81,6 @@ public final class CodeVersionUtils {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private CodeVersionUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

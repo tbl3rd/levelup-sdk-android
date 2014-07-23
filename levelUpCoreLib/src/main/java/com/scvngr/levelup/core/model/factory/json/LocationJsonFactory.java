@@ -75,76 +75,76 @@ public final class LocationJsonFactory extends AbstractJsonModelFactory<Location
     public static final class JsonKeys {
 
         @JsonValueType(JsonType.JSON_ARRAY)
-        public static final String CATEGORIES = "categories"; //$NON-NLS-1$
+        public static final String CATEGORIES = "categories";
 
         /**
          * The key under which this model can be nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "location"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "location";
 
         @JsonValueType(JsonType.STRING)
-        public static final String EXTENDED_ADDRESS = "extended_address"; //$NON-NLS-1$
+        public static final String EXTENDED_ADDRESS = "extended_address";
 
         @JsonValueType(JsonType.STRING)
-        public static final String FACEBOOK_URL = "facebook_url"; //$NON-NLS-1$
+        public static final String FACEBOOK_URL = "facebook_url";
 
         @JsonValueType(JsonType.STRING)
-        public static final String FOODLER_URL = "foodler_url"; //$NON-NLS-1$
+        public static final String FOODLER_URL = "foodler_url";
 
         @JsonValueType(JsonType.STRING)
-        public static final String HOURS = "hours"; //$NON-NLS-1$
+        public static final String HOURS = "hours";
 
         @JsonValueType(JsonType.LONG)
-        public static final String ID = "id"; //$NON-NLS-1$
+        public static final String ID = "id";
 
         @JsonValueType(JsonType.DOUBLE)
-        public static final String LATITUDE = "latitude"; //$NON-NLS-1$
+        public static final String LATITUDE = "latitude";
 
         @JsonValueType(JsonType.DOUBLE)
-        public static final String LONGITUDE = "longitude"; //$NON-NLS-1$
+        public static final String LONGITUDE = "longitude";
 
         @JsonValueType(JsonType.STRING)
-        public static final String LOCALITY = "locality"; //$NON-NLS-1$
+        public static final String LOCALITY = "locality";
 
         @JsonValueType(JsonType.STRING)
-        public static final String MENU_URL = "menu_url"; //$NON-NLS-1$
+        public static final String MENU_URL = "menu_url";
 
         @JsonValueType(JsonType.STRING)
-        public static final String NAME = "name"; //$NON-NLS-1$
+        public static final String NAME = "name";
 
         @JsonValueType(JsonType.STRING)
-        public static final String NEWSLETTER_URL = "newsletter_url"; //$NON-NLS-1$
+        public static final String NEWSLETTER_URL = "newsletter_url";
 
         @JsonValueType(JsonType.STRING)
-        public static final String OPENTABLE_URL = "opentable_url"; //$NON-NLS-1$
+        public static final String OPENTABLE_URL = "opentable_url";
 
         @JsonValueType(JsonType.LONG)
-        public static final String MERCHANT_ID = "merchant_id"; //$NON-NLS-1$
+        public static final String MERCHANT_ID = "merchant_id";
 
         @JsonValueType(JsonType.STRING)
-        public static final String MERCHANT_NAME = "merchant_name"; //$NON-NLS-1$
+        public static final String MERCHANT_NAME = "merchant_name";
 
         @JsonValueType(JsonType.STRING)
-        public static final String PHONE = "phone"; //$NON-NLS-1$
+        public static final String PHONE = "phone";
 
         @JsonValueType(JsonType.STRING)
-        public static final String POSTAL_CODE = "postal_code"; //$NON-NLS-1$
+        public static final String POSTAL_CODE = "postal_code";
 
         @JsonValueType(JsonType.STRING)
-        public static final String REGION = "region"; //$NON-NLS-1$
+        public static final String REGION = "region";
 
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String SHOWN = "shown"; //$NON-NLS-1$
+        public static final String SHOWN = "shown";
 
         @JsonValueType(JsonType.STRING)
-        public static final String STREET_ADDRESS = "street_address"; //$NON-NLS-1$
+        public static final String STREET_ADDRESS = "street_address";
 
         @JsonValueType(JsonType.STRING)
-        public static final String TWITTER_URL = "twitter_url"; //$NON-NLS-1$
+        public static final String TWITTER_URL = "twitter_url";
 
         @JsonValueType(JsonType.STRING)
-        public static final String YELP_URL = "yelp_url"; //$NON-NLS-1$
+        public static final String YELP_URL = "yelp_url";
 
         /**
          * Private constructor prevents instantiation.
@@ -152,7 +152,7 @@ public final class LocationJsonFactory extends AbstractJsonModelFactory<Location
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

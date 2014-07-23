@@ -24,25 +24,25 @@ public final class ErrorFixture {
      * Test value for {@link ErrorJsonFactory.JsonKeys#CODE}.
      */
     @NonNull
-    public static final String CODE_VALUE = "homework_not_submitted"; //$NON-NLS-1$
+    public static final String CODE_VALUE = "homework_not_submitted";
 
     /**
      * Test value for {@link ErrorJsonFactory.JsonKeys#MESSAGE}.
      */
     @NonNull
-    public static final String MESSAGE_VALUE = "The dog ate my homework."; //$NON-NLS-1$
+    public static final String MESSAGE_VALUE = "The dog ate my homework.";
 
     /**
      * Test value for {@link ErrorJsonFactory.JsonKeys#OBJECT}.
      */
     @NonNull
-    public static final String OBJECT_VALUE = "access_token"; //$NON-NLS-1$
+    public static final String OBJECT_VALUE = "access_token";
 
     /**
      * Test value for {@link ErrorJsonFactory.JsonKeys#PROPERTY}.
      */
     @NonNull
-    public static final String PROPERTY_VALUE = "base"; //$NON-NLS-1$
+    public static final String PROPERTY_VALUE = "base";
 
     /**
      * @return valid, fully populated {@link Error}.
@@ -164,6 +164,6 @@ public final class ErrorFixture {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private ErrorFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

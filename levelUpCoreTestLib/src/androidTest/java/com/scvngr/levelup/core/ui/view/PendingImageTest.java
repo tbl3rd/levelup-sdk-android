@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
  */
 public final class PendingImageTest extends TestCase {
 
-    private static final String TEST_KEY = "foo"; //$NON-NLS-1$
-    private static final Uri TEST_CONTENT1 = Uri.parse("urn:foo"); //$NON-NLS-1$
+    private static final String TEST_KEY = "foo";
+    private static final Uri TEST_CONTENT1 = Uri.parse("urn:foo");
 
     private LatchingLoadCancelable mLoadCancelable;
     private PendingImage<Uri> mImage;

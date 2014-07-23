@@ -21,10 +21,10 @@ import java.util.List;
  * {@link android.os.Parcelable} object.
  */
 public final class ParcelableArrayListTest extends SupportAndroidTestCase {
-    private static final Uri URI_01 = Uri.parse("foo:"); //$NON-NLS-1$
-    private static final Uri URI_02 = Uri.parse("http://example.com/"); //$NON-NLS-1$
-    private static final Uri URI_03 = Uri.parse("urn:12345"); //$NON-NLS-1$
-    private static final Uri URI_04 = Uri.parse("urn:foo"); //$NON-NLS-1$
+    private static final Uri URI_01 = Uri.parse("foo:");
+    private static final Uri URI_02 = Uri.parse("http://example.com/");
+    private static final Uri URI_03 = Uri.parse("urn:12345");
+    private static final Uri URI_04 = Uri.parse("urn:foo");
 
     private static final List<Uri> BASIC_URI_LIST = Arrays.asList(new Uri[] { URI_01, URI_02,
             URI_03 });
@@ -202,7 +202,7 @@ public final class ParcelableArrayListTest extends SupportAndroidTestCase {
      * Fail with an "expecting exception" message.
      */
     private void failExpectingException() {
-        fail("Exception expected to be thrown."); //$NON-NLS-1$
+        fail("Exception expected to be thrown.");
     }
 
     /**

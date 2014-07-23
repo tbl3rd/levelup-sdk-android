@@ -25,25 +25,25 @@ import com.scvngr.levelup.core.util.PreconditionUtil;
 public abstract class AbstractRequestFactory {
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_DENSITY = "density"; //$NON-NLS-1$
+    /* package */static final String PARAM_DENSITY = "density";
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_HEIGHT = "height"; //$NON-NLS-1$
+    /* package */static final String PARAM_HEIGHT = "height";
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_WIDTH = "width"; //$NON-NLS-1$
+    /* package */static final String PARAM_WIDTH = "width";
 
     /**
      * We currently only provide a 320dp wide image for locations.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String DEFAULT_WIDTH = "320"; //$NON-NLS-1$
+    /* package */static final String DEFAULT_WIDTH = "320";
 
     /**
      * We currently only provide a 212dp high image for locations.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String DEFAULT_HEIGHT = "212"; //$NON-NLS-1$
+    /* package */static final String DEFAULT_HEIGHT = "212";
 
     /**
      * The Application context.
@@ -69,7 +69,7 @@ public abstract class AbstractRequestFactory {
      */
     public AbstractRequestFactory(@NonNull final Context context,
             @Nullable final AccessTokenRetriever retriever) {
-        PreconditionUtil.assertNotNull(context, "context"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(context, "context");
 
         mContext = NullUtils.nonNullContract(context.getApplicationContext());
         mAccessTokenRetriever = retriever;

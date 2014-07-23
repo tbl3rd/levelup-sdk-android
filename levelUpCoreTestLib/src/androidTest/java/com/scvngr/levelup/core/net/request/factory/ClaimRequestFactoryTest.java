@@ -24,8 +24,8 @@ import java.util.Locale;
  */
 public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
 
-    private static final String SAMPLE_URL_CODE = "https://www.staging-levelup.com/c/3T5JPD44GZ"; //$NON-NLS-1$
-    private static final String SAMPLE_CODE = "abc123"; //$NON-NLS-1$
+    private static final String SAMPLE_URL_CODE = "https://www.staging-levelup.com/c/3T5JPD44GZ";
+    private static final String SAMPLE_CODE = "abc123";
 
     /**
      * Tests the constructor and expected invariants.
@@ -40,7 +40,7 @@ public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testBuildClaimLegacyLoyaltyRequest() throws BadRequestException, JSONException {
-        final String loyaltyId = "2222"; //$NON-NLS-1$
+        final String loyaltyId = "2222";
         final LevelUpRequest request =
                 (LevelUpRequest) new ClaimRequestFactory(getContext(),
                         new MockAccessTokenRetriever()).buildClaimLegacyLoyaltyRequest(1, loyaltyId);
@@ -56,7 +56,7 @@ public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
         final URL url = request.getUrl(getContext());
         assertNotNull(url);
         // Make sure we hit the proper API version and url.
-        assertEquals("/v15/loyalties/legacy/1/claims", url.getPath()); //$NON-NLS-1$
+        assertEquals("/v15/loyalties/legacy/1/claims", url.getPath());
     }
 
     @SmallTest
@@ -71,7 +71,7 @@ public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
         assertNotNull(url);
         // Make sure we hit the proper API version and url.
         final String expectedUrl =
-                String.format(Locale.US, "/v15/codes/%s/claims", SAMPLE_CODE); //$NON-NLS-1$
+                String.format(Locale.US, "/v15/codes/%s/claims", SAMPLE_CODE);
         assertEquals(expectedUrl, url.getPath());
     }
 
@@ -86,10 +86,10 @@ public final class ClaimRequestFactoryTest extends SupportAndroidTestCase {
         final URL url = request.getUrl(getContext());
         assertNotNull(url);
 
-        final String encodedCode = URLEncoder.encode(SAMPLE_URL_CODE, "UTF-8"); //$NON-NLS-1$
+        final String encodedCode = URLEncoder.encode(SAMPLE_URL_CODE, "UTF-8");
         // Make sure we hit the proper API version and url.
         final String expectedUrl =
-                String.format(Locale.US, "/v15/codes/%s/claims", encodedCode); //$NON-NLS-1$
+                String.format(Locale.US, "/v15/codes/%s/claims", encodedCode);
         assertEquals(expectedUrl, url.getPath());
     }
 }

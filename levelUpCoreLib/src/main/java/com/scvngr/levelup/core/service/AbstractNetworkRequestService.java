@@ -39,7 +39,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * {@link #EXTRA_BOOLEAN_IS_REQUEST_SUCCESSFUL}.
      */
     public static final String ACTION_REQUEST_FINISHED = AbstractNetworkRequestService.class
-            .getName() + ".intent.action.request_finished"; //$NON-NLS-1$
+            .getName() + ".intent.action.request_finished";
 
     /**
      * Type: {@code AbstractRequest}.
@@ -48,7 +48,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * Intent to start the service.
      */
     /* package */static final String EXTRA_PARCELABLE_REQUEST = AbstractNetworkRequestService.class
-            .getName() + ".extra.PARCELABLE_REQUEST"; //$NON-NLS-1$
+            .getName() + ".extra.PARCELABLE_REQUEST";
 
     /**
      * Type: {@code Response}.
@@ -56,7 +56,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * Key mapping to a response from the request the service performed.
      */
     public static final String EXTRA_PARCELABLE_RESPONSE = AbstractNetworkRequestService.class
-            .getName() + ".extra.PARCELABLE_RESPONSE"; //$NON-NLS-1$
+            .getName() + ".extra.PARCELABLE_RESPONSE";
 
     /**
      * Type: {@code String}.
@@ -64,7 +64,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * Key mapping to a token uniquely identifying the original request to the service.
      */
     public static final String EXTRA_STRING_TOKEN = AbstractNetworkRequestService.class.getName()
-            + ".extra.STRING_TOKEN"; //$NON-NLS-1$
+            + ".extra.STRING_TOKEN";
 
     /**
      * Type: {@code boolean}.
@@ -73,7 +73,7 @@ public abstract class AbstractNetworkRequestService extends IntentService {
      * doesn't contain an error).
      */
     public static final String EXTRA_BOOLEAN_IS_REQUEST_SUCCESSFUL =
-            AbstractNetworkRequestService.class.getName() + ".extra.BOOLEAN_IS_REQUEST_SUCCESSFUL"; //$NON-NLS-1$
+            AbstractNetworkRequestService.class.getName() + ".extra.BOOLEAN_IS_REQUEST_SUCCESSFUL";
 
     /**
      * Constructs a new instance of the service.
@@ -110,16 +110,16 @@ public abstract class AbstractNetworkRequestService extends IntentService {
         final AbstractRequest request = getRequest(intent);
 
         if (null != request) {
-            LogManager.v("Sending request in the background: %s", request); //$NON-NLS-1$
+            LogManager.v("Sending request in the background: %s", request);
 
             final LevelUpResponse response =
                     LevelUpConnection.newInstance(context).send(request);
 
-            LogManager.v("Response from background request %s", response.getStatus()); //$NON-NLS-1$
+            LogManager.v("Response from background request %s", response.getStatus());
             final boolean success = handleResponse(context, response);
             onRequestFinished(context, intent, response, success);
         } else {
-            LogManager.w("No request passed"); //$NON-NLS-1$
+            LogManager.w("No request passed");
         }
     }
 

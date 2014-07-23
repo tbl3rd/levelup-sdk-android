@@ -47,7 +47,7 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
     public AbstractRequest buildGetCampaignRequest(final int campaignId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
                 LevelUpRequest.API_VERSION_CODE_V14,
-                NullUtils.format("campaigns/%d", campaignId), null, null, //$NON-NLS-1$
+                NullUtils.format("campaigns/%d", campaignId), null, null,
                 getAccessTokenRetriever());
     }
 
@@ -68,7 +68,7 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
         queryParams.put(PARAM_WIDTH, DEFAULT_WIDTH);
         queryParams.put(PARAM_HEIGHT, DEFAULT_HEIGHT);
         return new LevelUpRequest(context, HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V14,
-                NullUtils.format("campaigns/%d/image", campaignWebServiceId), //$NON-NLS-1$
+                NullUtils.format("campaigns/%d/image", campaignWebServiceId),
                 queryParams, null);
     }
 
@@ -82,6 +82,6 @@ public final class CampaignRequestFactory extends AbstractRequestFactory {
     public AbstractRequest buildGetCampaignMerchantsRequest(final long campaignWebServiceId) {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
                 LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
-                        "campaigns/%d/merchants", campaignWebServiceId), null, null); //$NON-NLS-1$
+                        "campaigns/%d/merchants", campaignWebServiceId), null, null);
     }
 }

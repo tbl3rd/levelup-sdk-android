@@ -27,13 +27,13 @@ import java.util.concurrent.CountDownLatch;
 public final class AbstractPagingRequestFactoryTest extends SupportAndroidTestCase {
 
     @NonNull
-    private static final String TEST_PAGE_ENDPOINT_ONE = "test_page_endpoint_one"; //$NON-NLS-1$
+    private static final String TEST_PAGE_ENDPOINT_ONE = "test_page_endpoint_one";
 
     @NonNull
-    private static final String TEST_PAGE_ENDPOINT_TWO = "test_page_endpoint_two"; //$NON-NLS-1$
+    private static final String TEST_PAGE_ENDPOINT_TWO = "test_page_endpoint_two";
 
     @NonNull
-    private static final String TEST_PAGE_KEY = "test_page_key"; //$NON-NLS-1$
+    private static final String TEST_PAGE_KEY = "test_page_key";
 
     /**
      * Tests the constructor and expected invariants.

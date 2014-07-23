@@ -29,7 +29,7 @@ public final class TicketRequestFactory extends AbstractRequestFactory {
      * Web service endpoint.
      */
     @NonNull
-    protected static final String ENDPOINT = "tickets"; //$NON-NLS-1$
+    protected static final String ENDPOINT = "tickets";
 
     /**
      * @param context the Application context.

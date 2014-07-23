@@ -73,71 +73,71 @@ public final class CampaignJsonFactory extends AbstractJsonModelFactory<Campaign
          */
         @NonNull
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "campaign"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "campaign";
 
         @NonNull
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String APPLIES_TO_ALL_MERCHANTS = "applies_to_all_merchants"; //$NON-NLS-1$
+        public static final String APPLIES_TO_ALL_MERCHANTS = "applies_to_all_merchants";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String CONFIRMATION_HTML = "confirmation_html"; //$NON-NLS-1$
+        public static final String CONFIRMATION_HTML = "confirmation_html";
 
         @NonNull
         @JsonValueType(JsonType.LONG)
-        public static final String ID = "id"; //$NON-NLS-1$
+        public static final String ID = "id";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String MESSAGE_FOR_EMAIL_BODY = "message_for_email_body"; //$NON-NLS-1$
+        public static final String MESSAGE_FOR_EMAIL_BODY = "message_for_email_body";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String MESSAGE_FOR_EMAIL_SUBJECT = "message_for_email_subject"; //$NON-NLS-1$
+        public static final String MESSAGE_FOR_EMAIL_SUBJECT = "message_for_email_subject";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String MESSAGE_FOR_FACEBOOK = "message_for_facebook"; //$NON-NLS-1$
+        public static final String MESSAGE_FOR_FACEBOOK = "message_for_facebook";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String MESSAGE_FOR_TWITTER = "message_for_twitter"; //$NON-NLS-1$
+        public static final String MESSAGE_FOR_TWITTER = "message_for_twitter";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String NAME = "name"; //$NON-NLS-1$
+        public static final String NAME = "name";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String OFFER_HTML = "offer_html"; //$NON-NLS-1$
+        public static final String OFFER_HTML = "offer_html";
 
         @NonNull
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String SHAREABLE = "shareable"; //$NON-NLS-1$
+        public static final String SHAREABLE = "shareable";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String SHARE_URL_EMAIL = "share_url_email"; //$NON-NLS-1$
+        public static final String SHARE_URL_EMAIL = "share_url_email";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String SHARE_URL_FACEBOOK = "share_url_facebook"; //$NON-NLS-1$
+        public static final String SHARE_URL_FACEBOOK = "share_url_facebook";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String SHARE_URL_TWITTER = "share_url_twitter"; //$NON-NLS-1$
+        public static final String SHARE_URL_TWITTER = "share_url_twitter";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String SPONSOR = "sponsor"; //$NON-NLS-1$
+        public static final String SPONSOR = "sponsor";
 
         @NonNull
         @JsonValueType(JsonType.STRING)
-        public static final String TYPE = "type"; //$NON-NLS-1$
+        public static final String TYPE = "type";
 
         @NonNull
         @JsonValueType(JsonType.LONG)
-        public static final String VALUE = "value_amount"; //$NON-NLS-1$
+        public static final String VALUE = "value_amount";
 
         /**
          * Private constructor prevents instantiation.
@@ -145,7 +145,7 @@ public final class CampaignJsonFactory extends AbstractJsonModelFactory<Campaign
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

@@ -30,7 +30,7 @@ public final class NullUtils {
         // A separate conditional, so the compiler can strip it.
         if (CoreLibConstants.IS_PARAMETER_CHECKING_ENABLED) {
             if (null == source) {
-                throw new AssertionError(String.format(Locale.US, "%s cannot be null", what)); //$NON-NLS-1$
+                throw new AssertionError(String.format(Locale.US, "%s cannot be null", what));
             }
         }
 
@@ -51,7 +51,7 @@ public final class NullUtils {
         // A separate conditional, so the compiler can strip it.
         if (CoreLibConstants.IS_PARAMETER_CHECKING_ENABLED) {
             if (null == source) {
-                throw new AssertionError("the source cannot be null"); //$NON-NLS-1$
+                throw new AssertionError("the source cannot be null");
             }
         }
 
@@ -77,7 +77,7 @@ public final class NullUtils {
      */
     @NonNull
     public static String format(@NonNull final String format, @Nullable final Object... args) {
-        return nonNullContract(String.format(Locale.US, format, args), "formatted string"); //$NON-NLS-1$
+        return nonNullContract(String.format(Locale.US, format, args), "formatted string");
     }
 
     /**
@@ -92,7 +92,7 @@ public final class NullUtils {
     @NonNull
     public static String format(@NonNull final Locale locale, @NonNull final String format,
             @Nullable final Object... args) {
-        return nonNullContract(String.format(locale, format, args), "formatted string"); //$NON-NLS-1$
+        return nonNullContract(String.format(locale, format, args), "formatted string");
     }
 
     /**
@@ -101,6 +101,6 @@ public final class NullUtils {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private NullUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

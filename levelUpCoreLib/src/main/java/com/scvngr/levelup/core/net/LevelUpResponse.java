@@ -33,14 +33,14 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
      * The name of the Server HTTP header.
      */
     @NonNull
-    private static final String HTTP_HEADER_SERVER = "Server"; //$NON-NLS-1$
+    private static final String HTTP_HEADER_SERVER = "Server";
 
     /**
      * The expected value for the Server header for us to know it's coming from LevelUp Platform
      * (and not a reverse-proxy or failover server).
      */
     @NonNull
-    private static final String HTTP_HEADER_VALUE_SERVER = "LevelUp"; //$NON-NLS-1$
+    private static final String HTTP_HEADER_VALUE_SERVER = "LevelUp";
 
     /**
      * Creator for parceling.
@@ -154,7 +154,7 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
      * Asserts representation invariants of this class.
      */
     private void checkRep() {
-        PreconditionUtil.assertNotNull(mStatus, "status"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(mStatus, "status");
     }
 
     /**
@@ -333,7 +333,7 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
 
     @Override
     public String toString() {
-        return String.format(Locale.US, "LevelUpResponse [mBufferedResponse=%s, mStatus=%s]", //$NON-NLS-1$
+        return String.format(Locale.US, "LevelUpResponse [mBufferedResponse=%s, mStatus=%s]",
                 super.toString(), mStatus);
     }
 

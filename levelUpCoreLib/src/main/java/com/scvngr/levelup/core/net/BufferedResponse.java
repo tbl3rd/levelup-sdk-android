@@ -147,7 +147,7 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
             error = e;
         }
 
-        mData = (null == builder) ? "" : NullUtils.nonNullContract(builder.toString()); //$NON-NLS-1$
+        mData = (null == builder) ? "" : NullUtils.nonNullContract(builder.toString());
         mReadError = error;
         response.close();
     }
@@ -188,7 +188,7 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
             throws IOException {
         final StringBuilder builder = new StringBuilder();
 
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(data, "utf-8")); //$NON-NLS-1$
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(data, "utf-8"));
         final char[] chars = new char[READ_BUFFER_SIZE_BYTES];
         int size = 0;
 
@@ -212,7 +212,7 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
             reader.close();
         }
 
-        LogManager.v("Response is %s", builder); //$NON-NLS-1$
+        LogManager.v("Response is %s", builder);
 
         return builder;
     }
@@ -220,7 +220,7 @@ public class BufferedResponse extends AbstractResponse<String> implements Parcel
     @Override
     public String toString() {
         return String.format(Locale.US,
-                "BufferedResponse [mData=%s, AbstractResponse=%s]", mData, super.toString()); //$NON-NLS-1$
+                "BufferedResponse [mData=%s, AbstractResponse=%s]", mData, super.toString());
     }
 
     @Override

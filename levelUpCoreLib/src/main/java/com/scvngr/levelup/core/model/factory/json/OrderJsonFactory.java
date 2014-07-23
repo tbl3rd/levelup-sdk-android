@@ -79,7 +79,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          */
         @NonNull
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "order"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "order";
 
         /**
          * Required field parsed as a {@link com.scvngr.levelup.core.model.MonetaryValue} model.
@@ -87,7 +87,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getBalanceAmount()
          */
         @JsonValueType(JsonType.INT)
-        public static final String BALANCE = "balance_amount"; //$NON-NLS-1$
+        public static final String BALANCE = "balance_amount";
 
         /**
          * Optional string field parsed as a date.
@@ -95,7 +95,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getBundleClosedAt()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String BUNDLE_CLOSED_AT = "bundle_closed_at"; //$NON-NLS-1$
+        public static final String BUNDLE_CLOSED_AT = "bundle_closed_at";
 
         /**
          * Required String field value describing the bundle.
@@ -103,7 +103,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getBundleDescriptor()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String BUNDLE_DESCRIPTOR = "bundle_descriptor"; //$NON-NLS-1$
+        public static final String BUNDLE_DESCRIPTOR = "bundle_descriptor";
 
         /**
          * Optional field parsed as a {@link com.scvngr.levelup.core.model.MonetaryValue} model.
@@ -111,7 +111,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getContributionAmount()
          */
         @JsonValueType(JsonType.INT)
-        public static final String CONTRIBUTION = "contribution_amount"; //$NON-NLS-1$
+        public static final String CONTRIBUTION = "contribution_amount";
 
         /**
          * Optional field parsed as a String, containing the name of the contribution target.
@@ -119,7 +119,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getContributionTargetName()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String CONTRIBUTION_TARGET_NAME = "contribution_target_name"; //$NON-NLS-1$
+        public static final String CONTRIBUTION_TARGET_NAME = "contribution_target_name";
 
         /**
          * Required string field parsed as a date.
@@ -127,7 +127,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getCreatedAt()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String CREATED_AT = "created_at"; //$NON-NLS-1$
+        public static final String CREATED_AT = "created_at";
 
         /**
          * Required string field parsed as a {@link com.scvngr.levelup.core.model.MonetaryValue}
@@ -136,7 +136,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getCreditAppliedAmount()
          */
         @JsonValueType(JsonType.INT)
-        public static final String CREDIT_APPLIED = "credit_applied_amount"; //$NON-NLS-1$
+        public static final String CREDIT_APPLIED = "credit_applied_amount";
 
         /**
          * Required string field parsed as a {@link com.scvngr.levelup.core.model.MonetaryValue}
@@ -145,7 +145,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getCreditEarnedAmount()
          */
         @JsonValueType(JsonType.INT)
-        public static final String CREDIT_EARNED = "credit_earned_amount"; //$NON-NLS-1$
+        public static final String CREDIT_EARNED = "credit_earned_amount";
 
         /**
          * Optional String field containing the extended location address.
@@ -153,7 +153,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getLocationExtendedAddress()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String LOCATION_EXTENDED_ADDRESS = "location_extended_address"; //$NON-NLS-1$
+        public static final String LOCATION_EXTENDED_ADDRESS = "location_extended_address";
 
         /**
          * Required String field containing the location locality.
@@ -161,7 +161,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getLocationLocality()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String LOCATION_LOCALITY = "location_locality"; //$NON-NLS-1$
+        public static final String LOCATION_LOCALITY = "location_locality";
 
         /**
          * Optional String field containing the location name if different from the merchant name.
@@ -169,7 +169,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getLocationName()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String LOCATION_NAME = "location_name"; //$NON-NLS-1$
+        public static final String LOCATION_NAME = "location_name";
 
         /**
          * Required integer field containing the location web service ID.
@@ -177,7 +177,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getLocationWebServiceId()
          */
         @JsonValueType(JsonType.LONG)
-        public static final String LOCATION_WEB_SERVICE_ID = "location_id"; //$NON-NLS-1$
+        public static final String LOCATION_WEB_SERVICE_ID = "location_id";
 
         /**
          * Required String field containing the location postal code.
@@ -185,7 +185,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getLocationPostalCode()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String LOCATION_POSTAL_CODE = "location_postal_code"; //$NON-NLS-1$
+        public static final String LOCATION_POSTAL_CODE = "location_postal_code";
 
         /**
          * Required String field containing the location region.
@@ -193,7 +193,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getLocationRegion()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String LOCATION_REGION = "location_region"; //$NON-NLS-1$
+        public static final String LOCATION_REGION = "location_region";
 
         /**
          * Required String field containing the location street address.
@@ -201,7 +201,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getLocationStreetAddress()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String LOCATION_STREET_ADDRESS = "location_street_address"; //$NON-NLS-1$
+        public static final String LOCATION_STREET_ADDRESS = "location_street_address";
 
         /**
          * Required String field containing the merchant name.
@@ -209,7 +209,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getMerchantName()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String MERCHANT_NAME = "merchant_name"; //$NON-NLS-1$
+        public static final String MERCHANT_NAME = "merchant_name";
 
         /**
          * Required integer field containing the merchant web service ID.
@@ -217,13 +217,13 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getMerchantWebServiceId()
          */
         @JsonValueType(JsonType.LONG)
-        public static final String MERCHANT_WEB_SERVICE_ID = "merchant_id"; //$NON-NLS-1$
+        public static final String MERCHANT_WEB_SERVICE_ID = "merchant_id";
 
         /**
          * Optional String field parsed as a date.
          */
         @JsonValueType(JsonType.STRING)
-        public static final String REFUNDED_AT = "refunded_at"; //$NON-NLS-1$
+        public static final String REFUNDED_AT = "refunded_at";
 
         /**
          * Required String field containing the spend amount. Parsed as a
@@ -232,7 +232,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getSpendAmount()
          */
         @JsonValueType(JsonType.INT)
-        public static final String SPEND = "spend_amount"; //$NON-NLS-1$
+        public static final String SPEND = "spend_amount";
 
         /**
          * Required String field containing the tip amount. Parsed as a
@@ -241,7 +241,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getTipAmount()
          */
         @JsonValueType(JsonType.INT)
-        public static final String TIP = "tip_amount"; //$NON-NLS-1$
+        public static final String TIP = "tip_amount";
 
         /**
          * Required String field containing the total. Parsed as a
@@ -250,7 +250,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getTotalAmount()
          */
         @JsonValueType(JsonType.INT)
-        public static final String TOTAL = "total_amount"; //$NON-NLS-1$
+        public static final String TOTAL = "total_amount";
 
         /**
          * Required String field containing the date this was transacted at.
@@ -258,13 +258,13 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @see Order#getTransactedAt()
          */
         @JsonValueType(JsonType.STRING)
-        public static final String TRANSACTED_AT = "transacted_at"; //$NON-NLS-1$
+        public static final String TRANSACTED_AT = "transacted_at";
 
         /**
          * The globally-unique ID for this order.
          */
         @JsonValueType(JsonType.STRING)
-        public static final String UUID = "uuid"; //$NON-NLS-1$
+        public static final String UUID = "uuid";
 
         /**
          * Private constructor prevents instantiation.
@@ -272,7 +272,7 @@ public final class OrderJsonFactory extends AbstractJsonModelFactory<Order> {
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

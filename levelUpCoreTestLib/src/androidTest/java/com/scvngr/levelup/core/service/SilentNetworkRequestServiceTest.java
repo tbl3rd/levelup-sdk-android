@@ -48,11 +48,11 @@ public final class SilentNetworkRequestServiceTest extends SupportAndroidTestCas
         final LevelUpRequest requestToSend =
                 new LevelUpRequest(getContext(), HttpMethod.GET,
                         LevelUpRequest.API_VERSION_CODE_V14,
-                        "test", null, null); //$NON-NLS-1$
+                        "test", null, null);
         final Intent intent = new Intent(getContext(), SilentNetworkRequestService.class);
         intent.putExtra(SilentNetworkRequestService.EXTRA_PARCELABLE_REQUEST, requestToSend);
         final LevelUpConnection connection =
-                LevelUpConnectionHelper.setNextResponse(getContext(), "", LevelUpStatus.OK); //$NON-NLS-1$
+                LevelUpConnectionHelper.setNextResponse(getContext(), "", LevelUpStatus.OK);
 
         final SilentNetworkRequestService service = new SilentNetworkRequestService();
         service.performRequest(getContext(), intent);

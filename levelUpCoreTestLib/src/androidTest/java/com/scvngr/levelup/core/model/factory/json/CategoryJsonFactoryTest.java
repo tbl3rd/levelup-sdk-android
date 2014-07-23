@@ -25,6 +25,6 @@ public final class CategoryJsonFactoryTest extends SupportAndroidTestCase {
         final Category category =
                 new CategoryJsonFactory().from(CategoryFixture.getFullJsonObject(ID_FIXTURE));
         assertEquals(ID_FIXTURE, category.getId());
-        assertEquals("category name", category.getName()); //$NON-NLS-1$
+        assertEquals("category name", category.getName());
     }
 }

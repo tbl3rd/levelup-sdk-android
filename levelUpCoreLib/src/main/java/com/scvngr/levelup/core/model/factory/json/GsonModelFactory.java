@@ -141,7 +141,7 @@ public class GsonModelFactory<T> {
 
         if (!root.isJsonObject()) {
             throw new JsonSyntaxException(NullUtils.format(
-                    "JSON data must be a JSON object. Type is '%s'.", root.getClass() //$NON-NLS-1$
+                    "JSON data must be a JSON object. Type is '%s'.", root.getClass()
                             .getSimpleName()));
         }
 
@@ -166,7 +166,7 @@ public class GsonModelFactory<T> {
                 objectList.add(from(NullUtils.nonNullContract(object.getAsJsonObject())));
             } else {
                 throw new JsonSyntaxException(NullUtils.format(
-                        "Element in array was a '%s', not an object.", object.getClass() //$NON-NLS-1$
+                        "Element in array was a '%s', not an object.", object.getClass()
                                 .getSimpleName()));
             }
         }
@@ -187,7 +187,7 @@ public class GsonModelFactory<T> {
 
         if (!root.isJsonArray()) {
             throw new JsonSyntaxException(NullUtils.format(
-                    "JSON data must be a JSON array. Type is '%s'.", root.getClass() //$NON-NLS-1$
+                    "JSON data must be a JSON array. Type is '%s'.", root.getClass()
                             .getSimpleName()));
         }
 
@@ -274,7 +274,7 @@ public class GsonModelFactory<T> {
         public <T2> TypeAdapter<T2> create(final Gson gson, final TypeToken<T2> type) {
             final Class<? super T2> rawType = type.getRawType();
 
-            if (!rawType.getName().startsWith("com.scvngr.levelup")) { //$NON-NLS-1$
+            if (!rawType.getName().startsWith("com.scvngr.levelup")) {
                 return null;
             }
 
@@ -300,7 +300,7 @@ public class GsonModelFactory<T> {
                 return null;
             }
 
-            if (!rawType.getName().startsWith("com.scvngr.levelup")) { //$NON-NLS-1$
+            if (!rawType.getName().startsWith("com.scvngr.levelup")) {
                 return null;
             }
 
@@ -368,19 +368,19 @@ public class GsonModelFactory<T> {
                             if (null == f.get(inspected)) {
                                 // This is what it's all about.
                                 throw new IOException(NullUtils.format(
-                                        "Field %s cannot be null", nonNullField)); //$NON-NLS-1$
+                                        "Field %s cannot be null", nonNullField));
                             }
                         } finally {
                             f.setAccessible(false);
                         }
                     } catch (final NoSuchFieldException e) {
-                        throw new RuntimeException("Unexpected reflection exception", e); //$NON-NLS-1$
+                        throw new RuntimeException("Unexpected reflection exception", e);
                     }
                 }
             } catch (final IllegalAccessException e) {
-                throw new RuntimeException("Unexpected reflection exception", e); //$NON-NLS-1$
+                throw new RuntimeException("Unexpected reflection exception", e);
             } catch (final IllegalArgumentException e) {
-                throw new RuntimeException("Unexpected reflection exception", e); //$NON-NLS-1$
+                throw new RuntimeException("Unexpected reflection exception", e);
             }
 
             return inspected;
@@ -412,7 +412,7 @@ public class GsonModelFactory<T> {
                     NullUtils
                             .nonNullContract(separateCamelCase(
                                     NullUtils.nonNullContract(type.getRawType().getSimpleName()),
-                                    "_").toLowerCase(Locale.US)); //$NON-NLS-1$
+                                    "_").toLowerCase(Locale.US));
         }
 
         //@formatter:off
@@ -465,7 +465,7 @@ public class GsonModelFactory<T> {
 
             if (!mModelRoot.equals(name)) {
                 throw new IOException(NullUtils.format(
-                        "Expecting key '%s' in wrapped model, but was '%s'.", mModelRoot, name)); //$NON-NLS-1$
+                        "Expecting key '%s' in wrapped model, but was '%s'.", mModelRoot, name));
             }
 
             final T2 object = mDelegate.read(reader);

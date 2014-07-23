@@ -47,7 +47,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
         // image provided.
         mLoader.dispatchOnImageLoaded(mTestKey1, mQrCodeGenerator.mTestImage1);
 
-        assertTrue("countdown did not reach expected amount", //$NON-NLS-1$
+        assertTrue("countdown did not reach expected amount",
                 mOnImageLoaded.mLatch.await(2, TimeUnit.SECONDS));
 
         assertTrue(MockQrCodeGenerator.isBitmapForCode(mOnImageLoaded.mLoadedImage,
@@ -59,15 +59,15 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
      */
     public void testGetKey() {
         // Some things that are the same.
-        assertTrue(mLoader.getKey("").equals(mLoader.getKey(""))); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue(mLoader.getKey("").equals(mLoader.getKey("")));
         assertTrue(mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1).equals(
                 mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1)));
         assertTrue(mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT2).equals(
                 mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT2)));
 
         // Some things that are different.
-        assertFalse(mLoader.getKey("").equals(mLoader.getKey(" "))); //$NON-NLS-1$ //$NON-NLS-2$
-        assertFalse(mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1).equals(mLoader.getKey(""))); //$NON-NLS-1$
+        assertFalse(mLoader.getKey("").equals(mLoader.getKey(" ")));
+        assertFalse(mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1).equals(mLoader.getKey("")));
         assertFalse(mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1).equals(
                 mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT2)));
         assertFalse(mLoader.getKey(MockQrCodeGenerator.TEST_CONTENT1).equals(
@@ -134,7 +134,7 @@ public final class AsyncTaskCodeLoaderTest extends SupportInstrumentationTestCas
         latch.countDown();
 
         if (!mOnImageLoaded.mLatch.await(4, TimeUnit.SECONDS)) {
-            fail("latch timeout exceeded"); //$NON-NLS-1$
+            fail("latch timeout exceeded");
         }
 
         // Check the PendingImage

@@ -51,21 +51,21 @@ public final class CategoryJsonFactory extends AbstractJsonModelFactory<Category
          */
         @JsonValueType(JsonType.JSON_OBJECT)
         @NonNull
-        public static final String MODEL_ROOT = "category"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "category";
 
         /**
          * Public web service ID.
          */
         @JsonValueType(JsonType.LONG)
         @NonNull
-        public static final String ID = "id"; //$NON-NLS-1$
+        public static final String ID = "id";
 
         /**
          * Category name.
          */
         @JsonValueType(JsonType.STRING)
         @NonNull
-        public static final String NAME = "name"; //$NON-NLS-1$
+        public static final String NAME = "name";
 
         /**
          * Private constructor prevents instantiation.
@@ -73,7 +73,7 @@ public final class CategoryJsonFactory extends AbstractJsonModelFactory<Category
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

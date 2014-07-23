@@ -32,28 +32,28 @@ import java.util.Map;
 public final class OrderRequestFactory extends AbstractRequestFactory {
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_PAGE = "page"; //$NON-NLS-1$
+    /* package */static final String PARAM_PAGE = "page";
 
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_MERCHANT_IDS = "merchant_ids"; //$NON-NLS-1$
+    /* package */static final String PARAM_MERCHANT_IDS = "merchant_ids";
 
     /**
      * The endpoint for the app-centric view of orders.
      */
     @NonNull
-    private static final String ENDPOINT_APPS_ORDERS = "apps/orders"; //$NON-NLS-1$
+    private static final String ENDPOINT_APPS_ORDERS = "apps/orders";
 
     /**
      * The v14 endpoint for the app-centric view of orders.
      */
-    private static final String ENDPOINT_APPS_ID_ORDERS_FORMAT = "apps/%d/orders"; //$NON-NLS-1$
+    private static final String ENDPOINT_APPS_ID_ORDERS_FORMAT = "apps/%d/orders";
 
     /**
      * The endpoint for a given order.
      */
     @NonNull
-    private static final String ENDPOINT_ORDERS_UUID_FORMAT = "orders/%s"; //$NON-NLS-1$
+    private static final String ENDPOINT_ORDERS_UUID_FORMAT = "orders/%s";
 
     /**
      * Constructor.

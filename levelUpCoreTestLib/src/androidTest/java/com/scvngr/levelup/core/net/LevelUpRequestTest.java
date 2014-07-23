@@ -33,10 +33,10 @@ import java.util.Map;
 public final class LevelUpRequestTest extends SupportAndroidTestCase {
 
     @NonNull
-    private static final String TEST_VERSION = "v14"; //$NON-NLS-1$
+    private static final String TEST_VERSION = "v14";
 
     @NonNull
-    private static final String TEST_ENDPOINT = "endpoint"; //$NON-NLS-1$
+    private static final String TEST_ENDPOINT = "endpoint";
 
     @NonNull
     private Context mMockContext = new MyMockContext(new MyPackageManager(false));
@@ -75,8 +75,8 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
     @SmallTest
     public void testParcelable_full() {
         final HashMap<String, String> query = new HashMap<String, String>();
-        query.put("name", "test"); //$NON-NLS-1$ //$NON-NLS-2$
-        query.put("test", "hey"); //$NON-NLS-1$ //$NON-NLS-2$
+        query.put("name", "test");
+        query.put("test", "hey");
 
         final LevelUpRequest request =
                 new LevelUpRequest(mMockContext, HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, query,
@@ -104,7 +104,7 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
     @SmallTest
     public void testGetAccessToken() {
         assertEquals(
-                "test_access_token", NullUtils.nonNullContract(new LevelUpRequest(mMockContext, //$NON-NLS-1$
+                "test_access_token", NullUtils.nonNullContract(new LevelUpRequest(mMockContext,
                                 HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null, null,
                                 new MockAccessTokenRetriever()).getAccessToken(mMockContext))
                         .getAccessToken());
@@ -152,11 +152,11 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testGetFullUrl() {
-        final String endpoint = "users/1"; //$NON-NLS-1$
+        final String endpoint = "users/1";
         final String match =
                 String.format(
                         Locale.US,
-                        "%s://%s/%s/%s", getContext().getString(R.string.levelup_api_scheme), //$NON-NLS-1$
+                        "%s://%s/%s/%s", getContext().getString(R.string.levelup_api_scheme),
                         getContext().getString(R.string.levelup_api_authority),
                         LevelUpRequest.API_VERSION_CODE_V14, endpoint);
         assertEquals(match, LevelUpRequest.getFullUrl(getContext(),
@@ -226,7 +226,7 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT, null,
                         null);
         final Map<String, String> hash = new HashMap<String, String>();
-        hash.put("test", "test"); //$NON-NLS-1$ //$NON-NLS-2$
+        hash.put("test", "test");
 
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
@@ -239,18 +239,18 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
                         null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
-        request1 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version", //$NON-NLS-1$
+        request1 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version",
                 TEST_ENDPOINT, null, null);
-        request2 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version", //$NON-NLS-1$
+        request2 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version",
                 TEST_ENDPOINT, null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
         request1 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT
-                        + "endpoint", null, null); //$NON-NLS-1$
+                        + "endpoint", null, null);
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT
-                        + "endpoint", null, null); //$NON-NLS-1$
+                        + "endpoint", null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, true);
 
         request1 =
@@ -278,13 +278,13 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
                         null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
 
-        request2 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version", //$NON-NLS-1$
+        request2 = new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION + "version",
                 TEST_ENDPOINT, null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
 
         request2 =
                 new LevelUpRequest(getContext(), HttpMethod.GET, TEST_VERSION, TEST_ENDPOINT
-                        + "endpoint", null, null); //$NON-NLS-1$
+                        + "endpoint", null, null);
         MoreAsserts.checkEqualsAndHashCodeMethods(request1, request2, false);
 
         request2 =
@@ -326,7 +326,7 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
         @Override
         public ApplicationInfo getApplicationInfo() {
             final ApplicationInfo info = new ApplicationInfo();
-            info.name = "LevelUp-Core-Fallback"; //$NON-NLS-1$
+            info.name = "LevelUp-Core-Fallback";
             return info;
         }
 
@@ -377,9 +377,9 @@ public final class LevelUpRequestTest extends SupportAndroidTestCase {
             }
 
             final PackageInfo info = new PackageInfo();
-            info.versionName = "2.3.8"; //$NON-NLS-1$
+            info.versionName = "2.3.8";
             info.applicationInfo = new ApplicationInfo();
-            info.applicationInfo.name = "LevelUp-Core"; //$NON-NLS-1$
+            info.applicationInfo.name = "LevelUp-Core";
 
             return info;
         }

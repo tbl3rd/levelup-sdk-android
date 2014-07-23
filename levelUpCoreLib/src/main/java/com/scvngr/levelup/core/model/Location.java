@@ -135,43 +135,43 @@ public final class Location implements Parcelable {
      * URL key for Yelp.
      */
     @NonNull
-    public static final String URL_YELP = "yelp"; //$NON-NLS-1$
+    public static final String URL_YELP = "yelp";
 
     /**
      * URL key for OpenTable.
      */
     @NonNull
-    public static final String URL_OPENTABLE = "opentable"; //$NON-NLS-1$
+    public static final String URL_OPENTABLE = "opentable";
 
     /**
      * URL key for Menu.
      */
     @NonNull
-    public static final String URL_MENU = "menu"; //$NON-NLS-1$
+    public static final String URL_MENU = "menu";
 
     /**
      * URL key for Twitter.
      */
     @NonNull
-    public static final String URL_TWITTER = "twitter"; //$NON-NLS-1$
+    public static final String URL_TWITTER = "twitter";
 
     /**
      * URL key for a newsletter.
      */
     @NonNull
-    public static final String URL_NEWSLETTER = "newsletter"; //$NON-NLS-1$
+    public static final String URL_NEWSLETTER = "newsletter";
 
     /**
      * URL key for Facebook.
      */
     @NonNull
-    public static final String URL_FACEBOOK = "facebook"; //$NON-NLS-1$
+    public static final String URL_FACEBOOK = "facebook";
     
     /**
      * URL key for Foodler.
      */
     @NonNull
-    public static final String URL_FOODLER = "foodler"; //$NON-NLS-1$
+    public static final String URL_FOODLER = "foodler";
 
     /**
      * @param categories the categories that this {@link Location} is classified under. {@code null}

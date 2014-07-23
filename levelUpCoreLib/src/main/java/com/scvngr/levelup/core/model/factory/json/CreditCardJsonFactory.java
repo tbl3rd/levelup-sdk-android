@@ -71,34 +71,34 @@ public final class CreditCardJsonFactory extends AbstractJsonModelFactory<Credit
          * The key under which this model can be nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "credit_card"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "credit_card";
 
         @JsonValueType(JsonType.LONG)
-        public static final String BIN = "bin"; //$NON-NLS-1$
+        public static final String BIN = "bin";
 
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String DEBIT = "debit"; //$NON-NLS-1$
+        public static final String DEBIT = "debit";
 
         @JsonValueType(JsonType.STRING)
-        public static final String DESCRIPTION = "description"; //$NON-NLS-1$
+        public static final String DESCRIPTION = "description";
 
         @JsonValueType(JsonType.STRING)
-        public static final String EXPIRATION_MONTH = "expiration_month"; //$NON-NLS-1$
+        public static final String EXPIRATION_MONTH = "expiration_month";
 
         @JsonValueType(JsonType.STRING)
-        public static final String EXPIRATION_YEAR = "expiration_year"; //$NON-NLS-1$
+        public static final String EXPIRATION_YEAR = "expiration_year";
 
         @JsonValueType(JsonType.LONG)
-        public static final String ID = "id"; //$NON-NLS-1$
+        public static final String ID = "id";
 
         @JsonValueType(JsonType.STRING)
-        public static final String LAST_4 = "last_4"; //$NON-NLS-1$
+        public static final String LAST_4 = "last_4";
 
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String PROMOTED = "promoted"; //$NON-NLS-1$
+        public static final String PROMOTED = "promoted";
 
         @JsonValueType(JsonType.STRING)
-        public static final String TYPE = "type"; //$NON-NLS-1$
+        public static final String TYPE = "type";
 
         /**
          * Private constructor prevents instantiation.
@@ -106,7 +106,7 @@ public final class CreditCardJsonFactory extends AbstractJsonModelFactory<Credit
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

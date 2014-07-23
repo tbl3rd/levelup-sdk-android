@@ -29,15 +29,15 @@ public final class PermissionUtil {
          * Do not call getApplicationContext(), because some unit tests depend on replacing the
          * context.
          */
-        PreconditionUtil.assertNotNull(context, "context"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(permissionName, "permissionName"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(context, "context");
+        PreconditionUtil.assertNotNull(permissionName, "permissionName");
 
         final PackageManager pm = context.getPackageManager();
         final String packageName = context.getPackageName();
 
         boolean result = true;
         if (PackageManager.PERMISSION_DENIED == pm.checkPermission(permissionName, packageName)) {
-            LogManager.w("Permission %s is not granted", permissionName); //$NON-NLS-1$
+            LogManager.w("Permission %s is not granted", permissionName);
             result = false;
         }
 
@@ -57,6 +57,6 @@ public final class PermissionUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private PermissionUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

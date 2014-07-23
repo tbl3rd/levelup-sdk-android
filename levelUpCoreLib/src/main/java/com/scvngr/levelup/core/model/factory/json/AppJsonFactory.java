@@ -17,7 +17,7 @@ public final class AppJsonFactory extends GsonModelFactory<App> {
      * The model root.
      */
     @NonNull
-    public static final String MODEL_ROOT = "app"; //$NON-NLS-1$
+    public static final String MODEL_ROOT = "app";
 
     /**
      * Factory constructor.

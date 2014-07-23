@@ -51,95 +51,95 @@ public final class UserRequestFactory extends AbstractRequestFactory {
 
     @LevelUpApi(contract = Contract.INTERNAL)
     @NonNull
-    private static final String FACEBOOK_CONNECTION_ENDPOINT = "facebook_connection"; //$NON-NLS-1$
+    private static final String FACEBOOK_CONNECTION_ENDPOINT = "facebook_connection";
 
     @LevelUpApi(contract = Contract.INTERNAL)
     @NonNull
-    private static final String USERS_ENDPOINT = "users"; //$NON-NLS-1$
+    private static final String USERS_ENDPOINT = "users";
 
     /**
      * Outer parameter name for user parameters.
      */
     @NonNull
-    public static final String OUTER_PARAM_USER = "user"; //$NON-NLS-1$
+    public static final String OUTER_PARAM_USER = "user";
 
     /**
      * Outer parameter name for permission keynames parameters.
      */
     @NonNull
-    public static final String OUTER_PARAM_PERMISSION_KEYNAMES = "permission_keynames"; //$NON-NLS-1$
+    public static final String OUTER_PARAM_PERMISSION_KEYNAMES = "permission_keynames";
 
     /**
      * User Parameter for longitude, represented as a floating point number.
      */
     @NonNull
-    public static final String PARAM_LONGITUDE = "lng"; //$NON-NLS-1$
+    public static final String PARAM_LONGITUDE = "lng";
 
     /**
      * User Parameter for latitude, represented as a floating point number.
      */
     @NonNull
-    public static final String PARAM_LATITUDE = "lat"; //$NON-NLS-1$
+    public static final String PARAM_LATITUDE = "lat";
 
     /**
      * User Parameter for password.
      */
     @NonNull
-    public static final String PARAM_PASSWORD = "password"; //$NON-NLS-1$
+    public static final String PARAM_PASSWORD = "password";
 
     /**
      * User Parameter for new password.
      */
     @NonNull
-    public static final String PARAM_NEW_PASSWORD = "new_password"; //$NON-NLS-1$
+    public static final String PARAM_NEW_PASSWORD = "new_password";
 
     /**
      * User Parameter for new password confirmation.
      */
     @NonNull
-    public static final String PARAM_NEW_PASSWORD_CONFIRMATION = "new_password_confirmation"; //$NON-NLS-1$
+    public static final String PARAM_NEW_PASSWORD_CONFIRMATION = "new_password_confirmation";
 
     /**
      * User Parameter for email.
      */
     @NonNull
-    public static final String PARAM_EMAIL = "email"; //$NON-NLS-1$
+    public static final String PARAM_EMAIL = "email";
 
     /**
      * User Parameter for last name.
      */
     @NonNull
-    public static final String PARAM_LAST_NAME = "last_name"; //$NON-NLS-1$
+    public static final String PARAM_LAST_NAME = "last_name";
 
     /**
      * User Parameter for first name.
      */
     @NonNull
-    public static final String PARAM_FIRST_NAME = "first_name"; //$NON-NLS-1$
+    public static final String PARAM_FIRST_NAME = "first_name";
 
     /**
      * User Parameter for if they have accepted the terms of service.
      */
     @NonNull
-    public static final String PARAM_TERMS_ACCEPTED = "terms_accepted"; //$NON-NLS-1$
+    public static final String PARAM_TERMS_ACCEPTED = "terms_accepted";
 
     /**
      * User Parameter for birth date.
      */
     @NonNull
-    public static final String PARAM_BORN_AT = "born_at"; //$NON-NLS-1$
+    public static final String PARAM_BORN_AT = "born_at";
 
     /**
      * User Parameter for gender.
      */
     @NonNull
-    public static final String PARAM_GENDER = "gender"; //$NON-NLS-1$
+    public static final String PARAM_GENDER = "gender";
 
     /**
      * User Parameter for custom attributes.
      */
     @NonNull
-    public static final String PARAM_CUSTOM_ATTRIBUTES = "custom_attributes"; //$NON-NLS-1$
+    public static final String PARAM_CUSTOM_ATTRIBUTES = "custom_attributes";
 
     /**
      * Parameter for Facebook access token during Facebook connect.
@@ -147,7 +147,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     @LevelUpApi(contract = Contract.INTERNAL)
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_FACEBOOK_ACCESS_TOKEN = "facebook_access_token"; //$NON-NLS-1$
+    /* package */static final String PARAM_FACEBOOK_ACCESS_TOKEN = "facebook_access_token";
 
     /**
      * @param context the Application context.
@@ -169,10 +169,10 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     @LevelUpApi(contract = Contract.ENTERPRISE)
     public AbstractRequest buildForgotPasswordRequest(@NonNull final String email) {
         final JsonObject resetRequest = new JsonObject();
-        resetRequest.addProperty("email", email); //$NON-NLS-1$
+        resetRequest.addProperty("email", email);
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V14, "passwords", null, //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V14, "passwords", null,
                 new JsonElementRequestBody(resetRequest));
     }
 
@@ -186,7 +186,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     @LevelUpApi(contract = Contract.INTERNAL)
     @AccessTokenRequired
     public AbstractRequest buildFacebookConnectRequest(@NonNull final String facebookAccessToken) {
-        PreconditionUtil.assertNotNull(facebookAccessToken, "facebookAccessToken"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(facebookAccessToken, "facebookAccessToken");
 
         final JSONObject object = new JSONObject();
         final JSONObject userObject = new JSONObject();
@@ -195,7 +195,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
             userObject.put(PARAM_FACEBOOK_ACCESS_TOKEN, facebookAccessToken);
             object.put(OUTER_PARAM_USER, userObject);
         } catch (final JSONException e) {
-            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+            LogManager.e("JSONException building register request", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
@@ -233,10 +233,10 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     public final AbstractRequest buildRegisterRequest(@NonNull final String firstName,
             @NonNull final String lastName, @NonNull final String email,
             @NonNull final String password, @Nullable final Location location) {
-        PreconditionUtil.assertNotNull(firstName, "firstName"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(lastName, "lastName"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(email, "email"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(password, "password"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(firstName, "firstName");
+        PreconditionUtil.assertNotNull(lastName, "lastName");
+        PreconditionUtil.assertNotNull(email, "email");
+        PreconditionUtil.assertNotNull(password, "password");
 
         final JSONObject object = new JSONObject();
         final JSONObject userObject = new JSONObject();
@@ -259,7 +259,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
 
             object.put(OUTER_PARAM_USER, userObject);
         } catch (final JSONException e) {
-            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+            LogManager.e("JSONException building register request", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
@@ -281,10 +281,10 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     public final AbstractRequest buildRegisterRequest(@NonNull final String firstName,
             @NonNull final String lastName, @NonNull final String email,
             @NonNull List<String> permissions) {
-        PreconditionUtil.assertNotNull(firstName, "firstName"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(lastName, "lastName"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(email, "email"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(permissions, "permissions"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(firstName, "firstName");
+        PreconditionUtil.assertNotNull(lastName, "lastName");
+        PreconditionUtil.assertNotNull(email, "email");
+        PreconditionUtil.assertNotNull(permissions, "permissions");
 
         final JSONObject object = new JSONObject();
         final JSONObject userObject = new JSONObject();
@@ -304,7 +304,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
             object.put(OUTER_PARAM_USER, userObject);
             object.put(OUTER_PARAM_PERMISSION_KEYNAMES, permissionArray);
         } catch (final JSONException e) {
-            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+            LogManager.e("JSONException building register request", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
@@ -330,7 +330,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
 
             object.put(OUTER_PARAM_USER, userObject);
         } catch (final JSONException e) {
-            LogManager.e("JSONException building facebook register request", e); //$NON-NLS-1$
+            LogManager.e("JSONException building facebook register request", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
@@ -349,7 +349,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     @RequiresPermission({Permissions.PERMISSION_READ_USER_BASIC_INFO})
     public AbstractRequest buildGetUserInfoRequest() {
         return new LevelUpRequest(getContext(), HttpMethod.GET,
-                LevelUpRequest.API_VERSION_CODE_V15, "users", null, null, //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V15, "users", null, null,
                 NullUtils.nonNullContract(getAccessTokenRetriever()));
     }
 
@@ -360,7 +360,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
     public static final class UserInfoRequestBuilder {
 
         @NonNull
-        private static final String USERS_ID_ENDPOINT = "users"; //$NON-NLS-1$
+        private static final String USERS_ID_ENDPOINT = "users";
 
         /**
          * The Application context. A context is required to build any {@link LevelUpRequest}.
@@ -426,7 +426,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
                 try {
                     mParams.put(PARAM_CUSTOM_ATTRIBUTES, mCustomAttributes);
                 } catch (final JSONException e) {
-                    LogManager.e("JSONException when adding custom attributes to body", e); //$NON-NLS-1$
+                    LogManager.e("JSONException when adding custom attributes to body", e);
                 }
             }
 
@@ -436,10 +436,10 @@ public final class UserRequestFactory extends AbstractRequestFactory {
             try {
                 requestParameters.put(OUTER_PARAM_USER, mParams);
             } catch (final JSONException e) {
-                LogManager.e("JSONException when building the user update request", e); //$NON-NLS-1$
+                LogManager.e("JSONException when building the user update request", e);
             }
 
-            LogManager.v("Building user update request with parameters %s", //$NON-NLS-1$
+            LogManager.v("Building user update request with parameters %s",
                     requestParameters);
 
             return requestParameters;
@@ -476,7 +476,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
             try {
                 mCustomAttributes.put(key, value);
             } catch (final JSONException e) {
-                LogManager.e("JSONException when adding custom attribute", e); //$NON-NLS-1$
+                LogManager.e("JSONException when adding custom attribute", e);
             }
 
             return this;
@@ -565,7 +565,7 @@ public final class UserRequestFactory extends AbstractRequestFactory {
                 try {
                     mParams.put(key, value);
                 } catch (final JSONException e) {
-                    LogManager.e("JSONException when adding key(%s) to body", key, e); //$NON-NLS-1$
+                    LogManager.e("JSONException when adding key(%s) to body", key, e);
                 }
             }
         }

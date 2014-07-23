@@ -41,14 +41,14 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
-    /* package */static final String OUTER_PARAM_LEGACY_LOYALTY = "legacy_loyalty"; //$NON-NLS-1$
+    /* package */static final String OUTER_PARAM_LEGACY_LOYALTY = "legacy_loyalty";
 
     /**
      * Parameter key for legacy loyalty card number.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
-    /* package */static final String PARAM_LEGACY_ID = "legacy_id"; //$NON-NLS-1$
+    /* package */static final String PARAM_LEGACY_ID = "legacy_id";
 
     /**
      * @param context the Application context.
@@ -82,11 +82,11 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
             legacyLoyaltyObject.put(PARAM_LEGACY_ID, loyaltyId);
             object.put(OUTER_PARAM_LEGACY_LOYALTY, legacyLoyaltyObject);
         } catch (final JSONException e) {
-            LogManager.e("Error Building legacy Loyalty claim request", e); //$NON-NLS-1$
+            LogManager.e("Error Building legacy Loyalty claim request", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
-                LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format("loyalties/legacy/%d/claims", //$NON-NLS-1$
+                LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format("loyalties/legacy/%d/claims",
                         loyaltyCampaignId), null, new JSONObjectRequestBody(object),
                 getAccessTokenRetriever());
     }
@@ -106,14 +106,14 @@ public final class ClaimRequestFactory extends AbstractRequestFactory {
         String codeToClaim = code;
 
         try {
-            codeToClaim = URLEncoder.encode(code, "UTF-8"); //$NON-NLS-1$
+            codeToClaim = URLEncoder.encode(code, "UTF-8");
         } catch (final UnsupportedEncodingException e) {
-            LogManager.e("Unsupported encoding when encoding code to claim", e); //$NON-NLS-1$
+            LogManager.e("Unsupported encoding when encoding code to claim", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
                 LevelUpRequest.API_VERSION_CODE_V15, NullUtils.format(
-                        "codes/%s/claims", codeToClaim), null, null, //$NON-NLS-1$
+                        "codes/%s/claims", codeToClaim), null, null,
                 getAccessTokenRetriever());
     }
 }

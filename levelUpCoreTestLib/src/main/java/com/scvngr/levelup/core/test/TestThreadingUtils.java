@@ -68,7 +68,7 @@ public final class TestThreadingUtils {
             @NonNull final FragmentActivity activity, @NonNull final Fragment fragment,
             final boolean inView, final String tag) {
         if (null == tag) {
-            throw new AssertionError("Cannot add fragment with null tag"); //$NON-NLS-1$
+            throw new AssertionError("Cannot add fragment with null tag");
         }
 
         runOnMainSync(instrumentation, activity, new Runnable() {
@@ -176,7 +176,7 @@ public final class TestThreadingUtils {
         AndroidTestCase.assertNotNull(activity);
         AndroidTestCase.assertNotNull(fragmentManager);
         final CountDownLatch latch = new CountDownLatch(1);
-        AndroidTestCase.assertTrue(String.format(Locale.US, "%s added", tag), //$NON-NLS-1$
+        AndroidTestCase.assertTrue(String.format(Locale.US, "%s added", tag),
                 waitForAction(instrumentation, NullUtils.nonNullContract(activity), new Runnable() {
                     @Override
                     public void run() {
@@ -186,7 +186,7 @@ public final class TestThreadingUtils {
                             if (PARENT_ID_UNDEFINED != parentId) {
                                 final View parent = (View) fragment.getView().getParent();
                                 AndroidTestCase.assertEquals(
-                                        "In the proper container", parentId, //$NON-NLS-1$
+                                        "In the proper container", parentId,
                                         parent.getId());
                             }
 
@@ -211,7 +211,7 @@ public final class TestThreadingUtils {
         AndroidTestCase.assertNotNull(activity);
         AndroidTestCase.assertNotNull(fragmentManager);
         final CountDownLatch latch = new CountDownLatch(1);
-        AndroidTestCase.assertTrue(String.format(Locale.US, "%s removed", tag), //$NON-NLS-1$
+        AndroidTestCase.assertTrue(String.format(Locale.US, "%s removed", tag),
                 waitForAction(instrumentation, NullUtils.nonNullContract(activity), new Runnable() {
                     @Override
                     public void run() {
@@ -353,6 +353,6 @@ public final class TestThreadingUtils {
      * Private constructor prevents instantiation.
      */
     private TestThreadingUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

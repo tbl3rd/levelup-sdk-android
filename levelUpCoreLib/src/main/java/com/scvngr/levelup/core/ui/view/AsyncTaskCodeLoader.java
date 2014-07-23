@@ -72,7 +72,7 @@ public final class AsyncTaskCodeLoader extends LevelUpCodeLoader {
             @NonNull final String key,
             @Nullable final OnImageLoaded<LevelUpQrCodeImage> onImageLoaded) {
         if (Looper.getMainLooper() != Looper.myLooper()) {
-            throw new AssertionError("Must be called from the main thread."); //$NON-NLS-1$
+            throw new AssertionError("Must be called from the main thread.");
         }
 
         final AsyncTask<Void, Void, LevelUpQrCodeImage> existingLoad = mAsyncTasks.get(key);
@@ -87,7 +87,7 @@ public final class AsyncTaskCodeLoader extends LevelUpCodeLoader {
                 codeLoader.execute();
             }
         } else {
-            LogManager.v("Dropping request for duplicate load of key %s.", key); //$NON-NLS-1$
+            LogManager.v("Dropping request for duplicate load of key %s.", key);
         }
     }
 
@@ -154,7 +154,7 @@ public final class AsyncTaskCodeLoader extends LevelUpCodeLoader {
             if (null != result) {
                 dispatchOnImageLoaded(mKey, result);
             } else {
-                LogManager.e("CodeLoader task finished with null result."); //$NON-NLS-1$
+                LogManager.e("CodeLoader task finished with null result.");
             }
 
             mAsyncTasks.remove(mKey);

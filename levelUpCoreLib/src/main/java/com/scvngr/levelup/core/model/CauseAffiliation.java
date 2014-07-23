@@ -98,8 +98,8 @@ public class CauseAffiliation implements Parcelable {
 
     @Override
     public String toString() {
-        return "CauseAffiliation [mCauseWebServiceId=" + mCauseWebServiceId //$NON-NLS-1$
-                + ", mPercentDonation=" + mPercentDonation + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+        return "CauseAffiliation [mCauseWebServiceId=" + mCauseWebServiceId
+                + ", mPercentDonation=" + mPercentDonation + "]";
     }
 
     // CHECKSTYLE:ON

@@ -38,8 +38,8 @@ public final class CampaignRequestFactoryTest extends SupportAndroidTestCase {
         assertNotNull(request);
 
         assertEquals(HttpMethod.GET, request.getMethod());
-        assertTrue("hits campaigns/<id> endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
-                .endsWith(String.format(Locale.US, "v14/campaigns/%d", 1))); //$NON-NLS-1$
+        assertTrue("hits campaigns/<id> endpoint", request.getUrl(mContext).getPath()
+                .endsWith(String.format(Locale.US, "v14/campaigns/%d", 1)));
     }
 
     @SmallTest
@@ -68,7 +68,7 @@ public final class CampaignRequestFactoryTest extends SupportAndroidTestCase {
         final URL url = request.getUrl(getContext());
         assertNotNull(url);
         // Make sure we hit the proper API version and url.
-        assertEquals("/v14/campaigns/1/image", url.getPath()); //$NON-NLS-1$
+        assertEquals("/v14/campaigns/1/image", url.getPath());
     }
 
     @SmallTest
@@ -82,6 +82,6 @@ public final class CampaignRequestFactoryTest extends SupportAndroidTestCase {
         final URL url = request.getUrl(getContext());
         assertNotNull(url);
         // Make sure we hit the proper API version and url.
-        assertEquals("/v14/campaigns/1/merchants", url.getPath()); //$NON-NLS-1$
+        assertEquals("/v14/campaigns/1/merchants", url.getPath());
     }
 }

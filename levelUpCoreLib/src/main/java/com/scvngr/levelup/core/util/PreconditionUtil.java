@@ -31,7 +31,7 @@ public final class PreconditionUtil {
             @NonNull final String objectName) {
         if (CoreLibConstants.IS_PARAMETER_CHECKING_ENABLED) {
             if (null == objectToCheck) {
-                final String message = String.format(Locale.US, "%s cannot be null", objectName); //$NON-NLS-1$
+                final String message = String.format(Locale.US, "%s cannot be null", objectName);
                 throw new AssertionError(message);
             }
         }
@@ -43,6 +43,6 @@ public final class PreconditionUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private PreconditionUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

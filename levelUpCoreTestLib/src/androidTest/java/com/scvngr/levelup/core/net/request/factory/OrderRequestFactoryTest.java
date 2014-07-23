@@ -44,13 +44,13 @@ public final class OrderRequestFactoryTest extends SupportAndroidTestCase {
         assertTrue(request instanceof LevelUpRequest);
 
         assertEquals(HttpMethod.GET, request.getMethod());
-        assertTrue("hits apps/<id>/orders endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
-                .endsWith("apps/orders")); //$NON-NLS-1$
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("hits apps/<id>/orders endpoint", request.getUrl(mContext).getPath()
+                .endsWith("apps/orders"));
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
 
         assertTrue(request.getQueryParams(getContext()).containsKey(OrderRequestFactory.PARAM_PAGE));
-        assertEquals("2", request.getQueryParams(getContext()).get(OrderRequestFactory.PARAM_PAGE)); //$NON-NLS-1$
+        assertEquals("2", request.getQueryParams(getContext()).get(OrderRequestFactory.PARAM_PAGE));
     }
 
     @SmallTest
@@ -61,13 +61,13 @@ public final class OrderRequestFactoryTest extends SupportAndroidTestCase {
         assertTrue(request instanceof LevelUpRequest);
 
         assertEquals(HttpMethod.GET, request.getMethod());
-        assertTrue("hits apps/<id>/orders endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
-                .endsWith(String.format(Locale.US, "apps/%d/orders", APP_ID_23))); //$NON-NLS-1$
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("hits apps/<id>/orders endpoint", request.getUrl(mContext).getPath()
+                .endsWith(String.format(Locale.US, "apps/%d/orders", APP_ID_23)));
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V14));
 
         assertTrue(request.getQueryParams(getContext()).containsKey(OrderRequestFactory.PARAM_PAGE));
-        assertEquals("2", request.getQueryParams(getContext()).get(OrderRequestFactory.PARAM_PAGE)); //$NON-NLS-1$
+        assertEquals("2", request.getQueryParams(getContext()).get(OrderRequestFactory.PARAM_PAGE));
     }
 
     @SmallTest
@@ -78,9 +78,9 @@ public final class OrderRequestFactoryTest extends SupportAndroidTestCase {
         assertTrue(request instanceof LevelUpRequest);
 
         assertEquals(HttpMethod.GET, request.getMethod());
-        assertTrue("hits orders/<id> endpoint", request.getUrl(mContext).getPath() //$NON-NLS-1$
-                .endsWith(String.format(Locale.US, "orders/%s", OrderFixture.UUID_FIXTURE_1))); //$NON-NLS-1$
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("hits orders/<id> endpoint", request.getUrl(mContext).getPath()
+                .endsWith(String.format(Locale.US, "orders/%s", OrderFixture.UUID_FIXTURE_1)));
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
     }
 }

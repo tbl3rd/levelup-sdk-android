@@ -15,8 +15,8 @@ import java.util.Locale;
 
 public class LevelUpCodeTest extends SupportAndroidTestCase {
 
-    public static final String UNRECOGNIZED_CODE = "LU0301234671234567890123"; //$NON-NLS-1$
-    public static final String UNRECOGNIZED_CODE_WITH_PARAMS = "LU0301234671234567890123020012LU"; //$NON-NLS-1$
+    public static final String UNRECOGNIZED_CODE = "LU0301234671234567890123";
+    public static final String UNRECOGNIZED_CODE_WITH_PARAMS = "LU0301234671234567890123020012LU";
 
     // /////////////////////////////////////////////////////////////////////////////////////
     // ////////////////////////// DecodeColor///////////////////////////////////////////////
@@ -28,7 +28,7 @@ public class LevelUpCodeTest extends SupportAndroidTestCase {
         final int[] array = res.getIntArray(R.array.levelup_dock_colors);
         for (int i = 0; i < array.length; i++) {
             final int resourceId = LevelUpCode.decodeColor(i, res);
-            assertFalse(String.format(Locale.US, "Position: %d", i), resourceId == -1); //$NON-NLS-1$
+            assertFalse(String.format(Locale.US, "Position: %d", i), resourceId == -1);
             assertEquals(resourceId, array[i]);
         }
     }
@@ -78,14 +78,14 @@ public class LevelUpCodeTest extends SupportAndroidTestCase {
     @SmallTest
     public void testEncodeLevelUpCode_withV2Code() {
         final String base = PaymentTokenV2Test.V2_CODE_WITHOUT_PREFERENCES;
-        assertEquals(base + "030027LU", LevelUpCode.encodeLevelUpCode(base, 7, //$NON-NLS-1$
+        assertEquals(base + "030027LU", LevelUpCode.encodeLevelUpCode(base, 7,
                 new PercentageTip(2)));
     }
 
     @SmallTest
     public void testEncodeLevelUpCode_withV2CodeAndNullColor() {
         final String base = PaymentTokenV2Test.V2_CODE_WITHOUT_PREFERENCES;
-        assertEquals(base + "030030LU", LevelUpCode.encodeLevelUpCode(base, -1, //$NON-NLS-1$
+        assertEquals(base + "030030LU", LevelUpCode.encodeLevelUpCode(base, -1,
                 new PercentageTip(3)));
     }
 }

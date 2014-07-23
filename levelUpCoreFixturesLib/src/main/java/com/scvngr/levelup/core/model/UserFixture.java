@@ -128,24 +128,24 @@ public final class UserFixture {
     @NonNull
     public static JSONObject getFullJsonObject(final long id) {
         final HashMap<String, String> customAttributesMap = new HashMap<String, String>();
-        customAttributesMap.put("test_attr", "0"); //$NON-NLS-1$ //$NON-NLS-2$
-        customAttributesMap.put("test_attr2", "1"); //$NON-NLS-1$ //$NON-NLS-2$
+        customAttributesMap.put("test_attr", "0");
+        customAttributesMap.put("test_attr2", "1");
 
         try {
             return getMinimalJsonObject(id)
-                    .put(UserJsonFactory.JsonKeys.BORN_AT, "1911-12-26T00:00:00-0200") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.BORN_AT, "1911-12-26T00:00:00-0200")
                     .put(UserJsonFactory.JsonKeys.CONNECTED_TO_FACEBOOK, true)
                     .put(UserJsonFactory.JsonKeys.CUSTOM_ATTRIBUTES,
                             new JSONObject(customAttributesMap))
                     .put(UserJsonFactory.JsonKeys.DEBIT_CARD_ONLY, true)
-                    .put(UserJsonFactory.JsonKeys.EMAIL, "test@example.com") //$NON-NLS-1$
-                    .put(UserJsonFactory.JsonKeys.FIRST_NAME, "John") //$NON-NLS-1$
-                    .put(UserJsonFactory.JsonKeys.GENDER, "male") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.EMAIL, "test@example.com")
+                    .put(UserJsonFactory.JsonKeys.FIRST_NAME, "John")
+                    .put(UserJsonFactory.JsonKeys.GENDER, "male")
                     .put(UserJsonFactory.JsonKeys.GLOBAL_CREDIT_AMOUNT, 1000)
-                    .put(UserJsonFactory.JsonKeys.LAST_NAME, "Doe") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.LAST_NAME, "Doe")
                     .put(UserJsonFactory.JsonKeys.MERCHANTS_VISITED_COUNT, 1)
                     .put(UserJsonFactory.JsonKeys.ORDERS_COUNT, 2)
-                    .put(UserJsonFactory.JsonKeys.TERMS_ACCEPTED_AT, "2012-12-04T18:10:45-0500") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.TERMS_ACCEPTED_AT, "2012-12-04T18:10:45-0500")
                     .put(UserJsonFactory.JsonKeys.TOTAL_SAVINGS_AMOUNT, 1000);
         } catch (final JSONException e) {
             throw new AssertionError(e);
@@ -160,24 +160,24 @@ public final class UserFixture {
      */
     private static JSONObject getFullJsonObjectColorUnlocked() {
         final HashMap<String, String> customAttributesMap = new HashMap<String, String>();
-        customAttributesMap.put("test_attr", "0"); //$NON-NLS-1$ //$NON-NLS-2$
-        customAttributesMap.put("test_attr2", "1"); //$NON-NLS-1$ //$NON-NLS-2$
+        customAttributesMap.put("test_attr", "0");
+        customAttributesMap.put("test_attr2", "1");
 
         try {
             return getMinimalJsonObject(1)
-                    .put(UserJsonFactory.JsonKeys.BORN_AT, "1911-12-26T00:00:00-0200") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.BORN_AT, "1911-12-26T00:00:00-0200")
                     .put(UserJsonFactory.JsonKeys.CONNECTED_TO_FACEBOOK, true)
                     .put(UserJsonFactory.JsonKeys.CUSTOM_ATTRIBUTES,
                             new JSONObject(customAttributesMap))
                     .put(UserJsonFactory.JsonKeys.DEBIT_CARD_ONLY, true)
-                    .put(UserJsonFactory.JsonKeys.EMAIL, "test@example.com") //$NON-NLS-1$
-                    .put(UserJsonFactory.JsonKeys.FIRST_NAME, "John") //$NON-NLS-1$
-                    .put(UserJsonFactory.JsonKeys.GENDER, "male") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.EMAIL, "test@example.com")
+                    .put(UserJsonFactory.JsonKeys.FIRST_NAME, "John")
+                    .put(UserJsonFactory.JsonKeys.GENDER, "male")
                     .put(UserJsonFactory.JsonKeys.GLOBAL_CREDIT_AMOUNT, 1000)
-                    .put(UserJsonFactory.JsonKeys.LAST_NAME, "Doe") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.LAST_NAME, "Doe")
                     .put(UserJsonFactory.JsonKeys.MERCHANTS_VISITED_COUNT, 30)
                     .put(UserJsonFactory.JsonKeys.ORDERS_COUNT, 30)
-                    .put(UserJsonFactory.JsonKeys.TERMS_ACCEPTED_AT, "2012-12-04T18:10:45-0500") //$NON-NLS-1$
+                    .put(UserJsonFactory.JsonKeys.TERMS_ACCEPTED_AT, "2012-12-04T18:10:45-0500")
                     .put(UserJsonFactory.JsonKeys.TOTAL_SAVINGS_AMOUNT, 1000);
         } catch (final JSONException e) {
             throw new AssertionError(e);
@@ -299,6 +299,6 @@ public final class UserFixture {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private UserFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

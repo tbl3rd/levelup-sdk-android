@@ -48,11 +48,11 @@ public final class BundleScrubberTest extends TestCase {
             /*
              * A non empty Intent should be valid and should not be mutated
              */
-            final Intent intent = new Intent().putExtra("test", "test"); //$NON-NLS-1$ //$NON-NLS-2$
+            final Intent intent = new Intent().putExtra("test", "test");
             assertFalse(BundleScrubber.scrub(intent));
 
             assertEquals(1, intent.getExtras().keySet().size());
-            assertEquals("test", intent.getStringExtra("test")); //$NON-NLS-1$ //$NON-NLS-2$
+            assertEquals("test", intent.getStringExtra("test"));
         }
     }
 
@@ -85,11 +85,11 @@ public final class BundleScrubberTest extends TestCase {
             /*
              * A non empty Intent should be valid and should not be mutated
              */
-            final Intent intent = new Intent().putExtra("test", "test"); //$NON-NLS-1$ //$NON-NLS-2$
+            final Intent intent = new Intent().putExtra("test", "test");
             assertFalse(BundleScrubber.scrub(intent));
 
             assertEquals(1, intent.getExtras().keySet().size());
-            assertEquals("test", intent.getStringExtra("test")); //$NON-NLS-1$ //$NON-NLS-2$
+            assertEquals("test", intent.getStringExtra("test"));
         }
     }
 }

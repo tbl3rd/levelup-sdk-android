@@ -45,25 +45,25 @@ import java.util.Collection;
 public final class AccessTokenRequestFactory extends AbstractRequestFactory {
 
     @NonNull
-    /* package */static final String ENDPOINT = "access_tokens"; //$NON-NLS-1$
+    /* package */static final String ENDPOINT = "access_tokens";
 
     @NonNull
-    /* package */static final String ENDPOINT_DOWNGRADES = "access_tokens/downgrades"; //$NON-NLS-1$
+    /* package */static final String ENDPOINT_DOWNGRADES = "access_tokens/downgrades";
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_OUTER_ACCESS_TOKEN = "access_token"; //$NON-NLS-1$
+    /* package */static final String PARAM_OUTER_ACCESS_TOKEN = "access_token";
 
     @LevelUpApi(contract = Contract.INTERNAL)
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_FACEBOOK_ACCESS_TOKEN = "facebook_access_token"; //$NON-NLS-1$
+    /* package */static final String PARAM_FACEBOOK_ACCESS_TOKEN = "facebook_access_token";
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_PASSWORD = "password"; //$NON-NLS-1$
+    /* package */static final String PARAM_PASSWORD = "password";
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
-    /* package */static final String PARAM_USERNAME = "username"; //$NON-NLS-1$
+    /* package */static final String PARAM_USERNAME = "username";
 
-    /* package */static final String PARAM_PERMISSION_KEYNAMES = "permission_keynames"; //$NON-NLS-1$
+    /* package */static final String PARAM_PERMISSION_KEYNAMES = "permission_keynames";
 
     /**
      * Constructor.
@@ -96,8 +96,8 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
     @LevelUpApi(contract = Contract.ENTERPRISE)
     public AbstractRequest buildLoginRequest(@NonNull final String email,
             @NonNull final String password) {
-        PreconditionUtil.assertNotNull(email, "email"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(password, "password"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(email, "email");
+        PreconditionUtil.assertNotNull(password, "password");
 
         final JSONObject object = new JSONObject();
         final JSONObject token = new JSONObject();
@@ -113,7 +113,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
 
             object.put(PARAM_OUTER_ACCESS_TOKEN, token);
         } catch (final JSONException e) {
-            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+            LogManager.e("JSONException building register request", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
@@ -130,7 +130,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
     @NonNull
     @LevelUpApi(contract = Contract.INTERNAL)
     public AbstractRequest buildFacebookLoginRequest(@NonNull final String facebookAccessToken) {
-        PreconditionUtil.assertNotNull(facebookAccessToken, "facebookAccessToken"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(facebookAccessToken, "facebookAccessToken");
 
         final JSONObject object = new JSONObject();
         final JSONObject token = new JSONObject();
@@ -145,7 +145,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
 
             object.put(PARAM_OUTER_ACCESS_TOKEN, token);
         } catch (final JSONException e) {
-            LogManager.e("JSONException building register request", e); //$NON-NLS-1$
+            LogManager.e("JSONException building register request", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
@@ -194,7 +194,7 @@ public final class AccessTokenRequestFactory extends AbstractRequestFactory {
         final ArrayList<Permission> permissions =
                 new ArrayList<Permission>(permissionKeyNames.length);
         for (final String keyName : permissionKeyNames) {
-            permissions.add(new Permission("", NullUtils.nonNullContract(keyName))); //$NON-NLS-1$
+            permissions.add(new Permission("", NullUtils.nonNullContract(keyName)));
         }
         return buildDowngradeRequest(permissions);
     }

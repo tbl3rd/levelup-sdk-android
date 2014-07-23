@@ -44,32 +44,32 @@ public final class Interstitial implements Parcelable {
      * The type returned from {@link #getType()} if this is a claim Interstitial.
      */
     @NonNull
-    public static final String TYPE_CLAIM = "claim"; //$NON-NLS-1$
+    public static final String TYPE_CLAIM = "claim";
 
     /**
      * The type returned from {@link #getType()} if this is a customer feedback Interstitial.
      */
     @NonNull
-    public static final String TYPE_FEEDBACK = "feedback"; //$NON-NLS-1$
+    public static final String TYPE_FEEDBACK = "feedback";
 
     /**
      * The type returned from {@link #getType()} if this is a no_action Interstitial. A No_Action
      * interstitial requires no action from the user, but provides information.
      */
     @NonNull
-    public static final String TYPE_NO_ACTION = "no_action"; //$NON-NLS-1$
+    public static final String TYPE_NO_ACTION = "no_action";
 
     /**
      * The type returned from {@link #getType()} if this is a share Interstitial.
      */
     @NonNull
-    public static final String TYPE_SHARE = "share"; //$NON-NLS-1$
+    public static final String TYPE_SHARE = "share";
 
     /**
      * The type returned from {@link #getType()} if this is a URL Interstitial.
      */
     @NonNull
-    public static final String TYPE_URL = "url"; //$NON-NLS-1$
+    public static final String TYPE_URL = "url";
 
     /**
      * The parsed action.
@@ -359,7 +359,7 @@ public final class Interstitial implements Parcelable {
     public static final class UrlAction implements InterstitialAction {
 
         @VisibleForTesting(visibility = Visibility.PRIVATE)
-        static final String URL = "url"; //$NON-NLS-1$
+        static final String URL = "url";
 
         /**
          * Implements Parcelable.

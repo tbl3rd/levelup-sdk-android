@@ -31,7 +31,7 @@ public final class LocationListRequestFactory extends AbstractPagingRequestFacto
      * The API endpoint for locations.
      */
     @NonNull
-    public static final String ENDPOINT_LOCATIONS = "locations"; //$NON-NLS-1$
+    public static final String ENDPOINT_LOCATIONS = "locations";
 
     /**
      * Constructor.
@@ -54,7 +54,7 @@ public final class LocationListRequestFactory extends AbstractPagingRequestFacto
             return new LevelUpRequest(getContext(), HttpMethod.GET, page, null,
                     getAccessTokenRetriever());
         } catch (final IllegalArgumentException e) {
-            LogManager.e("error parsing URL for next page", e); //$NON-NLS-1$
+            LogManager.e("error parsing URL for next page", e);
             return null;
         }
     }

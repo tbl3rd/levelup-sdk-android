@@ -65,21 +65,21 @@ public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestC
         final Context context = getContext();
         final String token = AbstractNetworkRequestService.getToken();
         final TestReceiver receiver =
-                new TestReceiver(new LevelUpResponse("", LevelUpStatus.OK), false, token); //$NON-NLS-1$
+                new TestReceiver(new LevelUpResponse("", LevelUpStatus.OK), false, token);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
                 new IntentFilter(AbstractNetworkRequestService.ACTION_REQUEST_FINISHED));
         try {
 
             final LevelUpRequest requestToSend =
                     new LevelUpRequest(getContext(), HttpMethod.GET,
-                            LevelUpRequest.API_VERSION_CODE_V14, "test", null, //$NON-NLS-1$
+                            LevelUpRequest.API_VERSION_CODE_V14, "test", null,
                              null);
             final Intent intent = new Intent(context, NetworkRequestServiceUnderTest.class);
             intent.putExtra(NetworkRequestServiceUnderTest.EXTRA_PARCELABLE_REQUEST, requestToSend);
             intent.putExtra(NetworkRequestServiceUnderTest.EXTRA_STRING_TOKEN, token);
 
             final LevelUpConnection connection =
-                    LevelUpConnectionHelper.setNextResponse(context, "", LevelUpStatus.OK); //$NON-NLS-1$
+                    LevelUpConnectionHelper.setNextResponse(context, "", LevelUpStatus.OK);
 
             final NetworkRequestServiceUnderTest service = new NetworkRequestServiceUnderTest();
             service.performRequest(context, intent);
@@ -114,7 +114,7 @@ public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestC
             final Intent intent = new Intent();
             final LevelUpRequest request =
                     new LevelUpRequest(getContext(), HttpMethod.GET,
-                            LevelUpRequest.API_VERSION_CODE_V14, "test", null, //$NON-NLS-1$
+                            LevelUpRequest.API_VERSION_CODE_V14, "test", null,
                              null);
             intent.putExtra(AbstractNetworkRequestService.EXTRA_PARCELABLE_REQUEST, request);
             assertEquals(request, service.getRequest(intent));
@@ -133,7 +133,7 @@ public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestC
         for (int i = 0; i < tokenCount; i++) {
             final String token = AbstractNetworkRequestService.getToken();
             if (tokens.contains(token)) {
-                fail("duplicate token created"); //$NON-NLS-1$
+                fail("duplicate token created");
             }
 
             tokens.add(token);
@@ -152,7 +152,7 @@ public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestC
         final Context context = getContext();
         final String token = AbstractNetworkRequestService.getToken();
         final LevelUpResponse response =
-                new LevelUpResponse("testing this", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
+                new LevelUpResponse("testing this", LevelUpStatus.ERROR_SERVER);
         final TestReceiver receiver = new TestReceiver(response, true, token);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
                 new IntentFilter(AbstractNetworkRequestService.ACTION_REQUEST_FINISHED));
@@ -178,7 +178,7 @@ public final class AbstractNetworkRequestServiceTest extends SupportAndroidTestC
     public void testOnRequestFinished_nullToken() throws InterruptedException {
         final Context context = getContext();
         final LevelUpResponse response =
-                new LevelUpResponse("testing this", LevelUpStatus.ERROR_SERVER); //$NON-NLS-1$
+                new LevelUpResponse("testing this", LevelUpStatus.ERROR_SERVER);
         final TestReceiver receiver = new TestReceiver(response, true, null);
         LocalBroadcastManager.getInstance(getContext()).registerReceiver(receiver,
                 new IntentFilter(AbstractNetworkRequestService.ACTION_REQUEST_FINISHED));

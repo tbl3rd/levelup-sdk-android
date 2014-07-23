@@ -16,10 +16,10 @@ public final class PreferenceTestUtilsTest extends SupportAndroidTestCase {
 
     @NonNull
     private static final String KEY_PREFIX_ONE =
-            "com.scvngr.levelup.core.test.storage.preference"; //$NON-NLS-1$
+            "com.scvngr.levelup.core.test.storage.preference";
 
     @NonNull
-    private static final String KEY_PREFIX_TWO = "com.example.storage.preference"; //$NON-NLS-1$
+    private static final String KEY_PREFIX_TWO = "com.example.storage.preference";
 
     /**
      * Tests {@link PreferenceTestUtils#assertKeysArePrefixed}.
@@ -36,7 +36,7 @@ public final class PreferenceTestUtilsTest extends SupportAndroidTestCase {
         }
 
         try {
-            PreferenceTestUtils.assertKeysArePrefixed(ValidPreferenceClass.class, "com.example"); //$NON-NLS-1$
+            PreferenceTestUtils.assertKeysArePrefixed(ValidPreferenceClass.class, "com.example");
             fail();
         } catch (final AssertionFailedError e) {
             // Expected
@@ -44,7 +44,7 @@ public final class PreferenceTestUtilsTest extends SupportAndroidTestCase {
 
         try {
             PreferenceTestUtils.assertKeysArePrefixed(ValidPreferenceClass.class,
-                    "com.example.storage.preferences"); //$NON-NLS-1$
+                    "com.example.storage.preferences");
             fail();
         } catch (final AssertionFailedError e) {
             // Expected
@@ -100,10 +100,10 @@ public final class PreferenceTestUtilsTest extends SupportAndroidTestCase {
     private static final class DuplicatePreferenceClass {
 
         @NonNull
-        public static final String KEY_STRING_TO_DUPE = KEY_PREFIX_ONE + ".string_to_dupe"; //$NON-NLS-1$
+        public static final String KEY_STRING_TO_DUPE = KEY_PREFIX_ONE + ".string_to_dupe";
 
         @NonNull
-        public static final String KEY_STRING_OR_NOT_TO_DUPE = KEY_PREFIX_ONE + ".string_to_dupe"; //$NON-NLS-1$
+        public static final String KEY_STRING_OR_NOT_TO_DUPE = KEY_PREFIX_ONE + ".string_to_dupe";
     }
 
     /**
@@ -113,11 +113,11 @@ public final class PreferenceTestUtilsTest extends SupportAndroidTestCase {
     private static final class InconsistentPrefixPreferenceClass {
 
         @NonNull
-        public static final String KEY_STRING_NOT_BAD = KEY_PREFIX_ONE + ".string_not_bad"; //$NON-NLS-1$
+        public static final String KEY_STRING_NOT_BAD = KEY_PREFIX_ONE + ".string_not_bad";
 
         @NonNull
         public static final String KEY_STRING_WRONG_PREFIX = KEY_PREFIX_TWO
-                + ".string_wrong_prefix"; //$NON-NLS-1$
+                + ".string_wrong_prefix";
     }
 
     /**
@@ -128,9 +128,9 @@ public final class PreferenceTestUtilsTest extends SupportAndroidTestCase {
 
         @NonNull
         public static final String KEY_STRING_FAVORITE_DINOSAUR = KEY_PREFIX_ONE
-                + ".string_favorite_dinosaur"; //$NON-NLS-1$
+                + ".string_favorite_dinosaur";
 
         @NonNull
-        public static final String KEY_BOOLEAN_IS_EXTINCT = KEY_PREFIX_ONE + ".boolean_is_extinct"; //$NON-NLS-1$
+        public static final String KEY_BOOLEAN_IS_EXTINCT = KEY_PREFIX_ONE + ".boolean_is_extinct";
     }
 }

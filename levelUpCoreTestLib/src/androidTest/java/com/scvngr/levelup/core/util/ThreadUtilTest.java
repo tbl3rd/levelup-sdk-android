@@ -19,11 +19,11 @@ public final class ThreadUtilTest extends TestCase {
     public static void testGetHandlerThread() {
         HandlerThread thread = null;
         try {
-            thread = ThreadUtil.getHandlerThread("test-thread", //$NON-NLS-1$
+            thread = ThreadUtil.getHandlerThread("test-thread",
                     android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
             assertNotNull(thread);
-            assertEquals("test-thread", thread.getName()); //$NON-NLS-1$
+            assertEquals("test-thread", thread.getName());
             assertTrue(thread.isAlive());
             assertNotNull(thread.getLooper());
             assertNotSame(Looper.myLooper(), thread.getLooper());
@@ -45,9 +45,9 @@ public final class ThreadUtilTest extends TestCase {
         HandlerThread thread1 = null;
         HandlerThread thread2 = null;
         try {
-            thread1 = ThreadUtil.getHandlerThread("test-thread-1", //$NON-NLS-1$
+            thread1 = ThreadUtil.getHandlerThread("test-thread-1",
                     android.os.Process.THREAD_PRIORITY_BACKGROUND);
-            thread2 = ThreadUtil.getHandlerThread("test-thread-2", //$NON-NLS-1$
+            thread2 = ThreadUtil.getHandlerThread("test-thread-2",
                     android.os.Process.THREAD_PRIORITY_BACKGROUND);
 
             assertNotSame(thread1, thread2);

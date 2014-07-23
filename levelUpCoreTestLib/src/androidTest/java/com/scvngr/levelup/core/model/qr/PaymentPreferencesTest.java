@@ -11,12 +11,12 @@ public class PaymentPreferencesTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testgetPreferenceVersion_withV3Prefs() {
-        assertTrue(PaymentPreferences.getPreferenceVersion("030012LU") //$NON-NLS-1$
+        assertTrue(PaymentPreferences.getPreferenceVersion("030012LU")
                 instanceof PaymentPreferencesV3);
     }
 
     @SmallTest
     public void testgetPreferenceVersion_invalidPrefs() {
-        assertTrue(PaymentPreferences.getPreferenceVersion("") instanceof PaymentPreferencesV3); //$NON-NLS-1$
+        assertTrue(PaymentPreferences.getPreferenceVersion("") instanceof PaymentPreferencesV3);
     }
 }

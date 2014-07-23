@@ -31,8 +31,8 @@ public final class PreferenceTestUtils {
      */
     @NonNull
     private static final Pattern PREFIX_PATTERN =
-            Pattern.compile("(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*.)+" //$NON-NLS-1$
-                    + "storage\\.preference"); //$NON-NLS-1$
+            Pattern.compile("(\\p{javaJavaIdentifierStart}\\p{javaJavaIdentifierPart}*.)+"
+                    + "storage\\.preference");
 
     /**
      * Asserts the prefix of the preference keys defined by {@code clazz} begin with the specified
@@ -45,7 +45,7 @@ public final class PreferenceTestUtils {
             @NonNull final String prefix) {
         assertTrue(PREFIX_PATTERN.matcher(prefix).matches());
 
-        final String prefixWithDot = prefix + "."; //$NON-NLS-1$
+        final String prefixWithDot = prefix + ".";
 
         for (final Field field : clazz.getFields()) {
             final String key = getValueOfStringField(NullUtils.nonNullContract(field));
@@ -94,6 +94,6 @@ public final class PreferenceTestUtils {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private PreferenceTestUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

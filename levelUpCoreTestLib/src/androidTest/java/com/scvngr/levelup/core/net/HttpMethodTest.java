@@ -12,7 +12,7 @@ import com.scvngr.levelup.core.test.SupportAndroidTestCase;
  */
 public final class HttpMethodTest extends SupportAndroidTestCase {
 
-    private static final String[] EXPECTED_HTTP_VERBS = { "GET", "POST", "PUT", "DELETE" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+    private static final String[] EXPECTED_HTTP_VERBS = { "GET", "POST", "PUT", "DELETE" };
 
     /**
      * Tests that HttpMethod includes methods with the expected names.

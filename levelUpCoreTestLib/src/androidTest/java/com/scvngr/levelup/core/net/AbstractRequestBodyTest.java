@@ -45,7 +45,7 @@ public abstract class AbstractRequestBodyTest<T extends RequestBody> extends And
     @SmallTest
     public void testGetContentType() {
         final String contentType = getFixture().getContentType();
-        assertTrue("Content type must have a /", contentType.contains("/")); //$NON-NLS-1$ //$NON-NLS-2$
+        assertTrue("Content type must have a /", contentType.contains("/"));
     }
 
     /**

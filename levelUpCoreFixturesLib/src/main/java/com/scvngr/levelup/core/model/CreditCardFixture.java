@@ -54,9 +54,9 @@ public final class CreditCardFixture {
      */
     @NonNull
     public static CreditCard getFullModel(final int creditCardId, final boolean promoted) {
-        return new CreditCard(111111L, true, "description", "06", //$NON-NLS-1$ //$NON-NLS-2$
-                "2012", creditCardId, "9999", //$NON-NLS-1$ //$NON-NLS-2$
-                promoted, "type"); //$NON-NLS-1$
+        return new CreditCard(111111L, true, "description", "06",
+                "2012", creditCardId, "9999",
+                promoted, "type");
     }
 
     /**
@@ -113,12 +113,12 @@ public final class CreditCardFixture {
         try {
             object.put(CreditCardJsonFactory.JsonKeys.BIN, 111111L);
             object.put(CreditCardJsonFactory.JsonKeys.DEBIT, true);
-            object.put(CreditCardJsonFactory.JsonKeys.DESCRIPTION, "description"); //$NON-NLS-1$
-            object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_MONTH, "01"); //$NON-NLS-1$
-            object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_YEAR, "1999"); //$NON-NLS-1$
-            object.put(CreditCardJsonFactory.JsonKeys.LAST_4, "last_4"); //$NON-NLS-1$
+            object.put(CreditCardJsonFactory.JsonKeys.DESCRIPTION, "description");
+            object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_MONTH, "01");
+            object.put(CreditCardJsonFactory.JsonKeys.EXPIRATION_YEAR, "1999");
+            object.put(CreditCardJsonFactory.JsonKeys.LAST_4, "last_4");
             object.put(CreditCardJsonFactory.JsonKeys.PROMOTED, promoted);
-            object.put(CreditCardJsonFactory.JsonKeys.TYPE, "type"); //$NON-NLS-1$
+            object.put(CreditCardJsonFactory.JsonKeys.TYPE, "type");
         } catch (final JSONException e) {
             throw new AssertionError(e);
         }
@@ -132,6 +132,6 @@ public final class CreditCardFixture {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private CreditCardFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

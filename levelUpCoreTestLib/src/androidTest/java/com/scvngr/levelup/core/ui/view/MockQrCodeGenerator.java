@@ -30,9 +30,9 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
     public static final int TARGET_LEFT = 2;
     public static final int TARGET_RIGHT = 4;
 
-    public static final String TEST_CONTENT1 = "foo"; //$NON-NLS-1$
-    public static final String TEST_CONTENT2 = "bar"; //$NON-NLS-1$
-    public static final String TEST_CONTENT3 = "baz"; //$NON-NLS-1$
+    public static final String TEST_CONTENT1 = "foo";
+    public static final String TEST_CONTENT2 = "bar";
+    public static final String TEST_CONTENT3 = "baz";
 
     public static final int TEST_CONTENT1_COLOR = Color.RED;
     public static final int TEST_CONTENT2_COLOR = Color.GREEN;
@@ -142,10 +142,10 @@ public final class MockQrCodeGenerator implements LevelUpQrCodeGenerator {
             try {
                 mGenerateDelayLatch.await();
                 if (!mGenerateDelayLatch.await(GENERATE_LATCH_WAIT_SECONDS, TimeUnit.SECONDS)) {
-                    AndroidTestCase.fail("latch timeout exceeded"); //$NON-NLS-1$
+                    AndroidTestCase.fail("latch timeout exceeded");
                 }
             } catch (final InterruptedException e) {
-                AndroidTestCase.fail("latch was interrupted"); //$NON-NLS-1$
+                AndroidTestCase.fail("latch was interrupted");
             }
 
             // As the latch has expired, remove it.

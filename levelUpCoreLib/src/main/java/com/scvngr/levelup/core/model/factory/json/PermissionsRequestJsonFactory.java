@@ -26,7 +26,7 @@ public final class PermissionsRequestJsonFactory extends GsonModelFactory<Permis
      * The JSON model root.
      */
     @NonNull
-    public static final String MODEL_ROOT = "permissions_request"; //$NON-NLS-1$
+    public static final String MODEL_ROOT = "permissions_request";
 
     /**
      * Creates a new {@link PermissionsRequest} factory.

@@ -20,7 +20,7 @@ public final class PermissionUtilTest extends SupportAndroidTestCase {
         final TestContext context = new TestContext(new TestPackageManager(
                 PackageManager.PERMISSION_GRANTED));
 
-        assertTrue(PermissionUtil.isPermissionGranted(context, "test")); //$NON-NLS-1$
+        assertTrue(PermissionUtil.isPermissionGranted(context, "test"));
     }
 
     @SmallTest
@@ -28,7 +28,7 @@ public final class PermissionUtilTest extends SupportAndroidTestCase {
         final TestContext context = new TestContext(new TestPackageManager(
                 PackageManager.PERMISSION_DENIED));
 
-        assertFalse(PermissionUtil.isPermissionGranted(context, "test")); //$NON-NLS-1$
+        assertFalse(PermissionUtil.isPermissionGranted(context, "test"));
     }
 
     /**

@@ -21,13 +21,13 @@ public final class InterstitialFixture {
     /**
      * Test value for image URL.
      */
-    public static final String TEST_IMAGE_URL = "http://www.example.com/v12/images"; //$NON-NLS-1$
+    public static final String TEST_IMAGE_URL = "http://www.example.com/v12/images";
 
     /**
      * Test value for the url of {@link com.scvngr.levelup.core.model.Interstitial.UrlAction} type
      * interstitials created with this class.
      */
-    public static final String TEST_WEB_URL = "http://www.example.com"; //$NON-NLS-1$
+    public static final String TEST_WEB_URL = "http://www.example.com";
 
     /**
      * Gets a valid base JSON object.
@@ -38,11 +38,11 @@ public final class InterstitialFixture {
     @NonNull
     public static JSONObject getMinimalJsonObject() throws JSONException {
         final JSONObject object = new JSONObject();
-        object.put(InterstitialJsonFactory.JsonKeys.CALLOUT_TEXT, "callout_text"); //$NON-NLS-1$
-        object.put(InterstitialJsonFactory.JsonKeys.DESCRIPTION_HTML, "description_html"); //$NON-NLS-1$
+        object.put(InterstitialJsonFactory.JsonKeys.CALLOUT_TEXT, "callout_text");
+        object.put(InterstitialJsonFactory.JsonKeys.DESCRIPTION_HTML, "description_html");
         object.put(InterstitialJsonFactory.JsonKeys.IMAGE_URL, TEST_IMAGE_URL);
-        object.put(InterstitialJsonFactory.JsonKeys.TITLE, "title"); //$NON-NLS-1$
-        object.put(InterstitialJsonFactory.JsonKeys.TYPE, "type"); //$NON-NLS-1$
+        object.put(InterstitialJsonFactory.JsonKeys.TITLE, "title");
+        object.put(InterstitialJsonFactory.JsonKeys.TYPE, "type");
         return object;
     }
 
@@ -71,7 +71,7 @@ public final class InterstitialFixture {
         final JSONObject object = getMinimalJsonObject();
         object.put(InterstitialJsonFactory.JsonKeys.TYPE, Interstitial.TYPE_CLAIM);
         final JSONObject action = new JSONObject();
-        action.put(InterstitialJsonFactory.ClaimActionJsonKeys.CODE, "code"); //$NON-NLS-1$
+        action.put(InterstitialJsonFactory.ClaimActionJsonKeys.CODE, "code");
         object.put(JsonKeys.ACTION, action);
         return object;
     }
@@ -102,7 +102,7 @@ public final class InterstitialFixture {
         object.put(InterstitialJsonFactory.JsonKeys.TYPE, Interstitial.TYPE_FEEDBACK);
         final JSONObject action = new JSONObject();
         action.put(InterstitialJsonFactory.FeedbackActionJsonKeys.QUESTION_TEXT,
-                "question_prompt"); //$NON-NLS-1$
+                "question_prompt");
         object.put(JsonKeys.ACTION, action);
         return object;
     }
@@ -160,18 +160,18 @@ public final class InterstitialFixture {
         object.put(InterstitialJsonFactory.JsonKeys.TYPE, Interstitial.TYPE_SHARE);
         final JSONObject action = new JSONObject();
         action.put(InterstitialJsonFactory.ShareActionJsonKeys.MESSAGE_FOR_EMAIL_BODY,
-                "message_for_email_body"); //$NON-NLS-1$
+                "message_for_email_body");
         action.put(InterstitialJsonFactory.ShareActionJsonKeys.MESSAGE_FOR_EMAIL_SUBJECT,
-                "message_for_email_subject"); //$NON-NLS-1$
+                "message_for_email_subject");
         action.put(InterstitialJsonFactory.ShareActionJsonKeys.MESSAGE_FOR_FACEBOOK,
-                "message_for_facebook"); //$NON-NLS-1$
+                "message_for_facebook");
         action.put(InterstitialJsonFactory.ShareActionJsonKeys.MESSAGE_FOR_TWITTER,
-                "message_for_twitter"); //$NON-NLS-1$
-        action.put(InterstitialJsonFactory.ShareActionJsonKeys.SHARE_URL_EMAIL, "share_url_email"); //$NON-NLS-1$
+                "message_for_twitter");
+        action.put(InterstitialJsonFactory.ShareActionJsonKeys.SHARE_URL_EMAIL, "share_url_email");
         action.put(InterstitialJsonFactory.ShareActionJsonKeys.SHARE_URL_FACEBOOK,
-                "share_url_facebook"); //$NON-NLS-1$
+                "share_url_facebook");
         action.put(InterstitialJsonFactory.ShareActionJsonKeys.SHARE_URL_TWITTER,
-                "share_url_twitter"); //$NON-NLS-1$
+                "share_url_twitter");
         object.put(JsonKeys.ACTION, action);
         return object;
     }
@@ -226,6 +226,6 @@ public final class InterstitialFixture {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private InterstitialFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

@@ -77,7 +77,7 @@ public final class JsonTestUtil {
         final List<String> blacklisted = Arrays.asList(blacklistFields);
         final String key = null;
 
-        MoreAsserts.assertNotEmpty("JSON keys class visible fields", //$NON-NLS-1$
+        MoreAsserts.assertNotEmpty("JSON keys class visible fields",
                 Arrays.asList(jsonKeyFields));
 
         for (final Field field : jsonKeyFields) {
@@ -101,13 +101,13 @@ public final class JsonTestUtil {
                 }
 
                 MoreAsserts.checkEqualsAndHashCodeMethods(String.format(Locale.US,
-                        "Modified %s and checked equals and hash", fieldString), //$NON-NLS-1$
+                        "Modified %s and checked equals and hash", fieldString),
                         originalModel, differentModel, false);
                 MoreAsserts.checkEqualsAndHashCodeMethods(String.format(Locale.US,
-                        "Modified %s and checked equals and hash", fieldString), //$NON-NLS-1$
+                        "Modified %s and checked equals and hash", fieldString),
                         differentModel, differentModel, true);
                 MoreAsserts.checkEqualsAndHashCodeMethods(String.format(Locale.US,
-                        "Modified %s and checked equals and hash", fieldString), //$NON-NLS-1$
+                        "Modified %s and checked equals and hash", fieldString),
                         differentModel, differentModelReparse, true);
             }
         }
@@ -139,7 +139,7 @@ public final class JsonTestUtil {
     private static JSONObject cloneObjectDifferingOnParam(@NonNull final JSONObject baseObject,
             @NonNull final String key, @NonNull final JsonType jsonType) throws JSONException {
         final JSONObject object = new JSONObject(baseObject.toString());
-        LogManager.d("Testing field %s", key); //$NON-NLS-1$
+        LogManager.d("Testing field %s", key);
 
         if (JsonType.BOOLEAN.equals(jsonType)) {
             object.put(key, !object.getBoolean(key));
@@ -153,10 +153,10 @@ public final class JsonTestUtil {
             String currentString = object.getString(key);
 
             if (null == currentString) {
-                currentString = ""; //$NON-NLS-1$
+                currentString = "";
             }
 
-            object.put(key, currentString + "_testdifferent"); //$NON-NLS-1$
+            object.put(key, currentString + "_testdifferent");
 
         } else if (JsonType.JSON_ARRAY.equals(jsonType)) {
             JSONArray currentArray = object.getJSONArray(key);
@@ -170,7 +170,7 @@ public final class JsonTestUtil {
             object.put(key, modifiedArray);
         } else {
             throw new UnsupportedOperationException(String.format(Locale.US,
-                    "Can only use for JsonTypes(int/long/bool/string/array) not JsonType(%s)", //$NON-NLS-1$
+                    "Can only use for JsonTypes(int/long/bool/string/array) not JsonType(%s)",
                     jsonType.name()));
         }
 
@@ -183,6 +183,6 @@ public final class JsonTestUtil {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private JsonTestUtil() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

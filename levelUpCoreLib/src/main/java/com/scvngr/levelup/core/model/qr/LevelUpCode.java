@@ -192,7 +192,7 @@ public abstract class LevelUpCode {
             }
         }
 
-        LogManager.d("Scanned color position=%d %s=%x", position, name, color); //$NON-NLS-1$
+        LogManager.d("Scanned color position=%d %s=%x", position, name, color);
         return color;
     }
 }

@@ -47,14 +47,14 @@ public final class MonetaryValue implements Parcelable {
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
-    protected static final String USD_CODE = "usd"; //$NON-NLS-1$
+    protected static final String USD_CODE = "usd";
 
     /**
      * The symbol for USD.
      */
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
-    protected static final String USD_SYMBOL = "$"; //$NON-NLS-1$
+    protected static final String USD_SYMBOL = "$";
 
     /**
      * The amount (in cents) for this {@link MonetaryValue}.

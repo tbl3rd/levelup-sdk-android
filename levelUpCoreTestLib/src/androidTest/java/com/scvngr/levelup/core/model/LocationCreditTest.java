@@ -27,6 +27,6 @@ public final class LocationCreditTest extends AndroidTestCase {
         // Test differences across variations based on all JSON keys
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(LocationCreditJsonFactory.JsonKeys.class,
                 new LocationCreditJsonFactory(), LocationCreditFixture.getFullJsonObject(),
-                new String[] { "MODEL_ROOT" }); //$NON-NLS-1$
+                new String[] { "MODEL_ROOT" });
     }
 }

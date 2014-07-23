@@ -66,7 +66,7 @@ public final class JsonUtils {
             try {
                 value = IsoDateUtils.parseIsoDatetime(json.getString(key), TimeZone.getDefault());
             } catch (final ParseException e) {
-                final JSONException jsonException = new JSONException("could not parse datetime"); //$NON-NLS-1$
+                final JSONException jsonException = new JSONException("could not parse datetime");
                 jsonException.initCause(e);
                 throw jsonException;
             }
@@ -174,7 +174,7 @@ public final class JsonUtils {
         final MonetaryValue value = optMonetaryValue(json, key);
 
         if (null == value) {
-            throw new JSONException(String.format(Locale.US, "key %s is required.", key)); //$NON-NLS-1$
+            throw new JSONException(String.format(Locale.US, "key %s is required.", key));
         }
 
         return value;
@@ -186,6 +186,6 @@ public final class JsonUtils {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private JsonUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

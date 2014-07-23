@@ -21,7 +21,7 @@ public final class ClaimJsonFactoryTest extends SupportAndroidTestCase {
     @SmallTest
     public void testJsonParse_basic() throws JSONException {
         final Claim claim = new ClaimJsonFactory().from(ClaimFixture.getFullJsonObject(1));
-        assertEquals("code", claim.getCode()); //$NON-NLS-1$
+        assertEquals("code", claim.getCode());
         assertEquals(1, claim.getId());
         final MonetaryValue money = MonetaryValueFixture.getFullModel();
         assertEquals(money.getAmount(), claim.getValue().getAmount());
@@ -32,7 +32,7 @@ public final class ClaimJsonFactoryTest extends SupportAndroidTestCase {
     public void testJsonParse_missing_all_keys() throws JSONException {
         try {
             new ClaimJsonFactory().from(new JSONObject());
-            fail("should throw JSONException"); //$NON-NLS-1$
+            fail("should throw JSONException");
         } catch (final JSONException e) {
             // Expected Exception
         }
@@ -45,7 +45,7 @@ public final class ClaimJsonFactoryTest extends SupportAndroidTestCase {
             final JSONObject json = ClaimFixture.getMinimalJsonObject();
             json.remove(ClaimJsonFactory.JsonKeys.ID);
             new ClaimJsonFactory().from(json);
-            fail("should throw JSONException"); //$NON-NLS-1$
+            fail("should throw JSONException");
         } catch (final JSONException e) {
             // Expected Exception
         }
@@ -58,7 +58,7 @@ public final class ClaimJsonFactoryTest extends SupportAndroidTestCase {
             final JSONObject json = ClaimFixture.getMinimalJsonObject();
             json.remove(ClaimJsonFactory.JsonKeys.VALUE);
             new ClaimJsonFactory().from(json);
-            fail("should throw JSONException"); //$NON-NLS-1$
+            fail("should throw JSONException");
         } catch (final JSONException e) {
             // Expected Exception
         }
@@ -71,7 +71,7 @@ public final class ClaimJsonFactoryTest extends SupportAndroidTestCase {
             final JSONObject json = ClaimFixture.getMinimalJsonObject();
             json.remove(ClaimJsonFactory.JsonKeys.VALUE_REMAINING);
             new ClaimJsonFactory().from(json);
-            fail("should throw JSONException"); //$NON-NLS-1$
+            fail("should throw JSONException");
         } catch (final JSONException e) {
             // Expected Exception
         }

@@ -107,7 +107,7 @@ public class SupportLoaderTestCase extends SupportAndroidTestCase {
                 result = queue.peek();
                 break;
             } catch (final InterruptedException e) {
-                throw new RuntimeException("waiting thread interrupted", e); //$NON-NLS-1$
+                throw new RuntimeException("waiting thread interrupted", e);
             }
         }
 

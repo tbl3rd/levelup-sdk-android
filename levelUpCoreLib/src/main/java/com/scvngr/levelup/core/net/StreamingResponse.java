@@ -38,7 +38,7 @@ public class StreamingResponse extends AbstractResponse<InputStream> {
         super(connection.getResponseCode(), connection.getHeaderFields(), null);
 
         mConnection = connection;
-        LogManager.v("Got HTTP status code %d", getHttpStatusCode()); //$NON-NLS-1$
+        LogManager.v("Got HTTP status code %d", getHttpStatusCode());
 
         if (getHttpStatusCode() >= STATUS_CODE_SUCCESS_MIN_INCLUSIVE
                 && getHttpStatusCode() < STATUS_CODE_SUCCESS_MAX_EXCLUSIVE) {
@@ -97,7 +97,7 @@ public class StreamingResponse extends AbstractResponse<InputStream> {
 
     @Override
     public String toString() {
-        return String.format("StreamingResponse [mData=%s]", mData); //$NON-NLS-1$
+        return String.format("StreamingResponse [mData=%s]", mData);
     }
 
     @Override

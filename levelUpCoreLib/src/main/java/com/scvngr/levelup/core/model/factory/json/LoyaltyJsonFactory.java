@@ -72,37 +72,37 @@ public final class LoyaltyJsonFactory extends AbstractJsonModelFactory<Loyalty> 
          * The key under which this model can be nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "loyalty"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "loyalty";
 
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String MERCHANT_LOYALTY_ENABLED = "merchant_loyalty_enabled"; //$NON-NLS-1$
+        public static final String MERCHANT_LOYALTY_ENABLED = "merchant_loyalty_enabled";
 
         @JsonValueType(JsonType.LONG)
-        public static final String MERCHANT_WEB_SERVICE_ID = "merchant_id"; //$NON-NLS-1$
+        public static final String MERCHANT_WEB_SERVICE_ID = "merchant_id";
 
         @JsonValueType(JsonType.INT)
-        public static final String ORDERS_COUNT = "orders_count"; //$NON-NLS-1$
+        public static final String ORDERS_COUNT = "orders_count";
 
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String POTENTIAL_CREDIT = "potential_credit_amount"; //$NON-NLS-1$
+        public static final String POTENTIAL_CREDIT = "potential_credit_amount";
 
         @JsonValueType(JsonType.INT)
-        public static final String PROGRESS_PERCENT = "progress_percentage"; //$NON-NLS-1$
+        public static final String PROGRESS_PERCENT = "progress_percentage";
 
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String SAVINGS = "savings_amount"; //$NON-NLS-1$
+        public static final String SAVINGS = "savings_amount";
 
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String SHOULD_SPEND = "merchant_spend_amount"; //$NON-NLS-1$
+        public static final String SHOULD_SPEND = "merchant_spend_amount";
 
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String SPEND_REMAINING = "spend_remaining_amount"; //$NON-NLS-1$
+        public static final String SPEND_REMAINING = "spend_remaining_amount";
 
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String TOTAL_VOLUME = "total_volume_amount"; //$NON-NLS-1$
+        public static final String TOTAL_VOLUME = "total_volume_amount";
 
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String WILL_EARN = "merchant_earn_amount"; //$NON-NLS-1$
+        public static final String WILL_EARN = "merchant_earn_amount";
 
         /**
          * Private constructor prevents instantiation.
@@ -110,7 +110,7 @@ public final class LoyaltyJsonFactory extends AbstractJsonModelFactory<Loyalty> 
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

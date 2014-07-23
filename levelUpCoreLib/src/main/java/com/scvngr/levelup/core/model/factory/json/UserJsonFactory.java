@@ -87,65 +87,65 @@ public final class UserJsonFactory extends AbstractJsonModelFactory<User> {
          * JSON object key that maps to the root object if it's nested.
          */
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String MODEL_ROOT = "user"; //$NON-NLS-1$
+        public static final String MODEL_ROOT = "user";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.STRING)
-        public static final String BORN_AT = "born_at"; //$NON-NLS-1$
+        public static final String BORN_AT = "born_at";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String CONNECTED_TO_FACEBOOK = "connected_to_facebook"; //$NON-NLS-1$
+        public static final String CONNECTED_TO_FACEBOOK = "connected_to_facebook";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.JSON_OBJECT)
-        public static final String CUSTOM_ATTRIBUTES = "custom_attributes"; //$NON-NLS-1$
+        public static final String CUSTOM_ATTRIBUTES = "custom_attributes";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.BOOLEAN)
-        public static final String DEBIT_CARD_ONLY = "debit_card_only"; //$NON-NLS-1$
+        public static final String DEBIT_CARD_ONLY = "debit_card_only";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.STRING)
-        public static final String EMAIL = "email"; //$NON-NLS-1$
+        public static final String EMAIL = "email";
 
         /**
          * Maps to a {@link Gender} in the model; expects "male" or "female" as a string in JSON.
          */
         @JsonValueType(JsonType.STRING)
-        public static final String GENDER = "gender"; //$NON-NLS-1$
+        public static final String GENDER = "gender";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.LONG)
-        public static final String GLOBAL_CREDIT_AMOUNT = "global_credit_amount"; //$NON-NLS-1$
+        public static final String GLOBAL_CREDIT_AMOUNT = "global_credit_amount";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.LONG)
-        public static final String ID = "id"; //$NON-NLS-1$
+        public static final String ID = "id";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.STRING)
-        public static final String FIRST_NAME = "first_name"; //$NON-NLS-1$
+        public static final String FIRST_NAME = "first_name";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.STRING)
-        public static final String LAST_NAME = "last_name"; //$NON-NLS-1$
+        public static final String LAST_NAME = "last_name";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.INT)
-        public static final String MERCHANTS_VISITED_COUNT = "merchants_visited_count"; //$NON-NLS-1$
+        public static final String MERCHANTS_VISITED_COUNT = "merchants_visited_count";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.INT)
-        public static final String ORDERS_COUNT = "orders_count"; //$NON-NLS-1$
+        public static final String ORDERS_COUNT = "orders_count";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.STRING)
-        public static final String TERMS_ACCEPTED_AT = "terms_accepted_at"; //$NON-NLS-1$
+        public static final String TERMS_ACCEPTED_AT = "terms_accepted_at";
 
         @SuppressWarnings("javadoc")
         @JsonValueType(JsonType.LONG)
-        public static final String TOTAL_SAVINGS_AMOUNT = "total_savings_amount"; //$NON-NLS-1$
+        public static final String TOTAL_SAVINGS_AMOUNT = "total_savings_amount";
 
         /**
          * Private constructor prevents instantiation.
@@ -153,7 +153,7 @@ public final class UserJsonFactory extends AbstractJsonModelFactory<User> {
          * @throws UnsupportedOperationException because this class cannot be instantiated.
          */
         private JsonKeys() {
-            throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+            throw new UnsupportedOperationException("This class is non-instantiable");
         }
     }
 }

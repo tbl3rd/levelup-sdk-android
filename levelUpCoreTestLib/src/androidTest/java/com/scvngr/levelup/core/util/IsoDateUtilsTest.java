@@ -21,14 +21,14 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
 
     @NonNull
     private static final TimeZone TIME_ZONE_EST = NullUtils.nonNullContract(TimeZone
-            .getTimeZone("GMT-0500")); //$NON-NLS-1$
+            .getTimeZone("GMT-0500"));
 
     @SmallTest
     public void testGetTimeZoneUtc() {
         final TimeZone timeZone = IsoDateUtils.getTimeZoneUtc();
         assertEquals(0, timeZone.getRawOffset());
-        assertEquals("UTC", timeZone.getID()); //$NON-NLS-1$
-        assertEquals(TimeZone.getTimeZone("UTC"), timeZone); //$NON-NLS-1$
+        assertEquals("UTC", timeZone.getID());
+        assertEquals(TimeZone.getTimeZone("UTC"), timeZone);
     }
 
     @SmallTest
@@ -51,15 +51,15 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
      */
     private static void validateParseIsoDateTimeParseException(@NonNull final TimeZone timeZone) {
         try {
-            IsoDateUtils.parseIsoDatetime("2011-05-03T12:00:00", timeZone); //$NON-NLS-1$
-            fail("ParseException should have been thrown."); //$NON-NLS-1$
+            IsoDateUtils.parseIsoDatetime("2011-05-03T12:00:00", timeZone);
+            fail("ParseException should have been thrown.");
         } catch (final ParseException e) {
             // Expected exception
         }
 
         try {
-            IsoDateUtils.parseIsoDatetime("2011-05-0312:00:00-05:00", timeZone); //$NON-NLS-1$
-            fail("ParseException should have been thrown."); //$NON-NLS-1$
+            IsoDateUtils.parseIsoDatetime("2011-05-0312:00:00-05:00", timeZone);
+            fail("ParseException should have been thrown.");
         } catch (final ParseException e) {
             // Expected exception
         }
@@ -68,9 +68,9 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
     @SmallTest
     public void testToIsoDateTime() {
         final Date date = new Date(1370993354000L);
-        assertEquals("2013-06-11T23:29:14+0000", //$NON-NLS-1$
+        assertEquals("2013-06-11T23:29:14+0000",
                 IsoDateUtils.toIsoDatetime(date, IsoDateUtils.getTimeZoneUtc()));
-        assertEquals("2013-06-11T18:29:14-0500", IsoDateUtils.toIsoDatetime(date, TIME_ZONE_EST)); //$NON-NLS-1$
+        assertEquals("2013-06-11T18:29:14-0500", IsoDateUtils.toIsoDatetime(date, TIME_ZONE_EST));
     }
 
     /**
@@ -83,7 +83,7 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
         try {
             {
                 final Date date =
-                        IsoDateUtils.parseIsoDatetime("2012-12-04T18:10:45-05:00", timeZone); //$NON-NLS-1$
+                        IsoDateUtils.parseIsoDatetime("2012-12-04T18:10:45-05:00", timeZone);
 
                 final Calendar cal = Calendar.getInstance(timeZone, Locale.US);
                 cal.setTime(date);
@@ -99,7 +99,7 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
 
             {
                 final Date date =
-                        IsoDateUtils.parseIsoDatetime("2011-05-03T12:00:00-0400", timeZone); //$NON-NLS-1$
+                        IsoDateUtils.parseIsoDatetime("2011-05-03T12:00:00-0400", timeZone);
 
                 final Calendar cal = Calendar.getInstance(timeZone, Locale.US);
                 cal.setTime(date);
@@ -113,7 +113,7 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
                         cal.get(Calendar.ZONE_OFFSET) + cal.get(Calendar.DST_OFFSET));
             }
         } catch (final ParseException e) {
-            fail("ParseException should have been thrown."); //$NON-NLS-1$
+            fail("ParseException should have been thrown.");
         }
     }
 

@@ -35,12 +35,12 @@ public final class FeedbackRequestFactoryTest extends SupportAndroidTestCase {
 
         assertEquals(HttpMethod.POST, request.getMethod());
         assertTrue(
-                "hits orders/:id/feedback endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                "hits orders/:id/feedback endpoint", request.getUrl(getContext()).getPath()
                         .contains(
                                 String.format(Locale.US,
-                                        "orders/%s/feedback", OrderFixture.UUID_FIXTURE_1))); //$NON-NLS-1$
+                                        "orders/%s/feedback", OrderFixture.UUID_FIXTURE_1)));
 
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
 
         @NonNull
@@ -60,7 +60,7 @@ public final class FeedbackRequestFactoryTest extends SupportAndroidTestCase {
                 new FeedbackRequestFactory(getContext(), new MockAccessTokenRetriever());
 
         final JsonObject feedbackJson = FeedbackFixture.getFullJsonObject();
-        feedbackJson.addProperty("comment", (String) null); //$NON-NLS-1$
+        feedbackJson.addProperty("comment", (String) null);
         final Feedback expectedFeedback = new FeedbackJsonFactory().from(feedbackJson);
 
         final AbstractRequest request =
@@ -68,12 +68,12 @@ public final class FeedbackRequestFactoryTest extends SupportAndroidTestCase {
 
         assertEquals(HttpMethod.POST, request.getMethod());
         assertTrue(
-                "hits orders/:id/feedback endpoint", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+                "hits orders/:id/feedback endpoint", request.getUrl(getContext()).getPath()
                         .contains(
                                 String.format(Locale.US,
-                                        "orders/%s/feedback", OrderFixture.UUID_FIXTURE_1))); //$NON-NLS-1$
+                                        "orders/%s/feedback", OrderFixture.UUID_FIXTURE_1)));
 
-        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath() //$NON-NLS-1$
+        assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
 
         @NonNull

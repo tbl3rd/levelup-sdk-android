@@ -30,7 +30,7 @@ public final class ClaimFixture {
     @NonNull
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     public static final String EXPIRES_AT_DATE = (String) DateFormat.format(
-            "yyyy-MM-dd HH:mm", Calendar.getInstance(Locale.US)); //$NON-NLS-1$
+            "yyyy-MM-dd HH:mm", Calendar.getInstance(Locale.US));
 
     /**
      * @param webServiceId the ID of the claim.
@@ -81,7 +81,7 @@ public final class ClaimFixture {
 
         try {
             object.put(ClaimJsonFactory.JsonKeys.CAMPAIGN_ID, webServiceId);
-            object.put(ClaimJsonFactory.JsonKeys.CODE, "code"); //$NON-NLS-1$
+            object.put(ClaimJsonFactory.JsonKeys.CODE, "code");
             object.put(ClaimJsonFactory.JsonKeys.ID, webServiceId);
             object.put(ClaimJsonFactory.JsonKeys.VALUE, amount);
             object.put(ClaimJsonFactory.JsonKeys.VALUE_REMAINING, amount);
@@ -119,6 +119,6 @@ public final class ClaimFixture {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private ClaimFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

@@ -18,7 +18,7 @@ public final class ScanFixture {
      */
     @NonNull
     public static Scan getFullModel() {
-        return new Scan("data"); //$NON-NLS-1$
+        return new Scan("data");
     }
 
     /**
@@ -27,6 +27,6 @@ public final class ScanFixture {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private ScanFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

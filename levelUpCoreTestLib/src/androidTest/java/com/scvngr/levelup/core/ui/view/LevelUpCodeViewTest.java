@@ -173,7 +173,7 @@ public final class LevelUpCodeViewTest extends
             }
         });
 
-        assertTrue("dispatchOnImageLoaded's callback was not called", result[0]); //$NON-NLS-1$
+        assertTrue("dispatchOnImageLoaded's callback was not called", result[0]);
 
         assertOnCodeLoaded(onCodeLoadListener, false, 1);
         assertOnCodeLoaded(onCodeLoadListener, true, 1);
@@ -448,7 +448,7 @@ public final class LevelUpCodeViewTest extends
     public void testShowCode_wrongThread() {
         try {
             mLevelUpCodeView.setLevelUpCode(MockQrCodeGenerator.TEST_CONTENT1, mLoader);
-            fail("Expected exception not thrown."); //$NON-NLS-1$
+            fail("Expected exception not thrown.");
         } catch (final AssertionError e) {
             // Expected exception.
         }
@@ -557,7 +557,7 @@ public final class LevelUpCodeViewTest extends
                 return NullUtils.nonNullContract(bitmap);
             }
 
-            assertTrue("Timed out getting the code view drawing cache.", //$NON-NLS-1$
+            assertTrue("Timed out getting the code view drawing cache.",
                     SystemClock.elapsedRealtime() < endTime);
 
             SystemClock.sleep(500);

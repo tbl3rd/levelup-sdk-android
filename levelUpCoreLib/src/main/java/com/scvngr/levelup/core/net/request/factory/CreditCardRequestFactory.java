@@ -36,43 +36,43 @@ import org.json.JSONObject;
 @LevelUpApi(contract = Contract.PUBLIC)
 public final class CreditCardRequestFactory extends AbstractRequestFactory {
     @NonNull
-    private static final String CREDIT_CARDS_ENDPOINT = "credit_cards"; //$NON-NLS-1$
+    private static final String CREDIT_CARDS_ENDPOINT = "credit_cards";
 
     /**
      * The outer JSON object request parameter.
      */
     @NonNull
-    public static final String OUTER_PARAM_CARD = "credit_card"; //$NON-NLS-1$
+    public static final String OUTER_PARAM_CARD = "credit_card";
 
     /**
      * The encrypted CVV code.
      */
     @NonNull
-    public static final String PARAM_ENCRYPTED_CVV = "encrypted_cvv"; //$NON-NLS-1$
+    public static final String PARAM_ENCRYPTED_CVV = "encrypted_cvv";
 
     /**
      * The encrypted expiration date month.
      */
     @NonNull
-    public static final String PARAM_ENCRYPTED_EXPIRATION_MONTH = "encrypted_expiration_month"; //$NON-NLS-1$
+    public static final String PARAM_ENCRYPTED_EXPIRATION_MONTH = "encrypted_expiration_month";
 
     /**
      * The encrypted expiration date year.
      */
     @NonNull
-    public static final String PARAM_ENCRYPTED_EXPIRATION_YEAR = "encrypted_expiration_year"; //$NON-NLS-1$
+    public static final String PARAM_ENCRYPTED_EXPIRATION_YEAR = "encrypted_expiration_year";
 
     /**
      * The encrypted credit card number.
      */
     @NonNull
-    public static final String PARAM_ENCRYPTED_NUMBER = "encrypted_number"; //$NON-NLS-1$
+    public static final String PARAM_ENCRYPTED_NUMBER = "encrypted_number";
 
     /**
      * The postal/zip code.
      */
     @NonNull
-    public static final String PARAM_POSTAL_CODE = "postal_code"; //$NON-NLS-1$
+    public static final String PARAM_POSTAL_CODE = "postal_code";
 
     /**
      * @param context the Application context.
@@ -103,11 +103,11 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
             @NonNull final String cvv, @NonNull final String expirationMonth,
             @NonNull final String expirationYear, @NonNull final String postalCode) {
 
-        PreconditionUtil.assertNotNull(cardNumber, "cardNumber"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(cvv, "cvv"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(expirationMonth, "expirationMonth"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(expirationYear, "expirationYear"); //$NON-NLS-1$
-        PreconditionUtil.assertNotNull(postalCode, "postalCode"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(cardNumber, "cardNumber");
+        PreconditionUtil.assertNotNull(cvv, "cvv");
+        PreconditionUtil.assertNotNull(expirationMonth, "expirationMonth");
+        PreconditionUtil.assertNotNull(expirationYear, "expirationYear");
+        PreconditionUtil.assertNotNull(postalCode, "postalCode");
 
         final Braintree braintree =
                 new Braintree(getContext().getString(
@@ -125,7 +125,7 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
 
             parameters.put(OUTER_PARAM_CARD, creditCard);
         } catch (final JSONException e) {
-            LogManager.e("Error building JSON.", e); //$NON-NLS-1$
+            LogManager.e("Error building JSON.", e);
         }
 
         return new LevelUpRequest(getContext(), HttpMethod.POST,
@@ -159,7 +159,7 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
     public AbstractRequest buildPromoteCardRequest(@NonNull final CreditCard card) {
         return new LevelUpRequest(getContext(), HttpMethod.PUT,
                 LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
-                        "%s/%d", CREDIT_CARDS_ENDPOINT, card.getId()), null, null, //$NON-NLS-1$
+                        "%s/%d", CREDIT_CARDS_ENDPOINT, card.getId()), null, null,
                 getAccessTokenRetriever());
     }
 
@@ -175,7 +175,7 @@ public final class CreditCardRequestFactory extends AbstractRequestFactory {
     public AbstractRequest buildDeleteCardRequest(@NonNull final CreditCard card) {
         return new LevelUpRequest(getContext(), HttpMethod.DELETE,
                 LevelUpRequest.API_VERSION_CODE_V14, NullUtils.format(
-                        "%s/%d", CREDIT_CARDS_ENDPOINT, card.getId()), null, null, //$NON-NLS-1$
+                        "%s/%d", CREDIT_CARDS_ENDPOINT, card.getId()), null, null,
                 getAccessTokenRetriever());
     }
 }

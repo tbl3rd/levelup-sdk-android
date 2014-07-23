@@ -24,11 +24,11 @@ public final class RegistrationRequestFactory extends AbstractRequestFactory {
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
-    /* package */static final String ENDPOINT_REGISTRATION = "registration"; //$NON-NLS-1$
+    /* package */static final String ENDPOINT_REGISTRATION = "registration";
 
     @VisibleForTesting(visibility = Visibility.PRIVATE)
     @NonNull
-    /* package */static final String PARAM_EMAIL = "email"; //$NON-NLS-1$
+    /* package */static final String PARAM_EMAIL = "email";
 
     /**
      * @param context the Application context.
@@ -48,7 +48,7 @@ public final class RegistrationRequestFactory extends AbstractRequestFactory {
     @NonNull
     @LevelUpApi(contract = LevelUpApi.Contract.ENTERPRISE)
     public AbstractRequest buildRegistrationRequest(@NonNull final String email) {
-        PreconditionUtil.assertNotNull(email, "email"); //$NON-NLS-1$
+        PreconditionUtil.assertNotNull(email, "email");
 
         final Map<String, String> params = new HashMap<String, String>();
         RequestUtils.addApiKeyToRequestQueryParams(getContext(), params);

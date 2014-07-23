@@ -21,8 +21,8 @@ public final class JSONArrayRequestBodyTest extends AbstractRequestBodyTest<JSON
     @NonNull
     private JSONArray getArray() {
         final JSONArray jo = new JSONArray();
-        jo.put("foo"); //$NON-NLS-1$
-        jo.put("bar"); //$NON-NLS-1$
+        jo.put("foo");
+        jo.put("bar");
 
         return jo;
     }

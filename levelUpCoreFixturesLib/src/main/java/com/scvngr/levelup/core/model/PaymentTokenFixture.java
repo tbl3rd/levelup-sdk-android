@@ -87,7 +87,7 @@ public final class PaymentTokenFixture {
         final String tokenData;
 
         if (null == data) {
-            tokenData = "0123456789"; //$NON-NLS-1$
+            tokenData = "0123456789";
         } else {
             tokenData = data;
         }
@@ -122,6 +122,6 @@ public final class PaymentTokenFixture {
      * Private constructor to prevent instantiation.
      */
     private PaymentTokenFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

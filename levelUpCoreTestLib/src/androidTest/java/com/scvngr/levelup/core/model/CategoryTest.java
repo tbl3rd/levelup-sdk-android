@@ -35,6 +35,6 @@ public final class CategoryTest extends SupportAndroidTestCase {
     public void testEqualsAndHashCode() throws JSONException {
         JsonTestUtil.checkEqualsAndHashCodeOnJsonVariants(CategoryJsonFactory.JsonKeys.class,
                 new CategoryJsonFactory(), CategoryFixture.getFullJsonObject(),
-                new String[] { "MODEL_ROOT" }); //$NON-NLS-1$
+                new String[] { "MODEL_ROOT" });
     }
 }

@@ -25,7 +25,7 @@ public final class BufferedResponseTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testParcelable() {
-        final BufferedResponse response = new BufferedResponse("test"); //$NON-NLS-1$
+        final BufferedResponse response = new BufferedResponse("test");
         final Parcel out = Parcel.obtain();
         response.writeToParcel(out, 0);
         out.setDataPosition(0);
@@ -60,7 +60,7 @@ public final class BufferedResponseTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testReadStream_validStreamData() {
-        final String testString = "this is a test string.Yes, I said TEST!"; //$NON-NLS-1$
+        final String testString = "this is a test string.Yes, I said TEST!";
         final InputStream stream = new ByteArrayInputStream(testString.getBytes());
 
         try {
@@ -87,7 +87,7 @@ public final class BufferedResponseTest extends SupportAndroidTestCase {
             final StringBuilder result = BufferedResponse.readStream(stream);
             assertEquals(builder.toString(), result.toString());
         } catch (final IOException e) {
-            fail("Exception thrown when reading stream"); //$NON-NLS-1$
+            fail("Exception thrown when reading stream");
         }
     }
 
@@ -105,7 +105,7 @@ public final class BufferedResponseTest extends SupportAndroidTestCase {
 
         try {
             BufferedResponse.readStream(stream);
-            fail("readStream() did not throw the proper exception"); //$NON-NLS-1$
+            fail("readStream() did not throw the proper exception");
         } catch (final IOException e) {
             assertTrue(e instanceof ResponseTooLargeException);
         }
@@ -131,7 +131,7 @@ public final class BufferedResponseTest extends SupportAndroidTestCase {
             final StringBuilder result = BufferedResponse.readStream(stream);
             assertEquals(builder.toString(), result.toString());
         } catch (final IOException e) {
-            fail("Exception thrown when reading stream"); //$NON-NLS-1$
+            fail("Exception thrown when reading stream");
         }
     }
 

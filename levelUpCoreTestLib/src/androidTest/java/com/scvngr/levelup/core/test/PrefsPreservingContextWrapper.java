@@ -23,6 +23,6 @@ public final class PrefsPreservingContextWrapper extends ContextWrapper {
 
     @Override
     public SharedPreferences getSharedPreferences(final String name, final int mode) {
-        return super.getSharedPreferences(name + ".testsafe", mode); //$NON-NLS-1$
+        return super.getSharedPreferences(name + ".testsafe", mode);
     }
 }

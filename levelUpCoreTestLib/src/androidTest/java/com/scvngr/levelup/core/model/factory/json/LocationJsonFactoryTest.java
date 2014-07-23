@@ -37,26 +37,26 @@ public final class LocationJsonFactoryTest extends SupportAndroidTestCase {
             final Location location =
                     new LocationJsonFactory().from(LocationFixture.getFullJsonObject());
             assertEquals(new HashSet<Integer>(Arrays.asList(2, 3, 5, 23)), location.getCategories());
-            assertEquals("extended_address", location.getExtendedAddress()); //$NON-NLS-1$
-            assertEquals("facebook_url", location.getUrl(Location.URL_FACEBOOK)); //$NON-NLS-1$
-            assertEquals("foodler_url", location.getUrl(Location.URL_FOODLER)); //$NON-NLS-1$
-            assertEquals("hours", location.getHours()); //$NON-NLS-1$
+            assertEquals("extended_address", location.getExtendedAddress());
+            assertEquals("facebook_url", location.getUrl(Location.URL_FACEBOOK));
+            assertEquals("foodler_url", location.getUrl(Location.URL_FOODLER));
+            assertEquals("hours", location.getHours());
             assertEquals(1, location.getId());
             assertEquals(LocationFixture.LOCATION_LATITUDE, location.getLatitude());
             assertEquals(LocationFixture.LOCATION_LONGITUDE, location.getLongitude());
-            assertEquals("locality", location.getLocality()); //$NON-NLS-1$
+            assertEquals("locality", location.getLocality());
             assertEquals(LocationFixture.MERCHANT_ID, location.getMerchantId());
-            assertEquals("merchant_name", location.getMerchantName()); //$NON-NLS-1$
-            assertEquals("menu_url", location.getUrl(Location.URL_MENU)); //$NON-NLS-1$
-            assertEquals("name", location.getName()); //$NON-NLS-1$
-            assertEquals("newsletter_url", location.getUrl(Location.URL_NEWSLETTER)); //$NON-NLS-1$
-            assertEquals("opentable_url", location.getUrl(Location.URL_OPENTABLE)); //$NON-NLS-1$
-            assertEquals("phone", location.getPhone()); //$NON-NLS-1$
-            assertEquals("postal_code", location.getPostalCode()); //$NON-NLS-1$
-            assertEquals("region", location.getRegion()); //$NON-NLS-1$
-            assertEquals("street_address", location.getStreetAddress()); //$NON-NLS-1$
-            assertEquals("twitter_url", location.getUrl(Location.URL_TWITTER)); //$NON-NLS-1$
-            assertEquals("yelp_url", location.getUrl(Location.URL_YELP)); //$NON-NLS-1$
+            assertEquals("merchant_name", location.getMerchantName());
+            assertEquals("menu_url", location.getUrl(Location.URL_MENU));
+            assertEquals("name", location.getName());
+            assertEquals("newsletter_url", location.getUrl(Location.URL_NEWSLETTER));
+            assertEquals("opentable_url", location.getUrl(Location.URL_OPENTABLE));
+            assertEquals("phone", location.getPhone());
+            assertEquals("postal_code", location.getPostalCode());
+            assertEquals("region", location.getRegion());
+            assertEquals("street_address", location.getStreetAddress());
+            assertEquals("twitter_url", location.getUrl(Location.URL_TWITTER));
+            assertEquals("yelp_url", location.getUrl(Location.URL_YELP));
         }
     }
 
@@ -72,7 +72,7 @@ public final class LocationJsonFactoryTest extends SupportAndroidTestCase {
 
             try {
                 new LocationJsonFactory().from(object);
-                fail("should throw JSONException"); //$NON-NLS-1$
+                fail("should throw JSONException");
             } catch (final JSONException e) {
                 // Expected Exception
             }

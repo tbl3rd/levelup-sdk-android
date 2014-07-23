@@ -18,22 +18,22 @@ public final class PermissionsRequestTest extends SupportAndroidTestCase {
     }
 
     public void testState_valid() {
-        assertEquals(State.PENDING, State.forString("pending")); //$NON-NLS-1$
-        assertEquals(State.ACCEPTED, State.forString("accepted")); //$NON-NLS-1$
-        assertEquals(State.REJECTED, State.forString("rejected")); //$NON-NLS-1$
+        assertEquals(State.PENDING, State.forString("pending"));
+        assertEquals(State.ACCEPTED, State.forString("accepted"));
+        assertEquals(State.REJECTED, State.forString("rejected"));
     }
 
     public void testState_invalid() {
         try {
-            State.forString("Invalid"); //$NON-NLS-1$
-            fail("Expected exception for invalid state."); //$NON-NLS-1$
+            State.forString("Invalid");
+            fail("Expected exception for invalid state.");
         } catch (final IllegalArgumentException e) {
             // Expected exception.
         }
 
         try {
-            State.forString("PENDING"); //$NON-NLS-1$
-            fail("Expected exception for invalid state."); //$NON-NLS-1$
+            State.forString("PENDING");
+            fail("Expected exception for invalid state.");
         } catch (final IllegalArgumentException e) {
             // Expected exception.
         }

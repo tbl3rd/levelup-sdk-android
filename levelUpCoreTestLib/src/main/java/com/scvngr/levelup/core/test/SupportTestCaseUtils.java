@@ -88,7 +88,7 @@ import java.util.concurrent.TimeUnit;
         while (null == context.getApplicationContext()) {
 
             if (SystemClock.elapsedRealtime() >= endTime) {
-                AndroidTestCase.fail("Application context is null."); //$NON-NLS-1$
+                AndroidTestCase.fail("Application context is null.");
             }
 
             SystemClock.sleep(WAIT_SLEEP_MILLIS);
@@ -101,6 +101,6 @@ import java.util.concurrent.TimeUnit;
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private SupportTestCaseUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

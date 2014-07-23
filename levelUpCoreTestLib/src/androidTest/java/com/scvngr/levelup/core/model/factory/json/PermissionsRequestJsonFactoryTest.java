@@ -69,9 +69,9 @@ public final class PermissionsRequestJsonFactoryTest extends SupportAndroidTestC
 
         try {
             final JsonObject model = PermissionsRequestFixture.getJsonObject();
-            model.getAsJsonObject(PermissionsRequestJsonFactory.MODEL_ROOT).remove("description"); //$NON-NLS-1$
+            model.getAsJsonObject(PermissionsRequestJsonFactory.MODEL_ROOT).remove("description");
             factory.createFrom(model);
-            fail("Expected exception."); //$NON-NLS-1$
+            fail("Expected exception.");
         } catch (final JsonParseException e) {
             // Expected exception.
         }

@@ -22,7 +22,7 @@ public final class MockRequestBody implements RequestBody {
      * Request body fixture.
      */
     @NonNull
-    public static final String BODY_FIXTURE = "{ \"test\": {\"snowman\": \"☃\"}}"; //$NON-NLS-1$
+    public static final String BODY_FIXTURE = "{ \"test\": {\"snowman\": \"☃\"}}";
 
     /**
      * Parcelable creator.
@@ -44,7 +44,7 @@ public final class MockRequestBody implements RequestBody {
      * Request content type fixture.
      */
     @NonNull
-    public static final String FIXTURE_CONTENT_TYPE = "text/awesome"; //$NON-NLS-1$
+    public static final String FIXTURE_CONTENT_TYPE = "text/awesome";
 
     @Override
     public int describeContents() {

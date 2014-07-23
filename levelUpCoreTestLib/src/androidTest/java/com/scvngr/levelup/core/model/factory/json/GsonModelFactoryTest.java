@@ -43,7 +43,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
         assertNotNull(model);
 
         assertEquals(1, model.getId());
-        assertEquals("category name", model.getName()); //$NON-NLS-1$
+        assertEquals("category name", model.getName());
 
         assertEquals(CategoryFixture.getFullModel(1), model);
     }
@@ -92,7 +92,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
      */
     public void testModel_fromJsonMinimal() {
         final GsonModelFactory<Product> factory =
-                new GsonModelFactory<Product>("product", Product.class, false); //$NON-NLS-1$
+                new GsonModelFactory<Product>("product", Product.class, false);
 
         final Product product = factory.from(getMinimalProductFixture());
 
@@ -101,7 +101,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
         assertNull(product.getDescription());
         assertEquals(123, product.getId());
         assertEquals(50, product.getInventoryCount());
-        assertEquals("widget", product.getName()); //$NON-NLS-1$
+        assertEquals("widget", product.getName());
         assertEquals("Product", Product.DB_KEY);
     }
 
@@ -110,23 +110,23 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
      */
     public void testModel_fromJsonFull() {
         final GsonModelFactory<Product> factory =
-                new GsonModelFactory<Product>("product", Product.class, false); //$NON-NLS-1$
+                new GsonModelFactory<Product>("product", Product.class, false);
 
         final Product product = factory.from(getFullProductFixture());
 
         assertNotNull(product.getCost());
         assertEquals(500, product.getCost().getAmount());
-        assertEquals("This makes widgets", product.getDescription()); //$NON-NLS-1$
+        assertEquals("This makes widgets", product.getDescription());
         assertEquals(123, product.getId());
         assertEquals(50, product.getInventoryCount());
-        assertEquals("widget", product.getName()); //$NON-NLS-1$
+        assertEquals("widget", product.getName());
         assertEquals("Product", Product.DB_KEY);
 
     }
 
     public void testModel_fromWrappedJsonFull() {
         final GsonModelFactory<Product> factory =
-                new GsonModelFactory<Product>("product", Product.class, true); //$NON-NLS-1$
+                new GsonModelFactory<Product>("product", Product.class, true);
         final JsonObject obj = getFullProductFixture();
         final JsonObject container = new JsonObject();
         container.add("product", obj);
@@ -134,10 +134,10 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
 
         assertNotNull(product.getCost());
         assertEquals(500, product.getCost().getAmount());
-        assertEquals("This makes widgets", product.getDescription()); //$NON-NLS-1$
+        assertEquals("This makes widgets", product.getDescription());
         assertEquals(123, product.getId());
         assertEquals(50, product.getInventoryCount());
-        assertEquals("widget", product.getName()); //$NON-NLS-1$
+        assertEquals("widget", product.getName());
         assertEquals("Product", Product.DB_KEY);
     }
 
@@ -146,15 +146,15 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
      */
     public void testModel_fromJsonInvalidNoName() {
         final GsonModelFactory<Product> factory =
-                new GsonModelFactory<Product>("product", Product.class, false); //$NON-NLS-1$
+                new GsonModelFactory<Product>("product", Product.class, false);
 
         try {
             final JsonObject jo = getMinimalProductFixture();
 
-            jo.remove("name"); //$NON-NLS-1$
+            jo.remove("name");
 
             factory.from(jo);
-            fail("Exception expected to be thrown"); //$NON-NLS-1$
+            fail("Exception expected to be thrown");
 
         } catch (final JsonParseException e) {
             // Expected exception.
@@ -164,10 +164,10 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
     @NonNull
     private JsonObject getMinimalProductFixture() {
         final JsonObject jo = new JsonObject();
-        jo.addProperty("cost", 500); //$NON-NLS-1$
-        jo.addProperty("id", 123); //$NON-NLS-1$
-        jo.addProperty("inventory_count", 50); //$NON-NLS-1$
-        jo.addProperty("name", "widget"); //$NON-NLS-1$ //$NON-NLS-2$
+        jo.addProperty("cost", 500);
+        jo.addProperty("id", 123);
+        jo.addProperty("inventory_count", 50);
+        jo.addProperty("name", "widget");
 
         return jo;
     }
@@ -176,7 +176,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
     private JsonObject getFullProductFixture() {
         final JsonObject jo = getMinimalProductFixture();
 
-        jo.addProperty("description", "This makes widgets"); //$NON-NLS-1$//$NON-NLS-2$
+        jo.addProperty("description", "This makes widgets");
 
         return jo;
     }
@@ -219,7 +219,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
          * A static field.
          */
         @NonNull
-        public static final String DB_KEY = "Product"; //$NON-NLS-1$
+        public static final String DB_KEY = "Product";
 
         /**
          * A test model that's not part of our core models. This includes some common edge cases.

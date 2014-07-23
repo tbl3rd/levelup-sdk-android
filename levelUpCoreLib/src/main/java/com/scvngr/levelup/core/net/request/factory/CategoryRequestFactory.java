@@ -22,7 +22,7 @@ public final class CategoryRequestFactory extends AbstractRequestFactory {
      * The API endpoint for categories.
      */
     @NonNull
-    public static final String ENDPOINT = "categories"; //$NON-NLS-1$
+    public static final String ENDPOINT = "categories";
 
     /**
      * @param context the Application context.

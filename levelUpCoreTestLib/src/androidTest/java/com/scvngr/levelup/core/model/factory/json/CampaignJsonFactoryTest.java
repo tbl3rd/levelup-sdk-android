@@ -26,19 +26,19 @@ public final class CampaignJsonFactoryTest extends SupportAndroidTestCase {
         final MonetaryValue money = MonetaryValueFixture.getFullModel();
 
         assertTrue(campaign.isAppliesToAllMerchants());
-        assertEquals("confirmation_html", campaign.getConfirmationHtml()); //$NON-NLS-1$
+        assertEquals("confirmation_html", campaign.getConfirmationHtml());
         assertEquals(1, campaign.getId());
-        assertEquals("message_for_email_body", campaign.getMessageForEmailBody()); //$NON-NLS-1$
-        assertEquals("message_for_email_subject", campaign.getMessageForEmailSubject()); //$NON-NLS-1$
-        assertEquals("message_for_facebook", campaign.getMessageForFacebook()); //$NON-NLS-1$
-        assertEquals("message_for_twitter", campaign.getMessageForTwitter()); //$NON-NLS-1$
-        assertEquals("name", campaign.getName()); //$NON-NLS-1$
-        assertEquals("<h1>offer_html</h1>", campaign.getOfferHtml()); //$NON-NLS-1$
-        assertEquals("share_url_email", campaign.getShareUrlEmail()); //$NON-NLS-1$
-        assertEquals("share_url_facebook", campaign.getShareUrlFacebook()); //$NON-NLS-1$
-        assertEquals("share_url_twitter", campaign.getShareUrlTwitter()); //$NON-NLS-1$
-        assertEquals("sponsor", campaign.getSponsor()); //$NON-NLS-1$
-        assertEquals("type", campaign.getType()); //$NON-NLS-1$
+        assertEquals("message_for_email_body", campaign.getMessageForEmailBody());
+        assertEquals("message_for_email_subject", campaign.getMessageForEmailSubject());
+        assertEquals("message_for_facebook", campaign.getMessageForFacebook());
+        assertEquals("message_for_twitter", campaign.getMessageForTwitter());
+        assertEquals("name", campaign.getName());
+        assertEquals("<h1>offer_html</h1>", campaign.getOfferHtml());
+        assertEquals("share_url_email", campaign.getShareUrlEmail());
+        assertEquals("share_url_facebook", campaign.getShareUrlFacebook());
+        assertEquals("share_url_twitter", campaign.getShareUrlTwitter());
+        assertEquals("sponsor", campaign.getSponsor());
+        assertEquals("type", campaign.getType());
 
         assertEquals(money.getAmount(), campaign.getValue().getAmount());
     }
@@ -50,12 +50,12 @@ public final class CampaignJsonFactoryTest extends SupportAndroidTestCase {
         final MonetaryValue money = MonetaryValueFixture.getFullModel();
 
         assertTrue(campaign.isAppliesToAllMerchants());
-        assertEquals("confirmation_html", campaign.getConfirmationHtml()); //$NON-NLS-1$
+        assertEquals("confirmation_html", campaign.getConfirmationHtml());
         assertEquals(1, campaign.getId());
-        assertEquals("name", campaign.getName()); //$NON-NLS-1$
-        assertEquals("<h1>offer_html</h1>", campaign.getOfferHtml()); //$NON-NLS-1$
-        assertEquals("sponsor", campaign.getSponsor()); //$NON-NLS-1$
-        assertEquals("type", campaign.getType()); //$NON-NLS-1$
+        assertEquals("name", campaign.getName());
+        assertEquals("<h1>offer_html</h1>", campaign.getOfferHtml());
+        assertEquals("sponsor", campaign.getSponsor());
+        assertEquals("type", campaign.getType());
 
         assertEquals(money.getAmount(), campaign.getValue().getAmount());
     }
@@ -65,7 +65,7 @@ public final class CampaignJsonFactoryTest extends SupportAndroidTestCase {
         final JSONObject json = new JSONObject();
         try {
             new CampaignJsonFactory().from(json);
-            fail("should throw JSONException"); //$NON-NLS-1$
+            fail("should throw JSONException");
         } catch (final JSONException e) {
             // Expected Exception
         }

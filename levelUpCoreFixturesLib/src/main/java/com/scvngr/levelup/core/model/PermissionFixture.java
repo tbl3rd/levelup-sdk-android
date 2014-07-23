@@ -19,16 +19,16 @@ import net.jcip.annotations.ThreadSafe;
 public final class PermissionFixture {
 
     @NonNull
-    public static final String DESCRIPTION_FIXTURE_1 = "View your orders."; //$NON-NLS-1$
+    public static final String DESCRIPTION_FIXTURE_1 = "View your orders.";
 
     @NonNull
-    public static final String DESCRIPTION_FIXTURE_2 = "Create orders."; //$NON-NLS-1$
+    public static final String DESCRIPTION_FIXTURE_2 = "Create orders.";
 
     @NonNull
-    public static final String KEYNAME_FIXTURE_1 = "view_order_history"; //$NON-NLS-1$
+    public static final String KEYNAME_FIXTURE_1 = "view_order_history";
 
     @NonNull
-    public static final String KEYNAME_FIXTURE_2 = "create_orders"; //$NON-NLS-1$
+    public static final String KEYNAME_FIXTURE_2 = "create_orders";
 
     /**
      * Full model #1.
@@ -80,16 +80,16 @@ public final class PermissionFixture {
             @NonNull final String keyname) {
 
         final JsonObject model = new JsonObject();
-        model.addProperty("description", description); //$NON-NLS-1$
-        model.addProperty("keyname", keyname); //$NON-NLS-1$
+        model.addProperty("description", description);
+        model.addProperty("keyname", keyname);
 
         final JsonObject container = new JsonObject();
-        container.add("permission", model); //$NON-NLS-1$
+        container.add("permission", model);
 
         return container;
     }
 
     private PermissionFixture() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

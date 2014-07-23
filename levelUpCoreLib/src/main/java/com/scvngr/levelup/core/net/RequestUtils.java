@@ -37,19 +37,19 @@ public final class RequestUtils {
      * Header key for the accepts.
      */
     @NonNull
-    public static final String HEADER_ACCEPT = "Accept"; //$NON-NLS-1$
+    public static final String HEADER_ACCEPT = "Accept";
 
     /**
      * Value for the accepts header for JSON.
      */
     @NonNull
-    public static final String HEADER_CONTENT_TYPE_JSON = "application/json"; //$NON-NLS-1$
+    public static final String HEADER_CONTENT_TYPE_JSON = "application/json";
 
     /**
      * Header key for the user agent.
      */
     @NonNull
-    public static final String HEADER_USER_AGENT = "User-Agent"; //$NON-NLS-1$
+    public static final String HEADER_USER_AGENT = "User-Agent";
 
     /**
      * Header key that maps to the model of the current device.
@@ -57,7 +57,7 @@ public final class RequestUtils {
      * @see RequestUtils#HEADER_DEVICE_MODEL_VALUE
      */
     @NonNull
-    public static final String HEADER_DEVICE_MODEL_KEY = "X-Device-Model"; //$NON-NLS-1$
+    public static final String HEADER_DEVICE_MODEL_KEY = "X-Device-Model";
 
     /**
      * Header value representing the model of the current device.
@@ -66,13 +66,13 @@ public final class RequestUtils {
      */
     @NonNull
     public static final String HEADER_DEVICE_MODEL_VALUE = NullUtils.format(
-            "%s/%s", Build.BRAND, Build.PRODUCT); //$NON-NLS-1$
+            "%s/%s", Build.BRAND, Build.PRODUCT);
 
     /**
      * Parameter for the app's LevelUp API key.
      */
     @NonNull
-    public static final String PARAM_API_KEY = "api_key"; //$NON-NLS-1$
+    public static final String PARAM_API_KEY = "api_key";
 
     /**
      * Parameter for the client identifier. This is a deprecated alias for {@link #PARAM_API_KEY}
@@ -86,7 +86,7 @@ public final class RequestUtils {
      * Parameter for the device identifier.
      */
     @NonNull
-    public static final String PARAM_DEVICE_IDENTIFIER = "device_identifier"; //$NON-NLS-1$
+    public static final String PARAM_DEVICE_IDENTIFIER = "device_identifier";
 
     /**
      * Get the request headers for all API requests.
@@ -115,7 +115,7 @@ public final class RequestUtils {
     @NonNull
     public static String getUserAgent(@NonNull final Context context) {
         return NullUtils.format(
-                "%s (Linux; U; Android %s; %s/%s; %s) %s", //$NON-NLS-1$
+                "%s (Linux; U; Android %s; %s/%s; %s) %s",
                 getUserAgentAppVersionString(context), Build.VERSION.RELEASE, Build.BRAND,
                 Build.PRODUCT, Locale.getDefault().toString(),
                 getUserAgentSdkVersionString(context));
@@ -132,7 +132,7 @@ public final class RequestUtils {
         final String apiKey = NullUtils.nonNullContract(context.getString(R.string.levelup_api_key));
 
         if (TextUtils.isEmpty(apiKey)) {
-            throw new AssertionError(String.format(Locale.US, "Application must override %s", //$NON-NLS-1$
+            throw new AssertionError(String.format(Locale.US, "Application must override %s",
                     context.getResources().getResourceEntryName(R.string.levelup_api_key)));
         }
 
@@ -212,7 +212,7 @@ public final class RequestUtils {
     @NonNull
     private static String getUserAgentAppVersionString(@NonNull final Context context) {
         final PackageInfo info = BuildUtil.getMyPackageInfo(context);
-        return info.applicationInfo.packageName + "/" + info.versionName; //$NON-NLS-1$
+        return info.applicationInfo.packageName + "/" + info.versionName;
     }
 
     /**
@@ -224,7 +224,7 @@ public final class RequestUtils {
      */
     @NonNull
     private static String getUserAgentSdkVersionString(@NonNull final Context context) {
-        return NullUtils.format("LevelUpSdk/%s", CoreLibConstants.SDK_VERSION); //$NON-NLS-1$
+        return NullUtils.format("LevelUpSdk/%s", CoreLibConstants.SDK_VERSION);
     }
 
     /**
@@ -233,6 +233,6 @@ public final class RequestUtils {
      * @throws UnsupportedOperationException because this class cannot be instantiated.
      */
     private RequestUtils() {
-        throw new UnsupportedOperationException("This class is non-instantiable"); //$NON-NLS-1$
+        throw new UnsupportedOperationException("This class is non-instantiable");
     }
 }

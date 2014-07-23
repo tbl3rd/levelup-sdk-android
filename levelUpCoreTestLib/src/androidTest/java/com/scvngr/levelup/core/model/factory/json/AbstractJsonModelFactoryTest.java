@@ -24,7 +24,7 @@ public final class AbstractJsonModelFactoryTest extends SupportAndroidTestCase {
 
     @SmallTest
     public void testGetTypeKey() {
-        final String key = "test_key"; //$NON-NLS-1$
+        final String key = "test_key";
 
         final TestModelFactory factory = new TestModelFactory(key);
         assertEquals(key, factory.getTypeKey());
@@ -33,33 +33,33 @@ public final class AbstractJsonModelFactoryTest extends SupportAndroidTestCase {
     @SmallTest
     public void testFromJsonObject_nestedModel() throws JSONException {
         final JSONObject obj = new JSONObject();
-        obj.put("test", getValidJSONObject()); //$NON-NLS-1$
+        obj.put("test", getValidJSONObject());
 
-        final TestModel model = new TestModelFactory("test").from(obj); //$NON-NLS-1$
-        assertFalse("should not have model key", model.object.has("test")); //$NON-NLS-1$ //$NON-NLS-2$
+        final TestModel model = new TestModelFactory("test").from(obj);
+        assertFalse("should not have model key", model.object.has("test"));
     }
 
     @SmallTest
     public void testFromJsonObject_nonNestedModel() throws JSONException {
-        final TestModel model = new TestModelFactory("test").from(getValidJSONObject()); //$NON-NLS-1$
-        assertFalse("should not have model key", model.object.has("test")); //$NON-NLS-1$ //$NON-NLS-2$
+        final TestModel model = new TestModelFactory("test").from(getValidJSONObject());
+        assertFalse("should not have model key", model.object.has("test"));
     }
 
     @SmallTest
     public void testFromJsonObject_unrecognizedModelKey() throws JSONException {
         final JSONObject obj = new JSONObject();
-        obj.put("no", getValidJSONObject()); //$NON-NLS-1$
+        obj.put("no", getValidJSONObject());
 
-        final TestModel model = new TestModelFactory("test").from(obj); //$NON-NLS-1$
+        final TestModel model = new TestModelFactory("test").from(obj);
         assertEquals(obj, model.object);
     }
 
     @SmallTest
     public void testFromJsonObject_singleKeyObject() throws JSONException {
         final JSONObject obj = new JSONObject();
-        obj.put("test", "this is a test value"); //$NON-NLS-1$ //$NON-NLS-2$
+        obj.put("test", "this is a test value");
 
-        final TestModel model = new TestModelFactory("test").from(obj); //$NON-NLS-1$
+        final TestModel model = new TestModelFactory("test").from(obj);
         assertEquals(obj, model.object);
     }
 
@@ -72,7 +72,7 @@ public final class AbstractJsonModelFactoryTest extends SupportAndroidTestCase {
         array.put(obj);
         array.put(obj);
 
-        final List<TestModel> models = new TestModelFactory("test").fromList(array); //$NON-NLS-1$
+        final List<TestModel> models = new TestModelFactory("test").fromList(array);
         assertEquals(4, models.size());
 
         for (final TestModel model : models) {
@@ -83,18 +83,18 @@ public final class AbstractJsonModelFactoryTest extends SupportAndroidTestCase {
     @SmallTest
     public void testFromListJsonArray_nestedModels() throws JSONException {
         final JSONObject obj = new JSONObject();
-        obj.put("test", getValidJSONObject()); //$NON-NLS-1$
+        obj.put("test", getValidJSONObject());
         final JSONArray array = new JSONArray();
         array.put(obj);
         array.put(obj);
         array.put(obj);
         array.put(obj);
 
-        final List<TestModel> models = new TestModelFactory("test").fromList(array); //$NON-NLS-1$
+        final List<TestModel> models = new TestModelFactory("test").fromList(array);
         assertEquals(4, models.size());
 
         for (final TestModel model : models) {
-            assertFalse("should not have model key", model.object.has("test")); //$NON-NLS-1$ //$NON-NLS-2$
+            assertFalse("should not have model key", model.object.has("test"));
             assertNotSame(obj, model.object);
         }
     }
@@ -102,18 +102,18 @@ public final class AbstractJsonModelFactoryTest extends SupportAndroidTestCase {
     @SmallTest
     public void testFromListJsonArray_varyingNestedAndUnNestedModels() throws JSONException {
         final JSONObject obj = new JSONObject();
-        obj.put("test", getValidJSONObject()); //$NON-NLS-1$
+        obj.put("test", getValidJSONObject());
         final JSONArray array = new JSONArray();
         array.put(obj);
         array.put(getValidJSONObject());
         array.put(getValidJSONObject());
         array.put(obj);
 
-        final List<TestModel> models = new TestModelFactory("test").fromList(array); //$NON-NLS-1$
+        final List<TestModel> models = new TestModelFactory("test").fromList(array);
         assertEquals(4, models.size());
 
         for (final TestModel model : models) {
-            assertFalse("should not have model key", model.object.has("test")); //$NON-NLS-1$ //$NON-NLS-2$
+            assertFalse("should not have model key", model.object.has("test"));
             assertNotSame(obj, model.object);
         }
     }
@@ -127,8 +127,8 @@ public final class AbstractJsonModelFactoryTest extends SupportAndroidTestCase {
     @NonNull
     private JSONObject getValidJSONObject() throws JSONException {
         final JSONObject obj = new JSONObject();
-        obj.put("var1", "var1-value"); //$NON-NLS-1$ //$NON-NLS-2$
-        obj.put("var2", "var2-value"); //$NON-NLS-1$ //$NON-NLS-2$
+        obj.put("var1", "var1-value");
+        obj.put("var2", "var2-value");
         return obj;
     }
 

@@ -64,7 +64,7 @@ public abstract class StringRequestBody implements RequestBody {
     @Override
     public void writeToOutputStream(@NonNull final Context context,
             @NonNull final OutputStream outputStream) throws IOException {
-        final OutputStreamWriter writer = new OutputStreamWriter(outputStream, "utf-8"); //$NON-NLS-1$
+        final OutputStreamWriter writer = new OutputStreamWriter(outputStream, "utf-8");
         try {
             writer.write(mBody);
         } finally {
@@ -75,10 +75,10 @@ public abstract class StringRequestBody implements RequestBody {
     @Override
     public int getContentLength() {
         try {
-            return mBody.getBytes("UTF-8").length; //$NON-NLS-1$
+            return mBody.getBytes("UTF-8").length;
         } catch (final UnsupportedEncodingException e) {
          // This is pretty much impossible.
-            throw new RuntimeException("The unthinkable happened: there is no UTF-8", e); //$NON-NLS-1$
+            throw new RuntimeException("The unthinkable happened: there is no UTF-8", e);
         }
     }
 
