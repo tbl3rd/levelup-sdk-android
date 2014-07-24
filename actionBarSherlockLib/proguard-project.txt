@@ -1,6 +1,0 @@
-# ActionBarSherlock requires the following config, as per <http://actionbarsherlock.com/faq.html>.
-# However, based on testing it doesn't appear that this configuration is necessary.
-# -keep class android.support.v4.app.** { *; }
-# -keep interface android.support.v4.app.** { *; }
--keep class com.actionbarsherlock.** { *; }
--keep interface com.actionbarsherlock.** { *; }

@@ -6,11 +6,9 @@
  */
 
 // LevelUp Core SDK projects
-include 'actionBarSherlockLib',
-        'levelUpCoreLib',
+include 'levelUpCoreLib',
         'levelUpDeeplinkAuthLib'
 
-project(':actionBarSherlockLib').projectDir = new File('levelup-sdk-android/actionBarSherlockLib')
 project(':levelUpCoreLib').projectDir = new File('levelup-sdk-android/levelUpCoreLib')
 project(':levelUpDeeplinkAuthLib').projectDir = new File('levelup-sdk-android/levelUpDeeplinkAuthLib')
 
@@ -20,3 +18,4 @@ include 'levelUpCoreTestLib',
 
 project(':levelUpCoreTestLib').projectDir = new File('levelup-sdk-android/levelUpCoreTestLib')
 project(':levelUpCoreFixturesLib').projectDir = new File('levelup-sdk-android/levelUpCoreFixturesLib')
+

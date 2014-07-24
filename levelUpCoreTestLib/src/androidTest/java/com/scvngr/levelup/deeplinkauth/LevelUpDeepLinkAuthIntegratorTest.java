@@ -13,7 +13,7 @@ import android.test.suitebuilder.annotation.MediumTest;
 import android.widget.Button;
 
 import com.scvngr.levelup.core.test.SupportActivityInstrumentationTestCase;
-import com.scvngr.levelup.ui.activity.FragmentTestActivity;
+import com.scvngr.levelup.ui.activity.TestFragmentActivity;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -26,14 +26,14 @@ import java.util.concurrent.atomic.AtomicReference;
  * Tests {@link LevelUpDeepLinkIntegrator}.
  */
 public final class LevelUpDeepLinkAuthIntegratorTest extends
-        SupportActivityInstrumentationTestCase<FragmentTestActivity> {
+        SupportActivityInstrumentationTestCase<TestFragmentActivity> {
     private static final int APP_ID_FIXTURE = 5;
     private static final String ACCESS_TOKEN_FIXTURE = "test_access_token";
     private static final List<String> PERMISSIONS_FIXTURE = Collections.unmodifiableList(Arrays
             .asList("test_permission", "test_permission_ii"));
 
     public LevelUpDeepLinkAuthIntegratorTest() {
-        super(FragmentTestActivity.class);
+        super(TestFragmentActivity.class);
     }
 
     /**
@@ -43,7 +43,7 @@ public final class LevelUpDeepLinkAuthIntegratorTest extends
      */
     @MediumTest
     public void testRequestPermissions() throws Throwable {
-        final FragmentTestActivity activity = getActivity();
+        final TestFragmentActivity activity = getActivity();
         final LevelUpDeepLinkIntegrator integrator =
                 new LevelUpDeepLinkIntegrator(activity, APP_ID_FIXTURE);
         integrator
@@ -84,7 +84,7 @@ public final class LevelUpDeepLinkAuthIntegratorTest extends
 
     @MediumTest
     public void testRequestPermissions_notInstalled_install() throws Throwable {
-        final FragmentTestActivity activity = getActivity();
+        final TestFragmentActivity activity = getActivity();
         final LevelUpDeepLinkIntegrator integrator =
                 new LevelUpDeepLinkIntegrator(activity, APP_ID_FIXTURE);
 
@@ -139,7 +139,7 @@ public final class LevelUpDeepLinkAuthIntegratorTest extends
 
     @MediumTest
     public void testRequestPermissions_notInstalled_cancel() throws Throwable {
-        final FragmentTestActivity activity = getActivity();
+        final TestFragmentActivity activity = getActivity();
         final LevelUpDeepLinkIntegrator integrator =
                 new LevelUpDeepLinkIntegrator(activity, APP_ID_FIXTURE);
         integrator.setLevelUpAppSignatures(new String[] { /* intentionally empty */});

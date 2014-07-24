@@ -21,7 +21,7 @@ import com.scvngr.levelup.core.test.TestThreadingUtils;
 import com.scvngr.levelup.core.ui.view.LevelUpCodeView.OnCodeLoadListener;
 import com.scvngr.levelup.core.util.EnvironmentUtil;
 import com.scvngr.levelup.core.util.NullUtils;
-import com.scvngr.levelup.ui.activity.FragmentTestActivity;
+import com.scvngr.levelup.ui.activity.TestFragmentActivity;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -32,7 +32,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @SuppressWarnings("javadoc")
 public final class LevelUpCodeViewTest extends
-        ActivityInstrumentationTestCase2<FragmentTestActivity> {
+        ActivityInstrumentationTestCase2<TestFragmentActivity> {
 
     private HashMapCache mCache;
     private LevelUpCodeView mLevelUpCodeView;
@@ -40,7 +40,7 @@ public final class LevelUpCodeViewTest extends
     private MockQrCodeGenerator mQrCodeGenerator;
 
     public LevelUpCodeViewTest() {
-        super(FragmentTestActivity.class);
+        super(TestFragmentActivity.class);
     }
 
     @Override
@@ -52,7 +52,7 @@ public final class LevelUpCodeViewTest extends
         mQrCodeGenerator = new MockQrCodeGenerator();
         mLoader = new LevelUpCodeLoaderUnderTest(mQrCodeGenerator, mCache);
 
-        final FragmentTestActivity activity = getActivity();
+        final TestFragmentActivity activity = getActivity();
         getInstrumentation().waitForIdleSync();
 
         TestThreadingUtils.runOnMainSync(getInstrumentation(), activity, new Runnable() {

@@ -30,7 +30,6 @@ android {
 }
 
 dependencies {
-    compile project(':actionBarSherlockLib')
     compile project(':levelUpCoreLib')
     compile project(':levelUpCoreFixturesLib')
     compile project(':levelUpDeeplinkAuthLib')

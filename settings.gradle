@@ -1,8 +1,7 @@
 // settings.gradle for use when building the core SDK directly without inclusion in a dependent project.
 
 // LevelUp Core SDK projects
-include 'actionBarSherlockLib',
-        'levelUpCoreLib',
+include 'levelUpCoreLib',
         'levelUpDeeplinkAuthLib'
 
 // LevelUp Core SDK projects required to run tests

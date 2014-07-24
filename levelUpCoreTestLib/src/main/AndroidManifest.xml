@@ -10,16 +10,16 @@
 
         <!-- Empty Activity for hosting Fragments under test. -->
         <activity
-            android:name="com.scvngr.levelup.ui.activity.FragmentTestActivity"
+            android:name="com.scvngr.levelup.ui.activity.TestFragmentActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
 
         <activity
-            android:name="com.scvngr.levelup.ui.activity.IntentTestActivity"
+            android:name="com.scvngr.levelup.ui.activity.TestIntentActivity"
             android:exported="false"
             android:theme="@style/AppTheme" />
 
-        <activity android:name="com.scvngr.levelup.ui.activity.PermissionsRequestTestActivity">
+        <activity android:name="com.scvngr.levelup.ui.activity.TestPermissionsRequestActivity">
             <intent-filter>
                 <action android:name="com.scvngr.levelup.core.ACTION_REQUEST_PERMISSIONS" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -28,7 +28,6 @@
                     android:scheme="lutest" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
