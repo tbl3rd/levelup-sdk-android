@@ -46,7 +46,7 @@ public final class LocationCreditRequestFactoryTest extends SupportAndroidTestCa
                 request.getRequestHeaders(getContext()).get(HTTP.CONTENT_TYPE));
 
         assertEquals(HttpMethod.GET, request.getMethod());
-        assertTrue(url.getPath().startsWith("/v14"));
+        assertTrue(url.getPath().startsWith("/v15"));
     }
 
     /**

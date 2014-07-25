@@ -54,22 +54,12 @@ public final class LocationCreditRequestFactory extends AbstractRequestFactory {
     @NonNull
     @LevelUpApi(contract = LevelUpApi.Contract.PUBLIC)
     @RequiresPermission(value = Permissions.PERMISSION_MANAGE_USER_CAMPAIGNS)
-    @SlowOperation
     public AbstractRequest buildLocationCreditRequest(@NonNull final Location location) {
 
         final String endpoint =
                 NullUtils.nonNullContract(String.format(ENDPOINT, Long.toString(location.getId())));
 
-        /*
-        * TODO: Remove the check for if the AccessToken exists once this ticket gets resolved:
-        * https://scvngr.unfuddle.com/a#/projects/36980/tickets/by_number/7826
-        * Also remove the SlowOperation annotation.
-        */
-        String apiVersion = getAccessTokenRetriever() != null &&
-                getAccessTokenRetriever().getAccessToken(getContext()) != null ?
-                LevelUpRequest.API_VERSION_CODE_V15 : LevelUpRequest.API_VERSION_CODE_V14;
-
-        return new LevelUpRequest(getContext(), HttpMethod.GET, apiVersion, endpoint, null, null,
-                getAccessTokenRetriever());
+        return new LevelUpRequest(getContext(), HttpMethod.GET, LevelUpRequest.API_VERSION_CODE_V15,
+                endpoint, null, null, getAccessTokenRetriever());
     }
 }
