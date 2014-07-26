@@ -5,10 +5,11 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.Immutable;
@@ -16,8 +17,8 @@ import net.jcip.annotations.Immutable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Value;
-import lombok.val;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -42,12 +43,14 @@ public final class Permission implements Parcelable {
      * A short, human-readable description of this permission.
      */
     @NonNull
+    @RequiredField
     String description;
 
     /**
      * The unique identifier for this type of permission.
      */
     @NonNull
+    @RequiredField
     String keyname;
 
     @Override

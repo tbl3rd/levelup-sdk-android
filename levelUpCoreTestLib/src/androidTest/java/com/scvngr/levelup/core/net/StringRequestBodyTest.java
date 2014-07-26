@@ -1,8 +1,8 @@
 package com.scvngr.levelup.core.net;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.net.StringRequestBodyTest.StringRequestBodyImpl;
 import com.scvngr.levelup.core.util.NullUtils;
 

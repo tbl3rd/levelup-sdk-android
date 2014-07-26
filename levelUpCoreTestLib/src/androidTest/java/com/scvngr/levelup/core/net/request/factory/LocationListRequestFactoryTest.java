@@ -1,19 +1,16 @@
 package com.scvngr.levelup.core.net.request.factory;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.HttpMethod;
 import com.scvngr.levelup.core.net.LevelUpRequest;
 import com.scvngr.levelup.core.net.MockAccessTokenRetriever;
 import com.scvngr.levelup.core.net.request.factory.AbstractPagingRequestFactory.PageCacheRetriever;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
-
-import java.net.URL;
-import java.util.Locale;
 
 /**
  * Tests {@link com.scvngr.levelup.core.net.request.factory.AppLocationListRequestFactory}.

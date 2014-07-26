@@ -4,8 +4,8 @@
 package com.scvngr.levelup.core.model.qr;
 
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.tip.Tip;
 import com.scvngr.levelup.core.util.NullUtils;
 

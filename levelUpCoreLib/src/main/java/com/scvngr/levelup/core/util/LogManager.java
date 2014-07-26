@@ -6,13 +6,13 @@ package com.scvngr.levelup.core.util;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.scvngr.levelup.core.BuildConfig;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 
 import net.jcip.annotations.ThreadSafe;
 

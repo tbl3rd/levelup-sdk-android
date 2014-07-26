@@ -1,9 +1,9 @@
 package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.Feedback;
 import com.scvngr.levelup.core.model.FeedbackFixture;
 import com.scvngr.levelup.core.model.OrderFixture;
@@ -43,7 +43,6 @@ public final class FeedbackRequestFactoryTest extends SupportAndroidTestCase {
         assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
 
-        @NonNull
         final String body =
                 NullUtils.nonNullContract(((LevelUpRequest) request).getBody(getContext()));
 
@@ -76,7 +75,6 @@ public final class FeedbackRequestFactoryTest extends SupportAndroidTestCase {
         assertTrue("Url points to proper api version", request.getUrl(getContext()).getPath()
                 .contains(LevelUpRequest.API_VERSION_CODE_V15));
 
-        @NonNull
         final String body =
                 NullUtils.nonNullContract(((LevelUpRequest) request).getBody(getContext()));
 

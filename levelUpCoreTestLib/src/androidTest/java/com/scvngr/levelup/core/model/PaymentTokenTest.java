@@ -7,12 +7,12 @@ import android.os.Parcel;
 import android.test.MoreAsserts;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.scvngr.levelup.core.model.factory.json.PaymentTokenJsonFactory;
 import com.scvngr.levelup.core.test.JsonTestUtil;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Tests {@link com.scvngr.levelup.core.model.PaymentToken}.

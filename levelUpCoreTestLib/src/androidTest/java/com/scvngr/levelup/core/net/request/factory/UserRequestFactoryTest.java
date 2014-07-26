@@ -5,10 +5,10 @@ package com.scvngr.levelup.core.net.request.factory;
 
 import android.content.Context;
 import android.location.Location;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.model.AccessToken;
 import com.scvngr.levelup.core.model.User;
 import com.scvngr.levelup.core.model.UserFixture;
@@ -34,7 +34,6 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 /**

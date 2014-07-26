@@ -3,7 +3,8 @@
  */
 package com.scvngr.levelup.core.model;
 
-import com.scvngr.levelup.core.annotation.NonNull;
+import android.support.annotation.NonNull;
+
 import com.scvngr.levelup.core.model.factory.json.LoyaltyJsonFactory;
 
 import net.jcip.annotations.ThreadSafe;

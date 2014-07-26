@@ -3,9 +3,10 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
+import android.support.annotation.NonNull;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import java.util.List;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 import net.jcip.annotations.Immutable;
 import net.jcip.annotations.NotThreadSafe;
@@ -14,8 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+import java.util.List;
 
 /**
  * Tests {@link com.scvngr.levelup.core.model.factory.json.AbstractJsonModelFactory}.

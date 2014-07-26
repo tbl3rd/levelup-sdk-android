@@ -3,18 +3,19 @@
  */
 package com.scvngr.levelup.core.util;
 
+import android.support.annotation.NonNull;
+
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+
+import net.jcip.annotations.ThreadSafe;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
-
-import net.jcip.annotations.ThreadSafe;
-
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
 
 /**
  * Helper utility class to handle date operations.

@@ -5,19 +5,19 @@ package com.scvngr.levelup.core.model.qr;
 
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
-import net.jcip.annotations.Immutable;
 
 import com.scvngr.levelup.core.R;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.tip.PercentageTip;
 import com.scvngr.levelup.core.model.tip.Tip;
 import com.scvngr.levelup.core.util.LogManager;
+
+import net.jcip.annotations.Immutable;
 
 /**
  * <p>

@@ -6,13 +6,12 @@ package com.scvngr.levelup.core.model.util;
 import android.annotation.SuppressLint;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import java.util.ArrayList;
-import java.util.Collection;
+import android.support.annotation.NonNull;
 
 import net.jcip.annotations.Immutable;
 
-import com.scvngr.levelup.core.annotation.NonNull;
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * An ArrayList which is also Parcelable. Subclasses must implement part of the Parcelable

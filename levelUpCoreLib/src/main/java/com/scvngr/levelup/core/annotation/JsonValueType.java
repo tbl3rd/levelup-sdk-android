@@ -3,6 +3,8 @@
  */
 package com.scvngr.levelup.core.annotation;
 
+import android.support.annotation.NonNull;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

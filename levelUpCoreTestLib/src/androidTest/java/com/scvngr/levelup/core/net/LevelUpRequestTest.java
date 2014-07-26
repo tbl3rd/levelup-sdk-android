@@ -9,14 +9,14 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.MoreAsserts;
 import android.test.mock.MockContext;
 import android.test.mock.MockPackageManager;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.R;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 import com.scvngr.levelup.core.util.NullUtils;

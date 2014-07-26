@@ -1,10 +1,10 @@
 package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList;
 import com.scvngr.levelup.core.util.NullUtils;
 

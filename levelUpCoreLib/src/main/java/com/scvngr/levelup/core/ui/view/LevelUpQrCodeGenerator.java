@@ -4,8 +4,8 @@
 package com.scvngr.levelup.core.ui.view;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.SlowOperation;
 
 import net.jcip.annotations.Immutable;

@@ -3,9 +3,9 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
+import android.support.annotation.NonNull;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.Interstitial;
 import com.scvngr.levelup.core.model.Interstitial.ClaimAction;
 import com.scvngr.levelup.core.model.Interstitial.FeedbackAction;
@@ -95,7 +95,6 @@ public final class InterstitialJsonFactoryTest extends SupportAndroidTestCase {
         final JsonModelHelper mh =
                 new JsonModelHelper(InterstitialFixture.getFeedbackActionJsonObject());
 
-        @NonNull
         final FeedbackAction action =
                 NullUtils.nonNullContract((FeedbackAction) InterstitialJsonFactory.parseAction(mh,
                         Interstitial.TYPE_FEEDBACK));

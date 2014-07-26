@@ -7,13 +7,13 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
-import net.jcip.annotations.ThreadSafe;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
+
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * This is a utility class to determine information about the build of the app.

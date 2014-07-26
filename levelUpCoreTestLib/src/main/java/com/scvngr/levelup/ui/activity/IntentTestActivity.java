@@ -5,9 +5,9 @@ package com.scvngr.levelup.ui.activity;
 
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.util.LogManager;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;

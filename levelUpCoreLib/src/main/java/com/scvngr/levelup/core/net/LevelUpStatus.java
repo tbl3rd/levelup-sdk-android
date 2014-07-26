@@ -3,9 +3,10 @@
  */
 package com.scvngr.levelup.core.net;
 
+import android.support.annotation.NonNull;
+
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
 
 /**
  * Enum for translating generic network responses (and exceptions) into more broad categories for

@@ -3,9 +3,10 @@
  */
 package com.scvngr.levelup.core.model;
 
+import android.support.annotation.NonNull;
+
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.PermissionsRequest.State;
 import com.scvngr.levelup.core.model.factory.json.PermissionsRequestJsonFactory;
 import com.scvngr.levelup.core.util.NullUtils;

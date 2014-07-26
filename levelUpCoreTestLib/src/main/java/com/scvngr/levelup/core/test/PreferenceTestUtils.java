@@ -3,7 +3,8 @@
  */
 package com.scvngr.levelup.core.test;
 
-import com.scvngr.levelup.core.annotation.NonNull;
+import android.support.annotation.NonNull;
+
 import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.ThreadSafe;

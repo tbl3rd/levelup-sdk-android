@@ -7,6 +7,8 @@ import android.app.Activity;
 import android.app.Instrumentation;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.Fragment.SavedState;
 import android.support.v4.app.FragmentActivity;
@@ -14,8 +16,6 @@ import android.support.v4.app.FragmentManager;
 import android.test.AndroidTestCase;
 import android.view.View;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import java.util.Locale;

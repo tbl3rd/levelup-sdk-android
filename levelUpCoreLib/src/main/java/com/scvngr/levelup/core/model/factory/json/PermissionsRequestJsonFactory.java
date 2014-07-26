@@ -1,15 +1,17 @@
 package com.scvngr.levelup.core.model.factory.json;
 
+import android.support.annotation.NonNull;
+
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+import com.scvngr.levelup.core.model.PermissionsRequest;
+import com.scvngr.levelup.core.model.PermissionsRequest.State;
+import com.scvngr.levelup.core.util.NullUtils;
+
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.model.PermissionsRequest;
-import com.scvngr.levelup.core.model.PermissionsRequest.State;
-import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.NotThreadSafe;
 

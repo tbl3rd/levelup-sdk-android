@@ -5,10 +5,9 @@ package com.scvngr.levelup.core.test;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.AndroidTestCase;
-
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 
 /**
  * A test utility class that tests the {@link Parcelable} interface of a {@link Parcelable}. This

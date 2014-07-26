@@ -3,11 +3,12 @@
  */
 package com.scvngr.levelup.core.model.qr;
 
-import java.math.BigInteger;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.util.CoreLibConstants;
+
+import java.math.BigInteger;
 
 /**
  * Helper class to provide utilities for checking the version of QR code and its sub-codes.

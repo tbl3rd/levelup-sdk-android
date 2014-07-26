@@ -4,12 +4,13 @@
 package com.scvngr.levelup.core.model.factory.json;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.model.NonWrappable;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
 import com.scvngr.levelup.core.model.MonetaryValue;
 import com.scvngr.levelup.core.net.JsonElementRequestBody;
 import com.scvngr.levelup.core.util.NullUtils;
@@ -95,7 +96,7 @@ public class GsonModelFactory<T> {
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         gsonBuilder.registerTypeAdapter(MonetaryValue.class, new MonetaryValueTypeAdapter());
         gsonBuilder.registerTypeAdapter(Uri.class, new UriTypeAdapter());
-        gsonBuilder.registerTypeAdapterFactory(new NullCheckedTypeAdapterFactory());
+        gsonBuilder.registerTypeAdapterFactory(new RequiredFieldTypeAdapterFactory());
 
         if (wrapped) {
             gsonBuilder.registerTypeAdapterFactory(new WrappedModelTypeAdapterFactory());
@@ -264,10 +265,11 @@ public class GsonModelFactory<T> {
     }
 
     /**
-     * A type adapter factory that only null-checks classes in the {@code com.scvngr.levelup}
-     * package.
+     * A type adapter factory that checks all non-static, final fields marked with the
+     * {@link RequiredField} annotation for {@code null} values. Only applies to classes belonging
+     * to packages with names that start with {@code com.scvngr.levelup}.
      */
-    private static class NullCheckedTypeAdapterFactory implements TypeAdapterFactory {
+    private static class RequiredFieldTypeAdapterFactory implements TypeAdapterFactory {
 
         @Nullable
         @Override
@@ -281,7 +283,7 @@ public class GsonModelFactory<T> {
             final TypeAdapter<T2> delegate =
                     NullUtils.nonNullContract(gson.getDelegateAdapter(this, type));
 
-            return new NullCheckedWrappedTypeAdapter<T2>(delegate, type);
+            return new RequiredFieldTypeAdapter<T2>(delegate, type);
         }
     }
 
@@ -312,21 +314,21 @@ public class GsonModelFactory<T> {
     }
 
     /**
-     * Wraps another type adapter, checking all non-static, final fields annotated with
-     * {@link NonNull} for {@code null}. This works by inflating the model using the delegate
-     * adapter and then accessing the generated model's fields.
+     * Wraps another type adapter and checks all non-static, final fields marked with the
+     * {@link RequiredField} annotation for {@code null} values. This works by inflating the model
+     * using the delegate adapter and then accessing the generated model's fields.
      *
      * @param <T2> the model type
      */
-    private static class NullCheckedWrappedTypeAdapter<T2> extends TypeAdapter<T2> {
+    private static class RequiredFieldTypeAdapter<T2> extends TypeAdapter<T2> {
 
         @NonNull
         private final TypeAdapter<T2> mDelegate;
 
         @NonNull
-        private final HashSet<String> mNonNullFields = new HashSet<String>();
+        private final HashSet<String> mRequiredFields = new HashSet<String>();
 
-        public NullCheckedWrappedTypeAdapter(@NonNull final TypeAdapter<T2> delegate,
+        public RequiredFieldTypeAdapter(@NonNull final TypeAdapter<T2> delegate,
                 @NonNull final TypeToken<T2> type) {
             mDelegate = delegate;
 
@@ -342,8 +344,8 @@ public class GsonModelFactory<T> {
                     continue;
                 }
 
-                if (field.isAnnotationPresent(NonNull.class)) {
-                    mNonNullFields.add(field.getName());
+                if (field.isAnnotationPresent(RequiredField.class)) {
+                    mRequiredFields.add(field.getName());
                 }
             }
         }
@@ -359,16 +361,16 @@ public class GsonModelFactory<T> {
 
             final Class<?> r = inspected.getClass();
             try {
-                for (final String nonNullField : mNonNullFields) {
+                for (final String field : mRequiredFields) {
                     try {
-                        final Field f = r.getDeclaredField(nonNullField);
+                        final Field f = r.getDeclaredField(field);
                         try {
                             f.setAccessible(true);
 
                             if (null == f.get(inspected)) {
                                 // This is what it's all about.
-                                throw new IOException(NullUtils.format(
-                                        "Field %s cannot be null", nonNullField));
+                                throw new IOException(
+                                        NullUtils.format("Field %s cannot be null", field));
                             }
                         } finally {
                             f.setAccessible(false);
@@ -377,9 +379,7 @@ public class GsonModelFactory<T> {
                         throw new RuntimeException("Unexpected reflection exception", e);
                     }
                 }
-            } catch (final IllegalAccessException e) {
-                throw new RuntimeException("Unexpected reflection exception", e);
-            } catch (final IllegalArgumentException e) {
+            } catch (final IllegalAccessException | IllegalArgumentException e) {
                 throw new RuntimeException("Unexpected reflection exception", e);
             }
 

@@ -4,9 +4,9 @@
 package com.scvngr.levelup.ui.test;
 
 import android.app.Instrumentation;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.test.TestThreadingUtils;
 import com.scvngr.levelup.core.util.NullUtils;
 import com.scvngr.levelup.ui.activity.FragmentTestActivity;

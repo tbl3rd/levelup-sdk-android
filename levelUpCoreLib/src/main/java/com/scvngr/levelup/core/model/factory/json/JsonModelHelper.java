@@ -3,16 +3,17 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
-import java.util.Set;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.scvngr.levelup.core.model.MonetaryValue;
+import com.scvngr.levelup.core.model.util.JsonUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.model.MonetaryValue;
-import com.scvngr.levelup.core.model.util.JsonUtils;
+import java.util.Set;
 
 /**
  * A class to make it easier to extract LevelUp model information from a JSON object.

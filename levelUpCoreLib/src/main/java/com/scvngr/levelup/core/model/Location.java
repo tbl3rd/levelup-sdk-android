@@ -5,6 +5,15 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
+import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -13,13 +22,6 @@ import java.util.Map;
 import java.util.Set;
 
 import lombok.Value;
-import net.jcip.annotations.Immutable;
-
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
-import com.scvngr.levelup.core.util.NullUtils;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -42,6 +44,7 @@ public final class Location implements Parcelable {
      * The categories that this {@link Location} is classified under.
      */
     @NonNull
+    @RequiredField
     private final Set<Integer> categories;
 
     /**
@@ -123,6 +126,7 @@ public final class Location implements Parcelable {
      * .WebLinkRequestFactory}.
      */
     @NonNull
+    @RequiredField
     @Deprecated
     private final Map<String, String> urls;
 

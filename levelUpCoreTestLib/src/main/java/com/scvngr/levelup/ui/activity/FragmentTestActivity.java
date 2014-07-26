@@ -6,11 +6,11 @@ package com.scvngr.levelup.ui.activity;
 import android.content.Context;
 import android.os.Bundle;
 
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Window;
-
 import com.scvngr.levelup.core.test.R;
 import com.scvngr.levelup.core.util.ContextInstrumenter;
+
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Window;
 
 /**
  * Activity to host fragments for testing. Gross.

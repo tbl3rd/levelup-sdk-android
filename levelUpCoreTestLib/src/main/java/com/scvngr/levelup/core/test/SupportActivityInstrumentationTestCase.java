@@ -1,9 +1,8 @@
 package com.scvngr.levelup.core.test;
 
 import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.test.ActivityInstrumentationTestCase2;
-
-import com.scvngr.levelup.core.annotation.NonNull;
 
 /**
  * This works around a bug in Android's class field scrubbing and is otherwise identical to

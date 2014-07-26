@@ -3,9 +3,9 @@
  */
 package com.scvngr.levelup.core.model;
 
-import net.jcip.annotations.ThreadSafe;
+import android.support.annotation.NonNull;
 
-import com.scvngr.levelup.core.annotation.NonNull;
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * Fixture for {@link Scan}s.

@@ -5,20 +5,21 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Value;
-import lombok.experimental.Builder;
-import net.jcip.annotations.Immutable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
 import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+
+import lombok.AllArgsConstructor;
+import lombok.Value;
+import lombok.experimental.Builder;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -81,24 +82,28 @@ public final class Interstitial implements Parcelable {
      * The text to prompt the user to view this interstitial.
      */
     @NonNull
+    @RequiredField
     private final String calloutText;
 
     /**
      * The description (encoded in HTML) of the interstitial.
      */
     @NonNull
+    @RequiredField
     private final String descriptionHtml;
 
     /**
      * The base URL to the image for this interstitial.
      */
     @NonNull
+    @RequiredField
     private final String imageUrl;
 
     /**
      * The title of the interstitial.
      */
     @NonNull
+    @RequiredField
     private final String title;
 
     /**
@@ -116,6 +121,7 @@ public final class Interstitial implements Parcelable {
      * @see #TYPE_FEEDBACK
      */
     @NonNull
+    @RequiredField
     private final String type;
 
     @Override
@@ -200,6 +206,7 @@ public final class Interstitial implements Parcelable {
          * The code that should be claimed for this action.
          */
         @NonNull
+        @RequiredField
         private final String code;
 
         @Override
@@ -243,6 +250,7 @@ public final class Interstitial implements Parcelable {
          * The question that should be displayed for this feedback interstitial.
          */
         @NonNull
+        @RequiredField
         private final String questionText;
 
         @Override
@@ -294,42 +302,49 @@ public final class Interstitial implements Parcelable {
          * The message for the body of the email for sharing.
          */
         @NonNull
+        @RequiredField
         private final String messageForEmailBody;
 
         /**
          * The message for the subject of the email for sharing.
          */
         @NonNull
+        @RequiredField
         private final String messageForEmailSubject;
 
         /**
          * The message to display for Facebook sharing.
          */
         @NonNull
+        @RequiredField
         private final String messageForFacebook;
 
         /**
          * The message to display for Twitter sharing.
          */
         @NonNull
+        @RequiredField
         private final String messageForTwitter;
 
         /**
          * The URL to use for email sharing.
          */
         @NonNull
+        @RequiredField
         private final String shareUrlEmail;
 
         /**
          * The URL to use for Facebook sharing.
          */
         @NonNull
+        @RequiredField
         private final String shareUrlFacebook;
 
         /**
          * The URL to use for Twitter sharing.
          */
         @NonNull
+        @RequiredField
         private final String shareUrlTwitter;
 
         @Override
@@ -381,6 +396,7 @@ public final class Interstitial implements Parcelable {
          * The URL to display for this interstitial.
          */
         @NonNull
+        @RequiredField
         private final String url;
 
         @Override

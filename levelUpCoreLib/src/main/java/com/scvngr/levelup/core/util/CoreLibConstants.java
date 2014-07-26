@@ -3,11 +3,11 @@
  */
 package com.scvngr.levelup.core.util;
 
+import android.support.annotation.NonNull;
 import android.text.format.DateUtils;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
 
 import net.jcip.annotations.ThreadSafe;
 

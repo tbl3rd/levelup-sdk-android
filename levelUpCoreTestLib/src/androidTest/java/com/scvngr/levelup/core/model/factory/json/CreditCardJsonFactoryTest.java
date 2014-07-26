@@ -5,15 +5,15 @@ package com.scvngr.levelup.core.model.factory.json;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.scvngr.levelup.core.model.CreditCard;
+import com.scvngr.levelup.core.model.CreditCardFixture;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
-
-import com.scvngr.levelup.core.model.CreditCard;
-import com.scvngr.levelup.core.model.CreditCardFixture;
-import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link com.scvngr.levelup.core.model.factory.json.CreditCardJsonFactory}.

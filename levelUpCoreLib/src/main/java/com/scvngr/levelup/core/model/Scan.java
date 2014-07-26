@@ -5,15 +5,17 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import lombok.AllArgsConstructor;
-import lombok.Value;
-import net.jcip.annotations.Immutable;
+import android.support.annotation.NonNull;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
 import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+
+import lombok.AllArgsConstructor;
+import lombok.Value;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -38,6 +40,7 @@ public final class Scan implements Parcelable {
      * The data from the scan.
      */
     @NonNull
+    @RequiredField
     private final String data;
 
     @Override

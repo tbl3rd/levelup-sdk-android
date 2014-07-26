@@ -3,8 +3,9 @@
  */
 package com.scvngr.levelup.core.storage;
 
+import android.support.annotation.NonNull;
+
 import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 

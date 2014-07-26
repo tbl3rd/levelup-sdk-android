@@ -5,8 +5,8 @@ package com.scvngr.levelup.core.model.util;
 
 import android.net.Uri;
 import android.os.Parcel;
+import android.support.annotation.NonNull;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.util.ParcelableArrayList.ImmutableClassException;
 import com.scvngr.levelup.core.test.ParcelTestUtils;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;

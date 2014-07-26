@@ -3,9 +3,8 @@
  */
 package com.scvngr.levelup.core.test;
 
+import android.support.annotation.NonNull;
 import android.test.suitebuilder.annotation.SmallTest;
-
-import com.scvngr.levelup.core.annotation.NonNull;
 
 import junit.framework.AssertionFailedError;
 

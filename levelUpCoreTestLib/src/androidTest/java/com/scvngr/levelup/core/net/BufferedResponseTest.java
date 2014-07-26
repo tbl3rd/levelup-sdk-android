@@ -6,12 +6,12 @@ package com.scvngr.levelup.core.net;
 import android.os.Parcel;
 import android.test.suitebuilder.annotation.SmallTest;
 
+import com.scvngr.levelup.core.net.BufferedResponse.ResponseTooLargeException;
+import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-
-import com.scvngr.levelup.core.net.BufferedResponse.ResponseTooLargeException;
-import com.scvngr.levelup.core.test.SupportAndroidTestCase;
 
 /**
  * Tests {@link com.scvngr.levelup.core.net.BufferedResponse}.

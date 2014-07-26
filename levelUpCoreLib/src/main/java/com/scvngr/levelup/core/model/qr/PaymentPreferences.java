@@ -3,12 +3,12 @@
  */
 package com.scvngr.levelup.core.model.qr;
 
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import net.jcip.annotations.Immutable;
-
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.tip.Tip;
+
+import net.jcip.annotations.Immutable;
 
 /**
  * Class to encompass the PaymentPreferences at the end of QR codes.

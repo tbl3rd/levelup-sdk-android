@@ -5,9 +5,8 @@ package com.scvngr.levelup.core.test;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.test.ApplicationTestCase;
-
-import com.scvngr.levelup.core.annotation.NonNull;
 
 /**
  * Test cases that need access to Resources or depend on Activity context should extend this class.

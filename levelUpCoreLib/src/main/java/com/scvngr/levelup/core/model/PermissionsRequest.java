@@ -5,24 +5,25 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
 import com.scvngr.levelup.core.util.NullUtils;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Value;
-import lombok.experimental.FieldDefaults;
-import lombok.val;
 
 import net.jcip.annotations.Immutable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Value;
+import lombok.experimental.FieldDefaults;
+import lombok.val;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -51,6 +52,7 @@ public final class PermissionsRequest implements Parcelable {
      * The text to display to the user on the "Accept" affordance.
      */
     @NonNull
+    @RequiredField
     String acceptText;
 
     /**
@@ -62,12 +64,14 @@ public final class PermissionsRequest implements Parcelable {
      * The date this request was created.
      */
     @NonNull
+    @RequiredField
     String createdAt;
 
     /**
      * A short, human-readable description of this permissions request.
      */
     @NonNull
+    @RequiredField
     String description;
 
     /**
@@ -80,18 +84,21 @@ public final class PermissionsRequest implements Parcelable {
      * permissions request.
      */
     @NonNull
+    @RequiredField
     Set<Permission> permissions;
 
     /**
      * The text to display to the user on the "Reject" affordance.
      */
     @NonNull
+    @RequiredField
     String rejectText;
 
     /**
      * The state of the request.
      */
     @NonNull
+    @RequiredField
     State state;
 
     /**

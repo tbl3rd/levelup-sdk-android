@@ -3,8 +3,12 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.support.annotation.NonNull;
+
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+import com.scvngr.levelup.core.util.NullUtils;
+import com.scvngr.levelup.core.util.PreconditionUtil;
 
 import net.jcip.annotations.Immutable;
 
@@ -12,11 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.util.NullUtils;
-import com.scvngr.levelup.core.util.PreconditionUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Superclass for JSON parsers that create model objects using a factory design pattern. Any model

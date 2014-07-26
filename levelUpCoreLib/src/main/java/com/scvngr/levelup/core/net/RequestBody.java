@@ -5,9 +5,9 @@ package com.scvngr.levelup.core.net;
 
 import android.content.Context;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.NonNull;
 
 import net.jcip.annotations.Immutable;
 

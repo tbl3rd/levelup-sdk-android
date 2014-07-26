@@ -4,9 +4,9 @@
 package com.scvngr.levelup.core.net.request.factory;
 
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.Interstitial;
 import com.scvngr.levelup.core.model.InterstitialFixture;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;

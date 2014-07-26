@@ -5,12 +5,12 @@ package com.scvngr.levelup.core.util;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-
-import net.jcip.annotations.ThreadSafe;
+import android.support.annotation.NonNull;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
+
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * This is a utility class to check permissions available to the current app.

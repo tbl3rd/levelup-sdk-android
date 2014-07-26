@@ -3,11 +3,12 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
+import android.support.annotation.NonNull;
+
 import com.scvngr.levelup.core.annotation.JsonValueType;
 import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.Campaign;

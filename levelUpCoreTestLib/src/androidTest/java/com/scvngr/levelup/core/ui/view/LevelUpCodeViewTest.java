@@ -6,16 +6,15 @@ package com.scvngr.levelup.core.ui.view;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.os.SystemClock;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.MediumTest;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.test.LatchRunnable;
 import com.scvngr.levelup.core.test.R;
 import com.scvngr.levelup.core.test.TestThreadingUtils;

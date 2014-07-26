@@ -3,9 +3,9 @@
  */
 package com.scvngr.levelup.core.model;
 
+import android.support.annotation.NonNull;
 import android.text.format.DateFormat;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.model.factory.json.ClaimJsonFactory;

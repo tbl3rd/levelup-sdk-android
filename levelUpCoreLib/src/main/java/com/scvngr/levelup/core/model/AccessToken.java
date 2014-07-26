@@ -5,18 +5,18 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Value;
-
-import net.jcip.annotations.Immutable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
 import com.scvngr.levelup.core.util.NullUtils;
+
+import net.jcip.annotations.Immutable;
+
+import lombok.AllArgsConstructor;
+import lombok.Value;
 
 // The code below will be machine-processed.
 // CHECKSTYLE:OFF
@@ -45,6 +45,7 @@ public final class AccessToken implements Parcelable {
      * Access token.
      */
     @NonNull
+    @RequiredField
     private final String accessToken;
 
     /**

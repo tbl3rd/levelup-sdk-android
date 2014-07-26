@@ -4,9 +4,9 @@
 package com.scvngr.levelup.core.test;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.test.AndroidTestCase;
 
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.util.NullUtils;
 
 /**

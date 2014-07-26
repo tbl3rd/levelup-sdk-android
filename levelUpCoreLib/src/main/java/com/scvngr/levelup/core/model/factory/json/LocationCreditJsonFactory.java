@@ -3,16 +3,17 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
+import android.support.annotation.NonNull;
+
+import com.scvngr.levelup.core.annotation.JsonValueType;
+import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
+import com.scvngr.levelup.core.model.LocationCredit;
+import com.scvngr.levelup.core.model.MonetaryValue;
+
 import net.jcip.annotations.Immutable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.scvngr.levelup.core.annotation.JsonValueType;
-import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.model.LocationCredit;
-import com.scvngr.levelup.core.model.MonetaryValue;
 
 /**
  * Factory for parsing {@link LocationCredit}s from JSON.

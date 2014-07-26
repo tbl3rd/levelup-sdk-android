@@ -4,10 +4,10 @@
 package com.scvngr.levelup.core.model.qr;
 
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import com.scvngr.levelup.core.R;
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.tip.PercentageTip;
 import com.scvngr.levelup.core.test.ResourcesUtil;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;

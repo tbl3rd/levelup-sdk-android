@@ -2,14 +2,15 @@ package com.scvngr.levelup.core.model.factory.json;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.scvngr.levelup.core.model.AppFixture;
 import com.scvngr.levelup.core.model.Permission;
 import com.scvngr.levelup.core.model.PermissionFixture;
 import com.scvngr.levelup.core.model.PermissionsRequest;
 import com.scvngr.levelup.core.model.PermissionsRequestFixture;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
 
@@ -61,7 +62,7 @@ public final class PermissionsRequestJsonFactoryTest extends SupportAndroidTestC
     }
 
     /**
-     * Tests parsing, but with a missing {@link com.scvngr.levelup.core.annotation.NonNull} field.
+     * Tests parsing, but with a missing {@link android.support.annotation.NonNull} field.
      */
     @SmallTest
     public void testJsonParse_errorMissingDescription() {

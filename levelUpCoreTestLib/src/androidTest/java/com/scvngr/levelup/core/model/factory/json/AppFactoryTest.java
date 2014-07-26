@@ -2,11 +2,12 @@ package com.scvngr.levelup.core.model.factory.json;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
 import com.scvngr.levelup.core.model.App;
 import com.scvngr.levelup.core.model.AppFixture;
 import com.scvngr.levelup.core.test.SupportAndroidTestCase;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import org.json.JSONException;
 

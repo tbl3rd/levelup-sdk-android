@@ -4,11 +4,9 @@
 package com.scvngr.levelup.core.ui.view;
 
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import java.util.HashMap;
-
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
 import com.scvngr.levelup.core.annotation.SlowOperation;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
@@ -17,6 +15,8 @@ import com.scvngr.levelup.core.ui.view.PendingImage.LoadCancelable;
 import com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded;
 import com.scvngr.levelup.core.util.CryptographicHashUtil;
 import com.scvngr.levelup.core.util.CryptographicHashUtil.Algorithms;
+
+import java.util.HashMap;
 
 /**
  * Load a LevelUp payment QR code. Extend this to implement the asynchronous loading of QR codes. As

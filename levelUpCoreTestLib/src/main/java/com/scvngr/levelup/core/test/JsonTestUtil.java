@@ -3,11 +3,11 @@
  */
 package com.scvngr.levelup.core.test;
 
+import android.support.annotation.NonNull;
 import android.test.MoreAsserts;
 
 import com.scvngr.levelup.core.annotation.JsonValueType;
 import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.model.factory.json.AbstractJsonModelFactory;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.NullUtils;

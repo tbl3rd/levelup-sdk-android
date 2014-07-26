@@ -5,10 +5,11 @@ package com.scvngr.levelup.core.model.factory.json;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.test.AndroidTestCase;
 
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.annotation.Nullable;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
 import com.scvngr.levelup.core.model.Category;
 import com.scvngr.levelup.core.model.CategoryFixture;
 import com.scvngr.levelup.core.model.MonetaryValue;
@@ -191,6 +192,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
          * A test MonetaryValue.
          */
         @NonNull
+        @RequiredField
         private final MonetaryValue cost;
 
         /**
@@ -213,6 +215,7 @@ public final class GsonModelFactoryTest extends AndroidTestCase {
          * Basic required String.
          */
         @NonNull
+        @RequiredField
         private final String name;
 
         /**

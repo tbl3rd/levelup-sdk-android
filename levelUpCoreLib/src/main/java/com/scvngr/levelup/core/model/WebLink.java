@@ -5,12 +5,11 @@ package com.scvngr.levelup.core.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.os.Parcelable.Creator;
+import android.support.annotation.NonNull;
 
 import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.NonNull;
 import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.model.Location;
+import com.scvngr.levelup.core.annotation.model.RequiredField;
 import com.scvngr.levelup.core.util.NullUtils;
 
 import net.jcip.annotations.Immutable;
@@ -39,6 +38,7 @@ public class WebLink implements Parcelable {
      * The link's displayable text.
      */
     @NonNull
+    @RequiredField
     private String title;
 
     /**
@@ -50,6 +50,7 @@ public class WebLink implements Parcelable {
      * The web URL associated with the link.
      */
     @NonNull
+    @RequiredField
     private String webUrl;
 
     /**

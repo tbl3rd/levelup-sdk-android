@@ -3,21 +3,22 @@
  */
 package com.scvngr.levelup.core.model.factory.json;
 
-import java.util.HashMap;
-import java.util.Set;
+import android.support.annotation.NonNull;
+
+import com.scvngr.levelup.core.annotation.JsonValueType;
+import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
+import com.scvngr.levelup.core.annotation.LevelUpApi;
+import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
+import com.scvngr.levelup.core.model.Location;
+import com.scvngr.levelup.core.model.util.JsonUtils;
 
 import net.jcip.annotations.Immutable;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.scvngr.levelup.core.annotation.JsonValueType;
-import com.scvngr.levelup.core.annotation.JsonValueType.JsonType;
-import com.scvngr.levelup.core.annotation.LevelUpApi;
-import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
-import com.scvngr.levelup.core.annotation.NonNull;
-import com.scvngr.levelup.core.model.Location;
-import com.scvngr.levelup.core.model.util.JsonUtils;
+import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Factory for creating {@link Location}s from JSON (v14).
