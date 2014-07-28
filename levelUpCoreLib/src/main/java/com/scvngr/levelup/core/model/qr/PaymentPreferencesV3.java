@@ -5,6 +5,7 @@ package com.scvngr.levelup.core.model.qr;
 
 import android.support.annotation.NonNull;
 
+import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.model.tip.Tip;
 import com.scvngr.levelup.core.util.LogManager;
@@ -43,6 +44,7 @@ import java.util.Locale;
  * </p>
  */
 @Immutable
+@LevelUpApi(contract = LevelUpApi.Contract.INTERNAL)
 public final class PaymentPreferencesV3 extends PaymentPreferences {
 
     /**

@@ -10,6 +10,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.ui.view.LevelUpQrCodeGenerator.LevelUpQrCodeImage;
@@ -24,6 +25,7 @@ import java.util.concurrent.Executors;
 /**
  * Loads and caches {@link LevelUpQrCodeImage}s using {@link AsyncTask}s.
  */
+@LevelUpApi(contract = LevelUpApi.Contract.PUBLIC)
 public final class AsyncTaskCodeLoader extends LevelUpCodeLoader {
     /**
      * A map of the load keys to the corresponding load from the AsyncTask. This is used to allow

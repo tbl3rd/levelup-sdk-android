@@ -21,9 +21,9 @@ import net.jcip.annotations.ThreadSafe;
 @LevelUpApi(contract = Contract.INTERNAL)
 public final class EnvironmentUtil {
     /**
-     * OpenGL version number in the <a href=
-     * "http://developer.android.com/guide/topics/manifest/uses-feature-element.html#glEsVersion">format
-     * required by Android</a>.
+     * OpenGL version number in the
+     * <a href="http://d.android.com/guide/topics/manifest/uses-feature-element.html#glEsVersion">
+     *     format required by Android</a>.
      */
     private static final int OPENGL_V2 = 0x20000;
 

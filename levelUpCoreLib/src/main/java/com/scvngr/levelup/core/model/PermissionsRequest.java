@@ -167,9 +167,7 @@ public final class PermissionsRequest implements Parcelable {
     }
 
     /**
-     * @deprecated see {@link com.scvngr.levelup.core.model.PermissionsRequest#PermissionsRequest(String,
-     * long, String, String, long, java.util.Set, String, com.scvngr.levelup.core.model.PermissionsRequest.State,
-     * String)}
+     * @deprecated see {@link com.scvngr.levelup.core.model.PermissionsRequest#PermissionsRequest(String, long, String, String, long, java.util.Set, String, com.scvngr.levelup.core.model.PermissionsRequest.State, String)}.
      */
     @Deprecated
     public PermissionsRequest(@NonNull final String acceptText, final long appId,

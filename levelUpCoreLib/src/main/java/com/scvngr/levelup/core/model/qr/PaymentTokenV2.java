@@ -6,6 +6,7 @@ package com.scvngr.levelup.core.model.qr;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
+import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.model.tip.Tip;
 import com.scvngr.levelup.core.util.NullUtils;
 
@@ -20,6 +21,7 @@ import net.jcip.annotations.Immutable;
  * <blockquote>{@code LU0201234671234567890123030002LU}</blockquote>
  */
 @Immutable
+@LevelUpApi(contract = LevelUpApi.Contract.INTERNAL)
 public final class PaymentTokenV2 extends LevelUpCode {
 
     /**

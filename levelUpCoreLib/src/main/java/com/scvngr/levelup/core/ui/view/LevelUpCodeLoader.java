@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.annotation.SlowOperation;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
@@ -23,6 +24,7 @@ import java.util.HashMap;
  * this class inherently interacts with multiple threads, thread requirements are noted on the
  * individual methods.
  */
+@LevelUpApi(contract = LevelUpApi.Contract.PUBLIC)
 public abstract class LevelUpCodeLoader implements LoadCancelable {
     /**
      * A map of load keys to the callbacks that need to be called when the image ready.
@@ -117,8 +119,9 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
 
     /**
      * Generate and cache the code image. This is the same as
-     * {@link #getLevelUpCode(String, OnImageLoaded)}, but does not return a result to the user.
-     * This can be used for pre-caching codes. This must be called on the main thread.
+     * {@link #getLevelUpCode(String, com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)},
+     * but does not return a result to the user. This can be used for pre-caching codes. This must
+     * be called on the main thread.
      *
      * @param codeData the data to display to the user.
      */
@@ -230,7 +233,8 @@ public abstract class LevelUpCodeLoader implements LoadCancelable {
      * </p>
      * <p>
      * Subclasses shouldn't call this method directly, instead call
-     * {@link #startLoadInBackground(String, String, OnImageLoaded)}.
+     * {@link #startLoadInBackground(String, String,
+     *       com.scvngr.levelup.core.ui.view.PendingImage.OnImageLoaded)} )}.
      * </p>
      *
      * @param qrCodeContents the contents to render into a QR code.

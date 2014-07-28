@@ -173,6 +173,7 @@ public final class Interstitial implements Parcelable {
     /**
      * Interface for the different types of actions.
      */
+    @LevelUpApi(contract = Contract.INTERNAL)
     public interface InterstitialAction extends Parcelable {
         // This space intentionally left blank.
     }

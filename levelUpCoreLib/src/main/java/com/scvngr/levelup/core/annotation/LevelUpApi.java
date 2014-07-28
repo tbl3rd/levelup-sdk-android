@@ -42,8 +42,8 @@ public @interface LevelUpApi {
         INTERNAL,
 
         /**
-         * This is an API that is only available to clients in the <a href="http://developer
-         * .thelevelup.com/enterprise-sdk/">LevelUp Enterprise Program</a>.
+         * This is an API that is only available to clients in the
+         * <a href="http://developer.thelevelup.com/enterprise-sdk/">LevelUp Enterprise Program</a>.
          */
         @NonNull
         ENTERPRISE

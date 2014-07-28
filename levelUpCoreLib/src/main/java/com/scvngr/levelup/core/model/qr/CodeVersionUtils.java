@@ -6,6 +6,7 @@ package com.scvngr.levelup.core.model.qr;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.util.CoreLibConstants;
 
 import java.math.BigInteger;
@@ -13,6 +14,7 @@ import java.math.BigInteger;
 /**
  * Helper class to provide utilities for checking the version of QR code and its sub-codes.
  */
+@LevelUpApi(contract = LevelUpApi.Contract.INTERNAL)
 public final class CodeVersionUtils {
 
     /**

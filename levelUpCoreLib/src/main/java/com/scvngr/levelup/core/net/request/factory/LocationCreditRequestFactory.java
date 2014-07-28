@@ -31,8 +31,9 @@ public final class LocationCreditRequestFactory extends AbstractRequestFactory {
 
     /**
      * @param context the Application context.
-     * @param retriever the implementation of {@link com.scvngr.levelup.core.net
-     * .AccessTokenRetriever} to use to get the {@link com.scvngr.levelup.core.model.User}'s {@link
+     * @param retriever the implementation of {@link
+     * com.scvngr.levelup.core.net.AccessTokenRetriever}
+     * to use to get the {@link com.scvngr.levelup.core.model.User}'s {@link
      * com.scvngr.levelup.core.model.AccessToken}.
      */
     public LocationCreditRequestFactory(@NonNull final Context context,
@@ -42,9 +43,9 @@ public final class LocationCreditRequestFactory extends AbstractRequestFactory {
 
     /**
      * Build a request to request credit at a given location. If an access token is available, it
-     * will be used to show the current user's credit at a location and will require the
-     * annotated permission. If no access token is available, the permission is ignored,
-     * and returns back available credit for new users.
+     * will be used to show the current user's credit at a location and will require the annotated
+     * permission. If no access token is available, the permission is ignored, and returns back
+     * available credit for new users.
      *
      * @param location The location to request credit for.
      * @return {@link com.scvngr.levelup.core.net.AbstractRequest} representing a location credit

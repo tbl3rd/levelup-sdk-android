@@ -25,20 +25,19 @@ import java.util.Collection;
  * is accepted.</p>
  *
  * <p>A request includes a list of permissions, such as the ability to create orders for the user
- * or to access their transaction history. {@link Permissions} has definitions for
- * some of <a href="http://developer.thelevelup.com/getting-started/permissions-list/">the full
- * list of available permissions</a>.</p>
+ * or to access their transaction history. {@link com.scvngr.levelup.core.net.Permissions} has
+ * definitions for some of
+ * <a href="http://developer.thelevelup.com/getting-started/permissions-list/">the full list of
+ * available permissions</a>.</p>
  *
  * <p>To make an authorization request, first hook up the response handler. In your Activity's
  * {@code onActivityResult()}, call {@link #parseActivityResult}:</p>
  *
- * <pre>
- * {@code
- *     @Override
+ * <p><blockquote><pre>
  *     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
  *         // This pulls out your result from the data Intent.
- *         PermissionsRequestResult result = LevelUpDeepLinkIntegrator.parseActivityResult(requestCode,
- * resultCode, data);
+ *         PermissionsRequestResult result =
+ *             LevelUpDeepLinkIntegrator.parseActivityResult(requestCode, resultCode, data);
  *
  *         if (result != null) {
  *             if (result.isSuccessful()) {
@@ -50,8 +49,7 @@ import java.util.Collection;
  *             // You can handle your own startActivityForResult results here.
  *         }
  *     }
- * }
- *     </pre>
+ * </pre></blockquote></p>
  *
  * <p>When you are ready to request permissions, create an instance of {@link
  * LevelUpDeepLinkIntegrator} from your Activity and call {@link #requestPermissions} with a list
@@ -60,8 +58,8 @@ import java.util.Collection;
  * <pre>
  * {@code
  *     if (LevelUpDeepLinkIntegrator.isLevelUpInstalled()) {
- *         LevelUpDeepLinkIntegrator integrator = new LevelUpDeepLinkIntegrator(yourActivity,
- * yourAppId);
+ *         LevelUpDeepLinkIntegrator integrator =
+ *             new LevelUpDeepLinkIntegrator(yourActivity, yourAppId);
  *         integrator.requestPermissions(DeepLinkAuthUtil.Permissions.PERMISSION_CREATE_ORDERS);
  *     } else {
  *         // If you get here, LevelUp isn't installed or the installed version doesn't support
@@ -218,7 +216,7 @@ public final class LevelUpDeepLinkIntegrator {
      * android.app.Activity#onActivityResult} in order to get the response from LevelUp.
      *
      * @param permissionKeys the set of permissions that you wish to request. See {@link
-     * Permissions}.
+     * com.scvngr.levelup.core.net.Permissions}.
      * @return the dialog box that was shown to the user with a link to download LevelUp if one was
      *         shown, otherwise null.
      */

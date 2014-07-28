@@ -6,6 +6,7 @@ package com.scvngr.levelup.core.model.qr;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
+import com.scvngr.levelup.core.annotation.LevelUpApi;
 import com.scvngr.levelup.core.model.tip.Tip;
 
 import net.jcip.annotations.Immutable;
@@ -14,6 +15,7 @@ import net.jcip.annotations.Immutable;
  * Class to encompass the PaymentPreferences at the end of QR codes.
  */
 @Immutable
+@LevelUpApi(contract = LevelUpApi.Contract.INTERNAL)
 public abstract class PaymentPreferences {
     /**
      * Return code for when a color cannot be parsed or is otherwise missing.

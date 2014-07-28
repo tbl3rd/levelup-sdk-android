@@ -14,8 +14,8 @@ import com.scvngr.levelup.core.util.LogManager;
 import net.jcip.annotations.ThreadSafe;
 
 /**
- * Helper class to scrub Bundles of invalid extras. This is a workaround for an Android bug:
- * <http://code.google.com/p/android/issues/detail?id=16006>.
+ * Helper class to scrub Bundles of invalid extras. This is a workaround for
+ * <a href="http://code.google.com/p/android/issues/detail?id=16006">Android issue #16006</a>.
  */
 @LevelUpApi(contract = Contract.INTERNAL)
 @ThreadSafe
