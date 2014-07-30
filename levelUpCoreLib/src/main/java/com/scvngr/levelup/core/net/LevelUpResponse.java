@@ -13,6 +13,8 @@
  */
 package com.scvngr.levelup.core.net;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -28,6 +30,7 @@ import com.scvngr.levelup.core.model.factory.json.ErrorJsonFactory;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
 import com.scvngr.levelup.core.net.error.ErrorCode;
 import com.scvngr.levelup.core.net.error.ErrorObject;
+import com.scvngr.levelup.core.util.EnvironmentUtil;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.PreconditionUtil;
 
@@ -65,6 +68,10 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
      */
     @NonNull
     private static final String HTTP_HEADER_VALUE_SERVER = "LevelUp";
+
+    @NonNull
+    private static final String INVALID_ERROR_RESPONSE_MESSAGE =
+            "The response cannot be parsed as Error objects.";
 
     @NonNull
     private final List<Error> mServerErrors;
@@ -124,12 +131,26 @@ public final class LevelUpResponse extends BufferedResponse implements Parcelabl
             } catch (final JSONException e) {
                 // No error could be parsed; log the issue.
                 LogManager.e("Error parsing error JSON response: " + getData(), e);
-                throw new IOException(
-                        "Response is in unrecognizable format to parse into Error objects.", e);
+                throw getInvalidErrorResponseIOException(e);
             }
         }
 
         return serverErrors;
+    }
+
+    @NonNull
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    private IOException getInvalidErrorResponseIOException(@NonNull final JSONException e) {
+        final IOException wrappingException;
+
+        if (EnvironmentUtil.isSdk9OrGreater()) {
+            wrappingException = new IOException(INVALID_ERROR_RESPONSE_MESSAGE, e);
+        } else {
+            wrappingException = new IOException(INVALID_ERROR_RESPONSE_MESSAGE);
+            wrappingException.initCause(e);
+        }
+
+        return wrappingException;
     }
 
     /**

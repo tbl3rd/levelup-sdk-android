@@ -34,7 +34,8 @@ import net.jcip.annotations.ThreadSafe;
 public final class StrictModeUtil {
 
     /**
-     * Notes a slow method call with {@link StrictMode}.
+     * Notes a slow method call with {@link StrictMode}. This method has no effect prior to
+     * {@link Build.VERSION_CODES#HONEYCOMB}.
      *
      * @param name tag for the slow call.
      */
@@ -47,7 +48,7 @@ public final class StrictModeUtil {
     }
 
     /**
-     * Note a slow call using APIs introduced in Android 3.0.
+     * Note a slow call using APIs introduced in {@link Build.VERSION_CODES#HONEYCOMB}.
      *
      * @param name the name of the slow call to note.
      */
@@ -57,11 +58,24 @@ public final class StrictModeUtil {
     }
 
     /**
-     * Sets StrictMode on/off.
+     * Sets StrictMode on/off. This method has no effect prior to
+     * {@link Build.VERSION_CODES#GINGERBREAD}.
      *
      * @param state true to enable strict mode, false to disable strict mode
      */
     /* package */static void setStrictMode(final boolean state) {
+        if (EnvironmentUtil.isSdk9OrGreater()) {
+            setStrictModeGingerbread(state);
+        }
+    }
+
+    /**
+     * Sets StrictMode on/off using APIs introduced in {@link Build.VERSION_CODES#GINGERBREAD}.
+     *
+     * @param state true to enable strict mode, false to disable strict mode
+     */
+    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
+    private static void setStrictModeGingerbread(final boolean state) {
         if (state) {
             StrictMode.setThreadPolicy(new ThreadPolicy.Builder().detectAll().penaltyLog().build());
             StrictMode.setVmPolicy(new VmPolicy.Builder().detectAll().penaltyLog().build());

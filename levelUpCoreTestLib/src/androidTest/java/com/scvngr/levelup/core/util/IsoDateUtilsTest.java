@@ -33,6 +33,10 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
     private static final TimeZone TIME_ZONE_EST = NullUtils.nonNullContract(TimeZone
             .getTimeZone("GMT-0500"));
 
+    @NonNull
+    private static final TimeZone TIME_ZONE_HST = NullUtils.nonNullContract(TimeZone
+            .getTimeZone("GMT-1000"));
+
     @SmallTest
     public void testGetTimeZoneUtc() {
         final TimeZone timeZone = IsoDateUtils.getTimeZoneUtc();
@@ -45,12 +49,23 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
     public void testParseIsoDateTime() {
         validateParseIsoDateTime(IsoDateUtils.getTimeZoneUtc());
         validateParseIsoDateTime(TIME_ZONE_EST);
+        validateParseIsoDateTime(TIME_ZONE_HST);
     }
 
     @SmallTest
     public void testParseIsoDateTime_parseException() {
         validateParseIsoDateTimeParseException(IsoDateUtils.getTimeZoneUtc());
         validateParseIsoDateTimeParseException(TIME_ZONE_EST);
+        validateParseIsoDateTimeParseException(TIME_ZONE_HST);
+    }
+
+    @SmallTest
+    public void testToIsoDateTime() {
+        final Date date = new Date(1370993354000L);
+        assertEquals("2013-06-11T23:29:14+0000",
+                IsoDateUtils.toIsoDatetime(date, IsoDateUtils.getTimeZoneUtc()));
+        assertEquals("2013-06-11T18:29:14-0500", IsoDateUtils.toIsoDatetime(date, TIME_ZONE_EST));
+        assertEquals("2013-06-11T13:29:14-1000", IsoDateUtils.toIsoDatetime(date, TIME_ZONE_HST));
     }
 
     /**
@@ -73,14 +88,6 @@ public final class IsoDateUtilsTest extends SupportAndroidTestCase {
         } catch (final ParseException e) {
             // Expected exception
         }
-    }
-
-    @SmallTest
-    public void testToIsoDateTime() {
-        final Date date = new Date(1370993354000L);
-        assertEquals("2013-06-11T23:29:14+0000",
-                IsoDateUtils.toIsoDatetime(date, IsoDateUtils.getTimeZoneUtc()));
-        assertEquals("2013-06-11T18:29:14-0500", IsoDateUtils.toIsoDatetime(date, TIME_ZONE_EST));
     }
 
     /**

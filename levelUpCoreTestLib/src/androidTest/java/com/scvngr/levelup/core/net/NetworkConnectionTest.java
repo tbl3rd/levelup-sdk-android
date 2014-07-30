@@ -14,6 +14,7 @@
 package com.scvngr.levelup.core.net;
 
 import android.content.Context;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -31,7 +32,6 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
@@ -408,6 +408,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final Exception exception = response.getError();
 
+        assertEquals(1, request.mNumWrites);
         assertNotNull("Does not retry when an IOException is thrown", exception);
         assertTrue(exception instanceof IOException);
     }
@@ -417,8 +418,10 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_withTwoEOFExceptions() throws IOException {
-        final StreamingResponse response = getResponseFromEOFExceptionThrowingRequest(2);
+        final EOFExceptionThrowingRequest request = getEOFExceptionThrowingRequest(2);
+        final StreamingResponse response = NetworkConnection.send(getContext(), request);
 
+        assertEquals(3, request.mNumWrites);
         assertNull("Retries at least 2 times to close stale sockets when an EOFException is thrown",
                 response.getError());
     }
@@ -429,14 +432,15 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_withMaxPlusOneEOFExceptions() throws IOException {
-        final StreamingResponse response = getResponseFromEOFExceptionThrowingRequest(
-                NetworkConnection.MAX_POOLED_CONNECTIONS + 1);
+        final EOFExceptionThrowingRequest request =
+                getEOFExceptionThrowingRequest(NetworkConnection.MAX_POOLED_CONNECTIONS + 1);
+        final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final Exception exception = response.getError();
 
+        assertEquals(NetworkConnection.MAX_POOLED_CONNECTIONS + 2, request.mNumWrites);
         assertNull(NullUtils.format(
-                "Retries at least MAX_POOLED_CONNECTIONS(%d) + 1 times to close stale sockets when"
-                + " EOFExceptions are thrown", NetworkConnection.MAX_POOLED_CONNECTIONS),
-                exception);
+                "Retries at least MAX_POOLED_CONNECTIONS(%d) + 1 times to close stale sockets when "
+                + "EOFExceptions are thrown", NetworkConnection.MAX_POOLED_CONNECTIONS), exception);
     }
 
     /**
@@ -445,10 +449,12 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     @SmallTest
     public void testSend_withMaxPlusTwoEOFExceptions() throws IOException {
-        final StreamingResponse response = getResponseFromEOFExceptionThrowingRequest(
-                NetworkConnection.MAX_POOLED_CONNECTIONS + 2);
+        final EOFExceptionThrowingRequest request =
+                getEOFExceptionThrowingRequest(NetworkConnection.MAX_POOLED_CONNECTIONS + 2);
+        final StreamingResponse response = NetworkConnection.send(getContext(), request);
         final Exception exception = response.getError();
 
+        assertEquals(NetworkConnection.MAX_POOLED_CONNECTIONS + 2, request.mNumWrites);
         assertNotNull(NullUtils.format(
                 "Fails if more than MAX_POOLED_CONNECTIONS(%d) + 2 EOFExceptions are thrown",
                 NetworkConnection.MAX_POOLED_CONNECTIONS), exception);
@@ -457,16 +463,16 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
 
     /**
      * @param numExceptions the number of {@link EOFException}s to throw.
-     * @return the {@link StreamingResponse} from the send.
+     * @return the {@link EOFExceptionThrowingRequest}.
      */
-    private StreamingResponse getResponseFromEOFExceptionThrowingRequest(final int numExceptions)
-            throws IOException {
-        final EOFExceptionThrowingRequest request =
-                new EOFExceptionThrowingRequest(HttpMethod.POST, getMockServerUrl(),
-                        new HashMap<String, String>(), new HashMap<String, String>(), "test body",
-                        numExceptions);
-
-        return NetworkConnection.send(getContext(), request);
+    private EOFExceptionThrowingRequest getEOFExceptionThrowingRequest(final int numExceptions) {
+        try {
+            return new EOFExceptionThrowingRequest(HttpMethod.POST, getMockServerUrl(),
+                    new HashMap<String, String>(), new HashMap<String, String>(), "test body",
+                    numExceptions);
+        } catch (final IOException e) {
+            throw new AssertionError(e);
+        }
     }
 
     /**
@@ -514,10 +520,11 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     private static final class EOFExceptionThrowingRequest extends RequestStub {
 
         private int mNumExceptions;
+        private int mNumWrites;
 
         public EOFExceptionThrowingRequest(@NonNull final HttpMethod method,
                 @NonNull final String url, @Nullable final Map<String, String> requestHeaders,
-                @Nullable final Map<String, String> queryParams, @Nullable final String body,
+                @Nullable final Map<String, String> queryParams, @NonNull final String body,
                 final int numExceptions) {
             super(method, url, requestHeaders, queryParams, body);
 
@@ -527,13 +534,15 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         @Override
         public void writeBodyToStream(@NonNull final Context context,
                 @NonNull final OutputStream stream) throws IOException {
+            super.writeBodyToStream(context, stream);
+
+            mNumWrites++;
+
             if (0 < mNumExceptions) {
                 mNumExceptions--;
 
                 throw new EOFException("stale connection");
             }
-
-            super.writeBodyToStream(context, stream);
         }
     }
 
@@ -544,6 +553,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
     private static final class IOExceptionThrowingRequest extends RequestStub {
 
         private int mNumExceptions = 1;
+        private int mNumWrites;
 
         public IOExceptionThrowingRequest(@NonNull final HttpMethod method,
                 @NonNull final String url, @Nullable final Map<String, String> requestHeaders,
@@ -554,13 +564,15 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
         @Override
         public void writeBodyToStream(@NonNull final Context context,
                 @NonNull final OutputStream stream) throws IOException {
+            super.writeBodyToStream(context, stream);
+
+            mNumWrites++;
+
             if (0 < mNumExceptions) {
                 mNumExceptions--;
 
                 throw new IOException("broken pipe");
             }
-
-            super.writeBodyToStream(context, stream);
         }
     }
 
@@ -579,7 +591,7 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
      */
     public static class RequestStub extends AbstractRequest {
         @Nullable
-        private final String mBody;
+        private final RequestBody mRequestBody;
 
         /**
          * @param method request method
@@ -589,49 +601,34 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
          * @param body optional body
          */
         public RequestStub(@NonNull final HttpMethod method, @NonNull final String url,
-                @Nullable final Map<String, String> requestHeaders,
-                @Nullable final Map<String, String> queryParams, @Nullable final String body) {
+                           @Nullable final Map<String, String> requestHeaders,
+                           @Nullable final Map<String, String> queryParams,
+                           @Nullable final String body) {
             super(method, url, requestHeaders, queryParams);
-            mBody = body;
+            mRequestBody = body != null ? new StringRequestBodyImpl(body) : null;
         }
 
         @Override
         public void writeBodyToStream(@NonNull final Context context,
                 @NonNull final OutputStream stream) throws IOException {
-            final OutputStreamWriter writer = new OutputStreamWriter(stream, "utf-8");
-
-            try {
-                writer.write(mBody);
-            } finally {
-                writer.close();
+            if (mRequestBody != null) {
+                mRequestBody.writeToOutputStream(context, stream);
             }
         }
 
         @Override
         public int getBodyLength(@NonNull final Context context) {
-            final String body = mBody;
-
-            final int length;
-
-            if (null != body) {
-                length = body.length();
-            } else {
-                length = 0;
-            }
-
-            return length;
+            return mRequestBody != null ? mRequestBody.getContentLength() : 0;
         }
 
-        @SuppressWarnings("null")
         @Override
         public int hashCode() {
             final int prime = 31;
             int result = super.hashCode();
-            result = prime * result + ((mBody == null) ? 0 : mBody.hashCode());
+            result = prime * result + ((mRequestBody == null) ? 0 : mRequestBody.hashCode());
             return result;
         }
 
-        @SuppressWarnings("null")
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -644,14 +641,57 @@ public final class NetworkConnectionTest extends SupportAndroidTestCase {
                 return false;
             }
             final RequestStub other = (RequestStub) obj;
-            if (mBody == null) {
-                if (other.mBody != null) {
+            if (mRequestBody == null) {
+                if (other.mRequestBody != null) {
                     return false;
                 }
-            } else if (!mBody.equals(other.mBody)) {
+            } else if (!mRequestBody.equals(other.mRequestBody)) {
                 return false;
             }
             return true;
+        }
+    }
+
+    /**
+     * Concrete implementation of {@link com.scvngr.levelup.core.net.StringRequestBody}.
+     */
+    protected static final class StringRequestBodyImpl extends StringRequestBody {
+
+        /**
+         * Parcelable creator.
+         */
+        public static final Creator<StringRequestBodyImpl> CREATOR =
+                new Creator<StringRequestBodyImpl>() {
+
+                    @Override
+                    public StringRequestBodyImpl createFromParcel(final Parcel source) {
+                        return new StringRequestBodyImpl(NullUtils.nonNullContract(source));
+                    }
+
+                    @Override
+                    public StringRequestBodyImpl[] newArray(final int size) {
+                        return new StringRequestBodyImpl[size];
+                    }
+                };
+
+        /**
+         * @param in source
+         */
+        public StringRequestBodyImpl(@NonNull final Parcel in) {
+            super(in);
+        }
+
+        /**
+         * @param body contents
+         */
+        public StringRequestBodyImpl(@NonNull final String body) {
+            super(body);
+        }
+
+        @Override
+        @NonNull
+        public String getContentType() {
+            return "text/plain";
         }
     }
 }

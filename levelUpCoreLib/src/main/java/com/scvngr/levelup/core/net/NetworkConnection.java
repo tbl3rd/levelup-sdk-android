@@ -22,6 +22,7 @@ import com.scvngr.levelup.core.annotation.LevelUpApi.Contract;
 import com.scvngr.levelup.core.annotation.VisibleForTesting;
 import com.scvngr.levelup.core.annotation.VisibleForTesting.Visibility;
 import com.scvngr.levelup.core.net.AbstractRequest.BadRequestException;
+import com.scvngr.levelup.core.util.EnvironmentUtil;
 import com.scvngr.levelup.core.util.LogManager;
 import com.scvngr.levelup.core.util.NullUtils;
 
@@ -80,7 +81,7 @@ public final class NetworkConnection {
         StreamingResponse response;
 
         try {
-            response = doSend(context, request, 0);
+            response = doSendWithRetry(context, request);
         } catch (final IOException e) {
             LogManager.v("Error during send", e);
             response = new StreamingResponse(e);
@@ -97,23 +98,52 @@ public final class NetworkConnection {
      * <p>
      * The implementation of this method includes a workaround for {@link EOFException}s caused by
      * the reuse of stale connections. Send may be attempted multiple times in order to close these
-     * connections. See <a href=http://stackoverflow.com/a/23795099/204480>Stack Overflow</a> for
+     * connections. See <a href="http://stackoverflow.com/a/23795099/204480">Stack Overflow</a> for
      * more details.
      * </p>
      *
      * @param context Application Context.
      * @param request the request to send.
-     * @param failures the number of failed attempts to send this request.
+     * @return {@link StreamingResponse} containing information regarding the outcome of the send.
+     * @throws IOException if network operations fail.
+     * @throws BadRequestException if the request is invalid.
+     */
+    @NonNull
+    private static StreamingResponse doSendWithRetry(@NonNull final Context context,
+            @NonNull final AbstractRequest request) throws IOException, BadRequestException {
+        LogManager.v("HTTP request headers: %s", request.getRequestHeaders(context));
+
+        final boolean isPooled = MAX_POOLED_CONNECTIONS > 0;
+
+        for (int i = 0; i < MAX_POOLED_CONNECTIONS + 1; i++) {
+            // Close the connection if this is a retry and the connections are pooled.
+            final boolean shouldCloseConnection = i > 0 && isPooled;
+
+            try {
+                return doSend(context, request, shouldCloseConnection);
+            } catch (final EOFException e) {
+                LogManager.e(NullUtils.format("Unable to send request: failures(%d)", i), e);
+            }
+        }
+
+        return doSend(context, request, false);
+    }
+
+    /**
+     * Performs the send to the server.
+     *
+     * @param context Application Context.
+     * @param request the request to send.
+     * @param shouldCloseConnection determines whether the connection should be closed after the
+     * request has been made.
      * @return {@link StreamingResponse} containing information regarding the outcome of the send.
      * @throws IOException if network operations fail.
      * @throws BadRequestException if the request is invalid.
      */
     @NonNull
     private static StreamingResponse doSend(@NonNull final Context context,
-            @NonNull final AbstractRequest request, final int failures)
-            throws IOException, BadRequestException {
-        LogManager.v("HTTP request headers: %s", request.getRequestHeaders(context));
-
+            @NonNull final AbstractRequest request, final boolean shouldCloseConnection)
+                    throws IOException, BadRequestException {
         HttpURLConnection connection = null;
         StreamingResponse response = null;
 
@@ -121,8 +151,7 @@ public final class NetworkConnection {
             // Configure the connection based on the request passed
             connection = configureConnection(context, request);
 
-            // Close the connection if this is a retry and additional attempts may be necessary.
-            if (0 < failures && shouldRetryAfterEOFException(failures)) {
+            if (shouldCloseConnection) {
                 connection.setRequestProperty("Connection", "close");
             }
 
@@ -131,45 +160,15 @@ public final class NetworkConnection {
 
             // Get the response from the server
             response = getResponse(connection);
-        } catch (final EOFException e) {
-            LogManager.e(NullUtils.format("Unable to send request: failures(%d)",
-                            failures), e);
-
-            if (shouldRetryAfterEOFException(failures)) {
-                disconnect(connection);
-                connection = null;
-
-                return doSend(context, request, failures + 1);
-            }
-
-            throw e;
         } finally {
-            if (null == response) {
-                disconnect(connection);
+            if (response == null) {
+                if (connection != null) {
+                    connection.disconnect();
+                }
             }
         }
 
         return response;
-    }
-
-    /**
-     * Calls {@link HttpURLConnection#disconnect} if {@code connection} is non-null.
-     *
-     * @param connection the connection to disconnect or null.
-     */
-    private static void disconnect(@Nullable final HttpURLConnection connection) {
-        if (null != connection) {
-            connection.disconnect();
-        }
-    }
-
-    /**
-     * @param failures the number of failed attempts to send this request.
-     * @return true if the send should be attempted again if it fails with an {@link EOFException},
-     * false otherwise.
-     */
-    private static boolean shouldRetryAfterEOFException(final int failures) {
-        return 0 < MAX_POOLED_CONNECTIONS && MAX_POOLED_CONNECTIONS + 1 > failures;
     }
 
     /**
@@ -199,7 +198,17 @@ public final class NetworkConnection {
         final int bodyLength = request.getBodyLength(context);
 
         if (0 != bodyLength) {
-            connection.setFixedLengthStreamingMode(bodyLength);
+            /*
+             * Due to an issue with internal buffering on Android 2.2, streaming can cause future
+             * connections to hang if an IOException is thrown while writing to a connection's
+             * output stream. Both fixed-length and chunked streaming modes are affected. This is
+             * fixed in Android 2.3+ with the changes made for
+             * https://code.google.com/p/android/issues/detail?id=3164.
+             */
+            if (EnvironmentUtil.isSdk9OrGreater()) {
+                connection.setFixedLengthStreamingMode(bodyLength);
+            }
+
             connection.setDoOutput(true);
         }
 
@@ -256,17 +265,14 @@ public final class NetworkConnection {
     @NonNull
     /* package */static StreamingResponse getResponse(@NonNull final HttpURLConnection connection)
             throws IOException {
-        StreamingResponse response;
-
-        // Pull it out to a local variable for static analysis
         final StreamingResponse nextResponse = sNextResponse;
+        final StreamingResponse response;
 
         if (null == nextResponse) {
             // Create the response object to pass back to the caller
             response = new StreamingResponse(connection);
         } else {
-            // If the sNextResponse field is set, return that response instead of doing the
-            // network request.
+            // If the sNextResponse field was set return it instead of doing the network request
             response = nextResponse;
             sNextResponse = null;
         }

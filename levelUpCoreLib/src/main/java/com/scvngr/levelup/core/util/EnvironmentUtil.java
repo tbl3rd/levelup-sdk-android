@@ -54,6 +54,16 @@ public final class EnvironmentUtil {
     }
 
     /**
+     * Determines whether the current SDK is greater than or equal to 9.
+     *
+     * @return {@code true} if {@link android.os.Build.VERSION#SDK_INT} is greater than or equal to
+     *         9.
+     */
+    public static boolean isSdk9OrGreater() {
+        return Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.GINGERBREAD;
+    }
+
+    /**
      * Determines whether the current SDK is greater than or equal to 11.
      *
      * @return {@code true} if {@link android.os.Build.VERSION#SDK_INT} is greater than or equal to

@@ -23,6 +23,7 @@ import net.jcip.annotations.ThreadSafe;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -60,7 +61,8 @@ public final class IsoDateUtils {
             @NonNull final TimeZone timeZone) throws ParseException {
         final DateFormat formatter =
                 new SimpleDateFormat(ISO_DATETIME_TIME_ZONE_FORMAT_STRING, Locale.US);
-        formatter.setTimeZone(timeZone);
+        setTimeZone(formatter, timeZone);
+
         return NullUtils.nonNullContract(formatter.parse(datetime));
     }
 
@@ -76,8 +78,25 @@ public final class IsoDateUtils {
     public static String toIsoDatetime(@NonNull final Date date, @NonNull final TimeZone timeZone) {
         final DateFormat formatter =
                 new SimpleDateFormat(ISO_DATETIME_TIME_ZONE_FORMAT_STRING, Locale.US);
-        formatter.setTimeZone(timeZone);
+        setTimeZone(formatter, timeZone);
+
         return NullUtils.nonNullContract(formatter.format(date));
+    }
+
+    /**
+     * Sets the time zone of a {@link DateFormat}. This method implements a workaround for
+     * https://code.google.com/p/android/issues/detail?id=8258 which only affects Android 2.2
+     * devices.
+     *
+     * @param timeZone The relative {@link TimeZone}.
+     */
+    private static void setTimeZone(@NonNull final DateFormat formatter,
+            @NonNull final TimeZone timeZone) {
+        if (EnvironmentUtil.isSdk9OrGreater()) {
+            formatter.setTimeZone(timeZone);
+        } else {
+            formatter.setCalendar(Calendar.getInstance(timeZone, Locale.US));
+        }
     }
 
     /**

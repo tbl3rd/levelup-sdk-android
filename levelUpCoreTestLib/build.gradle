@@ -18,7 +18,7 @@ android {
     buildToolsVersion '20.0.0'
 
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 8
         targetSdkVersion 19
         testInstrumentationRunner 'com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner'
     }
@@ -47,7 +47,7 @@ dependencies {
     compile project(':levelUpCoreFixturesLib')
     compile project(':levelUpDeeplinkAuthLib')
 
-    compile 'com.google.mockwebserver:mockwebserver:20130201'
+    compile 'com.google.mockwebserver:mockwebserver:20130706'
     compile 'com.jakewharton.espresso:espresso-runner-runtime:1.1-r3'
 }
 
