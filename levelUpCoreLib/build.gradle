@@ -25,6 +25,7 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 19
+        versionName ANDROID_APP_VERSION_NAME
     }
 
     compileOptions {
@@ -71,3 +72,5 @@ dependencies {
     compile files('libs/braintree-android-encryption-1.0.0.jar')
     provided 'org.projectlombok:lombok:1.12.6'
 }
+
+apply from: '../mavenTasks.gradle'

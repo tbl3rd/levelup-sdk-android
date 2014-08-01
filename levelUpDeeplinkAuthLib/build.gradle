@@ -11,6 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
 apply plugin: 'com.android.library'
 
 android {
@@ -20,6 +21,7 @@ android {
     defaultConfig {
         minSdkVersion 8
         targetSdkVersion 19
+        versionName ANDROID_APP_VERSION_NAME
     }
 
     buildTypes {
@@ -34,3 +36,5 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 }
+
+apply from: '../mavenTasks.gradle'
