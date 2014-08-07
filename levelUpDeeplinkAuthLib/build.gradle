@@ -14,6 +14,8 @@
 
 apply plugin: 'com.android.library'
 
+ext.ANDROID_APP_VERSION_NAME = project(':levelUpCoreLib').ANDROID_APP_VERSION_NAME
+
 android {
     compileSdkVersion 19
     buildToolsVersion '20.0.0'
