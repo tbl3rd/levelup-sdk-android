@@ -2,6 +2,7 @@
 *.swp
 *.iml
 .DS_Store
+.gradletasknamecache
 .metadata
 .crashlytics_data
 com_crashlytics_export_strings.xml

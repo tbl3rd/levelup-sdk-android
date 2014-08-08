@@ -1,8 +1,21 @@
 /*
  * Example settings.gradle to include the LevelUp SDK as a project via submodule (rather than using
- * artifacts). Include the following code in your project's settings.gradle, either by `apply`ing
- * this file or by copying the contents. This is required for the inter-module dependencies to
- * resolve properly.
+ * artifacts). This is *only* recommended for developers working on the SDK itself; most users
+ * should use the artifacts from Maven Central instead.
+ *
+ * To use as a submodule, add the submodule via
+ *
+ * git submodule add git@github.com:TheLevelUp/levelup-sdk-android.git
+ *
+ * Then add the following to your application project's build.gradle:
+ *
+ * compile project(':levelUpCoreLib')
+ * compile project(':levelUpDeeplinkAuthLib')
+ *
+ * You should then include the following code in your project's settings.gradle, either by
+ * `apply`ing this file or by copying the contents. This is required for the project dependencies to
+ * resolve the projects nested in the submodule's folder.
+ *
  */
 
 // LevelUp Core SDK projects
