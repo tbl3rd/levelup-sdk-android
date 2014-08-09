@@ -25,12 +25,12 @@
         <activity
             android:name="com.scvngr.levelup.ui.activity.TestFragmentActivity"
             android:exported="false"
-            android:theme="@style/AppTheme" />
+            android:theme="@android:style/Theme.NoTitleBar" />
 
         <activity
             android:name="com.scvngr.levelup.ui.activity.TestIntentActivity"
             android:exported="false"
-            android:theme="@style/AppTheme" />
+            android:theme="@android:style/Theme.NoTitleBar" />
 
         <activity android:name="com.scvngr.levelup.ui.activity.TestPermissionsRequestActivity">
             <intent-filter>

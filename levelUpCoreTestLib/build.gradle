@@ -43,8 +43,8 @@ android {
 }
 
 dependencies {
-    compile project(':levelUpCoreLib')
     compile project(':levelUpCoreFixturesLib')
+    compile project(':levelUpCoreLib')
     compile project(':levelUpDeeplinkAuthLib')
 
     compile 'com.google.mockwebserver:mockwebserver:20130706'
